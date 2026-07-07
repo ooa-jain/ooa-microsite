@@ -1,0 +1,2669 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Semester Readiness — Office of Academics | Jain University</title>
+  <link rel="manifest" href="/erp/manifest.json">
+  <meta name="theme-color" content="#0a2558">
+  <link rel="apple-touch-icon" href="/static/erp/images/applogo.png">
+  <script>
+    if (false && 'serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js');
+      });
+    }
+  </script>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,700;1,400&display=swap"
+    rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0
+    }
+
+    :root {
+      --navy: #0a2558;
+      --navy2: #143572;
+      --navy3: #1a428a;
+      --gold: #f2a900;
+      --gold2: #e09b00;
+      --bg: #ffffff;
+      --bg2: #ffffff;
+      --bg3: #f0f3fb;
+      --ink: #111827;
+      --ink2: #374151;
+      --ink3: #6b7280;
+      --danger: #dc2626;
+      --success: #16a34a;
+      --r: 12px;
+      --r2: 8px;
+      --r3: 6px;
+      --sh: 0 4px 20px rgba(0, 0, 0, 0.05);
+      --sh2: 0 12px 48px rgba(0, 0, 0, 0.08);
+    }
+
+    html {
+      font-size: 15px;
+      scroll-behavior: smooth
+    }
+
+    body {
+      background-color: var(--bg);
+      background-image:
+        linear-gradient(rgba(10, 37, 88, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(10, 37, 88, 0.03) 1px, transparent 1px);
+      background-size: 32px 32px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      color: var(--ink);
+      min-height: 100vh
+    }
+
+    .site-header {
+      background: #ffffff;
+      position: sticky;
+      top: 0;
+      z-index: 200;
+      box-shadow: 0 2px 24px rgba(0, 0, 0, .08)
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 0 28px;
+      height: 68px
+    }
+
+    .logo-area {
+      display: flex;
+      align-items: center;
+      gap: 14px
+    }
+
+    .logo-img {
+      height: 44px;
+      width: auto;
+      object-fit: contain
+    }
+
+    .logo-divider {
+      width: 1px;
+      height: 36px;
+      background: rgba(10, 37, 88, .15)
+    }
+
+    .logo-text .l1 {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--navy);
+      line-height: 1.1
+    }
+
+    .logo-text .l2 {
+      font-size: 11px;
+      color: var(--navy3);
+      font-weight: 600;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      margin-top: 2px
+    }
+
+    .hdr-right {
+      text-align: right
+    }
+
+    .hdr-right .semester-tag {
+      background: var(--gold);
+      color: var(--navy);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 12px;
+      border-radius: 99px;
+      letter-spacing: .06em;
+      display: inline-block
+    }
+
+    .hdr-right .campus-tag {
+      color: var(--ink3);
+      font-size: 11px;
+      margin-top: 4px
+    }
+
+    /* Progress */
+    .prog-bar {
+      background: #fafbff;
+      border-top: 1px solid #edf0f8
+    }
+
+    .prog-inner {
+      max-width: 980px;
+      margin: 0 auto;
+      display: flex;
+      padding: 0 28px
+    }
+
+    .ps {
+      flex: 1;
+      padding: 10px 4px;
+      font-size: 11px;
+      color: var(--ink3);
+      text-align: center;
+      cursor: pointer;
+      transition: .2s;
+      border-bottom: 3px solid transparent;
+      letter-spacing: .03em;
+      font-weight: 500;
+      white-space: nowrap
+    }
+
+    .ps:hover {
+      color: var(--navy)
+    }
+
+    .ps.active {
+      color: var(--navy);
+      border-bottom-color: var(--navy);
+      font-weight: 700
+    }
+
+    .ps.done {
+      color: var(--navy3)
+    }
+
+    .ps.done::before {
+      content: '✓ ';
+      font-size: 10px;
+      color: var(--success)
+    }
+
+    .page-wrap {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 36px 28px 100px
+    }
+
+    .section-page {
+      display: none
+    }
+
+    .section-page.active {
+      display: block;
+      animation: rise .35s cubic-bezier(.16, 1, .3, 1)
+    }
+
+    @keyframes rise {
+      from {
+        opacity: 0;
+        transform: translateY(16px)
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0)
+      }
+    }
+
+    .page-heading {
+      margin-bottom: 32px
+    }
+
+    .step-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--gold);
+      color: var(--navy);
+      font-size: 10.5px;
+      font-weight: 800;
+      padding: 3px 12px;
+      border-radius: 99px;
+      margin-bottom: 12px;
+      letter-spacing: .08em;
+      text-transform: uppercase
+    }
+
+    .page-heading h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 30px;
+      color: var(--navy);
+      line-height: 1.2
+    }
+
+    .page-heading p {
+      color: var(--ink3);
+      font-size: 13.5px;
+      margin-top: 8px;
+      line-height: 1.65
+    }
+
+    /* Cards */
+    .card {
+      background: var(--bg2);
+      border: 1px solid #dde3f0;
+      border-radius: var(--r);
+      padding: 26px;
+      margin-bottom: 22px;
+      box-shadow: var(--sh)
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+      padding-bottom: 14px;
+      border-bottom: 2px solid var(--bg3)
+    }
+
+    .card-header .ch-icon {
+      width: 32px;
+      height: 32px;
+      background: var(--navy);
+      color: #fff;
+      border-radius: var(--r3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      flex-shrink: 0
+    }
+
+    .card-header .ch-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--navy);
+      text-transform: uppercase;
+      letter-spacing: .07em
+    }
+
+    .card-header .ch-sub {
+      font-size: 11.5px;
+      color: var(--ink3);
+      margin-top: 1px
+    }
+
+    /* Fields */
+    .field-grid {
+      display: grid;
+      gap: 16px;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      margin-bottom: 16px
+    }
+
+    .field-grid.cols-1 {
+      grid-template-columns: 1fr
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 5px
+    }
+
+    .field label {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--navy);
+      letter-spacing: .04em;
+      text-transform: uppercase
+    }
+
+    .field label .req {
+      color: var(--danger);
+      margin-left: 2px
+    }
+
+    .field input,
+    .field select,
+    .field textarea {
+      padding: 10px 14px;
+      border: 2px solid #dde3f0;
+      border-radius: var(--r2);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 14px;
+      color: var(--ink);
+      background: #fafbff;
+      transition: .15s;
+      outline: none;
+      width: 100%
+    }
+
+    .field input:focus,
+    .field select:focus,
+    .field textarea:focus {
+      border-color: var(--navy3);
+      background: #fff;
+      box-shadow: 0 0 0 4px rgba(26, 74, 154, .08)
+    }
+
+    .field input[readonly] {
+      background: #f3f4f6;
+      color: var(--ink3);
+      cursor: not-allowed
+    }
+
+    .field textarea {
+      min-height: 80px;
+      resize: vertical
+    }
+
+    /* Snapshot */
+    .snap-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px
+    }
+
+    .snap-item {
+      background: linear-gradient(135deg, #f0f4ff 0%, #e8eeff 100%);
+      border: 2px solid #d0d8f0;
+      border-radius: var(--r);
+      padding: 16px 12px;
+      text-align: center;
+      transition: .15s
+    }
+
+    .snap-item:focus-within {
+      border-color: var(--navy);
+      background: #fff;
+      box-shadow: 0 0 0 4px rgba(10, 37, 88, .08)
+    }
+
+    .snap-item label {
+      display: block;
+      font-size: 10.5px;
+      color: var(--navy);
+      font-weight: 700;
+      margin-bottom: 10px;
+      line-height: 1.35;
+      text-transform: uppercase;
+      letter-spacing: .04em
+    }
+
+    .snap-item input {
+      width: 100%;
+      border: none;
+      background: transparent;
+      text-align: center;
+      font-size: 26px;
+      font-weight: 800;
+      color: var(--navy);
+      font-family: 'Playfair Display', serif;
+      outline: none
+    }
+
+    .snap-item input::placeholder {
+      font-size: 20px;
+      color: #bbc4da
+    }
+
+    /* Dynamic Tables */
+    .dyn-wrap {
+      overflow-x: auto;
+      margin-bottom: 10px;
+      border-radius: var(--r2);
+      border: 1px solid #dde3f0
+    }
+
+    .dyn-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      min-width: 580px
+    }
+
+    .dyn-table thead tr {
+      background: var(--navy)
+    }
+
+    .dyn-table thead th {
+      padding: 11px 10px;
+      text-align: left;
+      font-weight: 700;
+      font-size: 11px;
+      color: #fff;
+      letter-spacing: .05em;
+      white-space: nowrap
+    }
+
+    .dyn-table tbody tr {
+      border-bottom: 1px solid #edf0f8;
+      transition: .1s
+    }
+
+    .dyn-table tbody tr:hover {
+      background: #f5f8ff
+    }
+
+    .dyn-table tbody td {
+      padding: 7px 8px;
+      vertical-align: middle
+    }
+
+    .dyn-table td input,
+    .dyn-table td select {
+      width: 100%;
+      border: 1.5px solid transparent;
+      background: transparent;
+      padding: 6px 8px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 13px;
+      color: var(--ink);
+      outline: none;
+      border-radius: 5px;
+      transition: .12s
+    }
+
+    .dyn-table td input:focus,
+    .dyn-table td select:focus {
+      border-color: var(--navy3);
+      background: #fff;
+      box-shadow: 0 0 0 3px rgba(26, 74, 154, .08)
+    }
+
+    .dyn-table tfoot {
+      background: #f0f4ff
+    }
+
+    .dyn-table tfoot td {
+      padding: 9px 10px;
+      font-weight: 700;
+      font-size: 13px;
+      color: var(--navy)
+    }
+
+    .del-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #c0cce0;
+      font-size: 18px;
+      padding: 4px 6px;
+      border-radius: 4px;
+      transition: .12s;
+      line-height: 1
+    }
+
+    .del-btn:hover {
+      color: var(--danger);
+      background: #fff0f0
+    }
+
+    .add-row-btn {
+      width: 100%;
+      border: 2px dashed #b0bee8;
+      border-radius: var(--r2);
+      padding: 10px;
+      color: var(--navy3);
+      font-size: 13px;
+      font-weight: 600;
+      background: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: .15s;
+      margin-top: 8px;
+      font-family: 'Plus Jakarta Sans', sans-serif
+    }
+
+    .add-row-btn:hover {
+      background: #f0f4ff;
+      border-color: var(--navy);
+      color: var(--navy)
+    }
+
+    /* Checklist */
+    .chk-section-title {
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--navy);
+      text-transform: uppercase;
+      letter-spacing: .09em;
+      padding: 12px 0 6px;
+      border-bottom: 2px solid var(--bg3);
+      margin: 18px 0 2px;
+      display: flex;
+      align-items: center;
+      gap: 8px
+    }
+
+    .chk-section-title::before {
+      content: '';
+      display: block;
+      width: 18px;
+      height: 3px;
+      background: var(--gold);
+      border-radius: 2px
+    }
+
+    .chk-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 8px;
+      border-bottom: 1px solid #f0f3fb;
+      transition: .1s;
+      border-radius: var(--r3)
+    }
+
+    .chk-row:hover {
+      background: #f7f9ff
+    }
+
+    .chk-num {
+      font-size: 11px;
+      color: var(--ink3);
+      min-width: 30px;
+      font-weight: 700;
+      text-align: center
+    }
+
+    .chk-text {
+      flex: 1;
+      font-size: 13.5px;
+      line-height: 1.45;
+      color: var(--ink)
+    }
+
+    .chk-sel {
+      padding: 6px 8px;
+      border: 2px solid #dde3f0;
+      border-radius: var(--r3);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      outline: none;
+      transition: .15s;
+      min-width: 82px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: #fafbff
+    }
+
+    .chk-sel:focus {
+      border-color: var(--navy3)
+    }
+
+    .chk-sel.yes {
+      border-color: #1a7a4a;
+      color: #1a7a4a;
+      background: #edfaf3
+    }
+
+    .chk-sel.no {
+      border-color: #c0392b;
+      color: #c0392b;
+      background: #fdf0f0
+    }
+
+    .chk-sel.na {
+      border-color: #aaa;
+      color: #888;
+      background: #f5f5f5
+    }
+
+    .chk-remark {
+      font-size: 12px;
+      padding: 6px 10px;
+      border: 2px solid #dde3f0;
+      border-radius: var(--r3);
+      min-width: 160px;
+      outline: none;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      transition: .15s;
+      background: #fafbff
+    }
+
+    .chk-remark:focus {
+      border-color: var(--navy3);
+      background: #fff
+    }
+
+    /* Nav */
+    .nav-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 32px;
+      padding-top: 22px;
+      border-top: 2px solid #e8ecf5;
+      gap: 10px;
+      flex-wrap: wrap
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      border-radius: var(--r2);
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      border: 2px solid;
+      transition: .15s;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      letter-spacing: .01em;
+      text-decoration: none
+    }
+
+    .btn-ghost {
+      border-color: #c8d2e8;
+      background: transparent;
+      color: var(--ink2)
+    }
+
+    .btn-ghost:hover {
+      background: var(--bg3);
+      border-color: var(--navy)
+    }
+
+    .btn-profile {
+      background: #ffffff;
+      color: var(--ink2);
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-weight: 700;
+      font-size: 12px;
+      cursor: pointer;
+      border: 1px solid #dde3f0;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+    }
+
+    .btn-profile:hover {
+      background: #f8fafc;
+      color: var(--navy);
+      border-color: var(--navy);
+    }
+
+    .btn-primary {
+      border-color: var(--navy);
+      background: var(--navy);
+      color: #fff
+    }
+
+    .btn-primary:hover {
+      background: var(--navy2);
+      border-color: var(--navy2);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 14px rgba(10, 37, 88, .3)
+    }
+
+    .btn-gold {
+      border-color: var(--gold2);
+      background: var(--gold);
+      color: var(--navy)
+    }
+
+    .btn-gold:hover {
+      background: var(--gold2);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 14px rgba(244, 168, 25, .35)
+    }
+
+    .btn-success {
+      border-color: #156a3c;
+      background: #1a8a4f;
+      color: #fff
+    }
+
+    .btn-success:hover {
+      background: #156a3c;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 14px rgba(26, 138, 79, .35)
+    }
+
+    /* Share link card */
+    .share-card {
+      background: linear-gradient(135deg, #fff8e7, #fffbf0);
+      border: 2px solid var(--gold);
+      border-radius: var(--r);
+      padding: 22px;
+      margin-bottom: 22px
+    }
+
+    .share-card h3 {
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px
+    }
+
+    .share-card p {
+      font-size: 13px;
+      color: var(--ink2);
+      margin-bottom: 14px;
+      line-height: 1.55
+    }
+
+    .share-link-row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      background: #fff;
+      padding: 10px 12px;
+      border: 1.5px dashed var(--gold2);
+      border-radius: var(--r2)
+    }
+
+    .share-link-row input {
+      flex: 1;
+      border: none;
+      background: transparent;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      color: var(--navy);
+      outline: none;
+      padding: 4px 6px
+    }
+
+    .share-copy-btn {
+      padding: 8px 14px;
+      border-radius: var(--r3);
+      background: var(--navy);
+      color: #fff;
+      border: none;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      white-space: nowrap
+    }
+
+    .share-copy-btn:hover {
+      background: var(--navy2)
+    }
+
+    /* Share Methods Tabs */
+    .share-methods-tabs .tab-btn {
+      padding: 10px 18px;
+      background: #f1f5f9;
+      color: #475569;
+      border: none;
+      border-radius: 6px 6px 0 0;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.15s;
+    }
+
+    .share-methods-tabs .tab-btn.active {
+      background: #ffffff;
+      color: var(--navy);
+      border-bottom: 2px solid var(--navy);
+      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .share-method-content {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 0 0 var(--r) var(--r);
+      padding: 24px;
+      box-shadow: var(--sh);
+      margin-bottom: 22px;
+    }
+
+    /* Upload Drop Area */
+    .upload-drop-area {
+      border: 2px dashed #cbd5e1;
+      border-radius: var(--r2);
+      padding: 30px 20px;
+      text-align: center;
+      background: #faf8f5;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .upload-drop-area:hover {
+      border-color: var(--gold);
+      background: #fffefb;
+    }
+
+    .upload-icon {
+      font-size: 32px;
+      margin-bottom: 10px;
+    }
+
+    .upload-status {
+      margin-top: 15px;
+      padding: 10px;
+      border-radius: 6px;
+      font-size: 13px;
+      display: none;
+    }
+
+    .upload-status.success {
+      background: #e6f4ea;
+      color: #137333;
+      display: block;
+    }
+
+    .upload-status.error {
+      background: #fce8e6;
+      color: #c5221f;
+      display: block;
+    }
+
+    .upload-status.loading {
+      background: #e8f0fe;
+      color: #1a73e8;
+      display: block;
+    }
+
+    /* Faculty submissions display */
+    .fs-empty {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--ink3);
+      background: #fafbff;
+      border: 1px dashed #dde3f0;
+      border-radius: var(--r2);
+      font-size: 13.5px
+    }
+
+    .fs-card {
+      background: #fff;
+      border: 1px solid #dde3f0;
+      border-radius: var(--r2);
+      padding: 14px 16px;
+      margin-bottom: 10px;
+      transition: 0.2s
+    }
+
+    .fs-card:hover {
+      border-color: var(--navy3);
+      box-shadow: 0 4px 14px rgba(10, 37, 88, 0.06)
+    }
+
+    .fs-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px
+    }
+
+    .fs-name {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--navy)
+    }
+
+    .fs-meta {
+      font-size: 12px;
+      color: var(--ink3);
+      margin-top: 2px
+    }
+
+    .fs-status {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 99px;
+      font-size: 11px;
+      font-weight: 700
+    }
+
+    .fs-status.pending {
+      background: #fff4e0;
+      color: #8a4800
+    }
+
+    .fs-status.reviewed {
+      background: #e0f5ea;
+      color: #0f5a2a
+    }
+
+    .fs-status.flagged {
+      background: #fde8e8;
+      color: #7a1a1a
+    }
+
+    .fs-detail {
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px dashed #e8ecf5;
+      font-size: 12.5px;
+      color: var(--ink2);
+      display: none
+    }
+
+    .fs-detail.open {
+      display: block
+    }
+
+    .fs-chk-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+      margin-top: 8px
+    }
+
+    .fs-chk-item {
+      font-size: 11.5px;
+      padding: 4px 8px;
+      border-radius: 4px
+    }
+
+    .fs-chk-item.yes {
+      background: #e8f7ee;
+      color: #0f5a2a
+    }
+
+    .fs-chk-item.no {
+      background: #fde8e8;
+      color: #7a1a1a
+    }
+
+    .fs-chk-item.na {
+      background: #f0f0f0;
+      color: #666
+    }
+
+    .fs-chk-item.blank {
+      background: #fafafa;
+      color: #aaa
+    }
+
+    .fs-actions {
+      margin-top: 10px;
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap
+    }
+
+    .btn-sm {
+      padding: 5px 10px;
+      font-size: 11.5px
+    }
+
+    /* Review */
+    .rev-block {
+      border: 1px solid #dde3f0;
+      border-radius: var(--r);
+      overflow: hidden;
+      margin-bottom: 16px;
+      box-shadow: var(--sh)
+    }
+
+    .rev-header {
+      background: var(--navy);
+      color: #fff;
+      padding: 12px 18px;
+      font-size: 12px;
+      font-weight: 700;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      letter-spacing: .04em;
+      text-transform: uppercase
+    }
+
+    .rev-badge {
+      background: var(--gold);
+      color: var(--navy);
+      padding: 2px 12px;
+      border-radius: 99px;
+      font-size: 11px;
+      font-weight: 800
+    }
+
+    .rev-body {
+      padding: 16px 18px;
+      font-size: 13.5px;
+      line-height: 1.85
+    }
+
+    .rb-row {
+      display: flex;
+      gap: 10px;
+      align-items: baseline;
+      margin-bottom: 2px
+    }
+
+    .rb-label {
+      color: var(--ink3);
+      font-size: 12px;
+      min-width: 140px;
+      flex-shrink: 0;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .04em
+    }
+
+    .rb-val {
+      color: var(--ink);
+      font-weight: 600
+    }
+
+    .metric-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 8px
+    }
+
+    .chip {
+      background: #f0f4ff;
+      border: 1.5px solid #c8d4f0;
+      border-radius: var(--r3);
+      padding: 6px 14px;
+      font-size: 12.5px;
+      color: var(--navy)
+    }
+
+    .chip b {
+      font-weight: 800
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 10px;
+      border-radius: 99px;
+      font-size: 11px;
+      font-weight: 700
+    }
+
+    .p-yes {
+      background: #e0f5ea;
+      color: #0f5a2a
+    }
+
+    .p-no {
+      background: #fde8e8;
+      color: #7a1a1a
+    }
+
+    .p-pend {
+      background: #fff4e0;
+      color: #8a4800
+    }
+
+    .p-blank {
+      background: #eeeff4;
+      color: #888
+    }
+
+    .gap-list {
+      background: #fff5f5;
+      border: 1.5px solid #f0c0c0;
+      border-radius: var(--r2);
+      padding: 14px 16px;
+      margin-top: 12px;
+      font-size: 13px;
+      line-height: 1.8
+    }
+
+    .gap-item {
+      display: flex;
+      gap: 8px;
+      color: #7a1a1a;
+      margin-bottom: 2px
+    }
+
+    /* Success */
+    .success-screen {
+      display: none;
+      text-align: center;
+      padding: 60px 24px
+    }
+
+    .success-screen.active {
+      display: block;
+      animation: rise .4s ease
+    }
+
+    .success-icon {
+      font-size: 72px;
+      margin-bottom: 18px;
+      animation: pop .5s ease
+    }
+
+    @keyframes pop {
+      0% {
+        transform: scale(.4)
+      }
+
+      65% {
+        transform: scale(1.12)
+      }
+
+      100% {
+        transform: scale(1)
+      }
+    }
+
+    .success-screen h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 34px;
+      color: var(--navy);
+      margin-bottom: 10px
+    }
+
+    .success-screen p {
+      color: var(--ink2);
+      font-size: 15px;
+      max-width: 520px;
+      margin: 0 auto 30px;
+      line-height: 1.65
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: var(--navy);
+      color: #fff;
+      padding: 13px 26px;
+      border-radius: var(--r);
+      font-size: 13.5px;
+      opacity: 0;
+      transition: .3s;
+      pointer-events: none;
+      z-index: 999;
+      box-shadow: var(--sh2);
+      white-space: nowrap;
+      border-left: 4px solid var(--gold)
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0)
+    }
+
+    /* Dashboard */
+    .dash-wrap {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 36px 28px 100px
+    }
+
+    .dash-card {
+      background: #fff;
+      border: 1px solid #dde3f0;
+      border-radius: var(--r);
+      padding: 20px;
+      margin-bottom: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: 0.2s;
+      gap: 12px;
+      flex-wrap: wrap
+    }
+
+    .dash-card:hover {
+      border-color: var(--navy3);
+      box-shadow: var(--sh)
+    }
+
+    .dc-left {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      flex: 1 1 280px
+    }
+
+    .dc-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--navy)
+    }
+
+    .dc-sub {
+      font-size: 13px;
+      color: var(--ink3)
+    }
+
+    .dc-tag {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 99px;
+      font-size: 10.5px;
+      font-weight: 700;
+      background: #e0f4ff;
+      color: var(--navy);
+      margin-top: 4px
+    }
+
+    .dc-right {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap
+    }
+
+    .hdr-user {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-left: 20px;
+      padding-left: 20px;
+      border-left: 1px solid #dde3f0
+    }
+
+    .user-greeting {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--navy)
+    }
+
+    .view-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(10, 37, 88, 0.6);
+      z-index: 2000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px
+    }
+
+    .view-modal.show {
+      display: flex
+    }
+
+    .vm-content {
+      background: #fff;
+      border-radius: var(--r);
+      width: 100%;
+      max-width: 800px;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 24px
+    }
+
+    .vm-close {
+      float: right;
+      background: none;
+      border: none;
+      font-size: 20px;
+      cursor: pointer
+    }
+
+    /* Filter tabs */
+    .filter-section {
+      background: #f8fafc;
+      border: 1px solid #dde3f0;
+      border-radius: var(--r);
+      padding: 16px 20px;
+      margin-bottom: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px
+    }
+
+    .filter-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap
+    }
+
+    .filter-label {
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: var(--navy);
+      min-width: 130px
+    }
+
+    .tab-btn {
+      background: #ffffff;
+      border: 1.5px solid #dde3f0;
+      border-radius: 99px;
+      padding: 6px 16px;
+      font-family: inherit;
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--ink2);
+      cursor: pointer;
+      transition: all 0.2s ease
+    }
+
+    .tab-btn:hover {
+      border-color: var(--navy3);
+      color: var(--navy);
+      background: #f3f6fc
+    }
+
+    .tab-btn.active {
+      background: var(--navy);
+      border-color: var(--navy);
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(10, 37, 88, 0.15)
+    }
+
+    /* Mobile Hamburger & Sandwich Menu Styles */
+    .hamburger-menu {
+      display: none;
+      flex-direction: column;
+      justify-content: space-between;
+      width: 22px;
+      height: 16px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      z-index: 1001;
+      margin-left: auto;
+    }
+
+    .hamburger-menu span {
+      width: 100%;
+      height: 2px;
+      background-color: var(--navy);
+      border-radius: 99px;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      transform-origin: left center;
+    }
+
+    .hamburger-menu.active span:nth-child(1) {
+      transform: rotate(45deg) translate(1px, -1px);
+    }
+
+    .hamburger-menu.active span:nth-child(2) {
+      opacity: 0;
+      transform: scaleX(0);
+    }
+
+    .hamburger-menu.active span:nth-child(3) {
+      transform: rotate(-45deg) translate(1px, 1px);
+    }
+
+    @media(max-width: 768px) {
+      .snap-grid {
+        grid-template-columns: repeat(2, 1fr)
+      }
+
+      .page-wrap {
+        padding: 20px 16px 70px
+      }
+
+      .ps {
+        font-size: 9.5px
+      }
+
+      .logo-text .l1 {
+        font-size: 13.5px
+      }
+
+      .logo-text .l2 {
+        font-size: 9.5px
+      }
+
+      .hamburger-menu {
+        display: flex;
+      }
+
+      .hdr-right {
+        display: none !important;
+        flex-direction: column !important;
+        position: fixed !important;
+        top: 68px !important;
+        left: 0 !important;
+        right: 0 !important;
+        background: #ffffff !important;
+        border-bottom: 2px solid #dde3f0 !important;
+        padding: 20px 24px !important;
+        gap: 12px !important;
+        z-index: 999 !important;
+        box-shadow: 0 12px 30px rgba(10, 37, 88, 0.1) !important;
+        align-items: stretch !important;
+        text-align: left !important;
+        animation: slideDown 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+      }
+
+      .hdr-right.active {
+        display: flex !important;
+      }
+
+      .hdr-right>div {
+        text-align: left !important;
+        margin-bottom: 8px;
+      }
+
+      .hdr-user {
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 10px !important;
+        margin-top: 8px;
+      }
+
+      .hdr-user button,
+      .hdr-user a {
+        width: 100%;
+        text-align: center;
+        justify-content: center;
+        padding: 10px !important;
+      }
+
+      @keyframes slideDown {
+        from {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+    }
+
+    @media (max-width: 600px) {
+      .chk-row {
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 8px !important;
+        padding: 12px 10px !important;
+      }
+
+      .chk-num {
+        align-self: flex-start !important;
+        min-width: unset !important;
+      }
+
+      .chk-sel {
+        width: 100% !important;
+      }
+
+      .chk-remark {
+        width: 100% !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="logo-area">
+        <img src="/static/erp/images/jain.png" alt="Jain University" class="logo-img" onerror="this.style.display='none'">
+        <div class="logo-divider"></div>
+        <div class="logo-text">
+          <div class="l1">OoA Portal</div>
+          <div class="l2">Office of Academics — OoA</div>
+        </div>
+      </div>
+      <button class="hamburger-menu" id="hamburgerMenu" onclick="toggleMobileMenu()" aria-label="Toggle Navigation">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <div class="hdr-right" id="hdrRight" style="display: flex; align-items: center; gap: 12px;">
+        <div class="hdr-user" style="display: flex; align-items: center; gap: 8px;">
+          <a href="/erp/" class="btn-profile">Home</a>
+          {% if session.get('admin') %}
+          <a href="/erp/admin" class="btn-profile"
+            style="color: var(--navy); border-color: var(--gold); background: #fffbeb; font-weight: bold;">Admin
+            Control</a>
+          {% endif %}
+          <button class="btn-profile" onclick="openWorkflowModal()">Workflow</button>
+          <button class="btn-profile" style="color: var(--danger); border-color: #fca5a5; background: #fef2f2;"
+            onclick="doLogout()">Logout</button>
+        </div>
+      </div>
+    </div>
+    <div class="prog-bar" id="mainProgBar"
+      style="{% if view_mode == 'form' %}display: flex;{% else %}display: none;{% endif %}">
+      <div class="prog-inner" id="progBar">
+        <div class="ps active" onclick="goTo(0)">1. Identity</div>
+        <div class="ps" onclick="goTo(1)" id="ps_share">2. Share &amp; Review <span id="facNotifBadge"
+            style="display:none;background:#dc2626;color:#fff;border-radius:99px;font-size:9px;padding:1px 6px;margin-left:4px;font-weight:800;"></span>
+        </div>
+        <div class="ps" onclick="goTo(2)">3. HOD Checklist</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ═════════ DASHBOARD VIEW ═════════ -->
+  <div class="dash-wrap" id="dashView"
+    style="{% if view_mode == 'list' %}display: block;{% else %}display: none;{% endif %}">
+    <div class="page-heading"
+      style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap:wrap; gap:12px; margin-bottom: 24px;">
+      <div>
+        <div style="margin-bottom: 12px;">
+          <span class="semester-tag"
+            style="background: var(--gold); color: var(--navy); font-size: 11px; font-weight: 700; padding: 3px 12px; border-radius: 99px; letter-spacing: .06em; display: inline-block;">Even
+            Semester 2025–26</span>
+          <span class="campus-tag" style="color: var(--ink3); font-size: 11px; margin-left: 8px;">Bangalore, Kochi, ODL
+            &amp; Online Campus</span>
+        </div>
+        <h2>Your Submissions, Hi {{ user.name }}!</h2>
+        <p>Manage your past readiness forms, view faculty responses, or start a new one.</p>
+      </div>
+      {% if is_deadline_passed and not has_override %}
+        <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+          <span style="background: #fee2e2; color: #dc2626; border: 1.5px solid #fca5a5; font-weight: 700; font-size: 11px; padding: 8px 16px; border-radius: 20px; text-transform: uppercase; letter-spacing: .05em;">⚠️ Deadline Exceeded</span>
+          <a href="javascript:void(0)" class="btn btn-primary" style="text-decoration: none; opacity: 0.4; filter: blur(0.5px); cursor: not-allowed; pointer-events: none;">＋ Start New Submission</a>
+        </div>
+      {% else %}
+        <a href="/erp/readiness/form" class="btn btn-primary" style="text-decoration: none;">＋ Start New Submission</a>
+      {% endif %}
+    </div>
+
+    <!-- Late Access/Extension Request Banner -->
+    {% if is_deadline_passed %}
+      <div style="background: #ffffff; border: 1.5px solid {% if has_override %}#a7f3d0{% elif extension_request and extension_request.status == 'pending' %}#fde68a{% else %}#fca5a5{% endif %}; border-radius: 12px; padding: 20px; margin-bottom: 28px; box-shadow: var(--sh2);">
+        {% if has_override %}
+          <div style="display: flex; align-items: flex-start; gap: 14px;">
+            <div style="font-size: 28px; line-height: 1;">✅</div>
+            <div>
+              <div style="font-weight: 800; color: #065f46; font-size: 15px; margin-bottom: 4px;">Late Submission Access Granted</div>
+              <p style="font-size: 13px; color: #047857; line-height: 1.4; margin: 0;">The Office of Academics administration has granted you special late submission override access.</p>
+              {% if extension_request and extension_request.admin_comment %}
+                <div style="margin-top: 10px; background: #ecfdf5; border-left: 4px solid #10b981; padding: 8px 12px; border-radius: 6px; font-size: 12.5px; color: #065f46; font-style: italic;">
+                  <strong>Admin Response:</strong> "{{ extension_request.admin_comment }}"
+                </div>
+              {% endif %}
+            </div>
+          </div>
+        {% elif extension_request and extension_request.status == 'pending' %}
+          <div style="display: flex; align-items: flex-start; gap: 14px;">
+            <div style="font-size: 28px; line-height: 1;">⏳</div>
+            <div>
+              <div style="font-weight: 800; color: #92400e; font-size: 15px; margin-bottom: 4px;">Extension Request Pending Approval</div>
+              <p style="font-size: 13px; color: #b45309; line-height: 1.4; margin: 0;">You have requested special late submission access. The administration has been notified and is currently reviewing your request.</p>
+              <div style="margin-top: 10px; background: #fffbeb; border-left: 4px solid #f59e0b; padding: 8px 12px; border-radius: 6px; font-size: 12.5px; color: #92400e; font-style: italic;">
+                <strong>Your Reason:</strong> "{{ extension_request.comment }}"
+              </div>
+            </div>
+          </div>
+        {% else %}
+          <div style="display: flex; align-items: flex-start; gap: 14px; flex-wrap: wrap;">
+            <div style="font-size: 28px; line-height: 1;">⚠️</div>
+            <div style="flex: 1; min-width: 250px;">
+              <div style="font-weight: 800; color: #b91c1c; font-size: 15px; margin-bottom: 4px;">Official Submission Window Closed</div>
+              <p style="font-size: 13px; color: #dc2626; line-height: 1.4; margin-bottom: 14px;">The deadline for submissions has passed and late submissions are blocked. If you need to request special access, please submit a request to the Office of Academics below:</p>
+              <form onsubmit="submitExtensionRequestDirect(event, 'Semester Readiness')" style="display: flex; gap: 10px; flex-direction: column;">
+                <textarea id="commentDirect" placeholder="Describe the reason for late submission request..." required style="width: 100%; min-height: 70px; padding: 10px 12px; border: 1.5px solid #fca5a5; border-radius: 8px; font-family: inherit; font-size: 13px; outline: none; resize: none;"></textarea>
+                <button type="submit" class="btn btn-primary" style="background: #dc2626; border-color: #dc2626; align-self: flex-start; font-size: 12px; padding: 8px 16px;">Request Late Submission Access</button>
+              </form>
+            </div>
+          </div>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    <div class="filter-section">
+      <div class="filter-group">
+        <span class="filter-label">Academic Year:</span>
+        <button class="tab-btn active" onclick="filterAcYear('All', this)">All Years</button>
+        {% for year in ['2024-25', '2025-26', '2026-27', '2027-28', '2028-29'] %}
+        {% if year in settings.enabled_years %}
+        <button class="tab-btn" onclick="filterAcYear('{{ year }}', this)">{{ year }}</button>
+        {% endif %}
+        {% endfor %}
+      </div>
+      <div class="filter-group">
+        <span class="filter-label">Semester Type:</span>
+        <button class="tab-btn active" onclick="filterSem('All', this)">All Semesters</button>
+        {% if 'Even' in settings.enabled_semesters %}
+        <button class="tab-btn" onclick="filterSem('Even', this)">Even Semesters</button>
+        {% endif %}
+        {% if 'Odd' in settings.enabled_semesters %}
+        <button class="tab-btn" onclick="filterSem('Odd', this)">Odd Semesters</button>
+        {% endif %}
+      </div>
+    </div>
+
+    <div id="dashList">
+      <div style="text-align: center; color: var(--ink3); padding: 40px;">Loading submissions...</div>
+    </div>
+  </div>
+
+  <!-- ═════════ FORM VIEW ═════════ -->
+  <div class="page-wrap" id="formView"
+    style="{% if view_mode == 'form' %}display: block;{% else %}display: none;{% endif %}">
+    <div style="margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between;">
+      <a href="/erp/readiness" class="btn btn-ghost"
+        style="font-weight: 700; display: inline-flex; align-items: center; gap: 8px; text-decoration: none;">
+        ← Back to Submissions
+      </a>
+    </div>
+
+    <!-- PAGE 0: IDENTITY -->
+    <div class="section-page active" id="page0">
+      <div class="page-heading">
+        <div style="margin-bottom: 12px;">
+          <span class="semester-tag"
+            style="background: var(--gold); color: var(--navy); font-size: 11px; font-weight: 700; padding: 3px 12px; border-radius: 99px; letter-spacing: .06em; display: inline-block;">Even
+            Semester 2025–26</span>
+          <span class="campus-tag" style="color: var(--ink3); font-size: 11px; margin-left: 8px;">Bangalore, Kochi, ODL
+            &amp; Online Campus</span>
+        </div>
+        <span class="step-badge">Step 1 of 3</span>
+        <h2>Department Identity</h2>
+        <p>Fill campus, HOD details and semester numbers. These auto-fill the faculty form when you share the link.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="ch-icon">🏛️</div>
+          <div>
+            <div class="ch-title">Campus &amp; Department</div>
+          </div>
+        </div>
+        <div class="field-grid">
+          <div class="field"><label>Campus <span class="req">*</span></label>
+            <select id="f_campus">
+              <option value="">— Select campus —</option>
+              <option>Bangalore</option>
+              <option>Kochi</option>
+              <option>ODL</option>
+              <option>Online</option>
+            </select>
+          </div>
+          <div class="field"><label>Department Name <span class="req">*</span></label>
+            <select id="f_dept">
+              <option value="">— Select department —</option>{% for d in departments %}<option>{{ d }}</option>{% endfor
+              %}
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="ch-icon">👤</div>
+          <div>
+            <div class="ch-title">HOD Details</div>
+          </div>
+        </div>
+        <div class="field-grid">
+          <div class="field"><label>HOD Full Name <span class="req">*</span></label>
+            <input type="text" id="f_hod_name" placeholder="Dr. / Prof. Full Name" value="{{ user.name }}">
+          </div>
+          <div class="field"><label>HOD Email <span class="req">*</span></label>
+            <input type="email" id="f_hod_email" placeholder="hod@jainuniversity.ac.in" value="{{ user.email }}">
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="ch-icon">📅</div>
+          <div>
+            <div class="ch-title">Semester Details</div>
+          </div>
+        </div>
+        <div class="field-grid">
+          <div class="field"><label>Semester &amp; Year <span class="req">*</span></label>
+            <select id="f_semester">
+              <option value="">— Select —</option>
+              {% for year in settings.enabled_years %}
+              {% if 'Even' in settings.enabled_semesters %}
+              <option {% if year=='2025-26' %}selected{% endif %}>Even {{ year }}</option>
+              {% endif %}
+              {% if 'Odd' in settings.enabled_semesters %}
+              <option>Odd {{ year }}</option>
+              {% endif %}
+              {% endfor %}
+            </select>
+          </div>
+          <div class="field"><label>Academic Year <span class="req">*</span></label>
+            <select id="f_ac_year">
+              <option value="">— Select Academic Year —</option>
+              {% for year in settings.enabled_years %}
+              <option value="{{ year }}" {% if year=='2025-26' %}selected{% endif %}>{{ year }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="field"><label>Submission Date</label><input type="date" id="f_sub_date"></div>
+          <div class="field"><label>Last Day for Faculty Submission</label><input type="date" id="f_hod_deadline"></div>
+        </div>
+      </div>
+
+      <div class="nav-bar"><button class="btn btn-ghost" onclick="saveDraftManual()">💾 Save Draft</button><button
+          class="btn btn-primary" onclick="goTo(1)">Next: Share &amp; Review Faculty Link →</button></div>
+    </div>
+
+    <!-- PAGE 1: SHARE & REVIEW -->
+    <div class="section-page" id="page1">
+      <div class="page-heading">
+        <span class="step-badge">Step 2 of 3</span>
+        <h2>Share &amp; Review Faculty Checklists</h2>
+        <p>Save to generate a unique faculty link. Once shared, faculty submit their checklist — you'll see a
+          notification here. Review each submission, add a comment, request rework, or accept it.</p>
+      </div>
+
+      <div id="preShareCard" class="card">
+        <div class="card-header">
+          <div class="ch-icon">💾</div>
+          <div>
+            <div class="ch-title">Save Form &amp; Generate Faculty Link</div>
+          </div>
+        </div>
+        <p style="color:var(--ink3);font-size:13px;margin-bottom:14px">Click below to save your form and create a unique
+          shareable link. Faculty don't need a login to fill their checklist.</p>
+        <button class="btn btn-gold" onclick="saveAndGenerateLink()">💾 Save &amp; Generate Faculty Share Link</button>
+      </div>
+
+      <div id="shareSection" style="display:none;">
+        <div class="share-card"
+          style="margin: 0; border: none; padding: 0; background: transparent; margin-bottom: 20px;">
+          <h3>🔗 Faculty Submission Link Ready</h3>
+          <p>Share this link with all faculty. When they open it, they'll see <strong>"{{ user.name }} (HOD) shared this
+              document with you"</strong> and the form will be pre-filled.</p>
+          <div class="share-link-row">
+            <input type="text" id="shareLinkInput" readonly value="">
+            <button class="share-copy-btn" onclick="copyShareLink()">📋 Copy Link</button>
+          </div>
+          <p style="font-size:11.5px;color:var(--ink3);margin-top:10px;margin-bottom:0">💡 Share via email, WhatsApp, or
+            your department group. No login required for faculty.</p>
+        </div>
+
+        <div class="card">
+          <div class="card-header" style="justify-content: space-between;">
+            <div style="display:flex; gap: 12px; align-items:center;">
+              <div class="ch-icon">📥</div>
+              <div>
+                <div class="ch-title">Faculty Submissions</div>
+                <div class="ch-sub" id="facSubCountText">No submissions yet</div>
+              </div>
+            </div>
+            <button class="btn btn-ghost btn-sm" onclick="loadFacultySubmissions()">🔄 Refresh</button>
+          </div>
+          <div id="facSubList">
+            <div class="fs-empty">No faculty have submitted yet. Share the link above to get started.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="nav-bar">
+        <button class="btn btn-ghost" onclick="goTo(0)">← Back</button>
+        <button class="btn btn-ghost" onclick="saveDraftManual()">💾 Save Draft</button>
+        <button class="btn btn-primary" onclick="goTo(2)">Next: HOD Checklist →</button>
+      </div>
+    </div>
+
+    <!-- PAGE 2: HOD CHECKLIST -->
+    <div class="section-page" id="page2">
+      <div class="page-heading">
+        <span class="step-badge">Step 3 of 3</span>
+        <h2>HOD Checklist</h2>
+        <p>Mark each HOD-level item Yes / No / N/A and add supporting notes.</p>
+      </div>
+      <div class="card" id="hodChkCard"></div>
+
+      <div class="nav-bar">
+        <button class="btn btn-ghost" onclick="goTo(1)">← Back</button>
+        <button class="btn btn-ghost" onclick="saveDraftManual()">💾 Save Draft</button>
+        <button class="btn btn-success" onclick="submitForm()">✓ Submit to Academic Office</button>
+      </div>
+    </div>
+
+    <!-- SUCCESS -->
+    <div class="success-screen" id="successScreen">
+      <div class="success-icon">🎉</div>
+      <h2>Submitted Successfully!</h2>
+      <p>Your semester readiness data has been recorded. The Academic Office will review your submission.</p>
+      <div class="succ-actions" style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+        <button class="btn btn-primary" onclick="window.location.reload()">Return to Dashboard</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ═════════ MODALS ═════════ -->
+  <div class="view-modal" id="viewModal">
+    <div class="vm-content">
+      <button class="vm-close" onclick="document.getElementById('viewModal').classList.remove('show')">✕</button>
+      <h2 style="margin-bottom: 20px; color: var(--navy); font-family: 'Playfair Display', serif;">Submission Summary
+      </h2>
+      <div id="viewModalContent"></div>
+    </div>
+  </div>
+
+  <div class="view-modal" id="facSubModal">
+    <div class="vm-content">
+      <button class="vm-close" onclick="document.getElementById('facSubModal').classList.remove('show')">✕</button>
+      <h2 style="margin-bottom: 16px; color: var(--navy); font-family: 'Playfair Display', serif;">Faculty Submissions
+      </h2>
+      <div id="facSubModalContent"></div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    function toggleMobileMenu() {
+      const burger = document.getElementById('hamburgerMenu');
+      const drawer = document.getElementById('hdrRight');
+      burger.classList.toggle('active');
+      drawer.classList.toggle('active');
+    }
+
+    const HOD_SECTIONS = {{ hod_sections | tojson }};
+    let progCount = 0;
+    let currentSubmissionId = null;
+    let currentShareToken = null;
+    const USER = {{ user | tojson }};
+    const VIEW_MODE = "{{ view_mode }}";
+    const EDIT_ID = "{{ edit_id or '' }}";
+
+    let submissionsCache = [];
+    let activeAcYearFilter = 'All';
+    let activeSemFilter = 'All';
+
+    function doLogout() {
+      fetch('/erp/api/logout', { method: 'POST' }).then(() => window.location.href = '/home');
+    }
+
+    function filterAcYear(year, btn) {
+      activeAcYearFilter = year;
+      btn.parentElement.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderSubmissions();
+    }
+
+    function filterSem(sem, btn) {
+      activeSemFilter = sem;
+      btn.parentElement.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderSubmissions();
+    }
+
+    function renderSubmissions() {
+      const list = document.getElementById('dashList');
+      if (!submissionsCache || !submissionsCache.length) {
+        list.innerHTML = '<div style="text-align:center; padding: 40px; background: #fff; border-radius: 12px; border: 1px dashed #c8d2e8; color: var(--ink3);">No submissions found. Start a new one!</div>';
+        return;
+      }
+
+      const filtered = submissionsCache.filter(s => {
+        const identity = s.identity || {};
+        const acYear = identity.acYear || '';
+        const semester = (identity.semester || '').toLowerCase();
+
+        let matchYear = activeAcYearFilter === 'All' || acYear === activeAcYearFilter || acYear.includes(activeAcYearFilter);
+        let matchSem = activeSemFilter === 'All' ||
+          (activeSemFilter === 'Even' && semester.includes('even')) ||
+          (activeSemFilter === 'Odd' && semester.includes('odd'));
+
+        return matchYear && matchSem;
+      });
+
+      if (!filtered.length) {
+        list.innerHTML = '<div style="text-align:center; padding: 40px; background: #fff; border-radius: 12px; border: 1px dashed #c8d2e8; color: var(--ink3);">No submissions match the selected filters.</div>';
+        return;
+      }
+
+      list.innerHTML = filtered.map(s => {
+        const dt = new Date(s.timestamp).toLocaleDateString();
+        const isLocked = s.edit_count >= 2 && (!s.edit_request || s.edit_request.status !== 'approved');
+        const isPending = s.edit_request && s.edit_request.status === 'pending';
+        const facCount = s.faculty_submission_count || 0;
+
+        let rightAction = '';
+        if (isLocked) {
+          if (isPending) rightAction = `<button class="btn btn-ghost" disabled>Pending Admin</button>`;
+          else rightAction = `<button class="btn btn-ghost" onclick="requestEdit('${s._id}')">Request Edit</button>`;
+        } else {
+          rightAction = `<a href="/erp/readiness/form/${s._id}" class="btn btn-gold" style="text-decoration: none;">Edit</a>`;
+        }
+
+        let facBtn = '';
+        if (s.share_token) {
+          facBtn = `<button class="btn btn-ghost" onclick="viewFacultySubmissions('${s._id}', '${s.share_token}')">👥 Faculty (${facCount})</button>`;
+        }
+        const dlBtn = `<button class="btn btn-ghost" onclick="downloadSubmission('${s._id}')" title="Download Excel">📥</button>`;
+        const delBtn = `<button class="btn btn-ghost" onclick="deleteOwnSubmission('${s._id}')" title="Delete" style="color:var(--danger);border-color:#f5b8b8">🗑</button>`;
+
+        const statusBadge = s._draft
+          ? `<span style="background:#fff3e0; color:#b45309; border: 1px solid #ffe0b2; padding: 2px 8px; border-radius: 4px; font-weight:800; font-size:11px; display:inline-block; margin-bottom:8px;">📝 Draft</span>`
+          : `<span style="background:#e8f7ee; color:#0f5a2a; border: 1px solid #c8e6c9; padding: 2px 8px; border-radius: 4px; font-weight:800; font-size:11px; display:inline-block; margin-bottom:8px;">✅ Submitted</span>`;
+
+        const timeLabel = s._draft ? 'Last saved draft' : 'Submitted';
+
+        return `<div class="dash-card">
+          <div class="dc-left">
+            <div>${statusBadge}</div>
+            <div class="dc-title">${s.identity?.dept || 'Draft Submission'}</div>
+            <div class="dc-sub">${timeLabel} on ${dt} · ${s.identity?.semester || ''} · A.Y. ${s.identity?.acYear || ''}</div>
+            <div><span class="dc-tag">👥 ${facCount} faculty submission${facCount !== 1 ? 's' : ''}</span></div>
+          </div>
+          <div class="dc-right">
+            <button class="btn btn-ghost" onclick="viewSubmission('${s._id}')">View</button>
+            ${facBtn}
+            ${dlBtn}
+            ${rightAction}
+            ${delBtn}
+          </div>
+        </div>`;
+      }).join('');
+    }
+
+    function loadDashboard() {
+      fetch('/erp/api/my-submissions?type=readiness').then(r => r.json()).then(res => {
+        if (!res.ok || !res.submissions) {
+          submissionsCache = [];
+        } else {
+          submissionsCache = res.submissions;
+        }
+        renderSubmissions();
+      });
+    }
+
+    function requestEdit(id) {
+      const comment = prompt("You have reached the maximum edits for this submission.\nPlease enter a reason to request edit access from the Admin:");
+      if (comment === null) return;
+      fetch('/erp/api/request-edit/' + id, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ comment })
+      }).then(r => r.json()).then(res => {
+        if (res.ok) { showToast('Request sent to admin'); loadDashboard(); }
+        else showToast('Failed to send request');
+      });
+    }
+
+    function deleteOwnSubmission(id) {
+      if (!confirm('Delete this submission permanently?\nAll linked faculty responses will also be removed.\n\nThis cannot be undone.')) return;
+      fetch('/erp/api/delete-submission/' + id, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' }
+      }).then(r => r.json()).then(res => {
+        if (res.ok) {
+          showToast('🗑 Submission deleted');
+          loadDashboard();
+        } else {
+          showToast('⚠ ' + (res.error || 'Delete failed'));
+        }
+      });
+    }
+
+    function downloadSubmission(id) {
+      window.location.href = '/erp/api/export/' + id;
+      showToast('📥 Downloading…');
+    }
+
+    function clearForm() {
+      currentSubmissionId = null;
+      currentShareToken = null;
+      setVal('f_campus', '');
+      setVal('f_dept', USER.department || '');
+      setVal('f_hod_name', USER.name || '');
+      setVal('f_hod_email', USER.email || '');
+      setVal('f_semester', 'Even 2025-26');
+      setVal('f_ac_year', '2025-26');
+      document.getElementById('f_sub_date').value = new Date().toISOString().split('T')[0];
+      setVal('f_hod_deadline', '');
+
+      document.getElementById('preShareCard').style.display = 'block';
+      document.getElementById('shareSection').style.display = 'none';
+
+      HOD_SECTIONS.forEach(sec => sec.items.forEach(item => {
+        const sel = document.getElementById('chk_' + item.id);
+        if (sel) { sel.value = ''; styleChkSel(sel); }
+        const rem = document.getElementById('rem_' + item.id);
+        if (rem) rem.value = '';
+      }));
+    }
+
+    function submitExtensionRequestDirect(e, moduleName) {
+      e.preventDefault();
+      const comment = document.getElementById('commentDirect').value;
+      const btn = e.target.querySelector('button');
+      btn.disabled = true;
+      btn.innerText = 'Sending...';
+
+      fetch('/erp/api/request-extension', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          comment: comment,
+          module: moduleName
+        })
+      }).then(r => r.json()).then(res => {
+        if (res.ok) {
+          alert('Late submission access request has been sent to the admin.');
+          window.location.reload();
+        } else {
+          alert('Error: ' + res.error);
+          btn.disabled = false;
+          btn.innerText = 'Request Late Submission Access';
+        }
+      }).catch(err => {
+        console.error(err);
+        btn.disabled = false;
+        btn.innerText = 'Request Late Submission Access';
+      });
+    }
+
+    function startNewForm() {
+      document.getElementById('dashView').style.display = 'none';
+      document.getElementById('formView').style.display = 'block';
+      document.getElementById('mainProgBar').style.display = 'flex';
+      clearForm();
+      goTo(0);
+    }
+
+    function editSubmission(id) {
+      fetch('/erp/api/get-submission/' + id).then(r => r.json()).then(res => {
+        if (!res.ok) { showToast('⚠ Failed to load submission'); return; }
+        const d = res.submission;
+        currentSubmissionId = id;
+        currentShareToken = d.share_token || null;
+
+        if (d.identity) {
+          setVal('f_campus', d.identity.campus);
+          setVal('f_dept', d.identity.dept);
+          setVal('f_hod_name', d.identity.hodName);
+          setVal('f_hod_email', d.identity.hodEmail);
+          setVal('f_semester', d.identity.semester);
+          setVal('f_ac_year', d.identity.acYear);
+          setVal('f_sub_date', d.identity.subDate);
+          setVal('f_hod_deadline', d.identity.hodDeadline);
+        }
+        if (d.hodChecklist) {
+          for (const [key, val] of Object.entries(d.hodChecklist)) {
+            const sel = document.getElementById('chk_' + key);
+            if (sel) { sel.value = val.status || ''; styleChkSel(sel); }
+            const rem = document.getElementById('rem_' + key);
+            if (rem) rem.value = val.remark || '';
+          }
+        }
+
+        // Show share section if we already have a token
+        if (currentShareToken) {
+          showShareLink(currentShareToken);
+        } else {
+          document.getElementById('preShareCard').style.display = 'block';
+          document.getElementById('shareSection').style.display = 'none';
+        }
+
+        document.getElementById('dashView').style.display = 'none';
+        document.getElementById('formView').style.display = 'block';
+        document.getElementById('mainProgBar').style.display = 'flex';
+        goTo(0);
+        showToast('Form loaded for editing');
+      });
+    }
+
+    function viewSubmission(id) {
+      const d = submissionsCache.find(x => x._id === id);
+      if (!d) return;
+      const modal = document.getElementById('viewModal');
+      document.getElementById('viewModalContent').innerHTML = generateReviewHTML(d);
+      modal.classList.add('show');
+    }
+
+    function viewFacultySubmissions(subId, shareToken) {
+      fetch('/erp/api/faculty-submissions/' + subId).then(r => r.json()).then(res => {
+        const modal = document.getElementById('facSubModal');
+        const content = document.getElementById('facSubModalContent');
+        const shareUrl = window.location.origin + '/erp/faculty-form/' + shareToken;
+
+        let html = `<div class="share-card" style="margin-bottom:18px">
+          <h3>🔗 Faculty Submission Link</h3>
+          <div class="share-link-row">
+            <input type="text" readonly value="${shareUrl}" id="modalShareLink">
+            <button class="share-copy-btn" onclick="navigator.clipboard.writeText('${shareUrl}'); this.textContent='✓ Copied'">📋 Copy</button>
+          </div>
+        </div>`;
+
+        if (!res.ok || !res.submissions.length) {
+          html += '<div class="fs-empty">No faculty have submitted yet. Share the link above.</div>';
+        } else {
+          html += `<p style="font-size:13px;color:var(--ink2);margin-bottom:12px"><strong>${res.submissions.length}</strong> faculty submission(s) received:</p>`;
+          html += res.submissions.map(f => renderFacSubCard(f, true)).join('');
+        }
+        content.innerHTML = html;
+        modal.classList.add('show');
+      });
+    }
+
+    function renderFacSubCard(f, isInModal) {
+      const chk = f.checklist || {};
+      const yes = Object.values(chk).filter(x => x.status === 'Yes').length;
+      const no = Object.values(chk).filter(x => x.status === 'No').length;
+      const total = Object.keys(chk).length || 12;
+      const dt = new Date(f.timestamp).toLocaleString();
+      const status = f.hod_review_status || 'pending';
+      const statusClass = status === 'accepted' ? 'reviewed' : (status === 'rework' ? 'flagged' : 'pending');
+      const statusText = status === 'accepted' ? '✅ Accepted' : (status === 'rework' ? '🔁 Rework Requested' : '⏳ Pending Review');
+
+      return `<div class="fs-card" id="fs_${f._id}">
+        <div class="fs-card-header">
+          <div>
+            <div class="fs-name">${f.faculty_name || 'Unknown Faculty'}</div>
+            <div class="fs-meta">📧 ${f.faculty_email || '—'} · 📚 ${f.course_name || '—'} (${f.course_code || '—'}) · 🎓 ${f.program || '—'}</div>
+            <div class="fs-meta">Submitted: ${dt}</div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px">
+            <span class="fs-status ${statusClass}">${statusText}</span>
+            <span style="font-size:11px;color:var(--ink3);font-weight:700">${yes}/${total} ✓ · ${no} ✗</span>
+          </div>
+        </div>
+        <div class="fs-actions">
+          <button class="btn btn-ghost btn-sm" onclick="toggleFacDetail('${f._id}')">👁 View</button>
+          <button class="btn btn-success btn-sm" onclick="reviewFacSub('${f._id}', 'accepted')">✅ Accept</button>
+          <button class="btn btn-ghost btn-sm" style="color:#d97706;border-color:#d97706" onclick="reviewFacSub('${f._id}', 'rework')">🔁 Rework</button>
+          <button class="btn btn-ghost btn-sm" onclick="deleteFacSub('${f._id}')" style="color:var(--danger);border-color:var(--danger)">🗑 Delete</button>
+        </div>
+        <div class="fs-detail" id="fs_detail_${f._id}">
+          <strong style="font-size:12px;color:var(--navy)">Checklist Responses:</strong>
+          <div class="fs-chk-grid">
+            ${Object.entries(chk).map(([id, v]) => {
+        const cls = v.status === 'Yes' ? 'yes' : v.status === 'No' ? 'no' : v.status === 'N/A' ? 'na' : 'blank';
+        const icon = v.status === 'Yes' ? '✓' : v.status === 'No' ? '✗' : v.status === 'N/A' ? '—' : '?';
+        return `<div class="fs-chk-item ${cls}">${icon} ${id}: ${v.status || 'Not answered'}${v.remark ? ' · ' + v.remark.substring(0, 30) : ''}</div>`;
+      }).join('')}
+          </div>
+          ${f.hod_remarks ? `<div style="margin-top:10px;padding:8px;background:#f0f4ff;border-radius:6px;font-size:12px"><strong>HOD Remarks:</strong> ${f.hod_remarks}</div>` : ''}
+          <div style="margin-top:10px;display:flex;gap:6px;align-items:center">
+            <input type="text" id="hodremark_${f._id}" placeholder="Add comment for faculty..." value="${f.hod_remarks || ''}" style="flex:1;padding:8px 10px;border:2px solid #dde3f0;border-radius:6px;font-size:12.5px;font-family:inherit">
+            <button class="btn btn-primary btn-sm" onclick="saveHodRemark('${f._id}')">💬 Save Comment</button>
+          </div>
+        </div>
+      </div>`;
+    }
+
+    function toggleFacDetail(id) {
+      document.getElementById('fs_detail_' + id).classList.toggle('open');
+    }
+
+    function reviewFacSub(id, status) {
+      const remark = document.getElementById('hodremark_' + id)?.value || '';
+      const msg = status === 'accepted' ? '✅ Accepted' : (status === 'rework' ? '🔁 Rework requested' : '✓ Saved');
+      fetch('/erp/api/faculty-review/' + id, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ hod_review_status: status, hod_remarks: remark })
+      }).then(r => r.json()).then(res => {
+        if (res.ok) {
+          showToast(msg);
+          if (currentSubmissionId) loadFacultySubmissions();
+        }
+      });
+    }
+
+    function saveHodRemark(id) {
+      const remark = document.getElementById('hodremark_' + id).value;
+      fetch('/erp/api/faculty-review/' + id, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ hod_remarks: remark, hod_review_status: 'reviewed' })
+      }).then(r => r.json()).then(res => {
+        if (res.ok) {
+          showToast('💬 Comment saved');
+          if (currentSubmissionId) loadFacultySubmissions();
+        }
+      });
+    }
+
+    function deleteFacSub(id) {
+      if (!confirm('Delete this faculty submission permanently?')) return;
+      fetch('/erp/api/faculty-delete/' + id, { method: 'POST' }).then(r => r.json()).then(res => {
+        if (res.ok) {
+          showToast('Deleted');
+          document.getElementById('fs_' + id)?.remove();
+          if (currentSubmissionId) loadFacultySubmissions();
+        }
+      });
+    }
+
+    function setVal(id, val) {
+      const el = document.getElementById(id);
+      if (el && val !== undefined) el.value = val;
+    }
+
+    // ─── Share Link Generation ───
+    function saveAndGenerateLink() {
+      const campus = document.getElementById('f_campus').value;
+      const dept = document.getElementById('f_dept').value;
+      const hodName = document.getElementById('f_hod_name').value;
+      if (!campus || !dept || !hodName) {
+        showToast('⚠ Please fill Campus, Department & HOD Name (Step 1) before sharing');
+        goTo(0);
+        return;
+      }
+
+      const payload = collectData();
+      payload._draft = true;
+
+      fetch('/erp/api/submit', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      }).then(r => r.json()).then(res => {
+        if (res.ok) {
+          currentSubmissionId = res.id;
+          currentShareToken = res.share_token;
+          showShareLink(currentShareToken);
+          showToast('✓ Form saved! Share link is ready below.');
+        } else {
+          showToast('⚠ ' + (res.error || 'Failed to save'));
+        }
+      });
+    }
+
+    function saveDraftManual(silent = false) {
+      const campus = document.getElementById('f_campus').value;
+      const dept = document.getElementById('f_dept').value;
+      const hodName = document.getElementById('f_hod_name').value;
+      if (!campus || !dept || !hodName) {
+        if (!silent) {
+          showToast('⚠ Please fill Campus, Department & HOD Name (Step 1) before saving draft');
+          goTo(0);
+        }
+        return;
+      }
+
+      const payload = collectData();
+      payload._draft = true;
+
+      fetch('/erp/api/submit', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      }).then(r => r.json()).then(res => {
+        if (res.ok) {
+          currentSubmissionId = res.id;
+          currentShareToken = res.share_token;
+          if (!silent) {
+            showToast('✓ Progress saved as Draft!');
+            loadDashboard();
+          }
+        } else {
+          if (!silent) {
+            showToast('⚠ ' + (res.error || 'Failed to save draft'));
+          }
+        }
+      });
+    }
+
+    function showShareLink(token) {
+      const url = window.location.origin + '/erp/faculty-form/' + token;
+      document.getElementById('shareLinkInput').value = url;
+      document.getElementById('preShareCard').style.display = 'none';
+      document.getElementById('shareSection').style.display = 'block';
+      loadFacultySubmissions();
+    }
+
+    function copyShareLink() {
+      const input = document.getElementById('shareLinkInput');
+      input.select();
+      navigator.clipboard.writeText(input.value).then(() => {
+        showToast('✓ Link copied to clipboard');
+      });
+    }
+
+    function downloadHodChecklist() {
+      if (!currentSubmissionId) {
+        showToast('⚠ Please save the form first');
+        return;
+      }
+      window.location.href = '/erp/api/export-hod-checklist/' + currentSubmissionId;
+      showToast('📥 Downloading HOD checklist…');
+    }
+
+    function downloadFullReport() {
+      if (!currentSubmissionId) {
+        showToast('⚠ Please save the form first');
+        return;
+      }
+      window.location.href = '/erp/api/export/' + currentSubmissionId;
+      showToast('📊 Downloading full report…');
+    }
+
+    function loadFacultySubmissions() {
+      if (!currentSubmissionId) return;
+      fetch('/erp/api/faculty-submissions/' + currentSubmissionId).then(r => r.json()).then(res => {
+        const list = document.getElementById('facSubList');
+        const countText = document.getElementById('facSubCountText');
+        if (!res.ok || !res.submissions.length) {
+          list.innerHTML = '<div class="fs-empty">No faculty have submitted yet. Share the link above to get started.</div>';
+          countText.textContent = 'No submissions yet';
+          updateNotifBadge(0, 0);
+          return;
+        }
+        const subs = res.submissions;
+        const pending = subs.filter(f => !f.hod_review_status || f.hod_review_status === 'pending').length;
+        countText.textContent = `${subs.length} submission(s) · ${pending} pending review`;
+        list.innerHTML = subs.map(f => renderFacSubCard(f, false)).join('');
+        updateNotifBadge(subs.length, pending);
+      });
+    }
+
+    function updateNotifBadge(total, pending) {
+      const badge = document.getElementById('facNotifBadge');
+      if (!badge) return;
+      if (pending > 0) {
+        badge.textContent = pending + ' new';
+        badge.style.display = 'inline';
+      } else {
+        badge.style.display = 'none';
+      }
+    }
+
+
+    // ─── HOD Checklist ───
+    function buildHodChecklist() {
+      const card = document.getElementById('hodChkCard');
+      let html = '<div class="card-header"><div class="ch-icon">📋</div><div><div class="ch-title">HOD-Level Readiness Checklist</div><div class="ch-sub">Items the HOD personally verifies (faculty-level items moved to shared faculty form)</div></div></div>';
+      HOD_SECTIONS.forEach(sec => {
+        html += `<div class="chk-section-title">${sec.title}</div>`;
+        sec.items.forEach(item => {
+          if (item.id === '28') {
+            html += `<div class="chk-row">
+              <span class="chk-num">${item.id}</span>
+              <span class="chk-text" style="font-weight: bold; color: var(--navy);">${item.text} <span class="req">*</span></span>
+              <input type="date" class="chk-sel" id="chk_${item.id}" style="min-width: 140px; font-weight: bold;">
+              <input class="chk-remark" type="text" id="rem_${item.id}" placeholder="Notes / link" style="flex:1">
+            </div>`;
+          } else {
+            html += `<div class="chk-row">
+              <span class="chk-num">${item.id}</span>
+              <span class="chk-text">${item.text}</span>
+              <select class="chk-sel" id="chk_${item.id}" onchange="styleChkSel(this)">
+                <option value="">— select —</option>
+                <option value="Yes">Yes</option><option value="No">No</option><option value="N/A">N/A</option>
+              </select>
+              <input class="chk-remark" type="text" id="rem_${item.id}" placeholder="Notes / link" style="flex:1">
+            </div>`;
+          }
+        });
+      });
+      card.innerHTML = html;
+    }
+
+    function styleChkSel(sel) {
+      sel.className = sel.className.replace(/\b(yes|no|na)\b/g, '').trim();
+      const v = sel.value;
+      if (v === 'Yes') sel.classList.add('yes');
+      else if (v === 'No') sel.classList.add('no');
+      else if (v === 'N/A') sel.classList.add('na');
+    }
+
+    // ─── Programs ───
+    function addProgRow() {
+      progCount++;
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td style="text-align:center;color:var(--ink3);font-size:12px;font-weight:700">${progCount}</td>
+        <td><input type="text" placeholder="e.g. B.Tech CSE" class="prog-name"></td>
+        <td><input type="number" min="0" placeholder="0" class="prog-courses" oninput="updateProgTotals()"></td>
+        <td><input type="number" min="0" placeholder="0" class="prog-students" oninput="updateProgTotals()"></td>
+        <td><input type="number" min="0" placeholder="0" class="prog-faculty" oninput="updateProgTotals()"></td>
+        <td><input type="text" placeholder="Coordinator name" class="prog-coord"></td>
+        <td><input type="email" placeholder="Email" class="prog-coord-email"></td>
+        <td><button class="del-btn" onclick="this.closest('tr').remove();updateProgTotals()" title="Remove">×</button></td>`;
+      document.getElementById('progBody').appendChild(tr);
+      updateProgTotals();
+    }
+
+    function updateProgTotals() {
+      const sum = cls => [...document.querySelectorAll('.' + cls)].reduce((a, el) => a + (+el.value || 0), 0);
+      const c = sum('prog-courses'), s = sum('prog-students'), f = sum('prog-faculty');
+      document.getElementById('ft_courses').textContent = c || '—';
+      document.getElementById('ft_students').textContent = s || '—';
+      document.getElementById('ft_faculty').textContent = f || '—';
+    }
+
+    // ─── Nav ───
+    function goTo(step) {
+      // Auto-save draft silently when moving between wizard steps
+      if (step > 0) {
+        saveDraftManual(true);
+      }
+      document.querySelectorAll('.section-page').forEach((p, i) => p.classList.toggle('active', i === step));
+      document.querySelectorAll('.ps').forEach((p, i) => {
+        p.classList.remove('active', 'done');
+        if (i === step) p.classList.add('active');
+        else if (i < step) p.classList.add('done');
+      });
+      // Auto-refresh faculty submissions on step 2 (Share & Review)
+      if (step === 1 && currentShareToken) loadFacultySubmissions();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // ─── Data Collection ───
+    const v = id => (document.getElementById(id) || {}).value || '';
+
+    function collectData() {
+      const progs = [];
+      document.querySelectorAll('#progBody tr').forEach(tr => {
+        const name = tr.querySelector('.prog-name')?.value || '';
+        if (name) progs.push({
+          name, courses: tr.querySelector('.prog-courses')?.value || '',
+          students: tr.querySelector('.prog-students')?.value || '',
+          faculty: tr.querySelector('.prog-faculty')?.value || '',
+          coord: tr.querySelector('.prog-coord')?.value || '',
+          coordEmail: tr.querySelector('.prog-coord-email')?.value || ''
+        });
+      });
+
+      const chk = {};
+      HOD_SECTIONS.forEach(sec => sec.items.forEach(item => {
+        chk[item.id] = { status: v(`chk_${item.id}`), remark: v(`rem_${item.id}`) };
+      }));
+
+      const payload = {
+        identity: {
+          submitterEmail: USER.email, submitterName: USER.name,
+          campus: v('f_campus'), dept: v('f_dept'),
+          hodName: v('f_hod_name'), hodEmail: v('f_hod_email'),
+          semester: v('f_semester'), acYear: v('f_ac_year'),
+          subDate: v('f_sub_date'), hodDeadline: v('f_hod_deadline')
+        },
+        programs: progs, hodChecklist: chk,
+        form_type: 'readiness'
+      };
+      if (currentSubmissionId) payload._id = currentSubmissionId;
+      return payload;
+    }
+
+    function pill(val) {
+      if (!val) return '<span class="pill p-blank">—</span>';
+      if (val === 'Yes') return '<span class="pill p-yes">✓ Yes</span>';
+      if (val === 'No') return '<span class="pill p-no">✗ No</span>';
+      return `<span class="pill p-blank">${val}</span>`;
+    }
+
+    function buildReview() {
+      const d = collectData();
+      document.getElementById('reviewContent').innerHTML = generateReviewHTML(d);
+    }
+
+    function generateReviewHTML(d) {
+      const vals = d.hodChecklist ? Object.values(d.hodChecklist) : [];
+      const yesN = vals.filter(x => x.status === 'Yes').length;
+      const noN = vals.filter(x => x.status === 'No').length;
+      const total = vals.length || 22;
+      const allItems = HOD_SECTIONS.flatMap(s => s.items);
+      const shareUrl = (d.share_token || currentShareToken) ? (window.location.origin + '/erp/faculty-form/' + (d.share_token || currentShareToken)) : null;
+
+      return `
+      ${shareUrl ? `<div class="share-card"><h3>🔗 Faculty Share Link</h3><div class="share-link-row"><input type="text" readonly value="${shareUrl}"><button class="share-copy-btn" onclick="navigator.clipboard.writeText('${shareUrl}'); this.textContent='✓'">📋</button></div></div>` : ''}
+      <div class="rev-block">
+        <div class="rev-header">Department Identity<span class="rev-badge">${d.identity?.campus || '—'}</span></div>
+        <div class="rev-body">
+          <div class="rb-row"><span class="rb-label">Department</span><span class="rb-val">${d.identity?.dept || '—'}</span></div>
+          <div class="rb-row"><span class="rb-label">HOD</span><span class="rb-val">${d.identity?.hodName || '—'} · ${d.identity?.hodEmail || '—'}</span></div>
+          <div class="rb-row"><span class="rb-label">Semester</span><span class="rb-val">${d.identity?.semester || '—'} · A.Y. ${d.identity?.acYear || '—'}</span></div>
+          <div class="rb-row"><span class="rb-label">Mid Sem Review Date</span><span class="rb-val" style="font-weight: 700; color: var(--navy);">${d.hodChecklist?.['28']?.status || '—'}</span></div>
+        </div>
+      </div>
+      <div class="rev-block">
+        <div class="rev-header">Programs <span class="rev-badge">${d.programs?.length || 0} added</span></div>
+        <div class="rev-body">
+          ${d.programs?.length ? d.programs.map(p => `<div class="rb-row"><span class="rb-label">${p.name}</span><span class="rb-val" style="font-size:13px">${p.courses || '?'} courses · ${p.students || '?'} students · ${p.faculty || '?'} faculty</span></div>`).join('') : '<span style="color:var(--ink3)">No programs entered</span>'}
+        </div>
+      </div>
+      <div class="rev-block">
+        <div class="rev-header">HOD Checklist <span class="rev-badge">${yesN}/${total} Yes · ${noN} gaps</span></div>
+        <div class="rev-body">
+          ${noN > 0 ? `<div class="gap-list"><strong style="color:var(--danger)">⚠ ${noN} item(s) marked No:</strong><br>${allItems.filter(i => d.hodChecklist && d.hodChecklist[i.id]?.status === 'No').map(i => `<div class="gap-item">• ${i.id}. ${i.text}</div>`).join('')}</div>` : '<span style="color:var(--success)">✓ No items marked No — checklist looks complete</span>'}
+        </div>
+      </div>`;
+    }
+
+    function submitForm() {
+      const d = collectData();
+      if (!d.identity.campus || !d.identity.dept || !d.identity.hodName) {
+        showToast('⚠ Please fill Campus, Department & HOD Name (Step 1)'); return;
+      }
+      const noN = Object.values(d.hodChecklist).filter(x => x.status === 'No').length;
+      if (noN > 0 && !confirm(`${noN} checklist item(s) are marked "No". Submit anyway?`)) return;
+
+      d._draft = false; // Finalize submission
+
+      fetch('/erp/api/submit', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(d)
+      }).then(r => r.json()).then(res => {
+        if (res.ok) {
+          document.querySelectorAll('.section-page').forEach(p => p.classList.remove('active'));
+          document.getElementById('successScreen').classList.add('active');
+          document.getElementById('mainProgBar').style.display = 'none';
+        } else {
+          showToast('⚠ ' + (res.error || 'Submission failed'));
+        }
+      });
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg; t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 3200);
+    }
+
+    function openWorkflowModal() {
+      document.getElementById('workflowModal').classList.add('show');
+    }
+    function closeWorkflowModal() {
+      document.getElementById('workflowModal').classList.remove('show');
+    }
+
+    // ─── Init ───
+    buildHodChecklist();
+    document.getElementById('f_sub_date').value = new Date().toISOString().split('T')[0];
+    if (VIEW_MODE === 'form') {
+      if (EDIT_ID) {
+        editSubmission(EDIT_ID);
+      } else {
+        startNewForm();
+      }
+    } else {
+      loadDashboard();
+    }
+  </script>
+
+  <!-- Workflow Modal -->
+  <div class="view-modal" id="workflowModal">
+    <div class="vm-content" style="max-width: 800px; text-align: left;">
+      <button class="vm-close" onclick="closeWorkflowModal()">✕</button>
+      <div
+        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; border-bottom: 1px solid #eee; padding-bottom: 16px; flex-wrap: wrap; gap: 12px;">
+        <h2 style="font-size: 22px; color: var(--navy); margin-bottom: 0; font-family: 'Playfair Display', serif;">
+          Portal Workflow</h2>
+        <a href="/static/uploads/Workflow.pdf" target="_blank" class="btn btn-primary"
+          style="background: linear-gradient(135deg, #ff9900, #ff5500); border-color: transparent; box-shadow: 0 4px 12px rgba(255, 85, 0, 0.2); font-size: 13px; padding: 8px 16px; text-decoration: none; color: #fff;">
+          📄 Download PDF Manual
+        </a>
+      </div>
+
+      <div class="workflow-grid"
+        style="display: flex; align-items: stretch; justify-content: space-between; gap: 14px; flex-wrap: wrap; text-align: left; width: 100%;">
+        <div class="step-card step-1"
+          style="flex: 1; min-width: 200px; border: 1px solid #eee; border-radius: 12px; padding: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.02); transition: transform 0.2s;">
+          <div class="step-badge"
+            style="background: linear-gradient(135deg, #0a2558, #1e40af); color: #fff; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; border-radius: 8px; font-weight: 800; margin-bottom: 14px;">
+            1</div>
+          <h4 style="color: var(--navy); font-size: 15px; font-weight: 700; margin-bottom: 8px;">Login &amp; Initiate
+          </h4>
+          <p style="color: var(--ink3); font-size: 13px; line-height: 1.5; margin: 0;">Head of Department (HOD)
+            authenticates securely via the portal using their registered email. Once logged in, you will select the
+            academic year and semester (Even or Odd) to initiate either the Semester Readiness or Semester Closure
+            Report.</p>
+        </div>
+
+        <div class="workflow-arrow"
+          style="display: flex; align-items: center; justify-content: center; font-size: 24px; color: var(--navy); font-weight: 800; opacity: 0.6;">
+          ➔</div>
+
+        <div class="step-card step-2"
+          style="flex: 1; min-width: 200px; border: 1px solid #eee; border-radius: 12px; padding: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.02); transition: transform 0.2s;">
+          <div class="step-badge"
+            style="background: linear-gradient(135deg, #7c3aed, #4f46e5); color: #fff; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; border-radius: 8px; font-weight: 800; margin-bottom: 14px;">
+            2</div>
+          <h4 style="color: var(--navy); font-size: 15px; font-weight: 700; margin-bottom: 8px;">Complete &amp; Link
+          </h4>
+          <p style="color: var(--ink3); font-size: 13px; line-height: 1.5; margin: 0;">HOD fills the identity and goes to share to faculty, generates the link and shares to the faculty.</p>
+        </div>
+
+        <div class="workflow-arrow"
+          style="display: flex; align-items: center; justify-content: center; font-size: 24px; color: var(--navy); font-weight: 800; opacity: 0.6;">
+          ➔</div>
+
+        <div class="step-card step-3"
+          style="flex: 1; min-width: 200px; border: 1px solid #eee; border-radius: 12px; padding: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.02); transition: transform 0.2s;">
+          <div class="step-badge"
+            style="background: linear-gradient(135deg, #ec4899, #db2777); color: #fff; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; border-radius: 8px; font-weight: 800; margin-bottom: 14px;">
+            3</div>
+          <h4 style="color: var(--navy); font-size: 15px; font-weight: 700; margin-bottom: 8px;">Share &amp; Faculty
+          </h4>
+          <p style="color: var(--ink3); font-size: 13px; line-height: 1.5; margin: 0;">Once faculty filled, you will get notification.</p>
+        </div>
+
+        <div class="workflow-arrow"
+          style="display: flex; align-items: center; justify-content: center; font-size: 24px; color: var(--navy); font-weight: 800; opacity: 0.6;">
+          ➔</div>
+
+        <div class="step-card step-4"
+          style="flex: 1; min-width: 200px; border: 1px solid #eee; border-radius: 12px; padding: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.02); transition: transform 0.2s;">
+          <div class="step-badge"
+            style="background: linear-gradient(135deg, #10b981, #059669); color: #fff; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; border-radius: 8px; font-weight: 800; margin-bottom: 14px;">
+            4</div>
+          <h4 style="color: var(--navy); font-size: 15px; font-weight: 700; margin-bottom: 8px;">Complete &amp; Submit</h4>
+          <p style="color: var(--ink3); font-size: 13px; line-height: 1.5; margin: 0;">Go to checkpoint, fill and submit to OoA.</p>
+        </div>
+      </div>
+
+      <style>
+        .workflow-arrow {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 24px;
+          color: var(--navy);
+          font-weight: 800;
+          opacity: 0.6;
+          transition: all 0.3s;
+        }
+
+        @media (max-width: 992px) {
+          .workflow-arrow {
+            transform: rotate(90deg);
+            margin: 10px 0;
+            width: 100%;
+            text-align: center;
+          }
+        }
+      </style>
+
+      <div style="display: flex; justify-content: flex-end; margin-top: 24px;">
+        <button class="btn btn-ghost"
+          style="border: 1px solid var(--navy); font-weight: 700; border-radius: 6px; padding: 8px 16px; color: var(--navy);"
+          onclick="closeWorkflowModal()">Close</button>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

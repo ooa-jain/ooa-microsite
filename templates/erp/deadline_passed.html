@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Submission Deadline Passed - JAIN Portal</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,700;1,600&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --navy: #0a2558;
+      --gold: #f2a900;
+      --gold2: #d48c00;
+      --ink: #1e293b;
+      --ink2: #475569;
+      --ink3: #94a3b8;
+      --border: #e2e8f0;
+      --bg: #f8fafc;
+      --r: 16px;
+      --sh: 0 12px 30px rgba(10, 37, 88, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #f0f4f8 0%, #dbeafe 100%);
+      color: var(--ink);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      border-radius: var(--r);
+      max-width: 500px;
+      width: 100%;
+      padding: 36px;
+      text-align: center;
+      box-shadow: var(--sh);
+    }
+
+    .icon-wrap {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      background: #fef2f2;
+      border: 2px dashed #ef4444;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      color: #ef4444;
+      font-size: 28px;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.2);
+      }
+
+      70% {
+        transform: scale(1.05);
+        box-shadow: 0 0 0 10px rgba(239, 68, 68, 0);
+      }
+
+      100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
+      }
+    }
+
+    h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 26px;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+
+    .badge {
+      display: inline-block;
+      background: #fee2e2;
+      color: #991b1b;
+      font-weight: 700;
+      font-size: 11px;
+      padding: 4px 12px;
+      border-radius: 99px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 16px;
+    }
+
+    p {
+      color: var(--ink2);
+      font-size: 14px;
+      line-height: 1.5;
+      margin-bottom: 20px;
+    }
+
+    .deadline-box {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px;
+      margin-bottom: 24px;
+      text-align: left;
+    }
+
+    .deadline-title {
+      font-size: 10px;
+      font-weight: 800;
+      color: var(--ink3);
+      text-transform: uppercase;
+      margin-bottom: 2px;
+      display: block;
+    }
+
+    .deadline-time {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--navy);
+      color: #fff;
+      font-weight: 700;
+      font-size: 13px;
+      padding: 10px 24px;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: all 0.2s;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(10, 37, 88, 0.15);
+    }
+
+    .btn:hover {
+      background: var(--gold);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(242, 169, 0, 0.25);
+    }
+
+    .btn:disabled {
+      background: var(--ink3);
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="card">
+    <div class="icon-wrap">🔒</div>
+    <span class="badge">Deadline Passed</span>
+    <h2>Access Closed</h2>
+    <p>The submission window for <strong>{{ module }}</strong> has officially closed. Portal access is disabled after
+      the last date.</p>
+
+    <div class="deadline-box">
+      <span class="deadline-title">Official Submission Deadline</span>
+      <div class="deadline-time">{{ deadline.replace('T', ' ') }}</div>
+    </div>
+
+    <!-- Request Access Form -->
+    <div id="request-section"
+      style="margin-top: 20px; border-top: 1px solid var(--border); padding-top: 20px; text-align: left;">
+      <h3 style="font-size: 15px; color: var(--navy); margin-bottom: 6px;">Request Special Late Access</h3>
+      <p style="font-size: 13px; margin-bottom: 12px; line-height: 1.4; color: var(--ink2);">If you need to submit late
+        or request an extension, send a request to the Office of Academics administration below:</p>
+
+      <div id="request-alert"
+        style="display: none; padding: 10px; border-radius: 6px; font-size: 13px; font-weight: 600; margin-bottom: 12px;">
+      </div>
+
+      <form id="extensionForm" onsubmit="submitExtensionRequest(event)">
+        <textarea id="comment" placeholder="Write your reason / comment for late access request..." required
+          style="width: 100%; min-height: 80px; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; font-family: inherit; font-size: 13px; margin-bottom: 12px; outline: none; resize: none;"></textarea>
+        <button type="submit" class="btn" style="width: 100%;">Notify Admin &amp; Request Access</button>
+      </form>
+    </div>
+
+    <div style="margin-top: 18px;">
+      <a href="/erp/"
+        style="color: var(--navy); font-weight: 700; font-size: 13px; text-decoration: none; display: inline-block;">Return
+        to Dashboard</a>
+    </div>
+  </div>
+
+  <script>
+    function submitExtensionRequest(e) {
+      e.preventDefault();
+      const comment = document.getElementById('comment').value;
+      const btn = e.target.querySelector('button');
+      btn.disabled = true;
+      btn.innerText = 'Sending Request...';
+
+      fetch('/erp/api/request-extension', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          comment: comment,
+          module: '{{ module }}'
+        })
+      }).then(r => r.json()).then(res => {
+        const alertDiv = document.getElementById('request-alert');
+        alertDiv.style.display = 'block';
+        if (res.ok) {
+          alertDiv.style.background = '#ecfdf5';
+          alertDiv.style.color = '#065f46';
+          alertDiv.style.border = '1px solid #a7f3d0';
+          alertDiv.innerText = '✓ Extension request sent successfully! Admin will be notified.';
+          document.getElementById('comment').value = '';
+          btn.innerText = 'Request Sent';
+        } else {
+          alertDiv.style.background = '#fef2f2';
+          alertDiv.style.color = '#991b1b';
+          alertDiv.style.border = '1px solid #fca5a5';
+          alertDiv.innerText = '✗ Error: ' + (res.error || 'Failed to send request.');
+          btn.disabled = false;
+          btn.innerText = 'Notify Admin & Request Access';
+        }
+      }).catch(err => {
+        console.error(err);
+        btn.disabled = false;
+        btn.innerText = 'Notify Admin & Request Access';
+      });
+    }
+  </script>
+</body>
+
+</html>

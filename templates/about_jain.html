@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/jain.png') }}" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>What is JAIN? — Office of Academics</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --navy: #102a56;
+      --navy-2: #1d3c74;
+      --gold: #ea580c;
+      --gold-2: #f7b500;
+      --gold-tint: #fff3e2;
+      --bg: #f5f6f8;
+      --surface: #ffffff;
+      --surface-2: #f8f9fb;
+      --ink: #131a2a;
+      --muted: #5b6680;
+      --faint: #8a93a8;
+      --border: #e7e9ef;
+      --border-2: #eef0f4;
+      --sh-2: 0 1px 3px rgba(16, 24, 40, 0.06), 0 1px 2px rgba(16, 24, 40, 0.04);
+      --sh-3: 0 6px 20px rgba(16, 24, 40, 0.06);
+      --sh-4: 0 16px 40px rgba(16, 24, 40, 0.10);
+      --r-xs: 8px;
+      --r-sm: 10px;
+      --r: 14px;
+      --r-lg: 18px;
+      --r-xl: 26px;
+      --maxw: 1280px;
+      --ease: cubic-bezier(0.4, 0, 0.2, 1);
+      --t: 0.22s var(--ease);
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box }
+    html { scroll-behavior: smooth }
+    body { font-family: 'DM Sans', system-ui, sans-serif; background: var(--bg); color: var(--ink); line-height: 1.6; overflow-x: hidden; -webkit-font-smoothing: antialiased }
+    button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit }
+    img { display: block; max-width: 100% }
+    a { text-decoration: none; color: inherit }
+    ::selection { background: var(--gold-2); color: var(--navy) }
+    .eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold) }
+
+    /* HEADER */
+    header { position: sticky; top: 0; z-index: 200; background: rgba(255,255,255,.86); backdrop-filter: blur(14px) saturate(1.4); -webkit-backdrop-filter: blur(14px) saturate(1.4); border-bottom: 1px solid var(--border); box-shadow: 0 1px 3px rgba(16,42,86,.07) }
+    .header-inner { max-width: var(--maxw); margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 0 32px; height: 72px }
+    .logo-wrap { display: flex; align-items: center; gap: 14px; flex-shrink: 0 }
+    .logo-wrap img { height: 52px; width: auto; filter: drop-shadow(0 2px 6px rgba(16,42,86,.18)) }
+    nav#mainNav { display: flex; align-items: center; gap: 4px }
+    .nav-link { position: relative; display: inline-flex; align-items: center; padding: 8px 16px; border-radius: 10px; font-size: 14px; font-weight: 500; color: var(--muted); transition: color .3s }
+    .nav-link i { margin-right: 6px; font-size: 13px; opacity: .85 }
+    .nav-link::after { content: ''; position: absolute; left: 16px; right: 16px; bottom: 4px; height: 2px; background: var(--gold-2); border-radius: 2px; transform: scaleX(0); transform-origin: left; transition: transform .3s ease }
+    .nav-link:hover::after, .nav-link.active::after { transform: scaleX(1) }
+    .nav-link:hover, .nav-link.active { color: var(--navy) }
+    .user-area { display: flex; align-items: center; gap: 10px; flex-shrink: 0 }
+    .btn-login { display: flex; align-items: center; gap: 8px; padding: 9px 22px; border-radius: 32px; background: linear-gradient(135deg, var(--navy), var(--navy-2)); color: #fff; font-size: 14px; font-weight: 600; box-shadow: 0 2px 10px rgba(16,42,86,.14); transition: var(--t) }
+    .btn-login:hover { background: var(--navy-2); transform: translateY(-1px); box-shadow: var(--sh-3) }
+    .user-dropdown { position: relative }
+    .user-btn { display: flex; align-items: center; gap: 8px; padding: 8px 16px; border-radius: 32px; background: linear-gradient(135deg, var(--navy), var(--navy-2)); color: #fff; font-size: 14px; font-weight: 600; cursor: pointer; transition: var(--t) }
+    .user-btn:hover { box-shadow: 0 8px 24px rgba(16,42,86,.18); transform: translateY(-1px) }
+    .user-btn .chevron { font-size: 11px; color: rgba(255,255,255,.8); transition: transform 0.25s var(--ease) }
+    .user-btn.open .chevron { transform: rotate(180deg) }
+    .dropdown-panel { display: none; position: absolute; right: 0; top: calc(100% + 10px); background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); box-shadow: var(--sh-4); min-width: 290px; overflow: hidden }
+    .dropdown-panel.show { display: block; animation: dropIn 0.2s var(--ease) }
+    @keyframes dropIn { from { opacity: 0; transform: translateY(-8px) } to { opacity: 1; transform: translateY(0) } }
+    .dp-head { padding: 16px 18px; background: linear-gradient(135deg, var(--navy), var(--navy-2)); color: #fff }
+    .dp-head .name { font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 16px }
+    .dp-head .email { font-size: 12px; opacity: 0.75; margin-top: 2px }
+    .dp-status { display: inline-flex; align-items: center; gap: 5px; margin-top: 12px; padding: 4px 11px; border-radius: 100px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em }
+    .dp-status.approved { background: rgba(34,197,94,0.18); color: #4ade80 }
+    .dp-status.pending { background: rgba(245,158,11,0.2); color: #fbbf24 }
+    .dp-item { display: flex; align-items: center; gap: 12px; padding: 13px 20px; font-size: 14px; font-weight: 500; color: var(--ink); border-bottom: 1px solid var(--border-2); transition: var(--t) }
+    .dp-item:last-child { border-bottom: none }
+    .dp-item:hover { background: var(--surface-2); padding-left: 24px; color: var(--navy) }
+    .dp-item i { width: 18px; color: var(--gold); font-size: 14px }
+    .nav-toggle { display: none; padding: 8px; border-radius: var(--r-xs); color: var(--navy); font-size: 22px }
+
+    /* TICKER */
+    .ticker { background: var(--navy); overflow: hidden }
+    .ticker-inner { display: flex; align-items: stretch; max-width: var(--maxw); margin: 0 auto }
+    .ticker-badge { background: var(--gold-2); color: var(--navy); padding: 11px 22px; font-size: 11.5px; font-weight: 800; white-space: nowrap; letter-spacing: 0.06em; text-transform: uppercase; display: flex; align-items: center; gap: 8px; flex-shrink: 0 }
+    .ticker-track { overflow: hidden; flex: 1; display: flex; align-items: center }
+    .ticker-text { display: inline-flex; animation: ticker-scroll 150s linear infinite; white-space: nowrap }
+    .ticker-track:hover .ticker-text { animation-play-state: paused }
+    .ticker-item { color: rgba(255,255,255,0.82); font-size: 13.5px; padding: 11px 28px; border-right: 1px solid rgba(255,255,255,0.1); cursor: pointer; transition: color 0.2s; font-weight: 500; display: inline-flex; align-items: center; gap: 8px }
+    .ticker-item a { color: inherit }
+    .ticker-item:hover { color: var(--gold-2) }
+    @keyframes ticker-scroll { 0% { transform: translateX(0) } 100% { transform: translateX(-50%) } }
+
+    /* FLASH */
+    .flash-container { max-width: var(--maxw); margin: 18px auto 0; padding: 0 28px }
+    .flash { padding: 14px 20px; border-radius: var(--r-sm); margin-bottom: 10px; font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 10px; border: 1px solid transparent }
+    .flash.success { background: #f0fdf4; color: #166534; border-color: #bbf7d0 }
+    .flash.error { background: #fef2f2; color: #991b1b; border-color: #fecaca }
+    .flash.info { background: #eff6ff; color: #1e40af; border-color: #bfdbfe }
+
+    .page-wrapper { max-width: var(--maxw); margin: 0 auto; padding: 36px 28px }
+
+    /* HERO */
+    .about-hero { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-xl); box-shadow: var(--sh-2); padding: 54px 56px; margin-bottom: 40px; position: relative; overflow: hidden }
+    .about-hero::after { content: ''; position: absolute; top: -120px; right: -90px; width: 360px; height: 360px; border-radius: 50%; background: radial-gradient(circle at 30% 30%, rgba(247,181,0,0.14), transparent 70%); pointer-events: none }
+    .about-hero .eyebrow { margin-bottom: 16px; display: block }
+    .about-hero h1 { font-family: 'Outfit', sans-serif; font-size: clamp(1.9rem, 3.8vw, 2.8rem); font-weight: 800; color: var(--navy); letter-spacing: -0.025em; line-height: 1.12; max-width: 24ch; margin-bottom: 22px }
+    .about-hero h1 .accent { color: var(--gold) }
+    .about-hero p { font-size: 1.06rem; line-height: 1.7; color: var(--muted); max-width: 64ch }
+    .hero-chips { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 26px; position: relative; z-index: 1 }
+    .hero-chip { display: inline-flex; align-items: center; gap: 8px; padding: 9px 16px; border-radius: 100px; background: var(--surface-2); border: 1px solid var(--border); font-size: 13px; font-weight: 600; color: var(--navy) }
+    .hero-chip i { color: var(--gold-2); font-size: 12px }
+
+    /* NUMBERS */
+    .numbers-section { display: grid; grid-template-columns: 0.85fr 1.15fr; gap: 56px; align-items: center }
+    .numbers-intro .eyebrow { margin-bottom: 14px; display: block }
+    .numbers-intro h2 { font-family: 'Outfit', sans-serif; font-size: 2.1rem; font-weight: 800; color: var(--navy); letter-spacing: -0.025em; line-height: 1.12 }
+    .numbers-intro p { margin-top: 16px; font-size: 15px; line-height: 1.7; color: var(--muted); max-width: 42ch }
+    .deck-controls { display: flex; align-items: center; gap: 18px; margin-top: 30px }
+    .deck-arrows { display: flex; gap: 10px }
+    .deck-arrow { width: 50px; height: 50px; border-radius: 50%; background: var(--surface); border: 1px solid var(--border); color: var(--navy); font-size: 16px; display: flex; align-items: center; justify-content: center; transition: var(--t) }
+    .deck-arrow:hover { background: var(--navy); color: #fff; border-color: var(--navy); transform: translateY(-2px); box-shadow: var(--sh-3) }
+    .deck-counter { font-family: 'Outfit', sans-serif; font-weight: 700; color: var(--navy); font-size: 15px; letter-spacing: 0.02em }
+    .deck-counter .cur { font-size: 1.5rem }
+    .deck-counter .sep { color: var(--faint); margin: 0 4px }
+    .deck-counter .tot { color: var(--faint) }
+    .deck-dots { display: flex; gap: 8px; margin-top: 22px; flex-wrap: wrap }
+    .deck-dot { width: 9px; height: 9px; border-radius: 50%; background: #cdd3df; cursor: pointer; transition: var(--t); border: none; padding: 0 }
+    .deck-dot:hover { background: var(--navy-2) }
+    .deck-dot.active { background: var(--gold-2); width: 28px; border-radius: 10px }
+    .deck-stage { position: relative; height: 400px; display: flex; align-items: center; justify-content: center }
+    .deck { position: relative; width: 420px; height: 340px }
+    .num-card { position: absolute; inset: 0; border-radius: var(--r-lg); background: linear-gradient(155deg, #1c3f7a 0%, var(--navy) 58%, #0b1f44 100%); border: 1px solid rgba(247,181,0,0.22); box-shadow: 0 24px 50px rgba(11,23,53,0.34); padding: 38px 38px 34px; color: #fff; overflow: hidden; display: flex; flex-direction: column; cursor: pointer; transition: transform 0.62s cubic-bezier(0.22,0.61,0.36,1), opacity 0.45s var(--ease); will-change: transform, opacity }
+    .num-card::before { content: ''; position: absolute; top: -90px; right: -70px; width: 240px; height: 240px; border-radius: 50%; background: radial-gradient(circle at 35% 35%, rgba(247,181,0,0.18), transparent 68%); pointer-events: none }
+    .nc-index { position: absolute; top: 26px; right: 32px; font-family: 'Outfit', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 0.18em; color: rgba(255,255,255,0.45) }
+    .nc-ic { width: 56px; height: 56px; border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 22px; background: rgba(247,181,0,0.14); color: var(--gold-2); border: 1px solid rgba(247,181,0,0.28); margin-bottom: auto }
+    .nc-num { font-family: 'Outfit', sans-serif; font-size: 3.6rem; font-weight: 800; color: var(--gold-2); line-height: 1; letter-spacing: -0.03em; margin-top: 18px }
+    .nc-num .unit { font-size: 1.5rem; font-weight: 700; color: #fff; margin-left: 6px; letter-spacing: 0 }
+    .nc-label { font-family: 'Outfit', sans-serif; font-size: 1.25rem; font-weight: 700; color: #fff; margin-top: 10px; letter-spacing: -0.01em }
+    .nc-desc { font-size: 13.5px; line-height: 1.6; color: rgba(255,255,255,0.7); margin-top: 8px; max-width: 32ch }
+    .deck-hint { text-align: center; margin-top: 14px; font-size: 12px; color: var(--faint); display: flex; align-items: center; justify-content: center; gap: 7px; font-weight: 600 }
+    .deck-hint i { color: var(--gold-2) }
+
+    /* CLOSING BAND */
+    .closing-band { margin-top: 48px; background: var(--navy); border-radius: var(--r-xl); padding: 44px 48px; display: flex; align-items: center; justify-content: space-between; gap: 28px; flex-wrap: wrap; position: relative; overflow: hidden }
+    .closing-band::after { content: ''; position: absolute; bottom: -100px; left: 30%; width: 320px; height: 320px; border-radius: 50%; background: radial-gradient(circle, rgba(247,181,0,0.1), transparent 70%); pointer-events: none }
+    .closing-band .cb-text h3 { font-family: 'Outfit', sans-serif; font-size: 1.6rem; font-weight: 800; color: #fff; letter-spacing: -0.02em }
+    .closing-band .cb-text p { color: rgba(255,255,255,0.72); font-size: 14.5px; margin-top: 6px; max-width: 52ch }
+    .cb-btn { display: inline-flex; align-items: center; gap: 9px; padding: 14px 28px; border-radius: 100px; background: var(--gold-2); color: var(--navy); font-weight: 700; font-size: 14.5px; transition: var(--t); position: relative; z-index: 1; white-space: nowrap }
+    .cb-btn:hover { background: #fff; transform: translateY(-2px); box-shadow: var(--sh-4) }
+
+    /* FOOTER */
+    footer { background: var(--navy); color: #fff; padding: 56px 28px 28px; margin-top: 64px }
+    .footer-inner { max-width: var(--maxw); margin: 0 auto; display: grid; grid-template-columns: 1.4fr 1fr 1.2fr; gap: 48px }
+    .fc h3 { font-family: 'Outfit', sans-serif; font-size: 16px; color: var(--gold-2); margin-bottom: 16px; font-weight: 700 }
+    .fc p { font-size: 14px; opacity: 0.72; line-height: 1.7 }
+    .fc ul { list-style: none }
+    .fc ul li { margin-bottom: 10px }
+    .fc ul li a { font-size: 14px; opacity: 0.72; display: inline-flex; align-items: center; gap: 9px; transition: var(--t) }
+    .fc ul li a i { color: var(--gold-2); font-size: 11px; width: 14px }
+    .fc ul li a:hover { opacity: 1; color: var(--gold-2) }
+    .socials { display: flex; gap: 11px; margin-top: 16px }
+    .social-icon { width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,0.08); display: flex; align-items: center; justify-content: center; transition: var(--t); border: 1px solid rgba(255,255,255,0.14) }
+    .social-icon:hover { background: var(--gold-2); color: var(--navy); transform: translateY(-2px) }
+    .footer-bottom { max-width: var(--maxw); margin: 36px auto 0; padding-top: 22px; border-top: 1px solid rgba(255,255,255,0.12); text-align: center; font-size: 13px; opacity: 0.6 }
+
+    :focus-visible { outline: 2px solid var(--gold-2); outline-offset: 2px }
+
+    @media (max-width: 980px) {
+      .numbers-section { grid-template-columns: 1fr; gap: 36px }
+      .numbers-intro { text-align: center }
+      .numbers-intro p { margin-left: auto; margin-right: auto }
+      .deck-controls, .deck-dots { justify-content: center }
+      .footer-inner { grid-template-columns: 1fr 1fr; gap: 32px }
+    }
+    @media (max-width: 768px) {
+      .header-inner { padding: 0 20px; height: 64px }
+      nav#mainNav { display: none; flex-direction: column; align-items: stretch; position: absolute; top: 64px; left: 0; right: 0; background: var(--surface); padding: 16px; box-shadow: var(--sh-3); border-bottom: 1px solid var(--border); gap: 4px }
+      nav#mainNav.show { display: flex }
+      .nav-toggle { display: flex }
+    }
+    @media (max-width: 720px) {
+      .about-hero { padding: 38px 26px }
+      .deck { width: 300px; height: 320px }
+      .num-card { padding: 30px 28px }
+      .nc-num { font-size: 2.9rem }
+      .closing-band { padding: 32px 26px }
+      .footer-inner { grid-template-columns: 1fr }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .ticker-text { animation: none }
+      .num-card { transition: none }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="header-inner">
+      <div class="logo-wrap">
+        <img src="{{ url_for('static', filename='images/L23.png') }}" alt="Jain University"
+          onerror="this.src='https://via.placeholder.com/52x52/04043a/FFD700?text=JU'">
+      </div>
+      <button class="nav-toggle" onclick="toggleMobileNav()" aria-label="Menu"><i class="fas fa-bars"></i></button>
+      <nav class="main-nav" id="mainNav">
+        <a href="{{ url_for('home') }}" class="nav-link"><i class="fas fa-home"></i>Jain Hub</a>
+        <a href="{{ url_for('about_jain') }}" class="nav-link active"><i class="fas fa-circle-info"></i>About JAIN</a>
+        <a href="#" class="nav-link"><i class="fas fa-university"></i>Campus</a>
+        <a href="#" class="nav-link" onclick="startTour();return false;"><i class="fas fa-route"></i>Tour</a>
+        <a href="#" class="nav-link"><i class="fas fa-clock"></i>Take 15 Mins</a>
+      </nav>
+      <div class="user-area">
+        {% if user_logged_in %}
+        <div class="user-dropdown">
+          <div class="user-btn" id="userBtn" onclick="toggleDropdown(event)">
+            <i class="fas fa-user-circle"></i>
+            <span>{{ user_email.split('@')[0] }}</span>
+            <i class="fas fa-chevron-down chevron"></i>
+          </div>
+          <div class="dropdown-panel" id="userDropdown">
+            <div class="dp-head">
+              <div class="name">{{ user_email.split('@')[0] }}</div>
+              <div class="email">{{ user_email }}</div>
+              {% if user_department %}
+              <div style="display:flex;align-items:center;gap:5px;margin-top:6px;font-size:11px;color:rgba(255,255,255,.8)">
+                <i class="fas fa-building" style="color:var(--gold-2);font-size:10px"></i>
+                <span>{{ user_department }}</span>
+              </div>
+              {% endif %}
+              {% if user_location %}
+              <div style="display:flex;align-items:center;gap:5px;margin-top:3px;font-size:11px;color:rgba(255,255,255,.7)">
+                <i class="fas fa-map-marker-alt" style="color:var(--gold-2);font-size:10px"></i>
+                <span>{{ user_location }}</span>
+              </div>
+              {% endif %}
+              {% if not approved %}
+              <span class="dp-status pending"><i class="fas fa-clock"></i> Pending Approval</span>
+              {% else %}
+              <span class="dp-status approved"><i class="fas fa-check-circle"></i> Approved</span>
+              {% endif %}
+            </div>
+            {% if approved %}
+            {% if user_role == 'user' %}
+            <a href="{{ url_for('dept_repo') }}" class="dp-item"><i class="fas fa-folder-open"></i> My Files &amp; Dept Repository</a>
+            {% endif %}
+            {% if user_role == 'user' and (user_type == 'core' or special_role == 'office_barrier') %}
+            <a href="{{ url_for('core_repo') }}" class="dp-item"><i class="fas fa-cloud-upload-alt"></i> Upload to Departments</a>
+            <a href="{{ url_for('core_dashboard') }}" class="dp-item"><i class="fas fa-tachometer-alt"></i> Core Dashboard</a>
+            {% endif %}
+            {% if user_role == 'user' and special_role == 'leader' %}<a href="{{ url_for('leader_dashboard') }}" class="dp-item"><i class="fas fa-crown"></i> Admin Dashboard</a>{% endif %}
+            {% if user_role == 'admin' %}<a href="{{ url_for('admin_dashboard') }}" class="dp-item"><i class="fas fa-tachometer-alt"></i> Admin Dashboard</a>{% endif %}
+            {% else %}
+            <div style="padding:16px;text-align:center;font-size:13px;color:var(--muted)"><i class="fas fa-info-circle" style="font-size:2rem;color:#e74c3c;margin-bottom:8px;display:block"></i>Awaiting admin approval</div>
+            {% endif %}
+            <a href="{{ url_for('logout') }}" class="dp-item" onclick="return confirm('Logout?')"><i class="fas fa-sign-out-alt"></i> Logout</a>
+          </div>
+        </div>
+        {% else %}
+        <a href="{{ url_for('login') }}" class="btn-login"><i class="fas fa-sign-in-alt"></i> Login</a>
+        {% endif %}
+      </div>
+    </div>
+  </header>
+
+  <!-- TICKER -->
+  <div class="ticker">
+    <div class="ticker-inner">
+      <div class="ticker-badge"><i class="fas fa-calendar-day"></i> Today's Events</div>
+      <div class="ticker-track">
+        <div class="ticker-text" id="tickerText">
+          {% if today_events and today_events|length > 0 %}
+          {% for event in today_events %}
+          <span class="ticker-item">
+            <i class="fas fa-calendar-check" style="color:var(--gold-2);margin-right:5px"></i>{{ event.event_name }}
+          </span>
+          {% endfor %}
+          {% else %}
+          <span class="ticker-item"><a href="{{ url_for('jainevents') }}">No events scheduled for today</a></span>
+          {% endif %}
+          <span class="ticker-item"><a href="{{ url_for('jainevents') }}"><i class="fas fa-arrow-right" style="margin-right:5px"></i>View all events</a></span>
+          {% if today_events and today_events|length > 0 %}
+          {% for event in today_events %}
+          <span class="ticker-item">{{ event.event_name }}</span>
+          {% endfor %}
+          {% endif %}
+          <span class="ticker-item"><a href="{{ url_for('jainevents') }}">View all events</a></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+  <div class="flash-container">
+    {% for category, message in messages %}
+    <div class="flash {{ category }}">{{ message }}</div>
+    {% endfor %}
+  </div>
+  {% endif %}
+  {% endwith %}
+
+  <!-- ============ MAIN ============ -->
+  <div class="page-wrapper">
+
+    <!-- ABOUT HERO -->
+    <section class="about-hero">
+      <span class="eyebrow">What is JAIN?</span>
+      <h1>A <span class="accent">Deemed-to-be University</span> shaping future-ready leaders</h1>
+      <p>Jain (Deemed-to-be University) is one of India's leading private universities — a multidisciplinary
+        institution recognised for academic excellence, entrepreneurial spirit, research output, and a vibrant
+        student community drawn from across the globe.</p>
+      <div class="hero-chips">
+        <span class="hero-chip"><i class="fas fa-award"></i> NAAC Accredited</span>
+        <span class="hero-chip"><i class="fas fa-globe"></i> Students from 54+ Countries</span>
+        <span class="hero-chip"><i class="fas fa-flask"></i> Research Driven</span>
+        <span class="hero-chip"><i class="fas fa-lightbulb"></i> Entrepreneurship First</span>
+      </div>
+    </section>
+
+    <!-- BY THE NUMBERS -->
+    <section class="numbers-section">
+      <div class="numbers-intro">
+        <span class="eyebrow">By the Numbers</span>
+        <h2>A thriving academic ecosystem</h2>
+        <p>Eight figures that capture the scale, reach and impact of the university. Browse the deck — tap a card,
+          use the arrows, or let it play.</p>
+        <div class="deck-controls">
+          <div class="deck-arrows">
+            <button class="deck-arrow" id="deckPrev" aria-label="Previous"><i class="fas fa-arrow-left"></i></button>
+            <button class="deck-arrow" id="deckNext" aria-label="Next"><i class="fas fa-arrow-right"></i></button>
+          </div>
+          <div class="deck-counter"><span class="cur" id="deckCur">01</span><span class="sep">/</span><span class="tot" id="deckTot">08</span></div>
+        </div>
+        <div class="deck-dots" id="deckDots"></div>
+      </div>
+
+      <div>
+        <div class="deck-stage" id="deckStage">
+          <div class="deck" id="deck">
+            <article class="num-card">
+              <span class="nc-index">01</span>
+              <span class="nc-ic"><i class="fas fa-building-columns"></i></span>
+              <div class="nc-num">10</div>
+              <div class="nc-label">Thriving Campuses</div>
+              <p class="nc-desc">State-of-the-art infrastructure supporting modern, immersive education across Bengaluru.</p>
+            </article>
+            <article class="num-card">
+              <span class="nc-index">02</span>
+              <span class="nc-ic"><i class="fas fa-users"></i></span>
+              <div class="nc-num">21,205</div>
+              <div class="nc-label">Aspiring Students</div>
+              <p class="nc-desc">A diverse student community drawn from more than 54 countries worldwide.</p>
+            </article>
+            <article class="num-card">
+              <span class="nc-index">03</span>
+              <span class="nc-ic"><i class="fas fa-handshake"></i></span>
+              <div class="nc-num">197</div>
+              <div class="nc-label">MoUs Signed</div>
+              <p class="nc-desc">National &amp; international collaborations fostering deep global exposure.</p>
+            </article>
+            <article class="num-card">
+              <span class="nc-index">04</span>
+              <span class="nc-ic"><i class="fas fa-graduation-cap"></i></span>
+              <div class="nc-num">88<span class="unit">UG</span></div>
+              <div class="nc-label">+ 55 PG Programmes</div>
+              <p class="nc-desc">Comprehensive offerings spanning UG, PG and PG diploma programmes.</p>
+            </article>
+            <article class="num-card">
+              <span class="nc-index">05</span>
+              <span class="nc-ic"><i class="fas fa-life-ring"></i></span>
+              <div class="nc-num">13</div>
+              <div class="nc-label">Student Support Cells</div>
+              <p class="nc-desc">Dedicated to student welfare, mentoring and holistic personal growth.</p>
+            </article>
+            <article class="num-card">
+              <span class="nc-index">06</span>
+              <span class="nc-ic"><i class="fas fa-book-open"></i></span>
+              <div class="nc-num">5,041</div>
+              <div class="nc-label">Scopus Publications</div>
+              <p class="nc-desc">Indexed between 2016–2023, driving rigorous, sustained research output.</p>
+            </article>
+            <article class="num-card">
+              <span class="nc-index">07</span>
+              <span class="nc-ic"><i class="fas fa-briefcase"></i></span>
+              <div class="nc-num">35,984</div>
+              <div class="nc-label">Graduates Placed</div>
+              <p class="nc-desc">Successful placements across leading companies between 2009–2023.</p>
+            </article>
+            <article class="num-card">
+              <span class="nc-index">08</span>
+              <span class="nc-ic"><i class="fas fa-building-user"></i></span>
+              <div class="nc-num">400<span class="unit">+</span></div>
+              <div class="nc-label">Annual Recruiters</div>
+              <p class="nc-desc">Top-tier organisations visit the campus to recruit talent every year.</p>
+            </article>
+          </div>
+        </div>
+        <div class="deck-hint"><i class="fas fa-hand-pointer"></i> Tap a card to advance</div>
+      </div>
+    </section>
+
+    <!-- CLOSING BAND -->
+    <section class="closing-band">
+      <div class="cb-text">
+        <h3>Explore the Office of Academics</h3>
+        <p>Announcements, the events calendar, SWAYAM digital innovation and capacity-building initiatives — all in one place.</p>
+      </div>
+      <a href="{{ url_for('home') }}" class="cb-btn">Go to Academics Hub <i class="fas fa-arrow-right"></i></a>
+    </section>
+
+  </div>
+
+  <!-- ============ FOOTER ============ -->
+  <footer>
+    <div class="footer-inner">
+      <div class="fc">
+        <h3>Office of Academics</h3>
+        <p>Jain (Deemed-to-be University), Bengaluru.<br>Building tomorrow's leaders today through academic excellence and innovation.</p>
+        <div class="socials">
+          <a href="#" class="social-icon" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" class="social-icon" aria-label="X"><i class="fab fa-x-twitter"></i></a>
+          <a href="#" class="social-icon" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+          <a href="#" class="social-icon" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        </div>
+      </div>
+      <div class="fc">
+        <h3>Quick Links</h3>
+        <ul>
+          <li><a href="{{ url_for('home') }}"><i class="fas fa-angle-right"></i> Academics Hub</a></li>
+          <li><a href="{{ url_for('jainevents') }}"><i class="fas fa-angle-right"></i> Events Calendar</a></li>
+          <li><a href="{{ url_for('home') }}"><i class="fas fa-angle-right"></i> Announcements</a></li>
+          <li><a href="{{ url_for('home') }}"><i class="fas fa-angle-right"></i> SWAYAM</a></li>
+        </ul>
+      </div>
+      <div class="fc">
+        <h3>Contact</h3>
+        <ul>
+          <li><a href="mailto:academics@jainuniversity.ac.in"><i class="fas fa-envelope"></i> academics@jainuniversity.ac.in</a></li>
+          <li><a href="#"><i class="fas fa-phone"></i> +91-80-4343-XXXX</a></li>
+          <li><a href="#"><i class="fas fa-map-marker-alt"></i> JC Road, Bengaluru – 560 002</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">© 2026 Jain (Deemed-to-be University). All Rights Reserved · Office of Academics</div>
+  </footer>
+
+  <script>
+    /* card deck */
+    (function () {
+      var deck = document.getElementById('deck');
+      if (!deck) return;
+      var cards = Array.prototype.slice.call(deck.querySelectorAll('.num-card'));
+      var N = cards.length;
+      var order = cards.map(function (_, i) { return i; });
+      var timer = null;
+      var DELAY = 4600;
+
+      var slots = [
+        { x: 0, y: 0, r: 0, s: 1, o: 1, zi: 60 },
+        { x: 34, y: 24, r: 2.4, s: 0.95, o: 1, zi: 50 },
+        { x: 64, y: 46, r: 4.2, s: 0.9, o: 1, zi: 40 },
+        { x: 90, y: 64, r: 5.8, s: 0.86, o: 0.45, zi: 30 }
+      ];
+
+      function applySlot(card, sl, animate) {
+        if (animate === false) card.style.transition = 'none';
+        else card.style.transition = '';
+        card.style.transform = 'translate(' + sl.x + 'px,' + sl.y + 'px) rotate(' + sl.r + 'deg) scale(' + sl.s + ')';
+        card.style.opacity = sl.o;
+        card.style.zIndex = sl.zi;
+      }
+      function backHiddenSlot() {
+        var last = slots[slots.length - 1];
+        return { x: last.x, y: last.y, r: last.r, s: last.s, o: 0, zi: 10 };
+      }
+      function render() {
+        order.forEach(function (idx, pos) {
+          var sl = pos < slots.length ? slots[pos] : backHiddenSlot();
+          applySlot(cards[idx], sl);
+        });
+        updateMeta();
+      }
+      function setMeta(front) {
+        var curEl = document.getElementById('deckCur');
+        if (curEl) curEl.textContent = ('0' + (front + 1)).slice(-2);
+        var dots = document.querySelectorAll('#deckDots .deck-dot');
+        dots.forEach(function (d, i) { d.classList.toggle('active', i === front); });
+      }
+      function updateMeta() { setMeta(order[0]); }
+      function next() {
+        var frontIdx = order[0];
+        var fc = cards[frontIdx];
+        fc.style.transition = '';
+        fc.style.transform = 'translate(-130%, -14px) rotate(-11deg) scale(0.96)';
+        fc.style.opacity = '0';
+        fc.style.zIndex = 70;
+        var rest = order.slice(1);
+        rest.forEach(function (idx, pos) {
+          var sl = pos < slots.length ? slots[pos] : backHiddenSlot();
+          applySlot(cards[idx], sl);
+        });
+        setMeta(order.length > 1 ? order[1] : order[0]);
+        setTimeout(function () {
+          order.push(order.shift());
+          applySlot(fc, backHiddenSlot(), false);
+          void fc.offsetWidth;
+          render();
+        }, 500);
+      }
+      function prev() { order.unshift(order.pop()); render(); }
+      function goTo(target) {
+        if (target === order[0]) return;
+        var guard = 0;
+        while (order[0] !== target && guard < N + 1) { order.push(order.shift()); guard++; }
+        render();
+      }
+      function restart() { clearInterval(timer); timer = setInterval(next, DELAY); }
+
+      var dotsWrap = document.getElementById('deckDots');
+      for (var i = 0; i < N; i++) {
+        (function (idx) {
+          var b = document.createElement('button');
+          b.className = 'deck-dot' + (idx === 0 ? ' active' : '');
+          b.setAttribute('aria-label', 'Go to card ' + (idx + 1));
+          b.addEventListener('click', function () { goTo(idx); restart(); });
+          dotsWrap.appendChild(b);
+        })(i);
+      }
+      var totEl = document.getElementById('deckTot');
+      if (totEl) totEl.textContent = ('0' + N).slice(-2);
+
+      document.getElementById('deckNext').addEventListener('click', function () { next(); restart(); });
+      document.getElementById('deckPrev').addEventListener('click', function () { prev(); restart(); });
+      cards.forEach(function (c) { c.addEventListener('click', function () { next(); restart(); }); });
+
+      var stage = document.getElementById('deckStage');
+      stage.addEventListener('mouseenter', function () { clearInterval(timer); });
+      stage.addEventListener('mouseleave', function () { restart(); });
+
+      order.forEach(function (idx, pos) {
+        var sl = pos < slots.length ? slots[pos] : backHiddenSlot();
+        applySlot(cards[idx], sl, false);
+      });
+      void deck.offsetWidth;
+      updateMeta();
+      restart();
+    })();
+
+    /* nav helpers */
+    function toggleMobileNav() { document.getElementById('mainNav').classList.toggle('show'); }
+    function toggleDropdown(e) {
+      e.stopPropagation();
+      document.getElementById('userBtn')?.classList.toggle('open');
+      document.getElementById('userDropdown')?.classList.toggle('show');
+    }
+    document.addEventListener('click', function (e) {
+      if (!e.target.closest('.user-dropdown')) {
+        document.getElementById('userDropdown')?.classList.remove('show');
+        document.getElementById('userBtn')?.classList.remove('open');
+      }
+    });
+    function startTour() { window.location.href = "{{ url_for('home') }}?startTour=true"; }
+  </script>
+</body>
+
+</html>

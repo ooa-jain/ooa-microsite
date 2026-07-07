@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Login — OoA Portal</title>
+  <link rel="manifest" href="/erp/manifest.json">
+  <meta name="theme-color" content="#0a2558">
+  <link rel="apple-touch-icon" href="/static/erp/images/applogo.png">
+  <script>
+    if (false && 'serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js');
+      });
+    }
+  </script>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,700;1,400&display=swap"
+    rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0
+    }
+
+    :root {
+      --navy: #0A2558;
+      --navy2: #143572;
+      --gold: #F4A819;
+      --orange: #E85C1A;
+      --ink: #111827;
+      --ink2: #374151;
+      --ink3: #6b7280;
+      --bg: #f0f3fa;
+      --border: #dde3f0;
+      --danger: #c0392b;
+      --r: 12px;
+      --r2: 8px;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--bg);
+      background-image:
+        linear-gradient(rgba(10, 37, 88, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(10, 37, 88, 0.04) 1px, transparent 1px);
+      background-size: 32px 32px;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      color: var(--ink);
+    }
+
+    .login-box {
+      background: #fff;
+      width: 100%;
+      max-width: 420px;
+      border-radius: var(--r);
+      padding: 36px 32px;
+      box-shadow: 0 20px 60px rgba(10, 37, 88, 0.12);
+      border: 1px solid var(--border);
+    }
+
+    .brand {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .brand img {
+      height: 56px;
+      margin-bottom: 12px;
+    }
+
+    .brand h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      color: var(--navy);
+      line-height: 1.2;
+    }
+
+    .brand .sub {
+      font-size: 11px;
+      color: var(--gold);
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-top: 6px;
+    }
+
+    .admin-pill {
+      display: inline-block;
+      background: var(--gold);
+      color: var(--navy);
+      font-size: 10px;
+      font-weight: 800;
+      padding: 4px 12px;
+      border-radius: 99px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-top: 14px;
+    }
+
+    .field {
+      margin-bottom: 16px;
+    }
+
+    .field label {
+      display: block;
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--navy);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .field input {
+      width: 100%;
+      padding: 11px 14px;
+      border: 2px solid var(--border);
+      border-radius: var(--r2);
+      font-size: 14px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: #fafbff;
+      outline: none;
+      transition: 0.15s;
+    }
+
+    .field input:focus {
+      border-color: var(--navy);
+      background: #fff;
+      box-shadow: 0 0 0 4px rgba(10, 37, 88, 0.08);
+    }
+
+    .btn-login {
+      width: 100%;
+      padding: 12px;
+      background: var(--navy);
+      color: #fff;
+      border: none;
+      border-radius: var(--r2);
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      cursor: pointer;
+      transition: 0.15s;
+      font-family: inherit;
+      margin-top: 8px;
+    }
+
+    .btn-login:hover {
+      background: var(--navy2);
+    }
+
+    .flash {
+      background: #fdeaea;
+      color: var(--danger);
+      border: 1px solid #f5b8b8;
+      border-radius: var(--r2);
+      padding: 10px 14px;
+      font-size: 13px;
+      margin-bottom: 16px;
+      font-weight: 600;
+    }
+
+    .footer-link {
+      text-align: center;
+      margin-top: 18px;
+      font-size: 12px;
+      color: var(--ink3);
+    }
+
+    .footer-link a {
+      color: var(--navy);
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .footer-link a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="login-box">
+    <div class="brand">
+      <img src="/static/erp/images/jain.png" alt="Jain University" onerror="this.style.display='none'">
+      <h1>Semester Portal</h1>
+      <div class="sub">Office of Academic Affairs</div>
+    </div>
+
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    {% for msg in messages %}
+    <div class="flash">⚠ {{ msg }}</div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+    <form method="POST" action="/erp/admin/login">
+      <div class="field">
+        <label>Username</label>
+        <input type="text" name="username" placeholder="admin" required autofocus>
+      </div>
+      <div class="field">
+        <label>Password</label>
+        <input type="password" name="password" placeholder="••••••••" required>
+      </div>
+      <button type="submit" class="btn-login">Enter Portal</button>
+    </form>
+
+    <div class="footer-link">
+      <a href="/erp/login">← Back to Faculty / HOD login</a>
+    </div>
+  </div>
+  <script src="/static/erp/loading.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,623 @@
+{% extends 'base_user.html' %}
+
+{% block title %}User Profile - Jain Hub{% endblock %}
+
+{% block page_title %}My Profile{% endblock %}
+{% block page_subtitle %}Manage your personal information, security, reminders, and documents{% endblock %}
+
+{% block content %}
+<style>
+  :root {
+    --gold-accent: #C5A572;
+    --navy-dark: #0A1929;
+    --bg-card: #ffffff;
+    --text-muted: #64748b;
+    --border-color: #e2e8f0;
+  }
+
+  .profile-container {
+    display: grid;
+    grid-template-columns: 350px 1fr;
+    gap: 30px;
+    margin-top: 20px;
+    align-items: start;
+  }
+
+  @media (max-width: 992px) {
+    .profile-container {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* Card Styles */
+  .profile-card {
+    background: var(--bg-card);
+    border-radius: 16px;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 20px rgba(10, 25, 41, 0.05);
+    padding: 30px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .profile-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #d97706, var(--gold-accent), #d97706);
+  }
+
+  /* Avatar Area */
+  .avatar-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 25px;
+    position: relative;
+  }
+
+  .avatar-wrapper {
+    position: relative;
+    width: 130px;
+    height: 130px;
+    margin-bottom: 15px;
+    border-radius: 50%;
+    box-shadow: 0 8px 24px rgba(10, 25, 41, 0.12);
+    border: 3px solid #fff;
+    outline: 2px solid var(--gold-accent);
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+  }
+
+  .avatar-wrapper:hover {
+    transform: scale(1.03);
+  }
+
+  .avatar-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .avatar-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(4, 4, 58, 0.75);
+    color: #fff;
+    font-size: 11px;
+    padding: 6px 0;
+    text-align: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .avatar-wrapper:hover .avatar-overlay {
+    opacity: 1;
+  }
+
+  .hidden-file-input {
+    display: none;
+  }
+
+  .profile-name {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--navy-dark);
+    margin: 5px 0;
+  }
+
+  .profile-email {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+  }
+
+  .profile-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  
+  .profile-badge.approved {
+    background: #d1fae5;
+    color: #065f46;
+  }
+  .profile-badge.pending {
+    background: #fef3c7;
+    color: #92400e;
+  }
+
+  .info-list {
+    border-top: 1px solid var(--border-color);
+    margin-top: 20px;
+    padding-top: 20px;
+    width: 100%;
+  }
+
+  .info-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    font-size: 14px;
+    border-bottom: 1px solid #f8fafc;
+  }
+
+  .info-item:last-child {
+    border-bottom: none;
+  }
+
+  .info-label {
+    color: var(--text-muted);
+    font-weight: 500;
+  }
+
+  .info-value {
+    color: var(--navy-dark);
+    font-weight: 600;
+  }
+
+  /* Right Side Tabs */
+  .profile-main {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+  }
+
+  .tabs-nav {
+    display: flex;
+    border-bottom: 1px solid var(--border-color);
+    gap: 20px;
+  }
+
+  .tab-trigger {
+    padding: 12px 6px;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-muted);
+    background: none;
+    border: none;
+    border-bottom: 3px solid transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .tab-trigger.active {
+    color: var(--navy-dark);
+    border-bottom-color: var(--gold-accent);
+  }
+
+  .tab-panel {
+    display: none;
+  }
+
+  .tab-panel.active {
+    display: block;
+    animation: fadeIn 0.4s ease;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Form & Tables */
+  .form-group {
+    margin-bottom: 18px;
+  }
+
+  .form-label {
+    display: block;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--navy-dark);
+    margin-bottom: 6px;
+  }
+
+  .form-input {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.3s;
+  }
+
+  .form-input:focus {
+    border-color: var(--gold-accent);
+  }
+
+  .submit-btn {
+    background: var(--navy-dark);
+    color: #fff;
+    border: 1px solid var(--navy-dark);
+    padding: 11px 24px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 14.5px;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+
+  .submit-btn:hover {
+    background: var(--gold-accent);
+    border-color: var(--gold-accent);
+    color: var(--navy-dark);
+  }
+
+  /* Data Tables */
+  .data-table-wrapper {
+    overflow-x: auto;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    background: #fff;
+  }
+
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 14px;
+  }
+
+  .data-table th {
+    background: #f8fafc;
+    color: var(--navy-dark);
+    font-weight: 700;
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .data-table td {
+    padding: 14px 18px;
+    border-bottom: 1px solid #f1f5f9;
+    color: var(--navy-dark);
+  }
+
+  .data-table tr:last-child td {
+    border-bottom: none;
+  }
+
+  .action-btn-danger {
+    background: #fef2f2;
+    color: #991b1b;
+    border: 1px solid #fee2e2;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .action-btn-danger:hover {
+    background: #fee2e2;
+    color: #b91c1c;
+  }
+
+  .doc-type-badge {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    background: #f1f5f9;
+    color: #475569;
+  }
+
+  .status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: capitalize;
+  }
+  
+  .status-pill.approved, .status-pill.uploaded {
+    background: #d1fae5;
+    color: #065f46;
+  }
+  .status-pill.pending {
+    background: #fef3c7;
+    color: #92400e;
+  }
+  .status-pill.rejected {
+    background: #fee2e2;
+    color: #991b1b;
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--text-muted);
+  }
+
+  .empty-state i {
+    font-size: 40px;
+    opacity: 0.3;
+    margin-bottom: 12px;
+    display: block;
+  }
+</style>
+
+<div class="profile-container">
+  <!-- Left Column: Info & Security -->
+  <div style="display: flex; flex-direction: column; gap: 30px;">
+    <!-- Profile Card -->
+    <div class="profile-card">
+      <div class="avatar-section">
+        <div class="avatar-wrapper" onclick="document.getElementById('photoInput').click()">
+          <img src="{{ user_photo }}" alt="{{ user_name }}" class="avatar-image" id="profileAvatar">
+          <div class="avatar-overlay">
+            <i class="fas fa-camera" style="margin-bottom:4px; display:block; font-size:14px"></i>
+            Change Photo
+          </div>
+        </div>
+        <form id="photoForm" style="display:none">
+          <input type="file" id="photoInput" class="hidden-file-input" name="photo" accept="image/*" onchange="uploadProfilePhoto()">
+        </form>
+        <h2 class="profile-name">{{ user_name }}</h2>
+        <p class="profile-email">{{ user.email }}</p>
+        {% if approved %}
+        <span class="profile-badge approved"><i class="fas fa-check-circle"></i> Approved User</span>
+        {% else %}
+        <span class="profile-badge pending"><i class="fas fa-clock"></i> Pending Approval</span>
+        {% endif %}
+      </div>
+
+      <div class="info-list">
+        <div class="info-item">
+          <span class="info-label">Role</span>
+          <span class="info-value" style="text-transform: capitalize;">{{ user.role }}</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Department</span>
+          <span class="info-value">{{ user_department or '—' }}</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Location</span>
+          <span class="info-value">{{ user_location or '—' }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Security Card -->
+    <div class="profile-card">
+      <h3 style="font-size: 17px; font-weight: 700; color: var(--navy-dark); margin-bottom: 20px; display: flex; align-items: center; gap: 8px;">
+        <i class="fas fa-lock" style="color: var(--gold-accent)"></i> Change Password
+      </h3>
+      <form id="passwordForm" onsubmit="changePassword(event)">
+        <div class="form-group">
+          <label class="form-label" for="oldPassword">Current Password</label>
+          <input type="password" id="oldPassword" class="form-input" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="newPassword">New Password</label>
+          <input type="password" id="newPassword" class="form-input" required minlength="6">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="confirmPassword">Confirm New Password</label>
+          <input type="password" id="confirmPassword" class="form-input" required minlength="6">
+        </div>
+        <button type="submit" class="submit-btn" style="width: 100%">Update Password</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Right Column: Documents & Reminders -->
+  <div class="profile-main">
+    <div class="profile-card" style="padding: 24px 30px;">
+      <div class="tabs-nav">
+        <button class="tab-trigger active" onclick="switchTab(event, 'remindersPanel')">
+          <i class="fas fa-bell"></i> My Reminders ({{ reminders|length }})
+        </button>
+        <button class="tab-trigger" onclick="switchTab(event, 'documentsPanel')">
+          <i class="fas fa-file-alt"></i> My Uploaded Documents ({{ documents|length }})
+        </button>
+      </div>
+
+      <!-- Tab: Reminders -->
+      <div id="remindersPanel" class="tab-panel active" style="margin-top: 25px;">
+        {% if reminders %}
+        <div class="data-table-wrapper">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Event Name</th>
+                <th>Event Date &amp; Time</th>
+                <th>Scheduled Reminder</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for r in reminders %}
+              <tr id="reminder-row-{{ r.id }}">
+                <td style="font-weight: 600;">{{ r.event_name }}</td>
+                <td>
+                  <div style="font-size: 13.5px;"><i class="far fa-calendar-alt" style="color: var(--gold-accent); margin-right: 5px;"></i>{{ r.event_date }}</div>
+                  <div style="font-size: 12px; color: var(--text-muted); margin-top: 3px;"><i class="far fa-clock" style="margin-right: 5px;"></i>{{ r.event_time }}</div>
+                </td>
+                <td style="font-size: 13.5px; font-weight: 500;">
+                  <i class="fas fa-bell" style="color: #f59e0b; margin-right: 5px;"></i>
+                  {{ r.reminder_datetime.strftime('%d %b %Y, %I:%M %p') if r.reminder_datetime else '—' }}
+                </td>
+                <td>
+                  <button class="action-btn-danger" onclick="cancelReminder('{{ r.id }}')">
+                    <i class="fas fa-trash-alt"></i> Cancel
+                  </button>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        {% else %}
+        <div class="empty-state">
+          <i class="fas fa-bell-slash"></i>
+          <p>You have not set any calendar reminders yet.</p>
+        </div>
+        {% endif %}
+      </div>
+
+      <!-- Tab: Documents -->
+      <div id="documentsPanel" class="tab-panel" style="margin-top: 25px;">
+        {% if documents %}
+        <div class="data-table-wrapper">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Document Name</th>
+                <th>Source Category</th>
+                <th>Submission Date</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for d in documents %}
+              <tr>
+                <td style="font-weight: 600;">{{ d.name }}</td>
+                <td><span class="doc-type-badge">{{ d.type }}</span></td>
+                <td>{{ d.date.strftime('%d %b %Y, %H:%M') if d.date else '—' }}</td>
+                <td>
+                  <span class="status-pill {{ d.status.lower() }}">
+                    <i class="fas {% if d.status.lower() in ['approved','uploaded'] %}fa-check-circle{% elif d.status.lower() == 'pending' %}fa-clock{% else %}fa-times-circle{% endif %}"></i>
+                    {{ d.status }}
+                  </span>
+                </td>
+                <td>
+                  {% if d.url and d.url != '#' %}
+                  <a href="{{ d.url }}" target="_blank" class="submit-btn" style="text-decoration:none; padding: 5px 12px; font-size:12px; display:inline-block">
+                    <i class="fas fa-eye"></i> View
+                  </a>
+                  {% else %}
+                  <span style="color: var(--text-muted); font-size: 12px;">No Link</span>
+                  {% endif %}
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        {% else %}
+        <div class="empty-state">
+          <i class="fas fa-file-excel"></i>
+          <p>You have not uploaded or submitted any documents yet.</p>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function switchTab(event, panelId) {
+    document.querySelectorAll('.tab-trigger').forEach(btn => btn.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(panel => panel.classList.remove('active'));
+    
+    event.currentTarget.classList.add('active');
+    document.getElementById(panelId).classList.add('active');
+  }
+
+  function changePassword(event) {
+    event.preventDefault();
+    const oldPassword = document.getElementById('oldPassword').value;
+    const newPassword = document.getElementById('newPassword').value;
+    const confirmPassword = document.getElementById('confirmPassword').value;
+    
+    if (newPassword !== confirmPassword) {
+      showToast('New passwords do not match', 'error');
+      return;
+    }
+    
+    fetch('/profile/change_password', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        old_password: oldPassword,
+        new_password: newPassword,
+        confirm_password: confirmPassword
+      })
+    })
+    .then(r => r.json())
+    .then(data => {
+      if (data.success) {
+        showToast('Password changed successfully!', 'success');
+        document.getElementById('passwordForm').reset();
+      } else {
+        showToast(data.message || 'Error changing password', 'error');
+      }
+    })
+    .catch(() => showToast('Network error, please try again', 'error'));
+  }
+
+  function uploadProfilePhoto() {
+    const fileInput = document.getElementById('photoInput');
+    if (!fileInput.files.length) return;
+    
+    const formData = new FormData();
+    formData.append('photo', fileInput.files[0]);
+    
+    showToast('Uploading profile image...', 'info');
+    
+    fetch('/profile/upload_photo', {
+      method: 'POST',
+      body: formData
+    })
+    .then(r => r.json())
+    .then(data => {
+      if (data.success) {
+        document.getElementById('profileAvatar').src = data.photo_url;
+        showToast('Profile image updated successfully!', 'success');
+      } else {
+        showToast(data.message || 'Error uploading photo', 'error');
+      }
+    })
+    .catch(() => showToast('Network error uploading image', 'error'));
+  }
+
+  function cancelReminder(reminderId) {
+    if (!confirm('Are you sure you want to cancel this reminder?')) return;
+    
+    fetch(`/profile/delete_reminder/${reminderId}`, {
+      method: 'POST'
+    })
+    .then(r => r.json())
+    .then(data => {
+      if (data.success) {
+        showToast('Reminder cancelled successfully', 'success');
+        const row = document.getElementById(`reminder-row-${reminderId}`);
+        if (row) {
+          row.style.transition = 'all 0.4s ease';
+          row.style.opacity = '0';
+          row.style.transform = 'translateX(-20px)';
+          setTimeout(() => {
+            row.remove();
+            // Optional: Reload page if last item was removed to show empty state
+            if (document.querySelectorAll('[id^="reminder-row-"]').length === 0) {
+              window.location.reload();
+            }
+          }, 400);
+        }
+      } else {
+        showToast(data.message || 'Error cancelling reminder', 'error');
+      }
+    })
+    .catch(() => showToast('Network error, could not cancel reminder', 'error'));
+  }
+</script>
+{% endblock %}

@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Faculty OoA Portal</title>
+  <link rel="manifest" href="/erp/manifest.json">
+  <meta name="theme-color" content="#0a2558">
+  <link rel="apple-touch-icon" href="/static/erp/images/applogo.png">
+  <script>
+    if (false && 'serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js');
+      });
+    }
+  </script>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,700;1,400&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intro.js/7.2.0/introjs.min.css" />
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0
+    }
+
+    :root {
+      --navy: #0a2558;
+      --navy2: #143572;
+      --gold: #f2a900;
+      --bg: #ffffff;
+      --ink: #111827;
+      --ink2: #374151;
+      --ink3: #6b7280;
+      --r: 12px;
+      --sh2: 0 12px 48px rgba(0, 0, 0, 0.08);
+    }
+
+    body {
+      background-color: var(--bg);
+      background-image:
+        linear-gradient(rgba(10, 37, 88, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(10, 37, 88, 0.03) 1px, transparent 1px);
+      background-size: 32px 32px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      color: var(--ink);
+      min-height: 100vh;
+    }
+
+    .site-header {
+      background: #ffffff;
+      position: sticky;
+      top: 0;
+      z-index: 200;
+      box-shadow: 0 2px 24px rgba(0, 0, 0, .08);
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 0 28px;
+      height: 68px;
+    }
+
+    .logo-area {
+      display: flex;
+      align-items: center;
+      gap: 14px
+    }
+
+    .logo-text .l1 {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--navy);
+      line-height: 1.1
+    }
+
+    .logo-text .l2 {
+      font-size: 11px;
+      color: var(--navy);
+      font-weight: 600;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      margin-top: 2px
+    }
+
+    .page-wrap {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 36px 28px 100px;
+    }
+
+    .page-heading {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .page-heading h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 32px;
+      color: var(--navy);
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+      justify-content: center;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .dash-card {
+      background: #fff;
+      border-radius: var(--r);
+      padding: 32px 24px;
+      box-shadow: var(--sh2);
+      text-align: center;
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+      border: 2px solid transparent;
+      transition: 0.2s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
+
+    .dash-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--navy);
+    }
+
+    .card-icon {
+      font-size: 48px;
+      margin-bottom: 16px;
+    }
+
+    .card-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+
+    .card-desc {
+      font-size: 14px;
+      color: var(--ink3);
+      margin-bottom: 24px;
+      line-height: 1.5;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 24px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 700;
+      background: var(--navy);
+      color: #fff;
+      transition: 0.2s;
+      border: none;
+      cursor: pointer;
+    }
+
+    .dash-card:hover .btn {
+      background: var(--gold);
+      color: var(--navy);
+    }
+
+    .notice {
+      background: #fff8eb;
+      border: 1px solid #f2a900;
+      border-radius: 8px;
+      padding: 12px;
+      font-size: 13px;
+      color: #9e6f00;
+      font-weight: 600;
+      margin-top: auto;
+      width: 100%;
+    }
+
+    .logout {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--danger);
+      text-decoration: none;
+    }
+
+    .btn-profile {
+      background: #ffffff;
+      color: var(--ink2);
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 12.5px;
+      cursor: pointer;
+      border: 1px solid #dde3f0;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+    }
+
+    .btn-profile:hover {
+      background: #f8fafc;
+      color: var(--navy);
+      border-color: var(--navy);
+    }
+
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(10, 37, 88, 0.6);
+      z-index: 500;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-overlay.open {
+      display: flex;
+    }
+
+    .modal {
+      background: #fff;
+      border-radius: 16px;
+      padding: 32px;
+      width: 100%;
+      max-width: 480px;
+      box-shadow: 0 24px 80px rgba(0, 0, 0, 0.35);
+    }
+
+    .modal h3 {
+      font-size: 18px;
+      color: var(--navy);
+      margin-bottom: 20px;
+      font-family: 'Playfair Display', serif;
+    }
+
+    .field {
+      margin-bottom: 16px;
+    }
+
+    .field label {
+      display: block;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--ink2);
+      margin-bottom: 6px;
+    }
+
+    .field input,
+    .field select {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid #dde3f0;
+      border-radius: 8px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 14px;
+    }
+
+    .field input[readonly] {
+      background: #f9fafb;
+      color: var(--ink3);
+      cursor: not-allowed;
+    }
+
+    .introjs-tooltip {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      border-radius: 12px;
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.1);
+    }
+
+    .introjs-button {
+      border-radius: 6px;
+      font-weight: 600;
+    }
+
+    #lockScreen {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: var(--bg);
+      background-image: linear-gradient(rgba(10, 37, 88, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(10, 37, 88, 0.03) 1px, transparent 1px);
+      background-size: 32px 32px;
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+
+    #lockScreen.active {
+      display: flex;
+    }
+
+    .lock-box {
+      background: #fff;
+      padding: 40px;
+      border-radius: 16px;
+      box-shadow: var(--sh2);
+      text-align: center;
+      max-width: 400px;
+      width: 100%;
+    }
+
+    /* Mobile Hamburger & Sandwich Menu Styles */
+    .hamburger-menu {
+      display: none;
+      flex-direction: column;
+      justify-content: space-between;
+      width: 22px;
+      height: 16px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      z-index: 1001;
+      margin-left: auto;
+    }
+
+    .hamburger-menu span {
+      width: 100%;
+      height: 2px;
+      background-color: var(--navy);
+      border-radius: 99px;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      transform-origin: left center;
+    }
+
+    .hamburger-menu.active span:nth-child(1) {
+      transform: rotate(45deg) translate(1px, -1px);
+    }
+
+    .hamburger-menu.active span:nth-child(2) {
+      opacity: 0;
+      transform: scaleX(0);
+    }
+
+    .hamburger-menu.active span:nth-child(3) {
+      transform: rotate(-45deg) translate(1px, 1px);
+    }
+
+    @media (max-width: 768px) {
+      .hamburger-menu {
+        display: flex;
+      }
+
+      .logo-text .l1 {
+        font-size: 14px;
+      }
+
+      .logo-text .l2 {
+        font-size: 9.5px;
+      }
+
+      .hdr-right {
+        display: none !important;
+        flex-direction: column !important;
+        position: fixed !important;
+        top: 68px !important;
+        left: 0 !important;
+        right: 0 !important;
+        background: #ffffff !important;
+        border-bottom: 2px solid #dde3f0 !important;
+        padding: 20px 24px !important;
+        gap: 12px !important;
+        z-index: 999 !important;
+        box-shadow: 0 12px 30px rgba(10, 37, 88, 0.1) !important;
+        align-items: stretch !important;
+        text-align: left !important;
+        animation: slideDown 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+      }
+
+      .hdr-right.active {
+        display: flex !important;
+      }
+
+      .hdr-right .btn-profile {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .hdr-right .logout {
+        text-align: center;
+        padding: 10px;
+        background: #fef2f2;
+        color: #b91c1c;
+        border-radius: 8px;
+        font-weight: 700;
+        margin-top: 6px;
+      }
+
+      @keyframes slideDown {
+        from {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="logo-area">
+        <img src="/static/erp/images/jain.png" alt="Jain University" style="height: 38px; object-fit: contain;"
+          onerror="this.style.display='none'">
+        <div style="width: 1px; height: 30px; background: #e0e5f2; margin: 0 4px;"></div>
+        <div class="logo-text">
+          <div class="l1">JAIN University</div>
+          <div class="l2">Office of Academics</div>
+        </div>
+      </div>
+      <button class="hamburger-menu" id="hamburgerMenu" onclick="toggleMobileMenu()" aria-label="Toggle Navigation">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <div class="hdr-right" id="hdrRight" style="display: flex; align-items: center; gap: 12px;">
+        <a href="/erp/" class="btn-profile"
+          style="background: transparent; border: none; color: var(--navy); box-shadow: none;">Home</a>
+        {% if session.get('admin') %}
+        <a href="/erp/admin" class="btn-profile"
+          style="color: var(--navy); border-color: var(--gold); background: #fffbeb; font-weight: bold;">Admin
+          Control</a>
+        {% endif %}
+        <button class="btn-profile" onclick="openWorkflowModal()"
+          style="background: transparent; border: none; color: var(--navy); box-shadow: none;">Workflow</button>
+        <button class="btn-profile" onclick="startTour()"
+          style="background: transparent; border: none; color: var(--navy); box-shadow: none;">Take Tour</button>
+        <button id="profileBtn" class="btn-profile"
+          style="border-color: var(--navy); background: var(--navy); color: #fff;" onclick="openProfile()"
+          data-intro="Update your department profile here." data-step="3">
+          Profile
+        </button>
+        <a id="pwaMobileMenuInstallBtn" href="#" class="btn-profile"
+          style="display: none; color: #0284c7; border-color: #bae6fd; background: #e0f2fe; font-weight: bold;"
+          onclick="triggerPwaInstall(); return false;">📱 Download App</a>
+        <a href="/home" class="btn-profile"
+          style="color: #04043a; border-color: #c7cdf0; background: #eef0fc;">← Jain Hub</a>
+      </div>
+    </div>
+  </header>
+
+  <div class="page-wrap">
+    <!-- Native OS Notification Banner -->
+    <div id="notifPermissionBanner"
+      style="display: none; background: linear-gradient(135deg, #e0f2fe, #bae6fd); border: 1.5px solid #7dd3fc; border-radius: 12px; padding: 16px 20px; margin-bottom: 24px; flex-direction: column; gap: 14px; box-shadow: var(--sh); align-items: stretch; text-align: left;">
+      <div style="display: flex; align-items: flex-start; gap: 12px;">
+        <div style="font-size: 24px; line-height: 1;">🔔</div>
+        <div>
+          <div style="font-weight: 700; color: #0369a1; font-size: 14px; line-height: 1.2;">Enable Mobile OS Push
+            Notifications</div>
+          <div style="font-size: 11px; color: #0284c7; margin-top: 4px; line-height: 1.4;">Stay updated on deadline
+            extensions and announcements instantly on your phone's lock screen!</div>
+        </div>
+      </div>
+      <div style="display: flex; gap: 10px; justify-content: flex-end;">
+        <button class="btn"
+          style="background: transparent; color: #0369a1; border: 1px solid #7dd3fc; padding: 6px 14px; font-size: 11px;"
+          onclick="dismissNotifBanner()">Later</button>
+        <button class="btn"
+          style="background: #0284c7; color: #fff; border: none; font-weight: 700; padding: 6px 14px; font-size: 11px;"
+          onclick="requestNotifPermission()">Enable Now</button>
+      </div>
+    </div>
+
+    <div class="page-heading"
+      style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; margin-bottom: 28px;">
+      <div>
+        <h2>Welcome to Office of Academics Portal, Hi {{ user.name }}!</h2>
+        <p style="color:var(--ink3); margin-top:8px;">Please select the module you wish to access</p>
+      </div>
+      <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+        <button class="btn"
+          style="background: transparent; border: 1.5px solid var(--navy); color: var(--navy); padding: 8px 16px; border-radius: 20px; font-size: 11px; font-weight: 700; cursor: pointer; transition: all 0.3s;"
+          onclick="openWorkflowModal()">
+          📋 View Portal Workflow
+        </button>
+        <div id="pushStatusBadge"
+          style="cursor: pointer; font-size: 11px; font-weight: 700; padding: 8px 16px; border-radius: 20px; display: flex; align-items: center; gap: 8px; box-shadow: var(--sh); transition: all 0.3s ease;"
+          onclick="togglePushNotificationPermission()">
+          <span>Checking notification status...</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="cards-grid">
+      {% if settings.readiness_enabled %}
+      <a href="/erp/readiness" class="dash-card" data-intro="Click here to prepare and submit the readiness report."
+        data-step="1">
+
+        <div class="card-title">Semester Readiness</div>
+        <div class="card-desc">Prepare and submit the readiness report before the start of the semester.</div>
+        <button class="btn">Go to Readiness</button>
+        {% if settings.readiness_deadline %}
+        <div class="notice" style="margin-top:20px;">
+          ⚠ Last day to submission is {{ settings.readiness_deadline }}
+        </div>
+        {% endif %}
+      </a>
+      {% endif %}
+
+      {% if settings.closure_enabled %}
+      <a href="/erp/closure" class="dash-card"
+        data-intro="Click here to compile and submit the closure report at the end of the semester." data-step="2">
+
+        <div class="card-title">Semester Closure</div>
+        <div class="card-desc">Compile and submit the closure report at the end of the semester.</div>
+        <button class="btn">Go to Closure</button>
+        {% if settings.closure_deadline %}
+        <div class="notice" style="margin-top:20px;">
+          ⚠ Last day to submission is {{ settings.closure_deadline }}
+        </div>
+        {% endif %}
+      </a>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="profileModal">
+    <div class="modal">
+      <h3>Your Profile</h3>
+      <div class="field">
+        <label>Name</label>
+        <input type="text" value="{{ user.name }}" readonly>
+      </div>
+      <div class="field">
+        <label>Email ID</label>
+        <input type="text" value="{{ user.email }}" readonly>
+      </div>
+      <div class="field">
+        <label>Department</label>
+        <select id="profileDept">
+          <option value="">-- Select Department --</option>
+          {% for dept in departments %}
+          <option value="{{ dept }}" {% if user.department==dept %}selected{% endif %}>{{ dept }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <!-- PWA Install inside Profile -->
+      <div id="pwaProfileSection"
+        style="display: none; margin-top: 20px; padding: 14px; background: #e0f2fe; border: 1.5px solid #bae6fd; border-radius: 10px; align-items: center; justify-content: space-between; gap: 10px; text-align: left; box-shadow: var(--sh);">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <div style="font-size: 24px;">📱</div>
+          <div>
+            <div style="font-weight: 700; color: #0369a1; font-size: 13px;">Mobile App Available</div>
+            <div style="font-size: 11px; color: #0284c7;">Install on your home screen</div>
+          </div>
+        </div>
+        <button id="pwaInstallBtn" class="btn"
+          style="background: #0284c7; color: #fff; padding: 6px 12px; font-size: 11px; border-radius: 6px; border: none; font-weight: 700; cursor: pointer; white-space: nowrap;">Download
+          App</button>
+      </div>
+
+      <!-- iOS Instruction inside Profile -->
+      <div id="pwaIosProfileSection"
+        style="display: none; margin-top: 20px; padding: 14px; background: #fef3c7; border: 1.5px solid #fde68a; border-radius: 10px; text-align: left; box-shadow: var(--sh);">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <div style="font-size: 24px;">🍎</div>
+          <div>
+            <div style="font-weight: 700; color: #92400e; font-size: 13px;">Install on iPhone</div>
+            <div style="font-size: 11px; color: #b45309; line-height: 1.4; margin-top: 2px;">Tap <span
+                style="font-weight: 700;">Share</span> in Safari, then <span style="font-weight: 700;">"Add to Home
+                Screen"</span>.</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex; justify-content:flex-end; gap:12px; margin-top:24px;">
+        <button class="btn" style="background:#fff; color:var(--ink3); border:1px solid #ddd;"
+          onclick="closeProfile()">Cancel</button>
+        <button class="btn btn-primary" onclick="saveProfile()">Save Profile</button>
+      </div>
+    </div>
+  </div>
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/7.2.0/intro.min.js"></script>
+  <script>
+    function toggleMobileMenu() {
+      const burger = document.getElementById('hamburgerMenu');
+      const drawer = document.getElementById('hdrRight');
+      burger.classList.toggle('active');
+      drawer.classList.toggle('active');
+    }
+
+    function openProfile() {
+      document.getElementById('hamburgerMenu')?.classList.remove('active');
+      document.getElementById('hdrRight')?.classList.remove('active');
+      document.getElementById('profileModal').classList.add('open');
+    }
+    function closeProfile() {
+      document.getElementById('profileModal').classList.remove('open');
+    }
+    function saveProfile() {
+      const dept = document.getElementById('profileDept').value;
+      if (!dept) { alert('Please select a department'); return; }
+      fetch('/erp/api/update-profile', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          department: dept
+        })
+      }).then(r => r.json()).then(res => {
+        if (res.ok) {
+          closeProfile();
+          window.location.reload();
+        } else alert(res.error);
+      });
+    }
+
+    function startTour() {
+      introJs().setOptions({
+        showProgress: true,
+        showBullets: false,
+        doneLabel: 'Complete Tour',
+        tooltipClass: 'customTooltip'
+      }).start().oncomplete(function () {
+        openProfile();
+      });
+    }
+
+    function openWorkflowModal() {
+      document.getElementById('workflowModal').classList.add('open');
+    }
+    function closeWorkflowModal() {
+      document.getElementById('workflowModal').classList.remove('open');
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      {% if user.first_time_login %}
+      startTour();
+      {% endif %}
+    });
+
+    // PWA Custom Install Prompt Script
+    let deferredPrompt;
+    const pwaProfileSection = document.getElementById('pwaProfileSection');
+    const pwaInstallBtn = document.getElementById('pwaInstallBtn');
+    const pwaIosProfileSection = document.getElementById('pwaIosProfileSection');
+
+    const isIos = () => {
+      const userAgent = window.navigator.userAgent.toLowerCase();
+      return /iphone|ipad|ipod/.test(userAgent);
+    };
+
+    const isMobile = () => {
+      const userAgent = window.navigator.userAgent.toLowerCase();
+      return /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent);
+    };
+
+    const isStandalone = () => {
+      return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+    };
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      if (!isStandalone() && isMobile()) {
+        if (pwaProfileSection) pwaProfileSection.style.display = 'flex';
+        const menuBtn = document.getElementById('pwaMobileMenuInstallBtn');
+        if (menuBtn) menuBtn.style.display = 'inline-block';
+      }
+    });
+
+    function triggerPwaInstall() {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then((choiceResult) => {
+          if (choiceResult.outcome === 'accepted') {
+            fetch('/erp/api/track-install', { method: 'POST' }).catch(() => { });
+          }
+          deferredPrompt = null;
+          if (pwaProfileSection) pwaProfileSection.style.display = 'none';
+          const menuBtn = document.getElementById('pwaMobileMenuInstallBtn');
+          if (menuBtn) menuBtn.style.display = 'none';
+
+          // Smoothly prompt for notifications permission immediately after PWA installation prompt!
+          setTimeout(() => {
+            requestNotifPermission();
+          }, 1000);
+        });
+      } else {
+        openProfile();
+        setTimeout(() => {
+          requestNotifPermission();
+        }, 500);
+      }
+    }
+
+    if (pwaInstallBtn) {
+      pwaInstallBtn.addEventListener('click', async () => {
+        triggerPwaInstall();
+      });
+    }
+
+    window.addEventListener('appinstalled', (evt) => {
+      fetch('/erp/api/track-install', { method: 'POST' }).catch(() => { });
+      if (pwaProfileSection) pwaProfileSection.style.display = 'none';
+      if (menuBtn) menuBtn.style.display = 'none';
+    });
+
+    const USER_NAME = "{{ user.name }}";
+
+    function updatePushBadge() {
+      const badge = document.getElementById('pushStatusBadge');
+      if (!badge) return;
+      if (!("Notification" in window)) {
+        badge.innerHTML = '❌ Push Unsupported';
+        badge.style.background = '#fee2e2';
+        badge.style.color = '#ef4444';
+        badge.style.borderColor = '#fecaca';
+        return;
+      }
+
+      const p = Notification.permission;
+      if (p === 'granted') {
+        badge.style.display = 'none'; // Completely hide from view when enabled!
+      } else if (p === 'denied') {
+        badge.style.display = 'flex';
+        badge.innerHTML = '🔕 Push Blocked (Fix)';
+        badge.style.background = '#fee2e2';
+        badge.style.color = '#b91c1c';
+        badge.style.borderColor = '#fecaca';
+      } else {
+        badge.style.display = 'flex';
+        badge.innerHTML = '🔔 Click to Enable Push';
+        badge.style.background = '#fef3c7';
+        badge.style.color = '#b45309';
+        badge.style.borderColor = '#fde68a';
+      }
+    }
+
+    function togglePushNotificationPermission() {
+      if (!("Notification" in window)) {
+        alert('Push notifications are not supported on this browser.');
+        return;
+      }
+      const p = Notification.permission;
+      if (p === 'granted') {
+        alert('Push notifications are fully enabled! You will receive lock screen updates.');
+      } else if (p === 'denied') {
+        alert('Push notifications are currently blocked by your browser settings.\n\nTo fix this:\n1. Click the lock icon (🔒) or settings icon next to the website URL at the top left of the address bar.\n2. Set "Notifications" to "Allow".\n3. Refresh the page!');
+      } else {
+        requestNotifPermission();
+      }
+    }
+
+    function initNotificationSystem() {
+      updatePushBadge();
+
+      // 1. Check if permission banner needs to be shown (Restrict strictly to mobile device context)
+      if ("Notification" in window) {
+        if (Notification.permission === "default" && !sessionStorage.getItem('notifBannerDismissed') && isMobile()) {
+          const banner = document.getElementById('notifPermissionBanner');
+          if (banner) banner.style.display = 'flex';
+        }
+      }
+
+      // 2. Trigger Welcome Login Notification (Inbuilt)
+      if (!sessionStorage.getItem('welcomeShown')) {
+        showLocalNotification("Happy to see you again!", `Happy to see you again here, ${USER_NAME}! Let's get readiness/closure finalized.`);
+        sessionStorage.setItem('welcomeShown', 'true');
+      }
+
+      // 3. Fetch Admin Broadcast Notifications
+      fetch('/erp/api/get-notifications')
+        .then(r => r.json())
+        .then(res => {
+          if (res.ok && res.notifications) {
+            const seen = JSON.parse(localStorage.getItem('seenNotifications') || '[]');
+            res.notifications.forEach(n => {
+              if (!seen.includes(n._id)) {
+                let personalizedBody = n.body;
+                if (personalizedBody.includes("check it out") || personalizedBody.includes("added")) {
+                  personalizedBody = `Hi ${USER_NAME}! ${personalizedBody}`;
+                }
+
+                setTimeout(() => {
+                  showLocalNotification(n.title, personalizedBody);
+                }, 2000);
+
+                seen.push(n._id);
+              }
+            });
+            localStorage.setItem('seenNotifications', JSON.stringify(seen));
+          }
+        }).catch(() => { });
+    }
+
+    function requestNotifPermission() {
+      if ("Notification" in window) {
+        Notification.requestPermission().then(permission => {
+          updatePushBadge();
+          if (permission === "granted") {
+            const banner = document.getElementById('notifPermissionBanner');
+            if (banner) banner.style.display = 'none';
+            setTimeout(() => {
+              showLocalNotification("Notifications Enabled", `Awesome ${USER_NAME}! You will now receive native lock screen updates.`);
+            }, 500);
+          } else {
+            alert('Push notification permission denied. You can enable it in your browser settings.');
+          }
+        });
+      }
+    }
+
+    function dismissNotifBanner() {
+      const banner = document.getElementById('notifPermissionBanner');
+      if (banner) banner.style.display = 'none';
+      sessionStorage.setItem('notifBannerDismissed', 'true');
+    }
+
+    function showLocalNotification(title, body) {
+      if ("Notification" in window && Notification.permission === "granted") {
+        // Gold standard for PWA mobile/Android: Always try Service Worker registration first
+        if (navigator.serviceWorker && navigator.serviceWorker.ready) {
+          navigator.serviceWorker.ready.then(reg => {
+            reg.showNotification(title, {
+              body: body,
+              icon: "/static/images/applogo.png",
+              badge: "/static/images/applogo.png",
+              vibrate: [200, 100, 200]
+            });
+          }).catch(err => {
+            new Notification(title, { body: body, icon: "/static/images/applogo.png" });
+          });
+        } else {
+          new Notification(title, { body: body, icon: "/static/images/applogo.png" });
+        }
+      }
+      showToastNotification(title, body);
+    }
+
+    function showToastNotification(title, body) {
+      let container = document.getElementById('notifToastContainer');
+      if (!container) {
+        container = document.createElement('div');
+        container.id = 'notifToastContainer';
+        container.style.cssText = 'position: fixed; top: 20px; right: 20px; z-index: 10000; display: flex; flex-direction: column; gap: 10px; pointer-events: none;';
+        document.body.appendChild(container);
+      }
+
+      const toast = document.createElement('div');
+      toast.style.cssText = 'background: #fff; border-left: 5px solid #0a2558; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); padding: 16px; min-width: 300px; max-width: 400px; display: flex; flex-direction: column; gap: 6px; transform: translateX(450px); transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); pointer-events: auto;';
+      toast.innerHTML = `
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <strong style="color:#0a2558; font-size:14px; font-weight:700;">🔔 ${title}</strong>
+          <button style="border:none; background:transparent; font-size:16px; color:#aaa; cursor:pointer;" onclick="this.parentElement.parentElement.remove()">×</button>
+        </div>
+        <span style="font-size:12px; color:#555; line-height:1.4;">${body}</span>
+      `;
+      container.appendChild(toast);
+
+      setTimeout(() => {
+        toast.style.transform = 'translateX(0)';
+      }, 100);
+
+      setTimeout(() => {
+        toast.style.transform = 'translateX(450px)';
+        setTimeout(() => toast.remove(), 400);
+      }, 7000);
+    }
+
+    window.addEventListener('load', () => {
+      initNotificationSystem();
+      if (isIos() && !isStandalone() && isMobile()) {
+        if (pwaIosProfileSection) pwaIosProfileSection.style.display = 'flex';
+        const menuBtn = document.getElementById('pwaMobileMenuInstallBtn');
+        if (menuBtn) {
+          menuBtn.innerHTML = '🍏 Install App (iOS)';
+          menuBtn.style.display = 'inline-block';
+          menuBtn.onclick = () => { openProfile(); return false; };
+        }
+      }
+      if (isStandalone()) {
+        fetch('/erp/api/track-launch', { method: 'POST' }).catch(() => { });
+      }
+    });
+  </script>
+
+  <!-- Workflow Modal -->
+  <div class="modal-overlay" id="workflowModal">
+    <div class="modal" style="max-width: 800px; width: 100%; max-height: 90vh; overflow-y: auto;">
+      <div
+        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; border-bottom: 1px solid #eee; padding-bottom: 16px; flex-wrap: wrap; gap: 12px;">
+        <h3 style="font-size: 22px; color: var(--navy); margin-bottom: 0;">Portal Workflow</h3>
+        <a href="/static/uploads/Workflow.pdf" target="_blank" class="btn"
+          style="background: linear-gradient(135deg, #ff9900, #ff5500); box-shadow: 0 4px 12px rgba(255, 85, 0, 0.2); font-size: 13px; padding: 8px 16px; text-decoration: none;">
+          📄 Download PDF Manual
+        </a>
+      </div>
+
+      <div class="workflow-grid"
+        style="display: flex; align-items: stretch; justify-content: space-between; gap: 14px; flex-wrap: wrap; text-align: left; width: 100%;">
+        <div class="step-card step-1"
+          style="flex: 1; min-width: 200px; border: 1px solid #eee; border-radius: 12px; padding: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.02); transition: transform 0.2s;">
+          <div class="step-badge"
+            style="background: linear-gradient(135deg, #0a2558, #1e40af); color: #fff; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; border-radius: 8px; font-weight: 800; margin-bottom: 14px;">
+            1</div>
+          <h4 style="color: var(--navy); font-size: 15px; font-weight: 700; margin-bottom: 8px;">Login &amp; Initiate
+          </h4>
+          <p style="color: var(--ink3); font-size: 13px; line-height: 1.5; margin: 0;">Head of Department (HOD)
+            authenticates securely via the portal using their registered email. Once logged in, you will select the
+            academic year and semester (Even or Odd) to initiate either the Semester Readiness or Semester Closure
+            Report.</p>
+        </div>
+
+        <div class="workflow-arrow"
+          style="display: flex; align-items: center; justify-content: center; font-size: 24px; color: var(--navy); font-weight: 800; opacity: 0.6;">
+          ➔</div>
+
+        <div class="step-card step-2"
+          style="flex: 1; min-width: 200px; border: 1px solid #eee; border-radius: 12px; padding: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.02); transition: transform 0.2s;">
+          <div class="step-badge"
+            style="background: linear-gradient(135deg, #7c3aed, #4f46e5); color: #fff; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; border-radius: 8px; font-weight: 800; margin-bottom: 14px;">
+            2</div>
+          <h4 style="color: var(--navy); font-size: 15px; font-weight: 700; margin-bottom: 8px;">Complete &amp; Link
+          </h4>
+          <p style="color: var(--ink3); font-size: 13px; line-height: 1.5; margin: 0;">HOD fills the identity and goes to share to faculty, generates the link and shares to the faculty.</p>
+        </div>
+
+        <div class="workflow-arrow"
+          style="display: flex; align-items: center; justify-content: center; font-size: 24px; color: var(--navy); font-weight: 800; opacity: 0.6;">
+          ➔</div>
+
+        <div class="step-card step-3"
+          style="flex: 1; min-width: 200px; border: 1px solid #eee; border-radius: 12px; padding: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.02); transition: transform 0.2s;">
+          <div class="step-badge"
+            style="background: linear-gradient(135deg, #ec4899, #db2777); color: #fff; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; border-radius: 8px; font-weight: 800; margin-bottom: 14px;">
+            3</div>
+          <h4 style="color: var(--navy); font-size: 15px; font-weight: 700; margin-bottom: 8px;">Share &amp; Faculty
+          </h4>
+          <p style="color: var(--ink3); font-size: 13px; line-height: 1.5; margin: 0;">Once faculty filled, you will get notification.</p>
+        </div>
+
+        <div class="workflow-arrow"
+          style="display: flex; align-items: center; justify-content: center; font-size: 24px; color: var(--navy); font-weight: 800; opacity: 0.6;">
+          ➔</div>
+
+        <div class="step-card step-4"
+          style="flex: 1; min-width: 200px; border: 1px solid #eee; border-radius: 12px; padding: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.02); transition: transform 0.2s;">
+          <div class="step-badge"
+            style="background: linear-gradient(135deg, #10b981, #059669); color: #fff; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; border-radius: 8px; font-weight: 800; margin-bottom: 14px;">
+            4</div>
+          <h4 style="color: var(--navy); font-size: 15px; font-weight: 700; margin-bottom: 8px;">Complete &amp; Submit</h4>
+          <p style="color: var(--ink3); font-size: 13px; line-height: 1.5; margin: 0;">Go to checkpoint, fill and submit to OoA.</p>
+        </div>
+      </div>
+
+      <style>
+        .workflow-arrow {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 24px;
+          color: var(--navy);
+          font-weight: 800;
+          opacity: 0.6;
+          transition: all 0.3s;
+        }
+
+        @media (max-width: 992px) {
+          .workflow-arrow {
+            transform: rotate(90deg);
+            margin: 10px 0;
+            width: 100%;
+            text-align: center;
+          }
+        }
+      </style>
+
+      <div style="display: flex; justify-content: flex-end; margin-top: 24px;">
+        <button class="btn"
+          style="background: #f0f3fa; color: var(--navy); border: 1px solid var(--navy); border-radius: 6px; padding: 8px 16px; font-weight: 700;"
+          onclick="closeWorkflowModal()">Close</button>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

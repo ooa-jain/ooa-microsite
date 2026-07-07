@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Campus Life · Jain University</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #04043a; --navy-mid: #0d0d6b; --navy-light: #1a1a9e;
+      --gold: #FFD700; --gold-deep: #e6b800; --gold-light: #ffe566;
+      --white: #fff; --off-white: #f5f6fc; --surface: #fff;
+      --border: #e3e5f2; --text: #1c1c3a; --muted: #6b6d8a;
+      --shadow-sm: 0 2px 10px rgba(4,4,58,.09);
+      --shadow-md: 0 8px 24px rgba(4,4,58,.11);
+      --shadow-lg: 0 14px 44px rgba(4,4,58,.15);
+      --radius-sm: 10px; --radius-md: 14px; --radius-lg: 22px;
+      --transition: all .3s cubic-bezier(.4,0,.2,1);
+    }
+    * { margin:0; padding:0; box-sizing:border-box }
+    body { font-family:'Inter',sans-serif; background:var(--off-white); color:var(--text); min-height:100vh }
+    a { text-decoration:none; color:inherit }
+    button { font-family:inherit; cursor:pointer }
+
+    /* ── top progress bar ── */
+    #topLoader { position:fixed; top:0; left:0; height:3px; width:0; z-index:9999;
+      background:linear-gradient(90deg,var(--gold),var(--gold-deep)); box-shadow:0 0 12px rgba(255,215,0,.6);
+      transition:width .35s ease, opacity .4s ease; opacity:0 }
+    #topLoader.active { opacity:1 }
+
+    /* ── header ── */
+    header { position:sticky; top:0; z-index:100; background:rgba(255,255,255,.92); backdrop-filter:blur(14px);
+      border-bottom:1px solid var(--border); box-shadow:var(--shadow-sm) }
+    .header-inner { max-width:1280px; margin:0 auto; padding:12px 24px; display:flex; align-items:center; gap:16px }
+    .logo-wrap img { width:46px; height:46px; object-fit:contain }
+    .page-brand { display:flex; flex-direction:column }
+    .page-brand .kicker { font-size:10px; font-weight:800; letter-spacing:3px; text-transform:uppercase; color:var(--gold-deep) }
+    .page-brand .title { font-family:'Playfair Display',serif; font-size:20px; font-weight:700; color:var(--navy) }
+    .head-actions { margin-left:auto; display:flex; gap:10px; align-items:center }
+    .btn { display:inline-flex; align-items:center; gap:8px; padding:10px 20px; border-radius:999px;
+      font-size:13.5px; font-weight:600; border:1px solid var(--border); background:var(--white); color:var(--navy);
+      transition:var(--transition) }
+    .btn:hover { transform:translateY(-1px); box-shadow:var(--shadow-md) }
+    .btn.gold { background:linear-gradient(135deg,var(--gold),var(--gold-deep)); border:none; color:var(--navy);
+      box-shadow:0 6px 24px rgba(255,215,0,.28) }
+    .btn.navy { background:linear-gradient(135deg,var(--navy),var(--navy-mid)); border:none; color:#fff }
+    .btn[disabled] { opacity:.65; pointer-events:none }
+    .btn .spin { display:none }
+    .btn.loading .spin { display:inline-block; animation:rot 1s linear infinite }
+    .btn.loading .idle { display:none }
+    @keyframes rot { to { transform:rotate(360deg) } }
+
+    /* ── hero ── */
+    .hero { background:linear-gradient(135deg,var(--navy) 0%,var(--navy-mid) 60%,#151580 100%); color:#fff;
+      padding:64px 24px 88px; position:relative; overflow:hidden }
+    .hero::after { content:''; position:absolute; right:-120px; top:-120px; width:420px; height:420px; border-radius:50%;
+      background:radial-gradient(circle, rgba(255,215,0,.16), transparent 65%) }
+    .hero::before { content:''; position:absolute; left:-80px; bottom:-140px; width:360px; height:360px; border-radius:50%;
+      background:radial-gradient(circle, rgba(255,255,255,.06), transparent 65%) }
+    .hero-inner { max-width:1280px; margin:0 auto; position:relative; z-index:1 }
+    .hero .kicker { font-size:11px; font-weight:800; letter-spacing:4px; text-transform:uppercase; color:var(--gold);
+      display:inline-flex; align-items:center; gap:10px }
+    .hero .kicker::before { content:''; width:34px; height:2px; background:var(--gold); border-radius:2px }
+    .hero h1 { font-family:'Playfair Display',serif; font-size:clamp(32px,5vw,52px); font-weight:800; margin:14px 0 12px; line-height:1.1 }
+    .hero h1 em { font-style:normal; color:var(--gold) }
+    .hero p { max-width:640px; color:rgba(255,255,255,.78); font-size:15.5px; line-height:1.7 }
+    .hero-stats { display:flex; gap:34px; margin-top:28px; flex-wrap:wrap }
+    .hstat .num { font-size:26px; font-weight:800; color:var(--gold) }
+    .hstat .lbl { font-size:11.5px; letter-spacing:1.5px; text-transform:uppercase; color:rgba(255,255,255,.65) }
+
+    /* ── toolbar ── */
+    .toolbar { max-width:1280px; margin:-42px auto 0; padding:0 24px; position:relative; z-index:5 }
+    .toolbar-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-lg);
+      box-shadow:var(--shadow-lg); padding:16px 20px; display:flex; gap:12px; align-items:center; flex-wrap:wrap }
+    .search-box { flex:1; min-width:220px; display:flex; align-items:center; gap:10px; background:var(--off-white);
+      border:1px solid var(--border); border-radius:999px; padding:10px 18px }
+    .search-box input { border:none; outline:none; background:transparent; width:100%; font-size:14px; font-family:inherit; color:var(--text) }
+    .search-box i { color:var(--muted) }
+    select.filter { padding:10px 16px; border-radius:999px; border:1px solid var(--border); background:var(--off-white);
+      font-family:inherit; font-size:13.5px; color:var(--navy); outline:none; cursor:pointer; max-width:230px }
+
+    /* ── gallery grid ── */
+    .wrap { max-width:1280px; margin:0 auto; padding:34px 24px 90px }
+    .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(290px,1fr)); gap:22px }
+    .tile { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-lg); overflow:hidden;
+      box-shadow:var(--shadow-sm); transition:var(--transition); display:flex; flex-direction:column; position:relative;
+      opacity:0; transform:translateY(18px); animation:tileIn .55s cubic-bezier(.4,0,.2,1) forwards }
+    @keyframes tileIn { to { opacity:1; transform:none } }
+    .tile:hover { transform:translateY(-6px); box-shadow:var(--shadow-lg); border-color:rgba(255,215,0,.55) }
+    .tile-img { position:relative; height:215px; overflow:hidden; cursor:zoom-in; background:linear-gradient(135deg,#eceefb,#f6f7ff) }
+    .tile-img img { width:100%; height:100%; object-fit:cover; transition:transform .6s cubic-bezier(.4,0,.2,1) }
+    .tile:hover .tile-img img { transform:scale(1.07) }
+    .tile-date { position:absolute; top:12px; left:12px; background:rgba(4,4,58,.85); backdrop-filter:blur(6px);
+      color:#fff; font-size:11.5px; font-weight:600; padding:6px 12px; border-radius:999px; display:flex; gap:6px; align-items:center }
+    .tile-date i { color:var(--gold) }
+    .tile-del { position:absolute; top:12px; right:12px; width:32px; height:32px; border-radius:50%; border:none;
+      background:rgba(231,76,60,.92); color:#fff; font-size:12.5px; display:flex; align-items:center; justify-content:center;
+      opacity:0; transition:var(--transition) }
+    .tile:hover .tile-del { opacity:1 }
+    .tile-body { padding:16px 18px 18px; display:flex; flex-direction:column; gap:8px; flex:1 }
+    .tile-chips { display:flex; gap:6px; flex-wrap:wrap }
+    .chip { font-size:10.5px; font-weight:700; letter-spacing:.6px; text-transform:uppercase; padding:4px 10px;
+      border-radius:999px; background:rgba(255,215,0,.16); color:var(--gold-deep); border:1px solid rgba(230,184,0,.3) }
+    .chip.navy { background:rgba(4,4,58,.07); color:var(--navy); border-color:rgba(4,4,58,.14) }
+    .tile h3 { font-size:16.5px; font-weight:700; color:var(--navy); line-height:1.35 }
+    .tile p { font-size:13.2px; color:var(--muted); line-height:1.6; display:-webkit-box; -webkit-line-clamp:3;
+      -webkit-box-orient:vertical; overflow:hidden; flex:1 }
+    .tile-foot { display:flex; align-items:center; justify-content:space-between; margin-top:6px; padding-top:12px; border-top:1px dashed var(--border) }
+    .remind-btn { display:inline-flex; align-items:center; gap:7px; padding:8px 15px; border-radius:999px; border:none;
+      background:linear-gradient(135deg,var(--navy),var(--navy-mid)); color:#fff; font-size:12.5px; font-weight:600; transition:var(--transition) }
+    .remind-btn:hover { box-shadow:0 6px 18px rgba(4,4,58,.3); transform:translateY(-1px) }
+    .remind-btn i { color:var(--gold) }
+    .added-by { font-size:11px; color:var(--muted) }
+
+    /* skeletons */
+    .skel { border-radius:var(--radius-lg); overflow:hidden; border:1px solid var(--border); background:var(--surface) }
+    .skel .s-img { height:215px } .skel .s-b { padding:16px 18px }
+    .s-line { height:12px; border-radius:6px; margin-bottom:10px }
+    .shimmer { background:linear-gradient(90deg,#eceefb 25%,#f8f9ff 50%,#eceefb 75%); background-size:400% 100%;
+      animation:shim 1.4s ease infinite }
+    @keyframes shim { 0%{background-position:100% 0} 100%{background-position:-100% 0} }
+
+    .empty { grid-column:1/-1; text-align:center; padding:80px 20px; color:var(--muted) }
+    .empty i { font-size:52px; opacity:.25; display:block; margin-bottom:16px }
+
+    /* ── lightbox ── */
+    .lightbox { position:fixed; inset:0; background:rgba(4,4,58,.9); backdrop-filter:blur(8px); z-index:1000;
+      display:flex; align-items:center; justify-content:center; padding:30px; opacity:0; pointer-events:none; transition:opacity .3s }
+    .lightbox.show { opacity:1; pointer-events:auto }
+    .lb-box { max-width:940px; width:100%; background:var(--surface); border-radius:var(--radius-lg); overflow:hidden;
+      box-shadow:var(--shadow-lg); transform:scale(.94); transition:transform .3s; max-height:92vh; display:flex; flex-direction:column }
+    .lightbox.show .lb-box { transform:scale(1) }
+    .lb-img { max-height:56vh; overflow:hidden; background:#0a0a2e; display:flex; align-items:center; justify-content:center }
+    .lb-img img { width:100%; height:100%; max-height:56vh; object-fit:contain }
+    .lb-body { padding:22px 26px; overflow-y:auto }
+    .lb-body h2 { font-family:'Playfair Display',serif; color:var(--navy); font-size:24px; margin:6px 0 10px }
+    .lb-meta { display:flex; gap:16px; flex-wrap:wrap; font-size:12.5px; color:var(--muted); margin-bottom:10px }
+    .lb-meta i { color:var(--gold-deep); margin-right:5px }
+    .lb-body p { font-size:14px; line-height:1.75; color:var(--text) }
+    .lb-close { position:absolute; top:18px; right:22px; width:42px; height:42px; border-radius:50%; border:none;
+      background:rgba(255,255,255,.14); color:#fff; font-size:16px; transition:var(--transition) }
+    .lb-close:hover { background:var(--gold); color:var(--navy); transform:rotate(90deg) }
+
+    /* ── modals (add + reminder) ── */
+    .overlay { position:fixed; inset:0; background:rgba(4,4,58,.55); backdrop-filter:blur(6px); z-index:1100;
+      display:flex; align-items:center; justify-content:center; padding:22px; opacity:0; pointer-events:none; transition:opacity .3s }
+    .overlay.show { opacity:1; pointer-events:auto }
+    .modal { width:100%; max-width:520px; background:var(--surface); border-radius:var(--radius-lg); overflow:hidden;
+      box-shadow:var(--shadow-lg); transform:translateY(16px); transition:transform .3s; max-height:92vh; display:flex; flex-direction:column }
+    .overlay.show .modal { transform:none }
+    .modal-head { background:linear-gradient(135deg,var(--navy),var(--navy-mid)); color:#fff; padding:18px 24px;
+      display:flex; align-items:center; justify-content:space-between }
+    .modal-head h3 { font-size:16.5px; font-weight:700 } .modal-head h3 i { color:var(--gold); margin-right:9px }
+    .modal-head button { background:none; border:none; color:rgba(255,255,255,.75); font-size:17px }
+    .modal-body { padding:22px 24px; overflow-y:auto }
+    .fg { margin-bottom:15px }
+    .fg label { display:block; font-size:12px; font-weight:700; letter-spacing:.6px; text-transform:uppercase;
+      color:var(--navy); margin-bottom:7px }
+    .fg label .req { color:#e74c3c }
+    .fc { width:100%; padding:11px 15px; border:1.5px solid var(--border); border-radius:var(--radius-sm);
+      font-family:inherit; font-size:14px; color:var(--text); outline:none; transition:var(--transition); background:var(--off-white) }
+    .fc:focus { border-color:var(--gold-deep); background:#fff; box-shadow:0 0 0 4px rgba(255,215,0,.14) }
+    textarea.fc { resize:vertical; min-height:86px }
+    .row2 { display:grid; grid-template-columns:1fr 1fr; gap:13px }
+    .dropzone { border:2px dashed var(--border); border-radius:var(--radius-md); padding:22px; text-align:center;
+      color:var(--muted); cursor:pointer; transition:var(--transition); background:var(--off-white); position:relative; overflow:hidden }
+    .dropzone:hover, .dropzone.drag { border-color:var(--gold-deep); background:rgba(255,215,0,.06) }
+    .dropzone i { font-size:26px; color:var(--gold-deep); display:block; margin-bottom:8px }
+    .dropzone .hint { font-size:12px }
+    .dropzone img.preview { position:absolute; inset:0; width:100%; height:100%; object-fit:cover }
+    .dropzone .change-tag { position:absolute; bottom:8px; right:8px; background:rgba(4,4,58,.85); color:#fff;
+      font-size:11px; padding:5px 11px; border-radius:999px; display:none }
+    .dropzone.has-img { min-height:170px } .dropzone.has-img .change-tag { display:block }
+    .dropzone.has-img .dz-inner { display:none }
+    .modal-foot { padding:16px 24px 22px; display:flex; gap:10px; justify-content:flex-end; border-top:1px solid var(--border) }
+    .email-note { font-size:12px; color:var(--muted); background:rgba(255,215,0,.1); border:1px solid rgba(230,184,0,.25);
+      border-radius:var(--radius-sm); padding:10px 14px; margin-top:4px }
+    .email-note i { color:var(--gold-deep); margin-right:6px }
+
+    /* fab for admins */
+    .fab { position:fixed; bottom:28px; right:28px; z-index:90; display:inline-flex; align-items:center; gap:10px;
+      padding:15px 24px; border-radius:999px; border:none; background:linear-gradient(135deg,var(--gold),var(--gold-deep));
+      color:var(--navy); font-weight:800; font-size:14px; box-shadow:0 10px 34px rgba(255,215,0,.45); transition:var(--transition) }
+    .fab:hover { transform:translateY(-3px) scale(1.03) }
+
+    /* toast */
+    .toast { position:fixed; bottom:26px; left:50%; transform:translate(-50%,80px); background:var(--navy); color:#fff;
+      padding:13px 24px; border-radius:999px; font-size:13.5px; font-weight:600; z-index:2000; box-shadow:var(--shadow-lg);
+      transition:transform .35s cubic-bezier(.4,0,.2,1); display:flex; gap:9px; align-items:center }
+    .toast.show { transform:translate(-50%,0) }
+    .toast.success i { color:#2ecc71 } .toast.error i { color:#e74c3c }
+
+    @media(max-width:640px){
+      .hero { padding:46px 18px 78px } .toolbar-card { padding:13px 14px }
+      .wrap { padding:26px 16px 110px } .row2 { grid-template-columns:1fr }
+      .fab { bottom:20px; right:16px; padding:13px 19px }
+    }
+  </style>
+</head>
+<body>
+  <div id="topLoader"></div>
+
+  <header>
+    <div class="header-inner">
+      <div class="logo-wrap">
+        <img src="{{ url_for('static', filename='images/L23.png') }}" alt="Jain University"
+             onerror="this.src='https://via.placeholder.com/46x46/04043a/FFD700?text=JU'">
+      </div>
+      <div class="page-brand">
+        <span class="kicker">Office of Academics</span>
+        <span class="title">Campus Life</span>
+      </div>
+      <div class="head-actions">
+        <a href="{{ url_for('home') }}" class="btn nav-loading"><i class="fas fa-arrow-left idle"></i><i class="fas fa-circle-notch spin"></i> Jain Hub</a>
+        {% if can_manage %}
+        <button class="btn gold" onclick="openAddModal()"><i class="fas fa-plus"></i> Add Moment</button>
+        {% endif %}
+      </div>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-inner">
+      <span class="kicker">Moments · Memories · Milestones</span>
+      <h1>Life at <em>JAIN</em>, captured.</h1>
+      <p>A living gallery of campus moments shared by departments across the university — convocations, fests,
+        workshops, wins and everything in between. Tap any tile to relive it, or set a reminder for what's next.</p>
+      <div class="hero-stats">
+        <div class="hstat"><div class="num" id="statMoments">–</div><div class="lbl">Moments</div></div>
+        <div class="hstat"><div class="num" id="statDepts">–</div><div class="lbl">Departments</div></div>
+        <div class="hstat"><div class="num" id="statCampuses">–</div><div class="lbl">Campuses</div></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="toolbar">
+    <div class="toolbar-card">
+      <div class="search-box"><i class="fas fa-search"></i>
+        <input type="text" id="searchInput" placeholder="Search moments, titles, descriptions…">
+      </div>
+      <select class="filter" id="deptFilter"><option value="">All Departments</option></select>
+      <select class="filter" id="campusFilter"><option value="">All Campuses</option></select>
+      <select class="filter" id="sortFilter">
+        <option value="new">Newest first</option>
+        <option value="old">Oldest first</option>
+      </select>
+    </div>
+  </div>
+
+  <main class="wrap">
+    <div class="grid" id="galleryGrid"></div>
+  </main>
+
+  {% if can_manage %}
+  <button class="fab" onclick="openAddModal()"><i class="fas fa-camera-retro"></i> Add Campus Moment</button>
+  {% endif %}
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox" onclick="if(event.target===this)closeLightbox()">
+    <button class="lb-close" onclick="closeLightbox()"><i class="fas fa-times"></i></button>
+    <div class="lb-box">
+      <div class="lb-img"><img id="lbImg" src="" alt=""></div>
+      <div class="lb-body">
+        <div class="tile-chips" id="lbChips"></div>
+        <h2 id="lbTitle"></h2>
+        <div class="lb-meta" id="lbMeta"></div>
+        <p id="lbDesc"></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Moment modal -->
+  {% if can_manage %}
+  <div class="overlay" id="addModal" onclick="if(event.target===this)closeAddModal()">
+    <div class="modal">
+      <div class="modal-head">
+        <h3><i class="fas fa-camera-retro"></i>Add Campus Moment</h3>
+        <button onclick="closeAddModal()"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="modal-body">
+        <div class="fg">
+          <label>Photo <span class="req">*</span></label>
+          <div class="dropzone" id="dropzone" onclick="document.getElementById('imgInput').click()">
+            <img class="preview" id="imgPreview" alt="" style="display:none">
+            <span class="change-tag"><i class="fas fa-sync-alt"></i> Change photo</span>
+            <div class="dz-inner">
+              <i class="fas fa-cloud-upload-alt"></i>
+              <div style="font-weight:600;color:var(--navy);font-size:13.5px">Click or drop an image here</div>
+              <div class="hint">PNG · JPG · GIF · WEBP, up to 50 MB</div>
+            </div>
+          </div>
+          <input type="file" id="imgInput" accept="image/png,image/jpeg,image/gif,image/webp" hidden>
+        </div>
+        <div class="fg">
+          <label>Title <span class="req">*</span></label>
+          <input type="text" class="fc" id="addTitle" maxlength="120" placeholder="e.g., Annual Tech Fest 2026 — Inauguration">
+        </div>
+        <div class="fg">
+          <label>Description</label>
+          <textarea class="fc" id="addDesc" maxlength="1000" placeholder="What happened? Who was there? Why does it matter?"></textarea>
+        </div>
+        <div class="row2">
+          <div class="fg">
+            <label>Date Happened <span class="req">*</span></label>
+            <input type="date" class="fc" id="addDate">
+          </div>
+          <div class="fg">
+            <label>Campus</label>
+            <select class="fc" id="addCampus"><option value="">Select campus…</option></select>
+          </div>
+        </div>
+        <div class="fg">
+          <label>Department</label>
+          <select class="fc" id="addDept"><option value="">Select department…</option></select>
+        </div>
+        <div class="email-note"><i class="fas fa-bolt"></i>This moment also appears in <strong>Events</strong> automatically, so anyone can set an email reminder for it.</div>
+      </div>
+      <div class="modal-foot">
+        <button class="btn" onclick="closeAddModal()">Cancel</button>
+        <button class="btn gold" id="addSubmitBtn" onclick="submitMoment()">
+          <i class="fas fa-check idle"></i><i class="fas fa-circle-notch spin"></i>&nbsp;<span id="addSubmitTxt">Publish Moment</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+
+  <!-- Reminder modal -->
+  <div class="overlay" id="remModal" onclick="if(event.target===this)closeRemModal()">
+    <div class="modal">
+      <div class="modal-head">
+        <h3><i class="fas fa-bell"></i>Set Email Reminder</h3>
+        <button onclick="closeRemModal()"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="modal-body">
+        <div style="background:var(--off-white);border:1px solid var(--border);border-radius:var(--radius-md);padding:14px 16px;margin-bottom:16px">
+          <div style="font-weight:700;color:var(--navy);font-size:15px" id="remTitle"></div>
+          <div style="font-size:12.5px;color:var(--muted);margin-top:5px" id="remMeta"></div>
+        </div>
+        <div class="row2">
+          <div class="fg"><label>Remind me on <span class="req">*</span></label><input type="date" class="fc" id="remDate"></div>
+          <div class="fg"><label>At <span class="req">*</span></label><input type="time" class="fc" id="remTime" value="09:00"></div>
+        </div>
+        <div class="email-note"><i class="fas fa-envelope"></i>A reminder email will be sent to your registered university email.</div>
+      </div>
+      <div class="modal-foot">
+        <button class="btn" onclick="closeRemModal()">Cancel</button>
+        <button class="btn navy" id="remSubmitBtn" onclick="submitReminder()">
+          <i class="fas fa-paper-plane idle" style="color:var(--gold)"></i><i class="fas fa-circle-notch spin"></i>&nbsp;Set Reminder
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"><i class="fas fa-check-circle"></i><span id="toastMsg"></span></div>
+
+  <script>
+    const CAN_MANAGE = {{ 'true' if can_manage else 'false' }};
+    const IS_ADMIN   = {{ 'true' if user_role == 'admin' else 'false' }};
+    const MY_EMAIL   = "{{ user_email }}";
+    let ITEMS = [];
+
+    /* ── top loader for slow navigations ── */
+    const topLoader = document.getElementById('topLoader');
+    function startTopLoader(){ topLoader.classList.add('active'); topLoader.style.width='72%';
+      setTimeout(()=>{ topLoader.style.width='88%' }, 900); }
+    function stopTopLoader(){ topLoader.style.width='100%'; setTimeout(()=>{ topLoader.classList.remove('active'); topLoader.style.width='0' },350); }
+    document.querySelectorAll('a.nav-loading').forEach(a => a.addEventListener('click', () => { a.classList.add('loading'); startTopLoader(); }));
+
+    /* ── toast ── */
+    let toastTimer;
+    function showToast(msg, type='success'){
+      const t = document.getElementById('toast');
+      t.className = 'toast show ' + type;
+      t.querySelector('i').className = type==='success' ? 'fas fa-check-circle' : 'fas fa-exclamation-circle';
+      document.getElementById('toastMsg').textContent = msg;
+      clearTimeout(toastTimer); toastTimer = setTimeout(()=>t.classList.remove('show'), 3400);
+    }
+
+    /* ── skeletons ── */
+    function renderSkeletons(n=8){
+      const g = document.getElementById('galleryGrid');
+      g.innerHTML = Array.from({length:n}).map(()=>`
+        <div class="skel">
+          <div class="s-img shimmer"></div>
+          <div class="s-b">
+            <div class="s-line shimmer" style="width:38%"></div>
+            <div class="s-line shimmer" style="width:85%"></div>
+            <div class="s-line shimmer" style="width:70%"></div>
+            <div class="s-line shimmer" style="width:55%;margin-bottom:0"></div>
+          </div>
+        </div>`).join('');
+    }
+
+    /* ── data ── */
+    function fetchGallery(){
+      renderSkeletons();
+      startTopLoader();
+      fetch('/api/campus_gallery')
+        .then(r=>r.json())
+        .then(d=>{
+          stopTopLoader();
+          if(!d.success){ showToast(d.error||'Could not load gallery','error'); ITEMS=[]; renderGrid(); return; }
+          ITEMS = d.items || [];
+          fillSelect('deptFilter', d.departments, 'All Departments');
+          fillSelect('campusFilter', d.campuses, 'All Campuses');
+          if (CAN_MANAGE){
+            fillSelect('addDept', d.departments, 'Select department…');
+            fillSelect('addCampus', d.campuses, 'Select campus…');
+          }
+          document.getElementById('statMoments').textContent  = ITEMS.length;
+          document.getElementById('statDepts').textContent    = new Set(ITEMS.map(i=>i.department).filter(Boolean)).size || (d.departments||[]).length;
+          document.getElementById('statCampuses').textContent = (d.campuses||[]).length || new Set(ITEMS.map(i=>i.campus).filter(Boolean)).size;
+          renderGrid();
+        })
+        .catch(()=>{ stopTopLoader(); showToast('Network error while loading gallery','error'); });
+    }
+
+    function fillSelect(id, list, placeholder){
+      const el = document.getElementById(id); if(!el) return;
+      const cur = el.value;
+      el.innerHTML = `<option value="">${placeholder}</option>` + (list||[]).map(v=>`<option value="${escAttr(v)}">${esc(v)}</option>`).join('');
+      if ([...el.options].some(o=>o.value===cur)) el.value = cur;
+    }
+
+    const esc = s => String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    const escAttr = s => esc(s).replace(/"/g,'&quot;');
+    function fmtDate(d){
+      if(!d) return '—';
+      const dt = new Date(d + 'T00:00:00');
+      return isNaN(dt) ? d : dt.toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'});
+    }
+
+    /* ── grid ── */
+    function renderGrid(){
+      const g = document.getElementById('galleryGrid');
+      const q = document.getElementById('searchInput').value.trim().toLowerCase();
+      const fd = document.getElementById('deptFilter').value;
+      const fc = document.getElementById('campusFilter').value;
+      const sort = document.getElementById('sortFilter').value;
+
+      let list = ITEMS.filter(i =>
+        (!fd || i.department===fd) &&
+        (!fc || i.campus===fc) &&
+        (!q || (i.title||'').toLowerCase().includes(q) || (i.description||'').toLowerCase().includes(q) || (i.department||'').toLowerCase().includes(q))
+      );
+      list.sort((a,b)=> sort==='old'
+        ? (a.date_happened||'').localeCompare(b.date_happened||'')
+        : (b.date_happened||'').localeCompare(a.date_happened||''));
+
+      if(!list.length){
+        g.innerHTML = `<div class="empty"><i class="fas fa-images"></i>
+          <div style="font-weight:700;color:var(--navy);font-size:17px;margin-bottom:6px">No moments ${ITEMS.length? 'match your filters':'yet'}</div>
+          <div style="font-size:13.5px">${ITEMS.length? 'Try clearing the search or filters.' : (CAN_MANAGE ? 'Be the first — tap “Add Campus Moment”.' : 'Check back soon — departments will be sharing moments here.')}</div>
+        </div>`;
+        return;
+      }
+
+      g.innerHTML = list.map((it,idx)=>{
+        const canDel = IS_ADMIN || (CAN_MANAGE && it.added_by === MY_EMAIL);
+        return `
+        <div class="tile" style="animation-delay:${Math.min(idx*60,480)}ms">
+          <div class="tile-img" onclick="openLightbox('${it._id}')">
+            <img src="${escAttr(it.image)}" alt="${escAttr(it.title)}" loading="lazy"
+                 onerror="this.style.display='none'">
+            <span class="tile-date"><i class="far fa-calendar"></i>${fmtDate(it.date_happened)}</span>
+            ${canDel ? `<button class="tile-del" title="Delete" onclick="event.stopPropagation();deleteMoment('${it._id}', this)"><i class="fas fa-trash-alt"></i></button>` : ''}
+          </div>
+          <div class="tile-body">
+            <div class="tile-chips">
+              ${it.department ? `<span class="chip">${esc(it.department)}</span>` : ''}
+              ${it.campus ? `<span class="chip navy">${esc(it.campus)}</span>` : ''}
+            </div>
+            <h3>${esc(it.title)}</h3>
+            <p>${esc(it.description || '')}</p>
+            <div class="tile-foot">
+              <button class="remind-btn" onclick="openRemModal('${it._id}')"><i class="fas fa-bell"></i> Set Reminder</button>
+              <span class="added-by"><i class="fas fa-user-pen" style="margin-right:4px"></i>${esc((it.added_by||'').split('@')[0])}</span>
+            </div>
+          </div>
+        </div>`;
+      }).join('');
+    }
+
+    ['searchInput','deptFilter','campusFilter','sortFilter'].forEach(id=>{
+      const el = document.getElementById(id);
+      el.addEventListener(el.tagName==='INPUT'?'input':'change', renderGrid);
+    });
+
+    /* ── lightbox ── */
+    function openLightbox(id){
+      const it = ITEMS.find(x=>x._id===id); if(!it) return;
+      document.getElementById('lbImg').src = it.image;
+      document.getElementById('lbTitle').textContent = it.title;
+      document.getElementById('lbDesc').textContent = it.description || '';
+      document.getElementById('lbChips').innerHTML =
+        (it.department?`<span class="chip">${esc(it.department)}</span>`:'') +
+        (it.campus?`<span class="chip navy">${esc(it.campus)}</span>`:'');
+      document.getElementById('lbMeta').innerHTML =
+        `<span><i class="far fa-calendar"></i>${fmtDate(it.date_happened)}</span>` +
+        `<span><i class="fas fa-user-pen"></i>${esc((it.added_by||'').split('@')[0])}</span>`;
+      document.getElementById('lightbox').classList.add('show');
+      document.body.style.overflow='hidden';
+    }
+    function closeLightbox(){ document.getElementById('lightbox').classList.remove('show'); document.body.style.overflow=''; }
+
+    /* ── reminder ── */
+    let _remItem = null;
+    function openRemModal(id){
+      _remItem = ITEMS.find(x=>x._id===id); if(!_remItem) return;
+      document.getElementById('remTitle').textContent = _remItem.title;
+      document.getElementById('remMeta').innerHTML =
+        `<i class="far fa-calendar" style="color:var(--gold-deep)"></i> ${fmtDate(_remItem.date_happened)}` +
+        (_remItem.campus? ` &nbsp;·&nbsp; <i class="fas fa-map-marker-alt" style="color:var(--gold-deep)"></i> ${esc(_remItem.campus)}` : '');
+      const today = new Date().toISOString().split('T')[0];
+      const rd = document.getElementById('remDate');
+      rd.min = today;
+      rd.value = (_remItem.date_happened && _remItem.date_happened >= today) ? _remItem.date_happened : today;
+      document.getElementById('remModal').classList.add('show');
+      document.body.style.overflow='hidden';
+    }
+    function closeRemModal(){ document.getElementById('remModal').classList.remove('show'); document.body.style.overflow=''; }
+
+    function submitReminder(){
+      if(!_remItem || !_remItem.event_id){ showToast('This moment has no linked event','error'); return; }
+      const date = document.getElementById('remDate').value;
+      const time = document.getElementById('remTime').value;
+      if(!date){ showToast('Please pick a reminder date','error'); return; }
+      if(!time){ showToast('Please pick a reminder time','error'); return; }
+      const btn = document.getElementById('remSubmitBtn');
+      btn.classList.add('loading'); btn.disabled = true;
+      fetch('/set_reminder', { method:'POST', headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({ event_id:_remItem.event_id, reminder_date:date, reminder_time:time }) })
+        .then(r=>r.json())
+        .then(d=>{
+          btn.classList.remove('loading'); btn.disabled=false;
+          if(d.success){ showToast('✅ Reminder set — confirmation email sent'); closeRemModal(); }
+          else showToast(d.error || 'Could not set reminder','error');
+        })
+        .catch(()=>{ btn.classList.remove('loading'); btn.disabled=false; showToast('Network error','error'); });
+    }
+
+    /* ── add moment (admins / leaders) ── */
+    let pickedFile = null;
+    if (CAN_MANAGE){
+      const dz = document.getElementById('dropzone');
+      const input = document.getElementById('imgInput');
+      input.addEventListener('change', e => setImage(e.target.files[0]));
+      ;['dragover','dragenter'].forEach(ev=>dz.addEventListener(ev, e=>{e.preventDefault();dz.classList.add('drag')}));
+      ;['dragleave','drop'].forEach(ev=>dz.addEventListener(ev, e=>{e.preventDefault();dz.classList.remove('drag')}));
+      dz.addEventListener('drop', e => setImage(e.dataTransfer.files[0]));
+      function setImage(f){
+        if(!f) return;
+        if(!/^image\/(png|jpe?g|gif|webp)$/.test(f.type)){ showToast('Image must be PNG / JPG / GIF / WEBP','error'); return; }
+        pickedFile = f;
+        const prev = document.getElementById('imgPreview');
+        prev.src = URL.createObjectURL(f); prev.style.display='block';
+        dz.classList.add('has-img');
+      }
+    }
+    function openAddModal(){
+      document.getElementById('addDate').max = new Date().toISOString().split('T')[0];
+      document.getElementById('addModal').classList.add('show');
+      document.body.style.overflow='hidden';
+    }
+    function closeAddModal(){ document.getElementById('addModal').classList.remove('show'); document.body.style.overflow=''; }
+
+    function submitMoment(){
+      const title = document.getElementById('addTitle').value.trim();
+      const date  = document.getElementById('addDate').value;
+      if(!pickedFile){ showToast('Please choose a photo','error'); return; }
+      if(!title){ showToast('Please enter a title','error'); return; }
+      if(!date){ showToast('Please pick the date it happened','error'); return; }
+
+      const btn = document.getElementById('addSubmitBtn');
+      btn.classList.add('loading'); btn.disabled = true;
+      document.getElementById('addSubmitTxt').textContent = 'Publishing…';
+
+      const fd = new FormData();
+      fd.append('image', pickedFile);
+      fd.append('title', title);
+      fd.append('description', document.getElementById('addDesc').value.trim());
+      fd.append('date_happened', date);
+      fd.append('department', document.getElementById('addDept').value);
+      fd.append('campus', document.getElementById('addCampus').value);
+
+      fetch('/api/campus_gallery/add', { method:'POST', body:fd })
+        .then(r=>r.json())
+        .then(d=>{
+          btn.classList.remove('loading'); btn.disabled=false;
+          document.getElementById('addSubmitTxt').textContent = 'Publish Moment';
+          if(d.success){
+            showToast('🎉 Moment published — it\'s live in Events too');
+            closeAddModal();
+            // reset form
+            pickedFile = null;
+            document.getElementById('imgPreview').style.display='none';
+            document.getElementById('dropzone').classList.remove('has-img');
+            document.getElementById('imgInput').value='';
+            ['addTitle','addDesc','addDate'].forEach(id=>document.getElementById(id).value='');
+            fetchGallery();
+          } else showToast(d.error || 'Could not publish','error');
+        })
+        .catch(()=>{ btn.classList.remove('loading'); btn.disabled=false;
+          document.getElementById('addSubmitTxt').textContent='Publish Moment'; showToast('Network error','error'); });
+    }
+
+    function deleteMoment(id, btnEl){
+      if(!confirm('Delete this campus moment? Its linked event and reminders will also be removed.')) return;
+      btnEl.innerHTML = '<i class="fas fa-circle-notch" style="animation:rot 1s linear infinite"></i>';
+      fetch('/api/campus_gallery/' + id, { method:'DELETE' })
+        .then(r=>r.json())
+        .then(d=>{
+          if(d.success){ showToast('Moment deleted'); ITEMS = ITEMS.filter(x=>x._id!==id); renderGrid();
+            document.getElementById('statMoments').textContent = ITEMS.length; }
+          else { showToast(d.error || 'Could not delete','error'); btnEl.innerHTML='<i class="fas fa-trash-alt"></i>'; }
+        })
+        .catch(()=>{ showToast('Network error','error'); btnEl.innerHTML='<i class="fas fa-trash-alt"></i>'; });
+    }
+
+    document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ closeLightbox(); closeRemModal();
+      if (document.getElementById('addModal')) closeAddModal(); } });
+
+    fetchGallery();
+  </script>
+</body>
+</html>

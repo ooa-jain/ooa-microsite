@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Not Found - Jain University</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --navy: #04043a;
+            --gold: #FFD700;
+            --surface: #f8fafc;
+        }
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            margin: 0; padding: 0;
+            font-family: 'DM Sans', sans-serif;
+            background-color: var(--surface);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            color: var(--navy);
+            text-align: center;
+            overflow-x: hidden;
+        }
+        .container {
+            padding: 40px 20px;
+            max-width: 600px;
+            width: 100%;
+        }
+        .error-code {
+            font-size: 120px;
+            font-weight: 700;
+            line-height: 1;
+            margin: 0;
+            color: var(--navy);
+            text-shadow: 4px 4px 0px rgba(255, 215, 0, 0.3);
+        }
+        .error-msg {
+            font-size: 24px;
+            font-weight: 600;
+            margin: 20px 0;
+        }
+        .error-desc {
+            font-size: 16px;
+            color: #475569;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        .btn-home {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background-color: var(--gold);
+            color: var(--navy);
+            padding: 14px 28px;
+            border-radius: 100px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 16px;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 14px rgba(255, 215, 0, 0.3);
+        }
+        .btn-home:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 215, 0, 0.4);
+        }
+        .logo {
+            height: 60px;
+            margin-bottom: 40px;
+        }
+        @media (max-width: 600px) {
+            .error-code { font-size: 80px; }
+            .error-msg { font-size: 20px; }
+            .error-desc { font-size: 15px; }
+            .btn-home { padding: 12px 24px; font-size: 15px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="{{ url_for('static', filename='images/jainu.png') }}" alt="Jain University" class="logo" onerror="this.style.display='none'">
+        <h1 class="error-code">404</h1>
+        <div class="error-msg">Page Not Found</div>
+        <p class="error-desc">Oops! The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.</p>
+        <a href="{{ url_for('home') }}" class="btn-home"><i class="fas fa-home"></i> Back to Home</a>
+    </div>
+</body>
+</html>

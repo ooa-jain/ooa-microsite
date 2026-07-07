@@ -1,0 +1,43 @@
+{% extends "base_user.html" %}
+
+{% block title %}About Us — Jain (Deemed-to-be University){% endblock %}
+{% block page_title %}About the University{% endblock %}
+{% block page_subtitle %}Learn more about Jain (Deemed-to-be University) and our academic standards{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 py-8">
+    <div class="bg-white rounded-3xl border border-gray-100 shadow-xl overflow-hidden hover:shadow-2xl transition duration-300">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 p-8 lg:p-12 items-center">
+            
+            <!-- Text Column -->
+            <div class="lg:col-span-7 space-y-6">
+                <div class="inline-flex items-center gap-2 px-3 py-1.5 bg-blue-50 text-blue-800 rounded-lg text-xs font-semibold border border-blue-100 mb-2">
+                    <i class="fas fa-university text-blue-600"></i> Academic Distinction
+                </div>
+                
+                <h2 class="text-3xl lg:text-4xl font-extrabold text-[#0A1929] leading-tight" style="font-family: 'Playfair Display', serif;">
+                    About Jain Deemed-to-be University
+                </h2>
+                
+                <div class="h-1 w-20 bg-[var(--jain-gold)] rounded-full"></div>
+                
+                <div class="text-gray-600 text-sm lg:text-base leading-relaxed space-y-4 font-sans">
+                    <p>Jain (Deemed-to-be University) is one of India's premier academic institutions, committed to excellence in education and research. With a rich legacy of academic distinction, the University has established itself as a trusted leader in higher education.</p>
+                    <p>Our expert faculty and dedicated teams are committed to maintaining the highest standards while delivering quality education tailored to individual goals. The university offers a wide range of undergraduate, postgraduate, and doctoral programs across various disciplines.</p>
+                    <p>With state-of-the-art infrastructure, innovative teaching methodologies, and strong industry collaborations, Jain University provides an enriching learning environment that fosters intellectual growth and professional development.</p>
+                    <p>Accredited with an 'A++' grade by NAAC and recognized by UGC, Jain University continues to set benchmarks in higher education with its cutting-edge research, global collaborations, and commitment to student success.</p>
+                </div>
+            </div>
+            
+            <!-- Image Column -->
+            <div class="lg:col-span-5 relative">
+                <div class="absolute -inset-1 bg-gradient-to-r from-[var(--jain-gold)] to-[#1E3A5F] rounded-2xl blur opacity-25"></div>
+                <div class="relative bg-white p-3 rounded-2xl shadow-lg border border-gray-100">
+                    <img src="{{ url_for('static', filename='images/ooaimg.jpg') }}" alt="Jain University Campus" class="w-full h-auto rounded-xl object-cover shadow-inner hover:scale-[1.02] transition duration-300">
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+{% endblock %}

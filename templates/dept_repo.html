@@ -1,0 +1,329 @@
+{% extends "base_user.html" %}
+
+{% block title %}Your Uploads to OOA — Jain University{% endblock %}
+{% block page_title %}Uploads to Office of Academics{% endblock %}
+{% block page_subtitle %}Submit documents directly to the OOA Core & Leader team{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 py-8">
+    
+    <!-- Notice Banner -->
+    <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-8 rounded-r-xl shadow-sm flex items-start gap-3">
+        <div class="text-blue-500 mt-0.5"><i class="fas fa-lock text-lg"></i></div>
+        <div>
+            <h4 class="font-bold text-blue-900 text-sm">Confidential Upload Portal</h4>
+            <p class="text-xs text-blue-700 mt-1">You are accessing the secure upload pipeline for <strong>{{ user_department or 'your department' }}</strong>. Documents uploaded here are submitted directly to the Office of Academics (OOA) Core & Leader dashboards for administrative review.</p>
+        </div>
+    </div>
+
+    <!-- Stats Row -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+        <div class="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm flex items-center gap-4">
+            <div class="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center text-blue-600 text-xl">
+                <i class="fas fa-folder-open"></i>
+            </div>
+            <div>
+                <span class="block text-xs font-semibold uppercase tracking-wider text-gray-400">Total Documents</span>
+                <strong class="block text-2xl font-bold text-gray-800 mt-1">{{ docs|length }}</strong>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm flex items-center gap-4">
+            <div class="w-12 h-12 rounded-xl bg-amber-50 flex items-center justify-center text-amber-600 text-xl">
+                <i class="fas fa-clock"></i>
+            </div>
+            <div>
+                <span class="block text-xs font-semibold uppercase tracking-wider text-gray-400">This Month</span>
+                <strong class="block text-2xl font-bold text-gray-800 mt-1">{{ recent_count }}</strong>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm flex items-center gap-4">
+            <div class="w-12 h-12 rounded-xl bg-emerald-50 flex items-center justify-center text-emerald-600 text-xl">
+                <i class="fas fa-chalkboard-teacher"></i>
+            </div>
+            <div>
+                <span class="block text-xs font-semibold uppercase tracking-wider text-gray-400">Faculty Submitted</span>
+                <strong class="block text-2xl font-bold text-gray-800 mt-1">{{ faculty_count }}</strong>
+            </div>
+        </div>
+
+        {% if user_location %}
+        <div class="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm flex items-center gap-4">
+            <div class="w-12 h-12 rounded-xl bg-purple-50 flex items-center justify-center text-purple-600 text-xl">
+                <i class="fas fa-map-marker-alt"></i>
+            </div>
+            <div>
+                <span class="block text-xs font-semibold uppercase tracking-wider text-gray-400">Campus</span>
+                <strong class="block text-sm font-bold text-gray-800 mt-1.5 truncate max-w-[150px]">{{ user_location }}</strong>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Upload Section -->
+    {% if user_department %}
+    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm mb-8 overflow-hidden">
+        <div class="p-6 bg-gradient-to-r from-[var(--jain-navy)] to-[#1e3a5f] text-white flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div class="flex items-center gap-4">
+                <div class="w-12 h-12 rounded-xl bg-amber-500 flex items-center justify-center text-[var(--jain-navy)] text-xl">
+                    <i class="fas fa-file-upload text-white"></i>
+                </div>
+                <div>
+                    <h3 class="font-bold text-lg text-[var(--jain-gold)]" style="font-family:'Syne',sans-serif;">Submit a Document to the OOA Team</h3>
+                    <p class="text-xs text-gray-300 mt-1">Your uploads will route directly to the OOA Core & Leader dashboards with your details.</p>
+                </div>
+            </div>
+            <button onclick="toggleUpload()" class="px-5 py-2.5 bg-[var(--jain-gold)] hover:bg-[#dab96a] text-[var(--jain-navy)] font-bold text-sm rounded-xl transition flex items-center gap-2 shadow-md">
+                <i class="fas fa-plus" id="ubIcon"></i> <span id="ubTxt">Add Document</span>
+            </button>
+        </div>
+
+        <!-- Upload Form Container -->
+        <div id="uploadFormWrap" class="hidden border-t border-gray-100 p-6 bg-gray-50">
+            <form method="POST" action="{{ url_for('faculty_upload') }}" enctype="multipart/form-data" id="facultyForm" class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+                <div>
+                    <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-2"><i class="fas fa-heading text-[var(--jain-gold)] mr-1"></i> Document Title</label>
+                    <input type="text" name="title" required class="w-full px-4 py-2 border border-gray-200 rounded-xl focus:outline-none focus:border-blue-500 transition text-sm bg-white" placeholder="e.g. Midterm Syllabus Submission..." maxlength="200">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-2"><i class="fas fa-calendar text-[var(--jain-gold)] mr-1"></i> Document Date</label>
+                    <input type="date" name="doc_date" class="w-full px-4 py-2 border border-gray-200 rounded-xl focus:outline-none focus:border-blue-500 transition text-sm bg-white">
+                </div>
+                <div class="md:col-span-2">
+                    <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-2"><i class="fas fa-align-left text-[var(--jain-gold)] mr-1"></i> Description / Notes</label>
+                    <textarea name="description" rows="3" class="w-full px-4 py-2 border border-gray-200 rounded-xl focus:outline-none focus:border-blue-500 transition text-sm bg-white resize-none" placeholder="Provide any context or notes for the Office of Academics..." maxlength="500"></textarea>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-2"><i class="fas fa-building text-[var(--jain-gold)] mr-1"></i> Department</label>
+                    <div class="inline-flex items-center gap-2 px-3 py-1.5 bg-blue-50 text-blue-800 rounded-lg text-xs font-semibold border border-blue-100">
+                        <i class="fas fa-check-circle text-blue-600"></i> {{ user_department }}
+                    </div>
+                </div>
+                <div class="md:col-span-2">
+                    <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-2"><i class="fas fa-paperclip text-[var(--jain-gold)] mr-1"></i> Attach File</label>
+                    <div class="border-2 dashed border-gray-200 hover:border-[var(--jain-navy)] bg-white rounded-xl p-6 text-center cursor-pointer transition relative" id="dz" style="border-style: dashed;">
+                        <input type="file" name="file" required id="dzFile" accept=".pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.png,.jpg,.jpeg" onchange="dzHandle(this)" class="absolute inset-0 opacity-0 cursor-pointer w-full h-full">
+                        <i class="fas fa-cloud-upload-alt text-3xl text-gray-400 mb-2 block" id="dzIcon2"></i>
+                        <div class="text-sm font-semibold text-gray-700" id="dzMain">Drag & drop or click to browse</div>
+                        <div class="text-xs text-gray-400 mt-1">PDF, Word, Excel, PPT, Images up to 16MB</div>
+                    </div>
+                </div>
+                <div class="md:col-span-2 flex justify-end">
+                    <button type="submit" id="ufBtn" class="px-6 py-3 bg-[var(--jain-navy)] hover:bg-[var(--jain-navy-light)] text-white font-bold rounded-xl transition shadow-md flex items-center gap-2">
+                        <i class="fas fa-paper-plane text-[var(--jain-gold)]"></i> Submit to Office of Academics
+                      </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Source Tabs -->
+    {% if docs %}
+    <div class="flex gap-2 mb-6">
+        <button class="stab px-4 py-2 rounded-xl text-xs font-bold border border-gray-200 bg-white text-gray-700 transition active" data-src="all" onclick="setSource('all',this)" id="tab-all">
+            <i class="fas fa-layer-group text-[var(--jain-gold)]"></i> All <span class="ml-1 bg-gray-100 text-gray-700 px-2 py-0.5 rounded-full text-[10px]">{{ docs|length }}</span>
+        </button>
+        <button class="stab px-4 py-2 rounded-xl text-xs font-bold border border-gray-200 bg-white text-gray-700 transition" data-src="core" onclick="setSource('core',this)" id="tab-core">
+            <i class="fas fa-shield-alt text-[var(--jain-gold)]"></i> From Core Team <span class="ml-1 bg-gray-100 text-gray-700 px-2 py-0.5 rounded-full text-[10px]">{{ docs|selectattr('source','equalto','core')|list|length }}</span>
+        </button>
+        <button class="stab px-4 py-2 rounded-xl text-xs font-bold border border-gray-200 bg-white text-gray-700 transition" data-src="faculty" onclick="setSource('faculty',this)" id="tab-faculty">
+            <i class="fas fa-chalkboard-teacher text-[var(--jain-gold)]"></i> Faculty Submitted <span class="ml-1 bg-gray-100 text-gray-700 px-2 py-0.5 rounded-full text-[10px]">{{ faculty_count }}</span>
+        </button>
+    </div>
+    {% endif %}
+
+    <!-- Filter & Toolbar -->
+    <div class="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm mb-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div class="relative flex-1 max-w-md">
+            <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-400">
+                <i class="fas fa-search text-sm"></i>
+            </span>
+            <input type="text" id="srch" oninput="filterDocs()" placeholder="Search documents by title or note..." 
+                   class="w-full pl-9 pr-4 py-2 text-sm border border-gray-200 rounded-xl focus:outline-none focus:border-blue-500 transition">
+        </div>
+        <div class="flex items-center gap-3">
+            <span class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Sort by</span>
+            <select id="sortSel" onchange="filterDocs()" class="text-sm border border-gray-200 rounded-xl px-3 py-2 bg-white focus:outline-none focus:border-blue-500">
+                <option value="newest">Newest first</option>
+                <option value="oldest">Oldest first</option>
+                <option value="title">Title A–Z</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- Documents Grid -->
+    <div id="docsOuter">
+        {% if docs %}
+        <div id="docsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {% for doc in docs %}
+            {% set has_file = doc.files and doc.files|length > 0 %}
+            {% set filename = doc.files[0] if has_file else '' %}
+            {% set ext = filename.split('.')[-1]|lower if filename else '' %}
+            {% set expired = doc.end_date and doc.end_date < today_str %}
+            {% set is_fac = doc.source == 'faculty' %}
+            <div class="doc-card bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md hover:border-blue-300 transition duration-300 flex flex-col justify-between"
+                 data-title="{{ (doc.title or '')|lower }}"
+                 data-desc="{{ (doc.description or '')|lower }}"
+                 data-date="{{ doc.uploaded_at }}"
+                 data-src="{{ doc.source or 'core' }}">
+                
+                <div class="p-6">
+                    <!-- Icon and Type badge -->
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-10 h-10 rounded-xl flex items-center justify-center text-white
+                            {% if ext in ['pdf'] %}bg-red-500
+                            {% elif ext in ['doc', 'docx'] %}bg-blue-500
+                            {% elif ext in ['xls', 'xlsx'] %}bg-emerald-500
+                            {% elif ext in ['ppt', 'pptx'] %}bg-orange-500
+                            {% elif ext in ['png', 'jpg', 'jpeg'] %}bg-purple-500
+                            {% else %}bg-gray-500{% endif %}">
+                            {% if ext in ['pdf'] %}<i class="fas fa-file-pdf"></i>
+                            {% elif ext in ['doc', 'docx'] %}<i class="fas fa-file-word"></i>
+                            {% elif ext in ['xls', 'xlsx'] %}<i class="fas fa-file-excel"></i>
+                            {% elif ext in ['ppt', 'pptx'] %}<i class="fas fa-file-powerpoint"></i>
+                            {% elif ext in ['png', 'jpg', 'jpeg'] %}<i class="fas fa-file-image"></i>
+                            {% else %}<i class="fas fa-file-alt"></i>{% endif %}
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded bg-gray-100 text-gray-500">
+                                {{ ext or 'FILE' }}
+                            </span>
+                            <span class="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded {% if is_fac %}bg-amber-100 text-amber-800{% else %}bg-blue-100 text-blue-800{% endif %}">
+                                {% if is_fac %}Faculty{% else %}Core{% endif %}
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Title & Description -->
+                    <h3 class="font-bold text-gray-800 text-base leading-snug line-clamp-2" title="{{ doc.title or 'Untitled Document' }}">
+                        {{ doc.title or 'Untitled Document' }}
+                    </h3>
+                    
+                    {% if doc.description %}
+                    <p class="text-xs text-gray-500 mt-2 line-clamp-3 leading-relaxed">
+                        {{ doc.description }}
+                    </p>
+                    {% endif %}
+
+                    <!-- Meta Info -->
+                    <div class="mt-4 pt-4 border-t border-gray-50 flex flex-col gap-2">
+                        <div class="flex items-center gap-2 text-[11px] text-gray-400">
+                            <i class="far fa-calendar-alt w-3.5 text-[var(--jain-gold)]"></i>
+                            <span>Shared: {{ doc.uploaded_at.strftime('%d %b %Y') if doc.uploaded_at.__class__.__name__ == 'datetime' else doc.uploaded_at }}</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-[11px] text-gray-400">
+                            <i class="fas fa-user w-3.5 text-[var(--jain-gold)]"></i>
+                            <span>By: {{ doc.uploaded_by.split('@')[0] if doc.uploaded_by else 'Core Office' }}</span>
+                        </div>
+                        {% if doc.end_date %}
+                        <div class="flex items-center gap-2 text-[11px] {% if expired %}text-red-600{% else %}text-amber-600{% endif %} font-medium">
+                            <i class="fas fa-clock w-3.5"></i>
+                            <span>{% if expired %}Expired: {{ doc.end_date }}{% else %}Until: {{ doc.end_date }}{% endif %}</span>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="px-6 py-4 bg-gray-50 rounded-b-2xl border-t border-gray-100 flex items-center gap-2">
+                    {% if has_file %}
+                    <a href="{{ url_for('view_doc', doc_id=doc._id) }}" target="_blank" 
+                       class="flex-1 inline-flex items-center justify-center gap-2 px-3 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs rounded-xl transition shadow-sm" style="text-decoration:none;">
+                        <i class="fas fa-eye"></i> View Secure
+                    </a>
+                    <a href="{{ url_for('uploaded_file', filename=filename) }}" download 
+                       class="flex-1 inline-flex items-center justify-center gap-2 px-3 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-xs rounded-xl transition shadow-sm" style="text-decoration:none;">
+                        <i class="fas fa-download"></i> Download
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="col-span-full bg-white rounded-2xl p-12 border border-gray-100 text-center text-gray-400">
+            <i class="fas fa-folder-open text-4xl mb-4 opacity-35 block"></i>
+            <h4 class="font-bold text-gray-700 text-lg mb-1">No shared files</h4>
+            <p class="text-sm text-gray-500">There are no files shared with your department at this time.</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<script>
+/* UPLOAD TOGGLE */
+function toggleUpload(){
+  const w=document.getElementById('uploadFormWrap'),i=document.getElementById('ubIcon'),t=document.getElementById('ubTxt');
+  const open=!w.classList.contains('hidden');
+  if(open){
+    w.classList.add('hidden');
+    i.className='fas fa-plus';
+    t.textContent='Add Document';
+  } else {
+    w.classList.remove('hidden');
+    i.className='fas fa-times';
+    t.textContent='Cancel';
+    w.scrollIntoView({behavior:'smooth',block:'nearest'});
+  }
+}
+
+/* DRAG & DROP */
+const dz=document.getElementById('dz'),dzf=document.getElementById('dzFile');
+if(dz){
+  dz.addEventListener('dragover',e=>{e.preventDefault();dz.classList.add('border-blue-500','bg-blue-50')});
+  dz.addEventListener('dragleave',()=>dz.classList.remove('border-blue-500','bg-blue-50'));
+  dz.addEventListener('drop',e=>{e.preventDefault();dz.classList.remove('border-blue-500','bg-blue-50');if(e.dataTransfer.files.length){dzf.files=e.dataTransfer.files;dzHandle(dzf);}});
+}
+function dzHandle(inp){
+  const f=inp.files[0];if(!f)return;
+  if(f.size>16*1024*1024){
+    alert('Max 16 MB allowed.');
+    inp.value='';
+    return;
+  }
+  document.getElementById('dzIcon2').className='fas fa-check-circle text-green-500 text-3xl mb-2 block';
+  document.getElementById('dzMain').textContent=f.name;
+}
+
+document.getElementById('facultyForm')?.addEventListener('submit',function(){
+  const b=document.getElementById('ufBtn');
+  b.disabled=true;
+  b.innerHTML='<i class="fas fa-spinner fa-spin"></i> Submitting…';
+});
+
+/* SOURCE FILTER */
+let _src='all';
+function setSource(src,btn){
+  _src=src;
+  document.querySelectorAll('.stab').forEach(b=>{
+      b.classList.remove('active','bg-blue-600','text-white');
+      b.classList.add('bg-white','text-gray-700');
+  });
+  btn.classList.add('active','bg-blue-600','text-white');
+  btn.classList.remove('bg-white','text-gray-700');
+  filterDocs();
+}
+
+/* FILTER / SORT */
+function filterDocs(){
+  const q=(document.getElementById('srch').value||'').toLowerCase();
+  const sort=document.getElementById('sortSel').value;
+  const cards=[...document.querySelectorAll('.doc-card')];
+  cards.forEach(c=>{
+    const mQ=!q||(c.dataset.title||'').includes(q)||(c.dataset.desc||'').includes(q);
+    const mS=_src==='all'||c.dataset.src===_src;
+    c.style.display=(mQ&&mS)?'':'none';
+  });
+  const grid=document.getElementById('docsGrid');if(!grid)return;
+  const vis=cards.filter(c=>c.style.display!=='none');
+  vis.sort((a,b)=>{
+    if(sort==='title')return(a.dataset.title||'').localeCompare(b.dataset.title||'');
+    if(sort==='oldest')return(a.dataset.date||'').localeCompare(b.dataset.date||'');
+    return(b.dataset.date||'').localeCompare(a.dataset.date||'');
+  });
+  vis.forEach(c=>grid.appendChild(c));
+}
+</script>
+{% endblock %}

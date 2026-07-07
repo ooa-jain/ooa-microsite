@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Viewer — Jain University OOA</title>
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/jain.png') }}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --jain-navy: #0A1929;
+            --jain-gold: #F5A623;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #111827;
+            color: #f3f4f6;
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Top Security Header */
+        .viewer-header {
+            background: var(--jain-navy);
+            border-bottom: 2px solid var(--jain-gold);
+            padding: 12px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+        .doc-title-sec {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .doc-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 8px;
+            background: rgba(245, 166, 35, 0.1);
+            border: 1px solid var(--jain-gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--jain-gold);
+            font-size: 18px;
+        }
+        .doc-info {
+            display: flex;
+            flex-direction: column;
+        }
+        .doc-info h1 {
+            font-size: 14px;
+            font-weight: 700;
+            color: #fff;
+            max-width: 600px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .doc-info span {
+            font-size: 11px;
+            color: #9ca3af;
+            margin-top: 2px;
+        }
+        .badge-sec {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid #ef4444;
+            color: #fca5a5;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        /* Main Container */
+        .viewer-container {
+            flex: 1;
+            position: relative;
+            background: #1f2937;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Stream frame */
+        .doc-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: #1f2937;
+        }
+
+        .img-viewer {
+            max-width: 95%;
+            max-height: 95%;
+            object-fit: contain;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            pointer-events: none;
+        }
+
+        /* Watermark */
+        .watermark-overlay {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(4, 1fr);
+            opacity: 0.08;
+            z-index: 50;
+            overflow: hidden;
+        }
+        .watermark-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 700;
+            color: #fff;
+            transform: rotate(-30deg);
+            white-space: nowrap;
+        }
+
+        /* Custom warning toast */
+        .security-alert {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #ef4444;
+            color: #fff;
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-size: 12px;
+            font-weight: 700;
+            box-shadow: 0 10px 25px rgba(239, 68, 68, 0.4);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 1000;
+        }
+        .security-alert.show {
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* PRINT PROTECTION */
+        @media print {
+            body {
+                display: none !important;
+                visibility: hidden !important;
+            }
+            .viewer-container, .doc-frame, .img-viewer, .watermark-overlay {
+                display: none !important;
+                visibility: hidden !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="viewer-header">
+        <div class="doc-title-sec">
+            <div class="doc-icon">
+                <i class="fas fa-shield-halved"></i>
+            </div>
+            <div class="doc-info">
+                <h1>{{ doc.title or 'Untitled Document' }}</h1>
+                <span>Accessed by: {{ email }} | Department: {{ user_department or 'General' }}</span>
+            </div>
+        </div>
+        <div class="badge-sec">
+            <i class="fas fa-lock"></i> Protected View-Only
+        </div>
+    </div>
+
+    <div class="viewer-container">
+        <!-- Watermark Overlay -->
+        <div class="watermark-overlay">
+            {% for i in range(16) %}
+            <div class="watermark-item">{{ email }}</div>
+            {% endfor %}
+        </div>
+
+        {% set filename = file_url.split('/')[-1] %}
+        {% set ext = filename.split('.')[-1]|lower %}
+        {% if ext in ['jpg', 'jpeg', 'png', 'gif', 'webp'] %}
+            <img src="{{ file_url }}" class="img-viewer" alt="Secure Image" oncontextmenu="return false;">
+        {% else %}
+            <!-- Load document inside iframe, appending #toolbar=0 to disable PDF controls -->
+            <iframe src="{{ file_url }}#toolbar=0&navpanes=0&scrollbar=0" class="doc-frame" oncontextmenu="return false;"></iframe>
+        {% endif %}
+    </div>
+
+    <div class="security-alert" id="secAlert">
+        <i class="fas fa-triangle-exclamation"></i> Security Warning: Action restricted under safety policies.
+    </div>
+
+    <script>
+        // Disable Right-Click
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+            triggerSecurityAlert();
+        });
+
+        // Disable keyboard shortcuts for print, save, copy, inspector
+        document.addEventListener('keydown', function(e) {
+            // Ctrl+P (Print), Ctrl+S (Save), Ctrl+U (View Source), Ctrl+C (Copy)
+            // F12 (Dev Tools), Ctrl+Shift+I / J (Inspector), Ctrl+Shift+C (Element selector)
+            const restrictedKeys = [
+                (e.ctrlKey && e.key === 'p'),
+                (e.ctrlKey && e.key === 's'),
+                (e.ctrlKey && e.key === 'u'),
+                (e.ctrlKey && e.key === 'c'),
+                (e.ctrlKey && e.key === 'a'),
+                (e.key === 'F12'),
+                (e.ctrlKey && e.shiftKey && e.key === 'I'),
+                (e.ctrlKey && e.shiftKey && e.key === 'J'),
+                (e.ctrlKey && e.shiftKey && e.key === 'C')
+            ];
+
+            if (restrictedKeys.some(condition => condition)) {
+                e.preventDefault();
+                e.stopPropagation();
+                triggerSecurityAlert();
+                return false;
+            }
+        });
+
+        // Trigger warning alert toast
+        let alertTimeout;
+        function triggerSecurityAlert() {
+            const alert = document.getElementById('secAlert');
+            alert.classList.add('show');
+            clearTimeout(alertTimeout);
+            alertTimeout = setTimeout(() => {
+                alert.classList.remove('show');
+            }, 3000);
+        }
+
+        // Additional prevention inside iframe if possible
+        const iframe = document.querySelector('iframe');
+        if (iframe) {
+            iframe.onload = function() {
+                try {
+                    const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+                    iframeDoc.addEventListener('contextmenu', function(e) {
+                        e.preventDefault();
+                        triggerSecurityAlert();
+                    });
+                    iframeDoc.addEventListener('keydown', function(e) {
+                        if (e.ctrlKey && (e.key === 'p' || e.key === 's' || e.key === 'c' || e.key === 'u')) {
+                            e.preventDefault();
+                            triggerSecurityAlert();
+                        }
+                    });
+                    // Append print hiding styles inside iframe if same-origin
+                    const style = iframeDoc.createElement('style');
+                    style.innerHTML = '@media print { body { display: none !important; } }';
+                    iframeDoc.head.appendChild(style);
+                } catch(e) {
+                    // Cross-origin restrictions might prevent access, but main wrapper intercepts keyboard/mouse events
+                }
+            };
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/jain.png') }}" />
+    <title>Register | Office of Academics – Jain University</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-dark: #040d1a;
+            --secondary-dark: #0a192f;
+            --accent-orange: #ff7a00;
+            --accent-gold: #ffb700;
+            --text-light: #ffffff;
+            --text-muted: #a0aec0;
+            --card-bg: rgba(10, 25, 47, 0.85);
+            --card-border: rgba(255, 122, 0, 0.2);
+            --input-bg: rgba(255, 255, 255, 0.08);
+            --shadow-lg: 0 30px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--primary-dark); color: var(--text-light); min-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden; }
+
+        /* Full Width Navbar */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(4, 13, 26, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            z-index: 1000;
+        }
+        .nav-container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo-img { height: 40px; width: auto; }
+        .back-link {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 14.5px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: color 0.2s;
+        }
+        .back-link:hover { color: var(--accent-orange); }
+
+        /* Wrapper with video bg */
+        .register-wrapper {
+            position: relative;
+            flex: 1;
+            padding: 120px 24px 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--primary-dark);
+            overflow: hidden;
+        }
+        .hero-video-container {
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+            z-index: 0;
+        }
+        .hero-video-bg { width: 100%; height: 100%; object-fit: cover; }
+        .hero-video-overlay {
+            position: absolute;
+            inset: 0;
+            background: 
+                radial-gradient(circle at 15% 25%, rgba(255, 122, 0, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 85% 75%, rgba(255, 183, 0, 0.05) 0%, transparent 45%),
+                linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(135deg, rgba(4, 13, 26, 0.93) 0%, rgba(10, 25, 47, 0.90) 100%);
+            background-size: 100% 100%, 100% 100%, 45px 45px, 45px 45px, 100% 100%;
+            z-index: 1;
+        }
+
+        .register-card {
+            position: relative;
+            z-index: 2;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 40px;
+            border-radius: 24px;
+            box-shadow: var(--shadow-lg);
+            backdrop-filter: blur(15px);
+            width: 100%;
+            max-width: 560px;
+        }
+        h2 { font-family: 'Playfair Display', serif; font-size: 2.2rem; color: var(--text-light); margin-bottom: 8px; text-align: center; }
+        .welcome-sub {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-muted);
+            font-size: 13.5px;
+            margin-bottom: 30px;
+            justify-content: center;
+        }
+        .yellow-line { width: 3px; height: 18px; background: var(--accent-gold); border-radius: 2px; }
+
+        /* Steps */
+        .step-indicator { display: flex; align-items: center; justify-content: center; margin-bottom: 30px; }
+        .step { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+        .step-circle { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; border: 2px solid rgba(255, 255, 255, 0.15); background: rgba(0, 0, 0, 0.2); color: var(--text-muted); }
+        .step.active .step-circle { background: var(--accent-orange); border-color: var(--accent-orange); color: white; box-shadow: 0 4px 12px rgba(255, 122, 0, 0.3); }
+        .step.done .step-circle { background: #27ae60; border-color: #27ae60; color: white; }
+        .step-label { font-size: 10px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+        .step.active .step-label { color: var(--accent-orange); }
+        .step.done .step-label { color: #27ae60; }
+        .step-connector { height: 2px; width: 50px; background: rgba(255, 255, 255, 0.15); margin: 0 6px 18px; }
+        .step-connector.done { background: #27ae60; }
+
+        /* Form Controls */
+        .input-group { margin-bottom: 20px; }
+        .input-label { display: block; font-size: 11px; font-weight: 600; color: var(--text-muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.8px; }
+        .input-field, .select-field { width: 100%; padding: 14px 16px; background: var(--input-bg); border: 1.5px solid rgba(255, 255, 255, 0.1); border-radius: 12px; color: var(--text-light); font-size: 14.5px; outline: none; transition: all 0.2s; font-family: 'Inter', sans-serif; }
+        .input-field:focus, .select-field:focus { border-color: var(--accent-orange); background: rgba(255, 255, 255, 0.12); }
+        .select-field { appearance: none; -webkit-appearance: none; background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffb700' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e"); background-repeat: no-repeat; background-position: right 16px center; background-size: 16px; padding-right: 40px; }
+        .select-field optgroup { background: #0a192f; color: var(--text-light); }
+        .select-field option { background: #0a192f; color: var(--text-light); }
+        .info-text { font-size: 12px; color: var(--text-muted); margin-top: 6px; display: flex; align-items: center; gap: 6px; }
+        .info-text i { color: var(--accent-gold); }
+
+        .section-divider { display: flex; align-items: center; gap: 12px; margin: 24px 0 16px; }
+        .section-divider::before, .section-divider::after { content: ''; flex: 1; height: 1px; background: rgba(255, 255, 255, 0.1); }
+        .section-divider span { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: var(--accent-gold); }
+
+        .register-btn { width: 100%; background: linear-gradient(135deg, var(--accent-orange), #e05e00); border: none; padding: 14px; font-size: 15px; font-weight: 600; border-radius: 12px; color: white; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 15px rgba(255, 122, 0, 0.2); font-family: 'Inter', sans-serif; margin-top: 24px; }
+        .register-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(255, 122, 0, 0.4); }
+
+        .password-strength { margin-top: 8px; height: 4px; border-radius: 2px; background: rgba(255,255,255,0.1); overflow: hidden; }
+        .strength-bar { height: 100%; width: 0%; transition: width 0.3s, background 0.3s; }
+        .strength-text { font-size: 12px; margin-top: 4px; font-weight: 500; }
+
+        .link { text-align: center; margin-top: 24px; font-size: 14px; }
+        .link a { color: var(--accent-gold); font-weight: 600; text-decoration: none; transition: color 0.2s; }
+        .link a:hover { color: var(--accent-orange); }
+
+        /* OTP Msg Box */
+        .otp-message { background: rgba(255, 183, 0, 0.1); color: var(--accent-gold); padding: 14px 18px; border-radius: 12px; margin-bottom: 24px; text-align: center; border: 1px solid rgba(255, 183, 0, 0.25); font-size: 13.5px; line-height: 1.5; }
+
+        /* Flash */
+        .flash { padding: 14px; border-radius: 12px; font-size: 13.5px; margin-top: 20px; display: flex; align-items: center; gap: 8px; border: 1px solid transparent; }
+        .flash.success { background: rgba(39, 174, 96, 0.15); color: #81e6d9; border-color: rgba(39, 174, 96, 0.3); }
+        .flash.error { background: rgba(224, 86, 86, 0.15); color: #ff8080; border-color: rgba(224, 86, 86, 0.3); }
+        .flash.info { background: rgba(72, 187, 120, 0.15); color: #81e6d9; border-color: rgba(72, 187, 120, 0.3); }
+
+        .footer-mini { text-align: center; padding: 20px; font-size: 13px; color: var(--text-muted); border-top: 1px solid rgba(255, 255, 255, 0.05); background: var(--primary-dark); position: relative; z-index: 2; }
+    </style>
+</head>
+<body>
+
+    <!-- Full Width Header -->
+    <header>
+        <div class="nav-container">
+            <a href="{{ url_for('index') }}" class="logo-section">
+                <img src="{{ url_for('static', filename='images/jainu.png') }}" alt="Jain University Logo" class="logo-img">
+            </a>
+            <a href="{{ url_for('login') }}" class="back-link">
+                <i class="fas fa-arrow-left"></i> Back to Login
+            </a>
+        </div>
+    </header>
+
+    <div class="register-wrapper">
+        <div class="hero-video-container">
+            <video autoplay muted loop playsinline class="hero-video-bg" id="mainVideo">
+                <source src="static/videos/sam.mp4" type="video/mp4">
+                <source src="https://assets.mixkit.co/videos/preview/mixkit-university-campus-aerial-view-4997-large.mp4" type="video/mp4">
+            </video>
+            <div class="hero-video-overlay"></div>
+        </div>
+
+        <div class="register-card">
+            <h2>Create Account</h2>
+            <div class="welcome-sub">
+                <div class="yellow-line"></div>
+                <span>Join the Office of Academics Portal – Jain University</span>
+            </div>
+
+            <!-- Step Indicator -->
+            <div class="step-indicator">
+                <div class="step {% if not otp_sent %}active{% else %}done{% endif %}">
+                    <div class="step-circle">{% if otp_sent %}<i class="fas fa-check"></i>{% else %}1{% endif %}</div>
+                    <div class="step-label">Email</div>
+                </div>
+                <div class="step-connector {% if otp_sent %}done{% endif %}"></div>
+                <div class="step {% if otp_sent and not otp_verified %}active{% elif otp_verified %}done{% endif %}">
+                    <div class="step-circle">{% if otp_verified %}<i class="fas fa-check"></i>{% else %}2{% endif %}</div>
+                    <div class="step-label">Verify</div>
+                </div>
+                <div class="step-connector {% if otp_verified %}done{% endif %}"></div>
+                <div class="step {% if otp_verified %}active{% endif %}">
+                    <div class="step-circle">3</div>
+                    <div class="step-label">Details</div>
+                </div>
+            </div>
+
+            <form method="POST" id="registerForm">
+                <!-- STEP 1: EMAIL -->
+                {% if not otp_sent %}
+                <div class="input-group">
+                    <label class="input-label">Email Address</label>
+                    <input type="email" name="email" class="input-field" placeholder="yourname@jainuniversity.ac.in" required autofocus>
+                    <div class="info-text">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>Only <strong>@jainuniversity.ac.in</strong> domains are allowed.</span>
+                    </div>
+                </div>
+                <button type="submit" class="register-btn">
+                    <span>Send OTP to Email</span> <i class="fas fa-paper-plane"></i>
+                </button>
+
+                <!-- STEP 2: OTP -->
+                {% elif otp_sent and not otp_verified %}
+                <div class="otp-message">
+                    <i class="fas fa-envelope-open-text" style="font-size:1.3rem;margin-bottom:6px;display:block;"></i>
+                    A 6-digit OTP has been sent to your registered email.<br>
+                    <strong>Please check your inbox (and spam folder).</strong>
+                </div>
+                <div class="input-group">
+                    <label class="input-label">One-Time Password</label>
+                    <input type="text" name="otp" class="input-field" placeholder="••••••" maxlength="6" pattern="[0-9]{6}" inputmode="numeric" required autofocus style="font-size:1.4rem;letter-spacing:0.3em;text-align:center;">
+                    <div class="info-text">
+                        <i class="fas fa-clock"></i> <span>OTP is valid for 10 minutes</span>
+                    </div>
+                </div>
+                <button type="submit" class="register-btn">
+                    <span>Verify OTP</span> <i class="fas fa-check-circle"></i>
+                </button>
+
+                <!-- STEP 3: DETAILS -->
+                {% elif otp_verified %}
+                <div class="input-group">
+                    <label class="input-label">Create Password</label>
+                    <input type="password" name="password" class="input-field" id="passwordField" placeholder="Minimum 6 characters" required minlength="6" oninput="checkStrength(this.value)">
+                    <div class="password-strength">
+                        <div class="strength-bar" id="strengthBar"></div>
+                    </div>
+                    <div class="strength-text" id="strengthText" style="color:var(--text-muted);">Enter a password</div>
+                </div>
+
+                <div class="section-divider"><span>Academic Details</span></div>
+
+                <div class="input-group">
+                    <label class="input-label">Department</label>
+                    <select name="department" class="select-field" required>
+                        <option value="" disabled selected>— Select your Department —</option>
+                        <optgroup label="Office Of Academics">
+                            <option value="OFFICE OF ACADEMICS">Office Of Academics</option>
+                        </optgroup>
+                        <optgroup label="Departments">
+                            <option value="Department of Computer Science and Engineering">Department of Computer Science and Engineering</option>
+                            <option value="Department of Information Science and Engineering">Department of Information Science and Engineering</option>
+                            <option value="Department of Aerospace Engineering">Department of Aerospace Engineering</option>
+                            <option value="Department of Civil Engineering">Department of Civil Engineering</option>
+                            <option value="Department of Mechanical Engineering">Department of Mechanical Engineering</option>
+                            <option value="Department of Electrical and Electronics Engineering">Department of Electrical and Electronics Engineering</option>
+                            <option value="Department of Electronics and Communication Engineering">Department of Electronics and Communication Engineering</option>
+                            <option value="Department of Food Technology">Department of Food Technology</option>
+                            <option value="Department of Humanities and Social Sciences">Department of Humanities and Social Sciences</option>
+                            <option value="Department of Economics">Department of Economics</option>
+                            <option value="Department of Performing Arts and Cultural Studies">Department of Performing Arts and Cultural Studies</option>
+                            <option value="Department of Languages">Department of Languages</option>
+                            <option value="Department of Journalism and Mass Communication">Department of Journalism and Mass Communication</option>
+                            <option value="Department of Law">Department of Law</option>
+                            <option value="Department of Chemistry and Biochemistry">Department of Chemistry and Biochemistry</option>
+                            <option value="Department of Biotechnology and Genetics">Department of Biotechnology and Genetics</option>
+                            <option value="Department of Microbiology and Botany">Department of Microbiology and Botany</option>
+                            <option value="Department of Data Analytics and Mathematical Science">Department of Data Analytics and Mathematical Science</option>
+                            <option value="Department of Forensic Science">Department of Forensic Science</option>
+                            <option value="Department of Physics and Electronics">Department of Physics and Electronics</option>
+                            <option value="Department of Psychology and Allied Sciences">Department of Psychology and Allied Sciences</option>
+                            <option value="Department of Allied Healthcare and Sciences">Department of Allied Healthcare and Sciences</option>
+                            <option value="Department of Computer Science and IT">Department of Computer Science and IT</option>
+                            <option value="Department of Animation and Virtual Reality">Department of Animation and Virtual Reality</option>
+                            <option value="Department of Commerce">Department of Commerce</option>
+                            <option value="Department of Management Studies">Department of Management Studies</option>
+                            <option value="Department of Design">Department of Design</option>
+                            <option value="Department of Art and Design">Department of Art and Design</option>
+                        </optgroup>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label class="input-label">Campus / Location</label>
+                    <select name="location" class="select-field" required>
+                        <option value="" disabled selected>— Select your Campus / Location —</option>
+                        {% if campuses %}
+                            {% for campus in campuses %}
+                            <option value="{{ campus }}">{{ campus }}</option>
+                            {% endfor %}
+                        {% else %}
+                            <option value="Jain Head Office">Jain Head Office</option>
+                            <option value="Jayanagar 9th Block">Jayanagar 9th Block</option>
+                            <option value="JP Nagar Campus">JP Nagar Campus</option>
+                            <option value="Whitefield Campus">Whitefield Campus</option>
+                            <option value="Yelahanka Campus">Yelahanka Campus</option>
+                            <option value="JC Road Campus">JC Road Campus</option>
+                            <option value="Lalbagh Campus">Lalbagh Campus</option>
+                            <option value="Kanakapura Campus">Kanakapura Campus</option>
+                            <option value="Sheshadripuram Campus">Sheshadri Road Campus</option>
+                            <option value="Shankarapuram Campus">Shankarapuram Campus</option>
+                            <option value="Kochi Campus">Kochi</option>
+                        {% endif %}
+                    </select>
+                </div>
+
+                <button type="submit" class="register-btn">
+                    <span>Complete Registration</span> <i class="fas fa-user-check"></i>
+                </button>
+                {% endif %}
+            </form>
+
+            <div class="link">
+                <a href="{{ url_for('login') }}"><i class="fas fa-sign-in-alt"></i> Already have an account? Sign in</a>
+            </div>
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="flash {{ category }}">
+                            <i class="fas fa-info-circle"></i> {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+        </div>
+    </div>
+
+    <div class="footer-mini">
+        <p>© 2026 Jain University – Office of Academics. Secure registration system.</p>
+    </div>
+
+    <script>
+        // Password strength checker
+        function checkStrength(val) {
+            const bar  = document.getElementById('strengthBar');
+            const text = document.getElementById('strengthText');
+            if (!bar) return;
+            let s = 0;
+            if (val.length >= 6)           s++;
+            if (val.length >= 10)          s++;
+            if (/[A-Z]/.test(val))         s++;
+            if (/[0-9]/.test(val))         s++;
+            if (/[^A-Za-z0-9]/.test(val))  s++;
+            const levels = [
+                { pct:'0%',   color:'rgba(255,255,255,0.1)', label:'Enter a password', col:'var(--text-muted)' },
+                { pct:'25%',  color:'#ef4444', label:'Weak', col:'#ef4444' },
+                { pct:'50%',  color:'#f97316', label:'Fair', col:'#f97316' },
+                { pct:'75%',  color:'#eab308', label:'Good', col:'#eab308' },
+                { pct:'90%',  color:'#22c55e', label:'Strong', col:'#22c55e' },
+                { pct:'100%', color:'#10b981', label:'Very Strong', col:'#10b981' },
+            ];
+            const lvl = levels[Math.min(s, 5)];
+            bar.style.width      = lvl.pct;
+            bar.style.background = lvl.color;
+            text.textContent     = lvl.label;
+            text.style.color     = lvl.col;
+        }
+
+        {% if otp_verified %}
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            const dept = document.querySelector('select[name="department"]').value;
+            const loc  = document.querySelector('select[name="location"]').value;
+            if (!dept) { e.preventDefault(); alert('Please select your department.'); return; }
+            if (!loc)  { e.preventDefault(); alert('Please select your campus / location.'); return; }
+        });
+        {% endif %}
+    </script>
+</body>
+</html>

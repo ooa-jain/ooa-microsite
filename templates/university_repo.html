@@ -1,0 +1,200 @@
+{% extends "base_user.html" %}
+
+{% block title %}University Repository — Jain University OOA{% endblock %}
+{% block page_title %}University Repository{% endblock %}
+{% block page_subtitle %}Access shared documents, guidelines, and administrative resources{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 py-8">
+    <!-- Notice Banner -->
+    <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-8 rounded-r-xl shadow-sm flex items-start gap-3">
+        <div class="text-blue-500 mt-0.5"><i class="fas fa-info-circle text-lg"></i></div>
+        <div>
+            <h4 class="font-bold text-blue-900 text-sm">Secure University Repository</h4>
+            <p class="text-xs text-blue-700 mt-1">This repository contains documents shared specifically with your department or the entire university. In compliance with security policies, documents are preview-only. Downloading, printing, and screenshots are restricted.</p>
+        </div>
+    </div>
+
+    <!-- Stats Row -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div class="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm flex items-center gap-4">
+            <div class="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center text-blue-600 text-xl">
+                <i class="fas fa-folder-open"></i>
+            </div>
+            <div>
+                <span class="block text-xs font-semibold uppercase tracking-wider text-gray-400">Total Shared Documents</span>
+                <strong class="block text-2xl font-bold text-gray-800 mt-1">{{ docs|length }}</strong>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm flex items-center gap-4">
+            <div class="w-12 h-12 rounded-xl bg-amber-50 flex items-center justify-center text-amber-600 text-xl">
+                <i class="fas fa-clock"></i>
+            </div>
+            <div>
+                <span class="block text-xs font-semibold uppercase tracking-wider text-gray-400">Recently Uploaded</span>
+                <strong class="block text-2xl font-bold text-gray-800 mt-1">{{ recent_count }}</strong>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm flex items-center gap-4">
+            <div class="w-12 h-12 rounded-xl bg-emerald-50 flex items-center justify-center text-emerald-600 text-xl">
+                <i class="fas fa-building"></i>
+            </div>
+            <div>
+                <span class="block text-xs font-semibold uppercase tracking-wider text-gray-400">Target Department</span>
+                <strong class="block text-sm font-bold text-gray-800 mt-1.5 truncate max-w-[220px]" title="{{ user_department or 'General' }}">
+                    {{ user_department|replace('Department of ','') if user_department else 'General' }}
+                </strong>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filter & Toolbar -->
+    <div class="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm mb-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div class="relative flex-1 max-w-md">
+            <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-400">
+                <i class="fas fa-search text-sm"></i>
+            </span>
+            <input type="text" id="repoSearch" oninput="filterRepoDocs()" placeholder="Search documents by title or note..." 
+                   class="w-full pl-9 pr-4 py-2 text-sm border border-gray-200 rounded-xl focus:outline-none focus:border-blue-500 transition">
+        </div>
+        <div class="flex items-center gap-3">
+            <span class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Sort by</span>
+            <select id="repoSort" onchange="filterRepoDocs()" class="text-sm border border-gray-200 rounded-xl px-3 py-2 bg-white focus:outline-none focus:border-blue-500">
+                <option value="newest">Newest first</option>
+                <option value="oldest">Oldest first</option>
+                <option value="title">Title A–Z</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- Documents Grid -->
+    <div id="repoGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {% for doc in docs %}
+        {% set has_file = doc.files and doc.files|length > 0 %}
+        {% set filename = doc.files[0] if has_file else '' %}
+        {% set ext = filename.split('.')[-1]|lower if filename else '' %}
+        <div class="doc-card bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md hover:border-blue-300 transition duration-300 flex flex-col justify-between"
+             data-title="{{ (doc.title or '')|lower }}"
+             data-desc="{{ (doc.description or '')|lower }}"
+             data-date="{{ doc.uploaded_at }}">
+            
+            <div class="p-6">
+                <!-- Icon and Type badge -->
+                <div class="flex items-center justify-between mb-4">
+                    <div class="w-10 h-10 rounded-xl flex items-center justify-center text-white
+                        {% if ext in ['pdf'] %}bg-red-500
+                        {% elif ext in ['doc', 'docx'] %}bg-blue-500
+                        {% elif ext in ['xls', 'xlsx'] %}bg-emerald-500
+                        {% elif ext in ['ppt', 'pptx'] %}bg-orange-500
+                        {% elif ext in ['png', 'jpg', 'jpeg'] %}bg-purple-500
+                        {% else %}bg-gray-500{% endif %}">
+                        {% if ext in ['pdf'] %}<i class="fas fa-file-pdf"></i>
+                        {% elif ext in ['doc', 'docx'] %}<i class="fas fa-file-word"></i>
+                        {% elif ext in ['xls', 'xlsx'] %}<i class="fas fa-file-excel"></i>
+                        {% elif ext in ['ppt', 'pptx'] %}<i class="fas fa-file-powerpoint"></i>
+                        {% elif ext in ['png', 'jpg', 'jpeg'] %}<i class="fas fa-file-image"></i>
+                        {% else %}<i class="fas fa-file-alt"></i>{% endif %}
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded bg-gray-100 text-gray-500">
+                            {{ ext or 'FILE' }}
+                        </span>
+                        {% if doc.security_level == 'allow_download' %}
+                        <span class="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded bg-green-100 text-green-700">
+                            <i class="fas fa-unlock"></i> Open
+                        </span>
+                        {% else %}
+                        <span class="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded bg-red-100 text-red-700">
+                            <i class="fas fa-lock"></i> Secure View
+                        </span>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Title & Description -->
+                <h3 class="font-bold text-gray-800 text-base leading-snug line-clamp-2" title="{{ doc.title or 'Untitled Document' }}">
+                    {{ doc.title or 'Untitled Document' }}
+                </h3>
+                
+                {% if doc.description %}
+                <p class="text-xs text-gray-500 mt-2 line-clamp-3 leading-relaxed">
+                    {{ doc.description }}
+                </p>
+                {% endif %}
+
+                <!-- Meta Info -->
+                <div class="mt-4 pt-4 border-t border-gray-50 flex flex-col gap-2">
+                    <div class="flex items-center gap-2 text-[11px] text-gray-400">
+                        <i class="far fa-calendar-alt w-3.5"></i>
+                        <span>Shared: {{ doc.uploaded_at.strftime('%d %b %Y') if doc.uploaded_at.__class__.__name__ == 'datetime' else doc.uploaded_at }}</span>
+                    </div>
+                    <div class="flex items-center gap-2 text-[11px] text-gray-400">
+                        <i class="fas fa-shield-alt w-3.5"></i>
+                        <span>By: {{ doc.uploaded_by.split('@')[0] if doc.uploaded_by else 'Core Office' }}</span>
+                    </div>
+                    {% if doc.end_date %}
+                    <div class="flex items-center gap-2 text-[11px] text-amber-600 font-medium">
+                        <i class="fas fa-clock w-3.5"></i>
+                        <span>Available until: {{ doc.end_date }}</span>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Action -->
+            <div class="px-6 py-4 bg-gray-50 rounded-b-2xl border-t border-gray-100 flex items-center gap-2">
+                <a href="{{ url_for('view_doc', doc_id=doc._id) }}" target="_blank" 
+                   class="{% if doc.security_level == 'allow_download' %}flex-1{% else %}w-full{% endif %} inline-flex items-center justify-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs rounded-xl transition shadow-sm" style="text-decoration:none;">
+                    <i class="fas fa-eye"></i> View Secure
+                </a>
+                {% if doc.security_level == 'allow_download' and filename %}
+                <a href="{{ url_for('uploaded_file', filename=filename) }}" download 
+                   class="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-xs rounded-xl transition shadow-sm" style="text-decoration:none;">
+                    <i class="fas fa-download"></i> Download
+                </a>
+                {% endif %}
+            </div>
+        </div>
+        {% else %}
+        <div class="col-span-full bg-white rounded-2xl p-12 border border-gray-100 text-center text-gray-400">
+            <i class="fas fa-folder-open text-4xl mb-4 opacity-35 block"></i>
+            <h4 class="font-bold text-gray-700 text-lg mb-1">No shared files</h4>
+            <p class="text-sm text-gray-500">There are no files shared with your department at this time.</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<script>
+function filterRepoDocs() {
+    const q = (document.getElementById('repoSearch').value || '').toLowerCase();
+    const sort = document.getElementById('repoSort').value;
+    const cards = [...document.querySelectorAll('.doc-card')];
+    
+    cards.forEach(c => {
+        const title = (c.dataset.title || '');
+        const desc = (c.dataset.desc || '');
+        const match = !q || title.includes(q) || desc.includes(q);
+        c.style.display = match ? '' : 'none';
+    });
+    
+    const grid = document.getElementById('repoGrid');
+    if (!grid) return;
+    
+    const vis = cards.filter(c => c.style.display !== 'none');
+    vis.sort((a, b) => {
+        if (sort === 'title') {
+            return (a.dataset.title || '').localeCompare(b.dataset.title || '');
+        }
+        if (sort === 'oldest') {
+            return (a.dataset.date || '').localeCompare(b.dataset.date || '');
+        }
+        return (b.dataset.date || '').localeCompare(a.dataset.date || '');
+    });
+    
+    vis.forEach(c => grid.appendChild(c));
+}
+</script>
+{% endblock %}

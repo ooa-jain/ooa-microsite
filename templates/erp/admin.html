@@ -1,0 +1,2591 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Admin Dashboard — OoA Portal</title>
+  <link rel="manifest" href="/erp/manifest.json">
+  <meta name="theme-color" content="#0a2558">
+  <link rel="apple-touch-icon" href="/static/erp/images/applogo.png">
+  <script>
+    if (false && 'serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js');
+      });
+    }
+  </script>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,700;1,400&display=swap"
+    rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0
+    }
+
+    :root {
+      --navy: #0A2558;
+      --navy2: #0d3070;
+      --navy3: #1a4a9a;
+      --gold: #F4A819;
+      --gold2: #e8950a;
+      --orange: #E85C1A;
+      --ink: #1a1e2e;
+      --ink2: #3d4460;
+      --ink3: #8892aa;
+      --bg: #f0f3fa;
+      --bg2: #fff;
+      --border: #dde3f0;
+      --success: #1a7a4a;
+      --danger: #c0392b;
+      --r: 12px;
+      --r2: 8px;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      min-height: 100vh
+    }
+
+    .topbar {
+      background: var(--navy);
+      box-shadow: 0 2px 20px rgba(0, 0, 0, .25);
+      position: sticky;
+      top: 0;
+      z-index: 100
+    }
+
+    .topbar-inner {
+      max-width: 1300px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 28px;
+      height: 62px
+    }
+
+    .tbar-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px
+    }
+
+    .tbar-brand img {
+      height: 38px;
+      object-fit: contain
+    }
+
+    .tbar-brand .tb-div {
+      width: 1px;
+      height: 30px;
+      background: rgba(255, 255, 255, .2)
+    }
+
+    .tbar-brand h1 {
+      font-size: 15px;
+      font-weight: 700;
+      color: #fff
+    }
+
+    .tbar-brand p {
+      font-size: 10.5px;
+      color: var(--gold);
+      font-weight: 600;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+      margin-top: 1px
+    }
+
+    .tbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px
+    }
+
+    .wrap {
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 32px 28px 80px
+    }
+
+    .admin-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--gold);
+      color: var(--navy);
+      font-size: 10px;
+      font-weight: 800;
+      padding: 3px 10px;
+      border-radius: 99px;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: .08em
+    }
+
+    .main-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 24px;
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 0
+    }
+
+    .main-tab-btn {
+      background: none;
+      border: none;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--ink3);
+      cursor: pointer;
+      padding: 12px 20px;
+      border-bottom: 3px solid transparent;
+      transition: .15s;
+      font-family: inherit
+    }
+
+    .main-tab-btn:hover {
+      color: var(--navy)
+    }
+
+    .main-tab-btn.active {
+      color: var(--navy);
+      border-bottom-color: var(--gold);
+      font-weight: 800
+    }
+
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 14px;
+      margin-bottom: 28px
+    }
+
+    .stat-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      padding: 16px 18px;
+      box-shadow: 0 2px 12px rgba(10, 37, 88, .07);
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      user-select: none
+    }
+
+    .stat-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(10, 37, 88, .12)
+    }
+
+    .stat-card.active-filter {
+      border: 2px solid var(--navy) !important;
+      box-shadow: 0 6px 20px rgba(10, 37, 88, .15) !important;
+      transform: scale(1.02)
+    }
+
+    .stat-card.dimmed {
+      opacity: 0.55;
+      transform: scale(0.96)
+    }
+
+    .stat-card .sv {
+      font-family: 'Playfair Display', serif;
+      font-size: 30px;
+      font-weight: 700;
+      color: var(--navy)
+    }
+
+    .stat-card .sl {
+      font-size: 10.5px;
+      font-weight: 700;
+      color: var(--ink3);
+      text-transform: uppercase;
+      letter-spacing: .07em;
+      margin-top: 4px
+    }
+
+    .stat-card .ss {
+      font-size: 11px;
+      color: var(--ink3);
+      margin-top: 2px
+    }
+
+    .stat-card.gold .sv {
+      color: var(--gold2)
+    }
+
+    .stat-card.orange .sv {
+      color: var(--orange)
+    }
+
+    .stat-card.purple .sv {
+      color: #8e44ad
+    }
+
+    .stat-card.teal .sv {
+      color: #16a085
+    }
+
+    .stat-card.green .sv {
+      color: var(--success)
+    }
+
+    @media(max-width: 1200px) {
+      .stats-row {
+        grid-template-columns: repeat(3, 1fr)
+      }
+    }
+
+    @media(max-width: 768px) {
+      .stats-row {
+        grid-template-columns: repeat(2, 1fr)
+      }
+    }
+
+    @media(max-width: 480px) {
+      .stats-row {
+        grid-template-columns: 1fr
+      }
+    }
+
+    .campus-badge {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 99px;
+      font-size: 11px;
+      font-weight: 700
+    }
+
+    .cb-blr {
+      background: #e8f0ff;
+      color: var(--navy)
+    }
+
+    .cb-kch {
+      background: #fff3e0;
+      color: #8a4a00
+    }
+
+    .cb-odl {
+      background: #f3e5f5;
+      color: #6a1b9a
+    }
+
+    .cb-onl {
+      background: #e0f2f1;
+      color: #00695c
+    }
+
+    .cb-other {
+      background: #f3f4f6;
+      color: #4b5563
+    }
+
+    /* Analytics Dashboard Styles */
+    .analytics-grid {
+      display: grid;
+      grid-template-columns: 2fr 1.2fr;
+      gap: 24px;
+      margin-top: 24px
+    }
+
+    @media(max-width: 900px) {
+      .analytics-grid {
+        grid-template-columns: 1fr
+      }
+    }
+
+    .gauge-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 24px
+    }
+
+    @media(max-width: 600px) {
+      .gauge-container {
+        grid-template-columns: 1fr
+      }
+    }
+
+    .gauge-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      padding: 22px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      box-shadow: 0 2px 12px rgba(10, 37, 88, .05)
+    }
+
+    .gauge-progress {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      background: conic-gradient(var(--navy) 0%, #eee 0%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      flex-shrink: 0
+    }
+
+    .gauge-progress::before {
+      content: '';
+      position: absolute;
+      inset: 8px;
+      background: #fff;
+      border-radius: 50%
+    }
+
+    .gauge-val {
+      position: relative;
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--navy)
+    }
+
+    .gauge-info h4 {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--navy)
+    }
+
+    .gauge-info p {
+      font-size: 12px;
+      color: var(--ink3);
+      margin-top: 2px
+    }
+
+    .dept-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px
+    }
+
+    .dept-table th,
+    .dept-table td {
+      padding: 12px 14px;
+      text-align: left;
+      border-bottom: 1px solid #edf0f8
+    }
+
+    .dept-table th {
+      font-weight: 700;
+      color: var(--navy);
+      background: #fafbff;
+      font-size: 11.5px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em
+    }
+
+    .dept-table tbody tr:hover {
+      background: #fbfdff
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 700
+    }
+
+    .status-badge.yes {
+      background: var(--green-lt);
+      color: var(--green)
+    }
+
+    .status-badge.pending {
+      background: #fde8e8;
+      color: #ef4444
+    }
+
+    .timeline-container {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      position: relative;
+      padding-left: 20px;
+      margin-top: 10px
+    }
+
+    .timeline-container::before {
+      content: '';
+      position: absolute;
+      left: 6px;
+      top: 8px;
+      bottom: 8px;
+      width: 2px;
+      background: var(--border)
+    }
+
+    .timeline-item {
+      position: relative;
+      padding-bottom: 4px
+    }
+
+    .timeline-dot {
+      position: absolute;
+      left: -19px;
+      top: 5px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--border);
+      border: 2.5px solid #fff;
+      box-shadow: 0 0 0 2px var(--border)
+    }
+
+    .timeline-dot.first {
+      background: var(--gold);
+      box-shadow: 0 0 0 2px var(--gold)
+    }
+
+    .timeline-dot.latest {
+      background: var(--success);
+      box-shadow: 0 0 0 2px var(--success)
+    }
+
+    .timeline-dot.normal {
+      background: var(--navy)
+    }
+
+    .timeline-card {
+      background: #fafbff;
+      border: 1px solid var(--border);
+      border-radius: var(--r3);
+      padding: 12px;
+      transition: .15s
+    }
+
+    .timeline-card:hover {
+      border-color: var(--navy);
+      background: #fff
+    }
+
+    .timeline-time {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--ink3);
+      text-transform: uppercase
+    }
+
+    .timeline-title {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-top: 2px
+    }
+
+    .timeline-meta {
+      font-size: 11px;
+      color: var(--ink3);
+      margin-top: 2px
+    }
+
+    .timeline-tag {
+      display: inline-block;
+      font-size: 9px;
+      font-weight: 800;
+      padding: 1px 6px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      margin-left: 6px
+    }
+
+    .timeline-tag.readiness {
+      background: #e0f2fe;
+      color: #0369a1
+    }
+
+    .timeline-tag.closure {
+      background: #fef3c7;
+      color: #b45309
+    }
+
+    .timeline-trophy {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 800;
+      padding: 1px 6px;
+      border-radius: 4px;
+      margin-top: 4px
+    }
+
+    .timeline-trophy.gold {
+      background: #fff8e7;
+      color: #b45309;
+      border: 1px solid #fcd34d
+    }
+
+    .timeline-trophy.green {
+      background: #ecfdf5;
+      color: #047857;
+      border: 1px solid #6ee7b7
+    }
+
+    .table-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      box-shadow: 0 2px 16px rgba(10, 37, 88, .07);
+      overflow: hidden
+    }
+
+    .table-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 22px;
+      border-bottom: 2px solid var(--bg);
+      flex-wrap: wrap;
+      gap: 12px
+    }
+
+    .table-header h2 {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--navy)
+    }
+
+    .table-header p {
+      font-size: 12.5px;
+      color: var(--ink3);
+      margin-top: 2px
+    }
+
+    .search-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px
+    }
+
+    .search-bar input,
+    .search-bar select {
+      padding: 9px 14px;
+      border: 2px solid var(--border);
+      border-radius: var(--r2);
+      font-size: 13px;
+      font-family: inherit;
+      outline: none;
+      background: #fafbff
+    }
+
+    .search-bar input {
+      min-width: 240px
+    }
+
+    .sub-table {
+      width: 100%;
+      border-collapse: collapse
+    }
+
+    .sub-table thead th {
+      background: var(--navy);
+      color: #fff;
+      padding: 11px 12px;
+      text-align: left;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .05em;
+      white-space: nowrap
+    }
+
+    .sub-table tbody tr {
+      border-bottom: 1px solid #f0f3fb;
+      transition: .1s
+    }
+
+    .sub-table tbody tr:hover {
+      background: #f5f8ff
+    }
+
+    .sub-table td {
+      padding: 12px 12px;
+      font-size: 13px;
+      vertical-align: middle
+    }
+
+    .campus-badge {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 99px;
+      font-size: 11px;
+      font-weight: 700
+    }
+
+    .cb-blr {
+      background: #e8f0ff;
+      color: var(--navy)
+    }
+
+    .cb-kch {
+      background: #fff3e0;
+      color: #8a4a00
+    }
+
+    .fac-count-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: #e0f4ff;
+      color: var(--navy);
+      padding: 3px 10px;
+      border-radius: 99px;
+      font-size: 11.5px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: .15s
+    }
+
+    .fac-count-badge:hover {
+      background: var(--navy);
+      color: #fff
+    }
+
+    .checklist-bar {
+      width: 120px;
+      background: #edf0f8;
+      border-radius: 99px;
+      height: 7px;
+      overflow: hidden;
+      display: inline-block;
+      vertical-align: middle
+    }
+
+    .checklist-fill {
+      height: 100%;
+      border-radius: 99px;
+      background: linear-gradient(90deg, var(--navy3), var(--gold))
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 9px 18px;
+      border-radius: var(--r2);
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      border: 2px solid;
+      transition: .15s;
+      font-family: inherit;
+      text-decoration: none
+    }
+
+    .btn-sm {
+      padding: 6px 12px;
+      font-size: 12px
+    }
+
+    .btn-ghost {
+      border-color: #c8d2e8;
+      background: transparent;
+      color: var(--ink2)
+    }
+
+    .btn-ghost:hover {
+      background: var(--bg);
+      border-color: var(--navy)
+    }
+
+    .btn-primary {
+      border-color: var(--navy);
+      background: var(--navy);
+      color: #fff
+    }
+
+    .btn-primary:hover {
+      background: var(--navy2)
+    }
+
+    .btn-gold {
+      border-color: var(--gold2);
+      background: var(--gold);
+      color: var(--navy)
+    }
+
+    .btn-gold:hover {
+      background: var(--gold2)
+    }
+
+    .btn-danger {
+      border-color: #c0392b;
+      background: transparent;
+      color: #c0392b
+    }
+
+    .btn-danger:hover {
+      background: #c0392b;
+      color: #fff
+    }
+
+    .btn-white {
+      border-color: rgba(255, 255, 255, .3);
+      background: rgba(255, 255, 255, .1);
+      color: #fff
+    }
+
+    .btn-white:hover {
+      background: rgba(255, 255, 255, .2)
+    }
+
+    .no-data {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--ink3)
+    }
+
+    .no-data .nd-icon {
+      font-size: 48px;
+      margin-bottom: 12px;
+      display: block
+    }
+
+    .no-data h3 {
+      font-size: 17px;
+      font-weight: 700;
+      margin-bottom: 6px;
+      color: var(--ink2)
+    }
+
+    /* Modal */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(10, 37, 88, .6);
+      z-index: 500;
+      align-items: center;
+      justify-content: center;
+      padding: 20px
+    }
+
+    .modal-overlay.open {
+      display: flex
+    }
+
+    .modal {
+      background: #fff;
+      border-radius: 16px;
+      padding: 32px;
+      max-width: 800px;
+      width: 100%;
+      max-height: 88vh;
+      overflow-y: auto;
+      box-shadow: 0 24px 80px rgba(0, 0, 0, .35)
+    }
+
+    .modal h3 {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 20px;
+      font-family: 'Playfair Display', serif
+    }
+
+    .modal-close {
+      float: right;
+      background: none;
+      border: none;
+      font-size: 22px;
+      cursor: pointer;
+      color: var(--ink3);
+      line-height: 1;
+      padding: 0 4px
+    }
+
+    .mod-section {
+      margin-bottom: 20px
+    }
+
+    .mod-section h4 {
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--navy);
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      border-bottom: 2px solid #f0f3fb;
+      padding-bottom: 8px;
+      margin-bottom: 10px
+    }
+
+    .mod-row {
+      display: flex;
+      gap: 10px;
+      font-size: 13.5px;
+      padding: 5px 0;
+      border-bottom: 1px solid #f8f9fb
+    }
+
+    .mod-label {
+      color: var(--ink3);
+      font-size: 12px;
+      min-width: 130px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      flex-shrink: 0
+    }
+
+    .mod-val {
+      font-weight: 600;
+      color: var(--ink);
+      flex: 1
+    }
+
+    .fac-mod-card {
+      background: #fafbff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px 16px;
+      margin-bottom: 10px
+    }
+
+    .fac-mod-name {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 4px
+    }
+
+    .fac-mod-meta {
+      font-size: 11.5px;
+      color: var(--ink3);
+      margin-bottom: 8px
+    }
+
+    .fac-chk-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 4px;
+      margin-top: 8px
+    }
+
+    .fac-chk-item {
+      font-size: 11px;
+      padding: 4px 8px;
+      border-radius: 4px
+    }
+
+    .fac-chk-item.yes {
+      background: #e8f7ee;
+      color: #0f5a2a
+    }
+
+    .fac-chk-item.no {
+      background: #fde8e8;
+      color: #7a1a1a
+    }
+
+    .fac-chk-item.na {
+      background: #f0f0f0;
+      color: #666
+    }
+
+    .fac-chk-item.blank {
+      background: #fafafa;
+      color: #aaa
+    }
+
+    .fs-status {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 99px;
+      font-size: 10.5px;
+      font-weight: 700
+    }
+
+    .fs-status.pending {
+      background: #fff4e0;
+      color: #8a4800
+    }
+
+    .fs-status.reviewed {
+      background: #e0f5ea;
+      color: #0f5a2a
+    }
+
+    .fs-status.flagged {
+      background: #fde8e8;
+      color: #7a1a1a
+    }
+
+    .chk-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px
+    }
+
+    .chk-item {
+      font-size: 11.5px;
+      padding: 5px 8px;
+      border-radius: 6px;
+      font-weight: 600
+    }
+
+    .ci-yes {
+      background: #e8f7ee;
+      color: #0f5a2a
+    }
+
+    .ci-no {
+      background: #fde8e8;
+      color: #7a1a1a
+    }
+
+    .ci-na {
+      background: #f0f0f0;
+      color: #666
+    }
+
+    .ci-blank {
+      background: #f8f8f8;
+      color: #aaa
+    }
+
+    /* Mobile Hamburger & Sandwich Menu Styles */
+    .hamburger-menu {
+      display: none;
+      flex-direction: column;
+      justify-content: space-between;
+      width: 22px;
+      height: 16px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      z-index: 1001;
+      margin-left: auto;
+    }
+
+    .hamburger-menu span {
+      width: 100%;
+      height: 2px;
+      background-color: #ffffff;
+      border-radius: 99px;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      transform-origin: left center;
+    }
+
+    .hamburger-menu.active span:nth-child(1) {
+      transform: rotate(45deg) translate(1px, -1px);
+    }
+
+    .hamburger-menu.active span:nth-child(2) {
+      opacity: 0;
+      transform: scaleX(0);
+    }
+
+    .hamburger-menu.active span:nth-child(3) {
+      transform: rotate(-45deg) translate(1px, 1px);
+    }
+
+    @media (max-width: 768px) {
+      .hamburger-menu {
+        display: flex;
+      }
+
+      .tbar-brand h1 {
+        font-size: 13.5px;
+      }
+
+      .tbar-brand p {
+        font-size: 9.5px;
+      }
+
+      .tbar-actions {
+        display: none !important;
+        flex-direction: column !important;
+        position: fixed !important;
+        top: 62px !important;
+        /* matches topbar height */
+        left: 0 !important;
+        right: 0 !important;
+        background: var(--navy) !important;
+        border-bottom: 2px solid rgba(255, 255, 255, 0.1) !important;
+        padding: 20px 24px !important;
+        gap: 12px !important;
+        z-index: 999 !important;
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2) !important;
+        align-items: stretch !important;
+        text-align: left !important;
+        animation: slideDown 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+      }
+
+      .tbar-actions.active {
+        display: flex !important;
+      }
+
+      .tbar-actions a {
+        width: 100%;
+        text-align: center;
+        justify-content: center;
+        padding: 10px !important;
+      }
+
+      @keyframes slideDown {
+        from {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+    }
+
+    @media(max-width: 900px) {
+      .stats-row {
+        grid-template-columns: repeat(2, 1fr)
+      }
+    }
+
+    @media(max-width: 600px) {
+      .stats-row {
+        grid-template-columns: 1fr
+      }
+
+      .wrap {
+        padding: 20px 16px
+      }
+    }
+
+    @keyframes spin {
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: rotate(360deg);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="topbar">
+    <div class="topbar-inner">
+      <div class="tbar-brand">
+        <button onclick="window.history.back()"
+          style="background:transparent; border:none; color:var(--navy); font-size:16px; cursor:pointer; margin-right:12px; font-weight:700; display:inline-flex; align-items:center; gap:4px;"
+          aria-label="Go Back" title="Go Back">← Back</button>
+        <img src="/static/erp/images/jain.png" alt="Jain" onerror="this.style.display='none'">
+        <div class="tb-div"></div>
+        <div>
+          <h1>Admin Dashboard</h1>
+          <p>Office of Academics — OoA</p>
+        </div>
+      </div>
+      <button class="hamburger-menu" id="hamburgerMenu" onclick="toggleMobileMenu()" aria-label="Toggle Navigation">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <div class="tbar-actions" id="tbarActions">
+        <a href="/erp/" class="btn btn-white btn-sm">← Form</a>
+        <a href="/erp/admin/export-all" class="btn btn-gold btn-sm">Export All Excel</a>
+        <a href="/erp/admin/logout" class="btn btn-ghost btn-sm" style="color:#fff;border-color:rgba(255,255,255,.3)">Sign
+          Out</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <span class="admin-badge">Admin Panel</span>
+
+    {% set total = submissions|length %}
+    {% set blr = submissions|selectattr('identity.campus','equalto','Bangalore')|list|length %}
+    {% set kochi = submissions|selectattr('identity.campus','equalto','Kochi')|list|length %}
+    {% set odl = submissions|selectattr('identity.campus','equalto','ODL')|list|length %}
+    {% set online = submissions|selectattr('identity.campus','equalto','Online')|list|length %}
+    {% set total_fac = submissions|sum(attribute='faculty_submission_count') %}
+
+    <div class="main-tabs">
+      <button class="main-tab-btn active" id="tab_submissions" onclick="switchMainTab('submissions')">HOD
+        Submissions</button>
+      <button class="main-tab-btn" id="tab_analytics" onclick="switchMainTab('analytics')">Chronological
+        Analytics</button>
+      <button class="main-tab-btn" id="tab_users" onclick="switchMainTab('users')">Registered HOD Accounts</button>
+      <button class="main-tab-btn" id="tab_requests" onclick="switchMainTab('requests')">Access &amp; Extension
+        Requests</button>
+      <button class="main-tab-btn" id="tab_pwa" onclick="switchMainTab('pwa')">PWA App Analytics</button>
+    </div>
+
+    <!-- Targeted Email Reminder Panel -->
+    <div class="table-card" style="margin-bottom: 24px; border: 1.5px solid #a5b4fc; background: #f5f3ff; border-radius: 12px; padding: 20px; box-shadow: var(--sh2);">
+      <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 14px;">
+        <span style="font-size: 24px;">📧</span>
+        <div>
+          <h2 style="font-size: 16px; font-weight: 800; color: #4338ca; margin: 0;">Targeted Email Reminder Dashboard</h2>
+          <p style="font-size: 12px; color: #6366f1; margin: 2px 0 0 0;">Dispatch automated email notifications directly to HODs with pending submissions</p>
+        </div>
+      </div>
+      
+      <div style="display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-end;">
+        <div style="flex: 1; min-width: 250px;">
+          <label style="font-size: 11px; font-weight: 700; color: #4338ca; display: block; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.05em;">1. Select Recipient Group</label>
+          <select id="reminder_target_type" onchange="toggleReminderDeptSelect()" style="width: 100%; padding: 10px 12px; border: 1.5px solid #c7d2fe; border-radius: 8px; font-family: inherit; font-size: 13.5px; font-weight: 600; color: var(--navy); background: #ffffff; outline: none;">
+            <option value="all_pending">⚠️ All Pending (Readiness or Closure)</option>
+            <option value="pending_readiness">📋 Pending in Semester Readiness</option>
+            <option value="pending_closure">🔒 Pending in Semester Closure</option>
+            <option value="specific_dept">🏢 Select Specific Department</option>
+          </select>
+        </div>
+        
+        <div id="reminder_dept_container" style="flex: 1.5; min-width: 280px; display: none;">
+          <label style="font-size: 11px; font-weight: 700; color: #4338ca; display: block; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.05em;">2. Choose Department</label>
+          <select id="reminder_department" style="width: 100%; padding: 10px 12px; border: 1.5px solid #c7d2fe; border-radius: 8px; font-family: inherit; font-size: 13.5px; font-weight: 600; color: var(--navy); background: #ffffff; outline: none;">
+            {% for dept in departments %}
+            <option value="{{ dept }}">{{ dept }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        
+        <button class="btn btn-primary" onclick="sendTargetedReminders()" style="background: #4f46e5; border-color: #4f46e5; font-weight: bold; padding: 10px 24px; border-radius: 8px; font-size: 13.5px; cursor: pointer; display: flex; align-items: center; gap: 8px; height: 42px;">
+          <span>🚀 Send Email Notifications Now</span>
+        </button>
+      </div>
+    </div>
+
+    <div id="submissionsView">
+      <div class="table-card" style="margin-bottom: 32px;">
+        <div class="table-header" style="border-bottom: none; padding-bottom: 0;">
+          <div>
+            <h2>Portal Settings</h2>
+            <p>Enable/disable modules and set submission deadlines</p>
+          </div>
+        </div>
+        <div style="padding: 18px 22px; display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+          <div style="background: #fafbff; padding: 16px; border: 1px solid var(--border); border-radius: var(--r2);">
+            <h3 style="font-size: 14px; margin-bottom: 12px; color: var(--navy);">Semester Readiness</h3>
+            <label
+              style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px; font-size: 13px; font-weight: 600;">
+              <input type="checkbox" id="set_readiness_enabled" {% if settings.readiness_enabled %}checked{% endif %}>
+              Enable Module
+            </label>
+            <label style="font-size: 11px; font-weight: 700; color: var(--ink3);">Deadline Notice</label>
+            <input type="datetime-local" id="set_readiness_deadline" value="{{ settings.readiness_deadline }}"
+              style="width:100%;padding: 8px 12px; border: 1px solid var(--border); border-radius: 6px; font-family: inherit;">
+          </div>
+          <div style="background: #fafbff; padding: 16px; border: 1px solid var(--border); border-radius: var(--r2);">
+            <h3 style="font-size: 14px; margin-bottom: 12px; color: var(--navy);">Semester Closure</h3>
+            <label
+              style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px; font-size: 13px; font-weight: 600;">
+              <input type="checkbox" id="set_closure_enabled" {% if settings.closure_enabled %}checked{% endif %}>
+              Enable Module
+            </label>
+            <label style="font-size: 11px; font-weight: 700; color: var(--ink3);">Deadline Notice</label>
+            <input type="datetime-local" id="set_closure_deadline" value="{{ settings.closure_deadline }}"
+              style="width:100%;padding: 8px 12px; border: 1px solid var(--border); border-radius: 6px; font-family: inherit;">
+          </div>
+        </div>
+        <div
+          style="padding: 0 22px 18px; display: grid; grid-template-columns: 1fr 1fr; gap: 24px; border-top: 1px solid var(--border); padding-top: 18px;">
+          <div style="background: #fafbff; padding: 16px; border: 1px solid var(--border); border-radius: var(--r2);">
+            <h3 style="font-size: 14px; margin-bottom: 12px; color: var(--navy);">Enabled Academic Years</h3>
+            <div style="display: flex; flex-wrap: wrap; gap: 12px; font-size: 13px;">
+              {% for year in ['2024-25', '2025-26', '2026-27', '2027-28', '2028-29'] %}
+              <label style="display: flex; align-items: center; gap: 6px; font-weight: 600; cursor: pointer;">
+                <input type="checkbox" class="set_enabled_year" value="{{ year }}" {% if year in settings.enabled_years
+                  %}checked{% endif %}> {{ year }}
+              </label>
+              {% endfor %}
+            </div>
+          </div>
+          <div style="background: #fafbff; padding: 16px; border: 1px solid var(--border); border-radius: var(--r2);">
+            <h3 style="font-size: 14px; margin-bottom: 12px; color: var(--navy);">Enabled Semester Types</h3>
+            <div style="display: flex; flex-wrap: wrap; gap: 16px; font-size: 13px;">
+              {% for sem in ['Even', 'Odd'] %}
+              <label style="display: flex; align-items: center; gap: 6px; font-weight: 600; cursor: pointer;">
+                <input type="checkbox" class="set_enabled_sem" value="{{ sem }}" {% if sem in settings.enabled_semesters
+                  %}checked{% endif %}> {{ sem }} Semesters
+              </label>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+        <div style="padding: 0 22px 18px; text-align: right; display: flex; justify-content: flex-end; gap: 12px; align-items: center;">
+          <button class="btn btn-ghost" onclick="sendManualReminders()" style="border: 1.5px solid var(--navy); color: var(--navy); font-weight: 700; padding: 10px 18px; border-radius: 8px; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 6px;">📧 Send Pending Deadline Email Reminders</button>
+          <button class="btn btn-primary" onclick="saveSettings()">Save Settings</button>
+        </div>
+      </div>
+
+      <!-- Notification Broadcast Card -->
+      <div class="table-card" style="margin-bottom: 32px; border: 1.5px solid #bae6fd; background: #f0f9ff;">
+        <div class="table-header" style="border-bottom: none; padding-bottom: 0;">
+          <div>
+            <h2 style="color: #0369a1; display: flex; align-items: center; gap: 8px;">🔔 Send PWA Announcement /
+              Notification</h2>
+            <p style="color: #0284c7;">Send a real-time push and in-app toast notification to all logged-in HODs &
+              faculty members instantly</p>
+          </div>
+        </div>
+        <div style="padding: 18px 22px;">
+          <div
+            style="background: #fff; padding: 18px; border: 1px solid #bae6fd; border-radius: var(--r2); display: flex; flex-direction: column; gap: 14px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
+            <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 16px;">
+              <div>
+                <label
+                  style="font-size: 11px; font-weight: 700; color: #0369a1; display: block; margin-bottom: 6px;">Notification
+                  Title</label>
+                <input type="text" id="notif_title" placeholder="e.g. Semester Closure Added / Deadline Extended"
+                  style="width:100%; padding: 10px 12px; border: 1.5px solid #bae6fd; border-radius: 8px; font-family: inherit; font-size: 13px; font-weight: bold; color: var(--navy);">
+              </div>
+              <div>
+                <label
+                  style="font-size: 11px; font-weight: 700; color: #0369a1; display: block; margin-bottom: 6px;">Notification
+                  Body / Announcement Text</label>
+                <input type="text" id="notif_body"
+                  placeholder="e.g. Last date of the semester closures has been extended! Please verify and submit."
+                  style="width:100%; padding: 10px 12px; border: 1.5px solid #bae6fd; border-radius: 8px; font-family: inherit; font-size: 13px; color: var(--ink);">
+              </div>
+            </div>
+            <div style="text-align: right;">
+              <button class="btn btn-primary" onclick="sendBroadcastNotification()"
+                style="background: #0284c7; border-color: #0284c7; font-weight: bold; font-size: 12px;">🔔 Send
+                Announcement Notification</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Notification History Card -->
+      <div class="table-card" style="margin-bottom: 32px;">
+        <div class="table-header">
+          <div>
+            <h2>Notification Broadcast History (Last 10)</h2>
+            <p>Track and delete active notifications showing on mobile devices</p>
+          </div>
+        </div>
+        <div style="padding: 0 22px 18px; overflow-x: auto;">
+          <table class="table" style="width: 100%; border-collapse: collapse; font-size: 13px;">
+            <thead>
+              <tr style="border-bottom: 2px solid var(--border); text-align: left;">
+                <th style="padding: 12px 8px; color: var(--ink3);">Title</th>
+                <th style="padding: 12px 8px; color: var(--ink3);">Announcement Message</th>
+                <th style="padding: 12px 8px; color: var(--ink3);">Type</th>
+                <th style="padding: 12px 8px; color: var(--ink3);">Sent At</th>
+                <th style="padding: 12px 8px; text-align: right; color: var(--ink3);">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% if notifications %}
+              {% for n in notifications %}
+              <tr style="border-bottom: 1px solid var(--border);">
+                <td style="padding: 12px 8px; font-weight: bold; color: var(--navy);">🔔 {{ n.title }}</td>
+                <td style="padding: 12px 8px; color: var(--ink);">{{ n.body }}</td>
+                <td style="padding: 12px 8px;">
+                  <span
+                    style="padding: 4px 8px; border-radius: 12px; font-size: 10px; font-weight: bold; background: {% if n.type == 'broadcast' %}#e0f2fe; color: #0369a1;{% else %}#f3e8ff; color: #6b21a8;{% endif %}">
+                    {{ n.type|capitalize }}
+                  </span>
+                </td>
+                <td style="padding: 12px 8px; color: var(--ink3); font-size: 11px;">{{ n.created_at[:16]|replace('T', '
+                  ') }}</td>
+                <td style="padding: 12px 8px; text-align: right;">
+                  <button class="btn btn-outline"
+                    style="color: var(--danger); border-color: #fca5a5; background: #fef2f2; padding: 4px 8px; font-size: 11px; font-weight: bold; cursor: pointer;"
+                    onclick="deleteBroadcastNotification('{{ n._id }}', this)">🗑️ Delete</button>
+                </td>
+              </tr>
+              {% endfor %}
+              {% else %}
+              <tr>
+                <td colspan="5" style="text-align: center; padding: 24px; color: var(--ink3);">No notifications have
+                  been sent yet.</td>
+              </tr>
+              {% endif %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="stats-row">
+        <div class="stat-card" id="card_all" onclick="selectCampusCard('All')" title="Click to view all submissions">
+          <div class="sv" id="stat_val_all">{{ total }}</div>
+          <div class="sl">Total HOD</div>
+          <div class="ss">All campuses</div>
+        </div>
+        <div class="stat-card gold" id="card_blr" onclick="selectCampusCard('Bangalore')"
+          title="Click to filter by Bangalore campus">
+          <div class="sv" id="stat_val_blr">{{ blr }}</div>
+          <div class="sl">Bangalore</div>
+          <div class="ss">Campus submissions</div>
+        </div>
+        <div class="stat-card orange" id="card_kch" onclick="selectCampusCard('Kochi')"
+          title="Click to filter by Kochi campus">
+          <div class="sv" id="stat_val_kch">{{ kochi }}</div>
+          <div class="sl">Kochi</div>
+          <div class="ss">Campus submissions</div>
+        </div>
+        <div class="stat-card purple" id="card_odl" onclick="selectCampusCard('ODL')"
+          title="Click to filter by ODL campus">
+          <div class="sv" id="stat_val_odl">{{ odl }}</div>
+          <div class="sl">ODL</div>
+          <div class="ss">Campus submissions</div>
+        </div>
+        <div class="stat-card teal" id="card_onl" onclick="selectCampusCard('Online')"
+          title="Click to filter by Online campus">
+          <div class="sv" id="stat_val_onl">{{ online }}</div>
+          <div class="sl">Online</div>
+          <div class="ss">Campus submissions</div>
+        </div>
+        <div class="stat-card green" id="card_fac" onclick="selectCampusCard('All')"
+          title="Total faculty checklists submitted">
+          <div class="sv" id="stat_val_fac">{{ total_fac }}</div>
+          <div class="sl">Faculty Subs</div>
+          <div class="ss">Via shared links</div>
+        </div>
+      </div>
+
+      <div class="table-card">
+        <div class="table-header">
+          <div>
+            <h2>All HOD Submissions</h2>
+            <p id="submissionCountText">{{ total }} department(s) shown</p>
+          </div>
+          <div style="display: flex; gap: 8px; margin-right: auto; margin-left: 24px; flex-wrap: wrap;">
+            <button class="tab-btn active" id="type_all" onclick="selectTypeFilter('All')">All Types</button>
+            <button class="tab-btn" id="type_readiness" onclick="selectTypeFilter('readiness')">Readiness Only</button>
+            <button class="tab-btn" id="type_closure" onclick="selectTypeFilter('closure')">Closure Only</button>
+          </div>
+          <div class="search-bar">
+            <select id="subDeptFilter" onchange="filterTable()">
+              <option value="">All Departments</option>
+              {% for dept in departments %}<option value="{{ dept }}">{{ dept }}</option>{% endfor %}
+            </select>
+            <input type="text" id="searchInput" placeholder="🔍 Search dept, HOD…" oninput="filterTable()">
+          </div>
+        </div>
+
+        {% if submissions %}
+        <div style="overflow-x:auto">
+          <table class="sub-table" id="subTable">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Department</th>
+                <th>Campus</th>
+                <th>HOD</th>
+                <th>Semester</th>
+                <th>Programs</th>
+                <th>Faculty Subs</th>
+                <th>HOD Checklist</th>
+                <th>Submitted</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for s in submissions %}
+              {% set chk = s.get('hodChecklist', {}) %}
+              {% set yes_count = chk.values()|selectattr('status','equalto','Yes')|list|length %}
+              {% set total_chk = chk|length or 22 %}
+              {% set pct = ((yes_count / total_chk * 100)|int) if total_chk else 0 %}
+              <tr
+                data-search="{{ s.identity.dept }} {{ s.identity.campus }} {{ s.identity.hodName }} {{ s.identity.hodEmail }} {{ s.identity.semester }} {{ s.form_type or 'readiness' }}"
+                data-dept="{{ s.identity.dept }}" data-campus="{{ s.identity.campus }}"
+                data-form-type="{{ s.form_type or 'readiness' }}">
+                <td style="color:var(--ink3);font-weight:700;font-size:12px">{{ loop.index }}</td>
+                <td>
+                  <div style="font-weight:700;color:var(--navy);font-size:13px;cursor:pointer;text-decoration:underline"
+                    onclick="drillDownDept(this.dataset.dept)" data-dept="{{ s.identity.dept }}"
+                    title="Click to view department drill-down">
+                    {{ s.identity.dept or '—' }}
+                    <span class="timeline-tag {{ s.form_type or 'readiness' }}"
+                      style="font-size: 9px; vertical-align: middle;">{{ 'Readiness' if (s.form_type or 'readiness') ==
+                      'readiness' else 'Closure' }}</span>
+                    {% if s.get('_draft') %}
+                    <span class="status-badge"
+                      style="background:#fff3e0; color:#b45309; border: 1px solid #ffe0b2; padding: 2px 6px; border-radius: 4px; font-weight:700; font-size:10px; vertical-align: middle; margin-left: 4px;">📝
+                      Draft</span>
+                    {% else %}
+                    <span class="status-badge"
+                      style="background:#e8f7ee; color:#0f5a2a; border: 1px solid #c8e6c9; padding: 2px 6px; border-radius: 4px; font-weight:700; font-size:10px; vertical-align: middle; margin-left: 4px;">✅
+                      Submitted</span>
+                    {% endif %}
+                  </div>
+                  <div style="font-size:11.5px;color:var(--ink3)">A.Y. {{ s.identity.acYear or '—' }}</div>
+                  {% if s.edit_request and s.edit_request.pending %}
+                  <div
+                    style="margin-top:4px;font-size:11px;color:var(--danger);font-weight:700;background:#fde8e8;padding:2px 6px;border-radius:4px;display:inline-block"
+                    title="{{ s.edit_request.comment }}">Edit Requested</div>
+                  {% endif %}
+                </td>
+                <td>
+                  <span
+                    class="campus-badge {% if s.identity.campus == 'Bangalore' %}cb-blr{% elif s.identity.campus == 'Kochi' %}cb-kch{% elif s.identity.campus == 'ODL' %}cb-odl{% elif s.identity.campus == 'Online' %}cb-onl{% else %}cb-other{% endif %}">
+                    {{ s.identity.campus or '—' }}
+                  </span>
+                </td>
+                <td>
+                  <div style="font-weight:600;font-size:13px;cursor:pointer;color:var(--navy);text-decoration:underline"
+                    onclick="drillDownHOD(this.dataset.hod)" data-hod="{{ s.identity.hodName }}"
+                    title="Click to view HOD drill-down">{{ s.identity.hodName or '—' }}</div>
+                  <div style="font-size:11px;color:var(--ink3)">{{ s.identity.hodEmail or '' }}</div>
+                </td>
+                <td style="font-size:13px;font-weight:500">{{ s.identity.semester or '—' }}</td>
+                <td style="text-align:center;font-weight:700;color:var(--navy)">{{ s.programs|length }}</td>
+                <td>
+                  <span class="fac-count-badge" onclick="viewFacultySubs('{{ s._id }}')"
+                    title="View faculty submissions">
+                    👥 {{ s.faculty_submission_count }}
+                  </span>
+                </td>
+                <td>
+                  <div style="font-size:11.5px;font-weight:700;color:var(--navy);margin-bottom:4px">{{ yes_count }}/{{
+                    total_chk }}</div>
+                  <div class="checklist-bar">
+                    <div class="checklist-fill" style="width:{{ pct }}%"></div>
+                  </div>
+                </td>
+                <td style="font-size:12px;color:var(--ink3);white-space:nowrap">
+                  {{ s.timestamp[:10] if s.timestamp else '—' }}<br>
+                  <span style="font-size:11px">{{ s.timestamp[11:19] if s.timestamp and s.timestamp|length > 10 else ''
+                    }}</span>
+                </td>
+                <td>
+                  <div style="display:flex;gap:6px;flex-wrap:wrap;max-width:160px">
+                    <button class="btn btn-primary btn-sm" onclick="openModal('{{ s._id }}')">View</button>
+                    <a href="/erp/api/export/{{ s._id }}" class="btn btn-gold btn-sm">Excel</a>
+                    {% if s.edit_request and s.edit_request.pending %}
+                    <button class="btn btn-danger btn-sm" onclick="approveEdit('{{ s._id }}')"
+                      title="Reason: {{ s.edit_request.comment }}">Approve</button>
+                    {% endif %}
+                    <button class="btn btn-danger btn-sm" onclick="deleteSub('{{ s._id }}', this)">Del</button>
+                  </div>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        {% else %}
+        <div class="no-data"><span class="nd-icon">📭</span>
+          <h3>No Submissions Yet</h3>
+        </div>
+        {% endif %}
+      </div>
+    </div> <!-- Close submissionsView -->
+
+    <!-- 📊 Analytics View -->
+    <div id="analyticsView" style="display: none;">
+      <!-- Gauges Grid -->
+      <div class="gauge-container">
+        <div class="gauge-card">
+          <div class="gauge-progress" id="readinessGauge" style="background: conic-gradient(var(--navy) 0%, #eee 0%);">
+            <div class="gauge-val" id="readinessPctText">0%</div>
+          </div>
+          <div class="gauge-info">
+            <h4 style="font-size: 14px; font-weight: 700; color: var(--navy);">Semester Readiness Progress</h4>
+            <p id="readinessRatioText" style="font-size: 12px; color: var(--ink3); margin-top: 2px;">0 / 0 departments
+              submitted</p>
+          </div>
+        </div>
+        <div class="gauge-card">
+          <div class="gauge-progress" id="closureGauge" style="background: conic-gradient(var(--gold2) 0%, #eee 0%);">
+            <div class="gauge-val" id="closurePctText">0%</div>
+          </div>
+          <div class="gauge-info">
+            <h4 style="font-size: 14px; font-weight: 700; color: var(--navy);">Semester Closure Progress</h4>
+            <p id="closureRatioText" style="font-size: 12px; color: var(--ink3); margin-top: 2px;">0 / 0 departments
+              submitted</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Analytics Grid -->
+      <div class="analytics-grid">
+        <!-- Left: Status Matrix -->
+        <div class="table-card" style="padding: 22px;">
+          <div
+            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 12px;">
+            <div>
+              <h3 style="font-size: 16px; font-weight: 800; color: var(--navy);">Departmental Submission Status Matrix
+              </h3>
+              <p style="font-size: 12px; color: var(--ink3); margin-top: 2px;">Real-time progress overview for all 32
+                departments</p>
+            </div>
+            <div>
+              <select id="analyticsCampusFilter" onchange="renderAnalytics()"
+                style="padding: 8px 12px; border: 1px solid var(--border); border-radius: 6px; font-family: inherit; font-size: 13px; outline: none; background: #fafbff; cursor: pointer; color: var(--navy); font-weight: 600;">
+                <option value="All">All Campuses</option>
+                <option value="Bangalore">Bangalore Campus</option>
+                <option value="Kochi">Kochi Campus</option>
+                <option value="ODL">ODL Campus</option>
+                <option value="Online">Online Campus</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="overflow-x: auto; max-height: 520px; overflow-y: auto;">
+            <table class="dept-table">
+              <thead>
+                <tr>
+                  <th>Department</th>
+                  <th>Readiness Status</th>
+                  <th>Closure Status</th>
+                </tr>
+              </thead>
+              <tbody id="deptStatusTableBody">
+                <!-- Javascript populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Right: Chronological Timeline -->
+        <div class="table-card" style="padding: 22px;">
+          <h3 style="font-size: 16px; font-weight: 800; color: var(--navy); margin-bottom: 2px;">Submission Timeline
+            (1st to Last)</h3>
+          <p style="font-size: 12px; color: var(--ink3); margin-bottom: 16px;">Chronological order of HOD portal filings
+          </p>
+
+          <div style="max-height: 520px; overflow-y: auto; padding-right: 4px;">
+            <div class="timeline-container" id="timelineContainer">
+              <!-- Javascript populated -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> <!-- Close analyticsView -->
+
+    <!-- 👤 HOD Accounts View -->
+    <div id="usersView" style="display: none;">
+      <div class="table-card" style="padding: 22px; margin-bottom: 32px;">
+        <div class="table-header">
+          <div>
+            <h2>Registered HOD Accounts</h2>
+            <p>Admin control to impersonate and manage HOD portal workspaces</p>
+          </div>
+          <div
+            style="font-size: 13px; font-weight: 700; color: var(--navy); background: #eef2ff; padding: 6px 14px; border-radius: 99px;">
+            👤 {{ users|length }} HODs Registered
+          </div>
+        </div>
+
+        <div style="overflow-x: auto; margin-top: 16px;">
+          <table class="sub-table">
+            <thead>
+              <tr>
+                <th>HOD Name</th>
+                <th>Registered Email</th>
+                <th>Estimated Department</th>
+                <th>Registration Date</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for u in users %}
+              <tr>
+                <td style="font-weight: 700; color: var(--navy);">{{ u.name or '—' }}</td>
+                <td style="font-weight: 600; color: var(--ink2);">{{ u.email or '—' }}</td>
+                <td><span
+                    style="font-size: 12.5px; font-weight: 600; background: #f0f4ff; color: var(--navy); padding: 4px 8px; border-radius: 6px;">{{
+                    u.latest_dept or '—' }}</span></td>
+                <td style="font-size: 12px; color: var(--ink3);">{{ u.created_at[:10] if u.created_at else '—' }}</td>
+                <td>
+                  <a href="/erp/admin/impersonate/{{ u.email }}" class="btn btn-gold btn-sm"
+                    style="display: inline-flex; align-items: center; gap: 4px; text-decoration: none; font-weight: bold; background: linear-gradient(135deg, #f2a900, #ffc72c); color: var(--navy); border: none; box-shadow: 0 4px 10px rgba(242,169,0,0.15); padding: 6px 12px; border-radius: 6px; transition: 0.2s;">
+                    🔑 Impersonate / Enter Portal
+                  </a>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Access & Extension Requests View -->
+    <div id="requestsView" style="display: none;">
+      <div class="table-card" style="padding: 22px; margin-bottom: 32px;">
+        <div class="table-header">
+          <div>
+            <h2>Late Access &amp; Extension Requests</h2>
+            <p>Review requests from HODs to submit or edit checklists after official deadlines have passed</p>
+          </div>
+          <div
+            style="font-size: 13px; font-weight: 700; color: var(--navy); background: #fee2e2; padding: 6px 14px; border-radius: 99px;">
+            ⚠️ {{ access_requests|length }} Total Requests
+          </div>
+        </div>
+
+        <div style="overflow-x: auto; margin-top: 16px;">
+          <table class="sub-table">
+            <thead>
+              <tr>
+                <th>HOD Name &amp; Email</th>
+                <th>Target Module</th>
+                <th>Reason / Comment</th>
+                <th>Request Time</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for req in access_requests %}
+              <tr>
+                <td>
+                  <div style="font-weight: 700; color: var(--navy);">{{ req.user_name }}</div>
+                  <div style="font-size: 12px; color: var(--ink3);">{{ req.user_email }}</div>
+                </td>
+                <td style="font-weight: 600;">{{ req.module }}</td>
+                <td style="font-size: 13px; color: var(--ink2); max-width: 300px; word-wrap: break-word;">
+                  <div><strong>HOD:</strong> {{ req.comment }}</div>
+                  {% if req.status == 'approved' and req.admin_comment %}
+                    <div style="margin-top: 6px; font-size: 12px; color: #059669; font-style: italic;">
+                      <strong>Admin Comment:</strong> "{{ req.admin_comment }}"
+                    </div>
+                  {% endif %}
+                </td>
+                <td style="font-size: 12px; color: var(--ink3);">{{ req.timestamp.replace('T', ' ')[:19] if
+                  req.timestamp else '—' }}</td>
+                <td>
+                  {% if req.status == 'approved' %}
+                  <span class="status-pill status-approved"
+                    style="background: #ecfdf5; color: #065f46; border: 1px solid #a7f3d0; padding: 4px 8px; border-radius: 99px; font-size: 11px; font-weight: 700;">APPROVED</span>
+                  {% else %}
+                  <span class="status-pill status-pending"
+                    style="background: #fffbeb; color: #92400e; border: 1px solid #fde68a; padding: 4px 8px; border-radius: 99px; font-size: 11px; font-weight: 700;">PENDING</span>
+                  {% endif %}
+                </td>
+                <td>
+                  {% if req.status == 'approved' %}
+                  <button class="btn btn-ghost btn-sm"
+                    onclick="revokeAccess('{{ req.user_email }}', '{{ 'readiness' if 'Readiness' in req.module else 'closure' }}')"
+                    style="border-color: #ef4444; color: #ef4444; padding: 4px 8px; border-radius: 6px; font-weight: 600; font-size: 11px; cursor: pointer;">Revoke
+                    Access</button>
+                  {% else %}
+                  <button class="btn btn-gold btn-sm" onclick="approveAccess('{{ req._id }}')"
+                    style="background: #10b981; color: #fff; border: none; padding: 6px 12px; border-radius: 6px; font-weight: 700; font-size: 11px; cursor: pointer;">Open
+                    Access</button>
+                  {% endif %}
+                </td>
+              </tr>
+              {% endfor %}
+              {% if access_requests|length == 0 %}
+              <tr>
+                <td colspan="6" style="text-align: center; color: var(--ink3); padding: 30px;">No requests submitted
+                  yet.</td>
+              </tr>
+              {% endif %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PWA App Analytics View -->
+  <div id="pwaView" style="display: none;">
+    <div class="table-card" style="padding: 24px; margin-bottom: 32px;">
+      <div class="table-header" style="border-bottom: none; padding-bottom: 0;">
+        <div>
+          <h2>PWA Mobile App Analytics</h2>
+          <p>Track real-time Progressive Web App (PWA) installs and mobile launches</p>
+        </div>
+        <div
+          style="font-size: 13px; font-weight: 700; color: #0284c7; background: #e0f2fe; padding: 6px 14px; border-radius: 99px;">
+          📱 PWA App Enabled
+        </div>
+      </div>
+
+      <div
+        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-top: 24px;">
+        <!-- Installs Card -->
+        <div
+          style="background: #f0f9ff; border: 1.5px solid #bae6fd; border-radius: var(--r); padding: 24px; text-align: center; box-shadow: 0 4px 12px rgba(3,105,161,0.05); transition: transform 0.2s;">
+          <div style="font-size: 40px; margin-bottom: 12px;">📥</div>
+          <div
+            style="font-family: 'Playfair Display', serif; font-size: 42px; font-weight: 800; color: #0369a1; margin-bottom: 4px;"
+            id="pwaInstallCount">
+            {{ pwa_stats.get('installs', 0) }}
+          </div>
+          <div
+            style="font-size: 12px; font-weight: 800; color: #0284c7; text-transform: uppercase; letter-spacing: 0.08em;">
+            Total App Installations
+          </div>
+          <div style="font-size: 12px; color: #0369a1; margin-top: 8px; line-height: 1.5;">
+            Count of HODs/Faculty who have clicked "Download App" or "Add to Home Screen" to install it natively.
+          </div>
+        </div>
+
+        <!-- Launches Card -->
+        <div
+          style="background: #faf5ff; border: 1.5px solid #e9d5ff; border-radius: var(--r); padding: 24px; text-align: center; box-shadow: 0 4px 12px rgba(107,33,168,0.05); transition: transform 0.2s;">
+          <div style="font-size: 40px; margin-bottom: 12px;">⚡</div>
+          <div
+            style="font-family: 'Playfair Display', serif; font-size: 42px; font-weight: 800; color: #6b21a8; margin-bottom: 4px;"
+            id="pwaLaunchCount">
+            {{ pwa_stats.get('launches', 0) }}
+          </div>
+          <div
+            style="font-size: 12px; font-weight: 800; color: #7e22ce; text-transform: uppercase; letter-spacing: 0.08em;">
+            Active PWA Launches
+          </div>
+          <div style="font-size: 12px; color: #6b21a8; margin-top: 8px; line-height: 1.5;">
+            How many times the portal was opened directly as a native standalone app from the mobile Home Screen.
+          </div>
+        </div>
+      </div>
+
+      <!-- How it works segment -->
+      <div
+        style="margin-top: 32px; padding: 20px; background: #fafbff; border: 1px solid var(--border); border-radius: var(--r2); text-align: left;">
+        <h3
+          style="font-size: 15px; font-weight: 800; color: var(--navy); margin-bottom: 10px; display: flex; align-items: center; gap: 8px;">
+          ⚙️ How does PWA Tracking work?
+        </h3>
+        <div
+          style="font-size: 13px; color: var(--ink2); line-height: 1.6; display: flex; flex-direction: column; gap: 8px;">
+          <p>
+            1. <strong>Installation Callback:</strong> When a user accepts the PWA prompt and installs the application,
+            the mobile browser fires a standard <code>appinstalled</code> event on the client side. We intercept this
+            event and send a secure telemetry callback to <code>/api/track-install</code> to increment our metrics.
+          </p>
+          <p>
+            2. <strong>Standalone Launch Detection:</strong> When the user opens the application via the home screen
+            shortcut, the browser launches it in <code>standalone</code> mode (hiding browser controls). The client-side
+            JavaScript detects this mode via CSS media query matching and sends a callback to
+            <code>/api/track-launch</code>.
+          </p>
+          <p>
+            3. <strong>Lightweight & Secure:</strong> All telemetry runs asynchronously in the background and does not
+            collect personal HOD identifiers, ensuring total privacy.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Submission Detail Modal -->
+  <div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this)closeModal()">
+    <div class="modal">
+      <button class="modal-close" onclick="closeModal()">×</button>
+      <div id="modalBody"></div>
+    </div>
+  </div>
+
+  <!-- Faculty Submissions Modal -->
+  <div class="modal-overlay" id="facModalOverlay" onclick="if(event.target===this)closeFacModal()">
+    <div class="modal">
+      <button class="modal-close" onclick="closeFacModal()">×</button>
+      <h3>Faculty Submissions</h3>
+      <div id="facModalBody"></div>
+    </div>
+  </div>
+
+  <!-- HOD & Department Drill-Down Modal -->
+  <div class="modal-overlay" id="drillDownModalOverlay" onclick="if(event.target===this)closeDrillDownModal()">
+    <div class="modal" style="max-width: 900px; width: 100%;">
+      <button class="modal-close" onclick="closeDrillDownModal()">×</button>
+      <h3 id="drillDownTitle"
+        style="font-family: 'Playfair Display', serif; font-size: 20px; color: var(--navy); margin-bottom: 20px;">
+        Drill-down Analytics</h3>
+      <div id="drillDownBody" style="max-height: 70vh; overflow-y: auto; padding-right: 4px;"></div>
+    </div>
+  </div>
+
+  <script>
+    function toggleMobileMenu() {
+      const burger = document.getElementById('hamburgerMenu');
+      const drawer = document.getElementById('tbarActions');
+      burger.classList.toggle('active');
+      drawer.classList.toggle('active');
+    }
+
+    const SUBMISSIONS = {{ submissions | tojson }};
+    const DEPARTMENTS = {{ departments | tojson }};
+    const HOD_SECTIONS = {{ hod_sections | tojson }};
+    const FACULTY_SECTIONS = {{ faculty_sections | tojson }};
+
+    let activeCampusFilter = 'All';
+    let activeTypeFilter = 'All';
+
+    function switchMainTab(tab) {
+      document.querySelectorAll('.main-tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.getElementById('submissionsView').style.display = 'none';
+      document.getElementById('analyticsView').style.display = 'none';
+      document.getElementById('usersView').style.display = 'none';
+      document.getElementById('requestsView').style.display = 'none';
+      document.getElementById('pwaView').style.display = 'none';
+
+      if (tab === 'submissions') {
+        document.getElementById('tab_submissions').classList.add('active');
+        document.getElementById('submissionsView').style.display = 'block';
+      } else if (tab === 'analytics') {
+        document.getElementById('tab_analytics').classList.add('active');
+        document.getElementById('analyticsView').style.display = 'block';
+        renderAnalytics();
+      } else if (tab === 'users') {
+        document.getElementById('tab_users').classList.add('active');
+        document.getElementById('usersView').style.display = 'block';
+      } else if (tab === 'requests') {
+        document.getElementById('tab_requests').classList.add('active');
+        document.getElementById('requestsView').style.display = 'block';
+      } else if (tab === 'pwa') {
+        document.getElementById('tab_pwa').classList.add('active');
+        document.getElementById('pwaView').style.display = 'block';
+      }
+    }
+
+    function approveAccess(id) {
+      if (!confirm('Are you sure you want to open late submission access for this HOD?')) return;
+      const comment = prompt("Enter an optional approval comment / message to the HOD (e.g. 'Approved until tonight'):");
+      if (comment === null) return; // cancelled the prompt
+
+      fetch(`/admin/approve-access/${id}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ admin_comment: comment })
+      }).then(r => r.json()).then(res => {
+        if (res.ok) {
+          alert('Late submission access has been successfully OPENED.');
+          window.location.reload();
+        } else {
+          alert('Error: ' + res.error);
+        }
+      });
+    }
+
+    function revokeAccess(email, module_type) {
+      if (!confirm('Are you sure you want to revoke late submission override access for this HOD?')) return;
+      fetch(`/admin/revoke-access/${email}/${module_type}`, { method: 'POST' }).then(r => r.json()).then(res => {
+        if (res.ok) {
+          alert('Override access successfully REVOKED.');
+          window.location.reload();
+        } else {
+          alert('Error: ' + res.error);
+        }
+      });
+    }
+
+    function selectCampusCard(campus) {
+      activeCampusFilter = campus;
+
+      // Update styling of campus cards
+      document.querySelectorAll('.stats-row .stat-card').forEach(card => {
+        card.classList.remove('active-filter');
+        card.classList.add('dimmed');
+      });
+
+      let targetId = 'card_all';
+      if (campus === 'Bangalore') targetId = 'card_blr';
+      else if (campus === 'Kochi') targetId = 'card_kch';
+      else if (campus === 'ODL') targetId = 'card_odl';
+      else if (campus === 'Online') targetId = 'card_onl';
+
+      const targetCard = document.getElementById(targetId);
+      if (targetCard) {
+        targetCard.classList.add('active-filter');
+        targetCard.classList.remove('dimmed');
+      } else {
+        // If All, light up all cards
+        document.querySelectorAll('.stats-row .stat-card').forEach(card => {
+          card.classList.remove('dimmed');
+        });
+      }
+
+      filterTable();
+    }
+
+    function selectTypeFilter(type) {
+      activeTypeFilter = type;
+      document.querySelectorAll('.table-header .tab-btn').forEach(btn => {
+        btn.classList.remove('active');
+      });
+
+      if (type === 'All') document.getElementById('type_all').classList.add('active');
+      else if (type === 'readiness') document.getElementById('type_readiness').classList.add('active');
+      else if (type === 'closure') document.getElementById('type_closure').classList.add('active');
+
+      filterTable();
+    }
+
+    function filterTable() {
+      const q = document.getElementById('searchInput').value.toLowerCase();
+      const d = document.getElementById('subDeptFilter').value;
+      let visibleCount = 0;
+
+      document.querySelectorAll('#subTable tbody tr').forEach(tr => {
+        const searchContent = (tr.dataset.search || '').toLowerCase();
+        const trDept = tr.dataset.dept || '';
+        const trCampus = tr.dataset.campus || '';
+        const trType = tr.dataset.formType || 'readiness';
+
+        const matchSearch = searchContent.includes(q);
+        const matchDept = !d || trDept === d;
+        const matchCampus = activeCampusFilter === 'All' || trCampus === activeCampusFilter;
+        const matchType = activeTypeFilter === 'All' || trType === activeTypeFilter;
+
+        if (matchSearch && matchDept && matchCampus && matchType) {
+          tr.style.display = '';
+          visibleCount++;
+        } else {
+          tr.style.display = 'none';
+        }
+      });
+
+      const countEl = document.getElementById('submissionCountText');
+      if (countEl) {
+        countEl.textContent = `${visibleCount} department(s) shown`;
+      }
+    }
+
+    function renderAnalytics() {
+      const campusFilter = document.getElementById('analyticsCampusFilter').value;
+
+      // 1. Filter submissions based on campus for analytics calculation
+      const filteredSubs = SUBMISSIONS.filter(s => {
+        return campusFilter === 'All' || s.identity.campus === campusFilter;
+      });
+
+      // 2. Calculate readiness vs closure counts (excluding drafts from completion ratio)
+      const readinessSubs = filteredSubs.filter(s => (s.form_type || 'readiness') === 'readiness' && !s._draft);
+      const closureSubs = filteredSubs.filter(s => s.form_type === 'closure' && !s._draft);
+
+      const totalDepts = DEPARTMENTS.length;
+      const readinessCount = readinessSubs.length;
+      const closureCount = closureSubs.length;
+
+      const readinessPct = totalDepts ? Math.round((readinessCount / totalDepts) * 100) : 0;
+      const closurePct = totalDepts ? Math.round((closureCount / totalDepts) * 100) : 0;
+
+      // 3. Render Gauges
+      document.getElementById('readinessPctText').textContent = `${readinessPct}%`;
+      document.getElementById('readinessRatioText').textContent = `${readinessCount} / ${totalDepts} departments`;
+      document.getElementById('readinessGauge').style.background = `conic-gradient(var(--navy) ${readinessPct}%, #eee ${readinessPct}%)`;
+
+      document.getElementById('closurePctText').textContent = `${closurePct}%`;
+      document.getElementById('closureRatioText').textContent = `${closureCount} / ${totalDepts} departments`;
+      document.getElementById('closureGauge').style.background = `conic-gradient(var(--gold) ${closurePct}%, #eee ${closurePct}%)`;
+
+      // 4. Render Department Status Matrix Table
+      const tableBody = document.getElementById('deptStatusTableBody');
+      tableBody.innerHTML = DEPARTMENTS.map(dept => {
+        const readySub = SUBMISSIONS.find(s => s.identity.dept === dept && (s.form_type || 'readiness') === 'readiness' && (campusFilter === 'All' || s.identity.campus === campusFilter));
+        const closeSub = SUBMISSIONS.find(s => s.identity.dept === dept && s.form_type === 'closure' && (campusFilter === 'All' || s.identity.campus === campusFilter));
+
+        let readyStatus = '';
+        if (readySub) {
+          const dt = readySub.timestamp ? readySub.timestamp.substring(0, 10) : '—';
+          if (readySub._draft) {
+            readyStatus = `<span class="status-badge" style="background:#fff3e0; color:#b45309; border: 1px solid #ffe0b2; padding: 2px 6px; border-radius: 4px; font-weight:700; font-size:11px;" title="Draft saved by ${readySub.identity.hodName}">📝 Draft (${dt}) <span style="font-size:8px; opacity:0.8; margin-left:4px; padding:1px 3px; border-radius:3px; background:rgba(0,0,0,0.06);">${readySub.identity.campus}</span></span>`;
+          } else {
+            readyStatus = `<span class="status-badge yes" title="Submitted by ${readySub.identity.hodName} on ${readySub.timestamp}">✅ Submitted (${dt}) <span style="font-size:8px; opacity:0.8; margin-left:4px; padding:1px 3px; border-radius:3px; background:rgba(0,0,0,0.06);">${readySub.identity.campus}</span></span>`;
+          }
+        } else {
+          readyStatus = `<span class="status-badge pending">⏳ Pending</span>`;
+        }
+
+        let closeStatus = '';
+        if (closeSub) {
+          const dt = closeSub.timestamp ? closeSub.timestamp.substring(0, 10) : '—';
+          if (closeSub._draft) {
+            closeStatus = `<span class="status-badge" style="background:#fff3e0; color:#b45309; border: 1px solid #ffe0b2; padding: 2px 6px; border-radius: 4px; font-weight:700; font-size:11px;" title="Draft saved by ${closeSub.identity.hodName}">📝 Draft (${dt}) <span style="font-size:8px; opacity:0.8; margin-left:4px; padding:1px 3px; border-radius:3px; background:rgba(0,0,0,0.06);">${closeSub.identity.campus}</span></span>`;
+          } else {
+            closeStatus = `<span class="status-badge yes" title="Submitted by ${closeSub.identity.hodName} on ${closeSub.timestamp}">✅ Submitted (${dt}) <span style="font-size:8px; opacity:0.8; margin-left:4px; padding:1px 3px; border-radius:3px; background:rgba(0,0,0,0.06);">${closeSub.identity.campus}</span></span>`;
+          }
+        } else {
+          closeStatus = `<span class="status-badge pending">⏳ Pending</span>`;
+        }
+
+        return `<tr>
+          <td style="font-weight: 700; color: var(--navy); font-size: 13px; text-decoration: underline; cursor: pointer;" onclick="drillDownDept(this.innerText)" title="Click to view department drill-down">${dept}</td>
+          <td>${readyStatus}</td>
+          <td>${closeStatus}</td>
+        </tr>`;
+      }).join('');
+
+      // 5. Render Timeline (sorted from 1st to last)
+      const timelineContainer = document.getElementById('timelineContainer');
+
+      const sortedSubs = [...filteredSubs].sort((a, b) => {
+        const timeA = a.timestamp || '';
+        const timeB = b.timestamp || '';
+        return timeA.localeCompare(timeB);
+      });
+
+      if (!sortedSubs.length) {
+        timelineContainer.innerHTML = `<div style="text-align:center; padding: 40px 10px; color: var(--ink3); font-size: 13px;">No submissions found for the selected filter.</div>`;
+        return;
+      }
+
+      timelineContainer.innerHTML = sortedSubs.map((s, index) => {
+        const dateStr = s.timestamp ? new Date(s.timestamp).toLocaleString('en-IN', {
+          day: '2-digit',
+          month: 'short',
+          hour: '2-digit',
+          minute: '2-digit',
+          hour12: true
+        }) : '—';
+
+        const isFirst = index === 0;
+        const isLatest = index === sortedSubs.length - 1;
+
+        let dotClass = 'normal';
+        let trophyHtml = '';
+        if (isFirst) {
+          dotClass = 'first';
+          trophyHtml = `<div class="timeline-trophy gold">🥇 First Submitter</div>`;
+        } else if (isLatest) {
+          dotClass = 'latest';
+          trophyHtml = `<div class="timeline-trophy green">🆕 Latest Submitter</div>`;
+        }
+
+        const isReadiness = (s.form_type || 'readiness') === 'readiness';
+        const tagClass = isReadiness ? 'readiness' : 'closure';
+        const tagText = isReadiness ? 'Readiness' : 'Closure';
+        const draftBadge = s._draft ? ` <span style="background:#fff3e0; color:#b45309; border: 1px solid #ffe0b2; font-size:9px; padding:1px 4px; border-radius:3px; font-weight:700; margin-left:4px;">Draft</span>` : '';
+
+        return `<div class="timeline-item">
+          <div class="timeline-dot ${dotClass}"></div>
+          <div class="timeline-card">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <span class="timeline-time">${dateStr}</span>
+              <span class="timeline-tag ${tagClass}">${tagText}</span>
+            </div>
+            <div class="timeline-title">${s.identity.dept}</div>
+            <div class="timeline-meta">HOD: ${s.identity.hodName} · Campus: <strong>${s.identity.campus}</strong>${draftBadge}</div>
+            ${trophyHtml}
+          </div>
+        </div>`;
+      }).join('');
+    }
+
+    function openModal(id) {
+      const s = SUBMISSIONS.find(x => x._id === id);
+      if (!s) return;
+      const chk = s.hodChecklist || {};
+      const allItems = HOD_SECTIONS.flatMap(sec => sec.items);
+      const yes = Object.values(chk).filter(x => x.status === 'Yes').length;
+      const no = Object.values(chk).filter(x => x.status === 'No').length;
+
+      let chkHtml = '<div class="chk-grid">';
+      allItems.forEach(item => {
+        const v = chk[item.id] || {};
+        const cls = v.status === 'Yes' ? 'ci-yes' : v.status === 'No' ? 'ci-no' : v.status === 'N/A' ? 'ci-na' : 'ci-blank';
+        const icon = v.status === 'Yes' ? '✓' : v.status === 'No' ? '✗' : v.status === 'N/A' ? 'N/A' : '—';
+        chkHtml += `<div class="chk-item ${cls}" title="${item.text}">${icon} ${item.id}. ${item.text.substring(0, 28)}…</div>`;
+      });
+      chkHtml += '</div>';
+
+      const shareUrl = s.share_token ? (window.location.origin + '/erp/faculty-form/' + s.share_token) : null;
+
+      document.getElementById('modalBody').innerHTML = `
+        <h3>${s.identity.dept || 'Department Details'}</h3>
+        ${shareUrl ? `<div style="background:#fff8e7;border:1.5px dashed #f2a900;border-radius:8px;padding:12px;margin-bottom:18px"><div style="font-size:11px;font-weight:700;color:var(--navy);margin-bottom:6px">FACULTY SHARE LINK</div><div style="display:flex;gap:8px;align-items:center"><input type="text" readonly value="${shareUrl}" style="flex:1;padding:6px 10px;border:1px solid #f2a900;border-radius:4px;font-size:12px;background:#fff"><button onclick="navigator.clipboard.writeText('${shareUrl}'); this.textContent='✓'" style="padding:6px 12px;background:var(--navy);color:#fff;border:none;border-radius:4px;font-size:11px;font-weight:700;cursor:pointer">Copy</button></div></div>` : ''}
+        <div class="mod-section">
+          <h4>Identity</h4>
+          <div class="mod-row"><span class="mod-label">Campus</span><span class="mod-val">${s.identity.campus || '—'}</span></div>
+          <div class="mod-row"><span class="mod-label">HOD</span><span class="mod-val">${s.identity.hodName || '—'} · ${s.identity.hodEmail || '—'}</span></div>
+          <div class="mod-row"><span class="mod-label">Semester</span><span class="mod-val">${s.identity.semester || '—'} · A.Y. ${s.identity.acYear || '—'}</span></div>
+        </div>
+        <div class="mod-section">
+          <h4>Faculty Submissions: ${s.faculty_submission_count}</h4>
+          <button class="btn btn-primary btn-sm" onclick="viewFacultySubs('${s._id}')">📋 View All Faculty Responses</button>
+        </div>
+        <div class="mod-section">
+          <h4>HOD Checklist — ${yes}/${HOD_SECTIONS.flatMap(s => s.items).length} Yes · ${no} Gaps</h4>
+          ${chkHtml}
+        </div>
+        <div style="display:flex;gap:10px;margin-top:20px;justify-content:flex-end;flex-wrap:wrap">
+          <a href="/erp/api/export/${s._id}" class="btn btn-gold">⬇ Download Excel</a>
+          <button class="btn btn-ghost" onclick="closeModal()">Close</button>
+        </div>`;
+      document.getElementById('modalOverlay').classList.add('open');
+    }
+
+    function viewFacultySubs(subId) {
+      fetch('/erp/api/faculty-submissions/' + subId).then(r => r.json()).then(res => {
+        const body = document.getElementById('facModalBody');
+        if (!res.ok || !res.submissions.length) {
+          body.innerHTML = '<div style="text-align:center;padding:40px;color:var(--ink3)">No faculty submissions yet for this department.</div>';
+        } else {
+          body.innerHTML = `<p style="margin-bottom:14px;font-size:13px;color:var(--ink2)"><strong>${res.submissions.length}</strong> faculty submission(s):</p>` +
+            res.submissions.map(f => {
+              const chk = f.checklist || {};
+              const yes = Object.values(chk).filter(x => x.status === 'Yes').length;
+              const no = Object.values(chk).filter(x => x.status === 'No').length;
+              const total = Object.keys(chk).length || 12;
+              const dt = new Date(f.timestamp).toLocaleString();
+              const statusClass = f.hod_review_status === 'reviewed' ? 'reviewed' : (f.hod_review_status === 'flagged' ? 'flagged' : 'pending');
+              const statusText = f.hod_review_status === 'reviewed' ? '✓ Reviewed' : (f.hod_review_status === 'flagged' ? '⚠ Flagged' : '⏳ Pending');
+              return `<div class="fac-mod-card">
+                <div class="fac-mod-name">${f.faculty_name || 'Unknown'} <span class="fs-status ${statusClass}">${statusText}</span></div>
+                <div class="fac-mod-meta">📧 ${f.faculty_email || '—'} · 📚 ${f.course_name || '—'} (${f.course_code || '—'}) · ${f.program || '—'}</div>
+                <div class="fac-mod-meta">Submitted: ${dt} · ${yes}/${total} ✓ · ${no} ✗</div>
+                ${f.hod_remarks ? `<div style="margin-top:6px;padding:6px 10px;background:#f0f4ff;border-radius:4px;font-size:12px"><strong>HOD Remark:</strong> ${f.hod_remarks}</div>` : ''}
+                <div class="fac-chk-grid">
+                  ${Object.entries(chk).map(([id, v]) => {
+                const cls = v.status === 'Yes' ? 'yes' : v.status === 'No' ? 'no' : v.status === 'N/A' ? 'na' : 'blank';
+                const icon = v.status === 'Yes' ? '✓' : v.status === 'No' ? '✗' : v.status === 'N/A' ? '—' : '?';
+                return `<div class="fac-chk-item ${cls}">${icon} ${id}: ${v.status || 'Blank'}</div>`;
+              }).join('')}
+                </div>
+              </div>`;
+            }).join('');
+        }
+        document.getElementById('facModalOverlay').classList.add('open');
+      });
+    }
+
+    function openDrillDownModal() {
+      document.getElementById('drillDownModalOverlay').classList.add('open');
+    }
+    function closeDrillDownModal() {
+      document.getElementById('drillDownModalOverlay').classList.remove('open');
+    }
+
+    function drillDownHOD(hodName) {
+      if (!hodName) return;
+      const subs = SUBMISSIONS.filter(s => s.identity && s.identity.hodName === hodName);
+      if (!subs.length) {
+        alert("No submissions found for HOD: " + hodName);
+        return;
+      }
+
+      const first = subs[0];
+      const dept = first.identity.dept || '—';
+      const campus = first.identity.campus || '—';
+      const email = first.identity.hodEmail || '—';
+
+      document.getElementById('drillDownTitle').innerHTML = `👤 HOD Drill-down: <strong>${hodName}</strong>`;
+      const body = document.getElementById('drillDownBody');
+      body.innerHTML = `
+        <div style="background:linear-gradient(135deg,#0a2558,#1e40af);color:#fff;border-radius:12px;padding:20px;margin-bottom:20px;box-shadow:0 8px 24px rgba(10,37,88,0.1)">
+          <div style="font-size:11px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;opacity:0.75;margin-bottom:6px">HOD Administrative Profile</div>
+          <div style="font-size:18px;font-weight:800;margin-bottom:10px">${hodName}</div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;font-size:12.5px">
+            <div>🏢 <strong>Department:</strong> ${dept}</div>
+            <div>📍 <strong>Campus:</strong> ${campus}</div>
+            <div>📧 <strong>Email:</strong> ${email}</div>
+          </div>
+        </div>
+        <div style="text-align:center;padding:40px;color:var(--ink3)" id="drillDownLoader">
+          <span style="font-size:24px;display:inline-block;animation:spin 1s linear infinite">⏳</span><br>
+          <span style="margin-top:8px;display:inline-block;font-weight:600">Gathering faculty submission data...</span>
+        </div>
+      `;
+      openDrillDownModal();
+
+      const fetches = subs.map(s => fetch('/erp/api/faculty-submissions/' + s._id).then(r => r.json()));
+
+      Promise.all(fetches).then(results => {
+        let html = `
+          <div style="background:linear-gradient(135deg,#0a2558,#1e40af);color:#fff;border-radius:12px;padding:20px;margin-bottom:20px;box-shadow:0 8px 24px rgba(10,37,88,0.1)">
+            <div style="font-size:11px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;opacity:0.75;margin-bottom:6px">HOD Administrative Profile</div>
+            <div style="font-size:18px;font-weight:800;margin-bottom:10px">${hodName}</div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;font-size:12.5px">
+              <div>🏢 <strong>Department:</strong> ${dept}</div>
+              <div>📍 <strong>Campus:</strong> ${campus}</div>
+              <div>📧 <strong>Email:</strong> ${email}</div>
+            </div>
+          </div>
+          
+          <h4 style="font-size:12px;font-weight:800;color:var(--navy);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:14px;border-bottom:2px solid #f0f3fb;padding-bottom:8px">Forms Filed By HOD (${subs.length})</h4>
+        `;
+
+        subs.forEach((s, idx) => {
+          const res = results[idx];
+          const isReadiness = (s.form_type || 'readiness') === 'readiness';
+          const typeLabel = isReadiness ? '🚀 Semester Readiness Report' : '✅ Semester Closure Report';
+          const badgeStyle = isReadiness ? 'background:#e0f2fe;color:#0369a1' : 'background:#fef3c7;color:#b45309';
+
+          const chk = s.hodChecklist || {};
+          const allItems = HOD_SECTIONS.flatMap(sec => sec.items);
+          const yes = Object.values(chk).filter(x => x.status === 'Yes').length;
+          const total = allItems.length || 12;
+          const pct = Math.round((yes / total) * 100) || 0;
+
+          const facCount = res.ok && res.submissions ? res.submissions.length : 0;
+
+          html += `
+            <div style="background:#fff;border:1px solid #dde3f0;border-radius:12px;padding:16px;margin-bottom:16px;box-shadow:0 4px 12px rgba(0,0,0,0.02)">
+              <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:12px">
+                <span style="font-weight:800;font-size:14px;color:var(--navy)">${typeLabel}</span>
+                <span style="font-size:10.5px;font-weight:700;padding:2px 8px;border-radius:99px;${badgeStyle}">${s._draft ? '📝 Draft' : '✅ Submitted'}</span>
+              </div>
+              <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;font-size:12px;margin-bottom:12px;color:var(--ink2)">
+                <div>📅 <strong>Filing Date:</strong> ${s.timestamp ? s.timestamp.substring(0, 16).replace('T', ' ') : '—'}</div>
+                <div>📊 <strong>HOD Checklist:</strong> ${yes}/${total} Yes (${pct}%)</div>
+                <div>👥 <strong>Faculty Responses:</strong> <span style="background:#e0f4ff;color:var(--navy);font-weight:800;padding:2px 8px;border-radius:99px">${facCount}</span></div>
+              </div>
+          `;
+
+          if (facCount > 0) {
+            html += `
+              <div style="background:#fafbff;border:1px solid #e2e8f0;border-radius:8px;padding:10px;margin-top:10px">
+                <div style="font-size:10.5px;font-weight:700;color:var(--navy);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.04em">Faculty Details:</div>
+                <div style="overflow-x:auto">
+                  <table class="sub-table" style="font-size:11.5px;width:100%">
+                    <thead>
+                      <tr style="background:var(--navy)">
+                        <th style="padding:6px 8px;color:#fff;font-size:10px">Faculty Name</th>
+                        <th style="padding:6px 8px;color:#fff;font-size:10px">Course Name (Code)</th>
+                        <th style="padding:6px 8px;color:#fff;font-size:10px">Program</th>
+                        <th style="padding:6px 8px;color:#fff;font-size:10px">Checklist</th>
+                        <th style="padding:6px 8px;color:#fff;font-size:10px">HOD Review</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+            res.submissions.forEach(f => {
+              const fChk = f.checklist || {};
+              const fYes = Object.values(fChk).filter(x => x.status === 'Yes').length;
+              const fTotal = Object.keys(fChk).length || 12;
+              const fPct = Math.round((fYes / fTotal) * 100) || 0;
+
+              const statusClass = f.hod_review_status === 'reviewed' ? 'reviewed' : (f.hod_review_status === 'flagged' ? 'flagged' : 'pending');
+              const statusText = f.hod_review_status === 'reviewed' ? 'Reviewed' : (f.hod_review_status === 'flagged' ? 'Flagged' : 'Pending');
+
+              html += `
+                <tr style="border-bottom:1px solid #f0f3fb">
+                  <td style="padding:6px 8px;font-weight:700;color:var(--navy)">${f.faculty_name || '—'}<br><span style="font-size:9.5px;color:var(--ink3);font-weight:400">${f.faculty_email || ''}</span></td>
+                  <td style="padding:6px 8px">${f.course_name || '—'} <span style="color:var(--ink3)">(${f.course_code || '—'})</span></td>
+                  <td style="padding:6px 8px">${f.program || '—'}</td>
+                  <td style="padding:6px 8px"><span style="font-weight:700">${fYes}/${fTotal} Yes</span> (${fPct}%)</td>
+                  <td style="padding:6px 8px"><span class="fs-status ${statusClass}">${statusText}</span></td>
+                </tr>
+              `;
+            });
+
+            html += `
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            `;
+          } else {
+            html += `
+              <div style="background:#f8fafc;border:1px dashed #cbd5e1;border-radius:8px;padding:12px;text-align:center;color:var(--ink3);font-size:12px">
+                No faculty member submissions recorded yet.
+              </div>
+            `;
+          }
+
+          html += `</div>`;
+        });
+
+        body.innerHTML = html;
+      }).catch(err => {
+        console.error(err);
+        body.innerHTML = `<div style="color:var(--danger);padding:20px;text-align:center;font-weight:700">Failed to load HOD details.</div>`;
+      });
+    }
+
+    function drillDownDept(deptName) {
+      if (!deptName) return;
+      const subs = SUBMISSIONS.filter(s => s.identity && s.identity.dept === deptName);
+
+      document.getElementById('drillDownTitle').innerHTML = `🏢 Department Drill-down: <strong>${deptName}</strong>`;
+      const body = document.getElementById('drillDownBody');
+      body.innerHTML = `
+        <div style="background:linear-gradient(135deg,#7c3aed,#4f46e5);color:#fff;border-radius:12px;padding:20px;margin-bottom:20px;box-shadow:0 8px 24px rgba(124,58,237,0.1)">
+          <div style="font-size:11px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;opacity:0.85;margin-bottom:6px">Departmental Filing Matrix</div>
+          <div style="font-size:18px;font-weight:800;margin-bottom:10px">${deptName}</div>
+          <div style="font-size:12.5px;opacity:0.9">Overview of semester filings and aggregate faculty compliance metrics for the department.</div>
+        </div>
+        <div style="text-align:center;padding:40px;color:var(--ink3)" id="drillDownLoader">
+          <span style="font-size:24px;display:inline-block;animation:spin 1s linear infinite">⏳</span><br>
+          <span style="margin-top:8px;display:inline-block;font-weight:600">Gathering faculty submission data...</span>
+        </div>
+      `;
+      openDrillDownModal();
+
+      if (!subs.length) {
+        body.innerHTML = `
+          <div style="background:linear-gradient(135deg,#7c3aed,#4f46e5);color:#fff;border-radius:12px;padding:20px;margin-bottom:20px;box-shadow:0 8px 24px rgba(124,58,237,0.1)">
+            <div style="font-size:11px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;opacity:0.85;margin-bottom:6px">Departmental Filing Matrix</div>
+            <div style="font-size:18px;font-weight:800;margin-bottom:10px">${deptName}</div>
+            <div style="font-size:12.5px;opacity:0.9">Overview of semester filings and aggregate faculty compliance metrics for the department.</div>
+          </div>
+          <div style="text-align:center;padding:40px;color:var(--ink3);background:#f8fafc;border:1px dashed #cbd5e1;border-radius:12px">
+            <span style="font-size:32px">📭</span>
+            <h3 style="margin-top:8px;font-size:15px;color:var(--navy)">No Submissions Recorded</h3>
+            <p style="font-size:12px;color:var(--ink3);margin-top:4px">No HOD has initiated or saved reports for this department yet.</p>
+          </div>
+        `;
+        return;
+      }
+
+      const fetches = subs.map(s => fetch('/erp/api/faculty-submissions/' + s._id).then(r => r.json()));
+
+      Promise.all(fetches).then(results => {
+        let html = `
+          <div style="background:linear-gradient(135deg,#7c3aed,#4f46e5);color:#fff;border-radius:12px;padding:20px;margin-bottom:20px;box-shadow:0 8px 24px rgba(124,58,237,0.1)">
+            <div style="font-size:11px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;opacity:0.85;margin-bottom:6px">Departmental Filing Matrix</div>
+            <div style="font-size:18px;font-weight:800;margin-bottom:10px">${deptName}</div>
+            <div style="font-size:12.5px;opacity:0.9">Overview of semester filings and aggregate faculty compliance metrics for the department.</div>
+          </div>
+          
+          <h4 style="font-size:12px;font-weight:800;color:var(--navy);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:14px;border-bottom:2px solid #f0f3fb;padding-bottom:8px">Department Reports Filed (${subs.length})</h4>
+        `;
+
+        subs.forEach((s, idx) => {
+          const res = results[idx];
+          const isReadiness = (s.form_type || 'readiness') === 'readiness';
+          const typeLabel = isReadiness ? '🚀 Semester Readiness Report' : '✅ Semester Closure Report';
+          const badgeStyle = isReadiness ? 'background:#e0f2fe;color:#0369a1' : 'background:#fef3c7;color:#b45309';
+
+          const chk = s.hodChecklist || {};
+          const allItems = HOD_SECTIONS.flatMap(sec => sec.items);
+          const yes = Object.values(chk).filter(x => x.status === 'Yes').length;
+          const total = allItems.length || 12;
+          const pct = Math.round((yes / total) * 100) || 0;
+
+          const facCount = res.ok && res.submissions ? res.submissions.length : 0;
+
+          html += `
+            <div style="background:#fff;border:1px solid #dde3f0;border-radius:12px;padding:16px;margin-bottom:16px;box-shadow:0 4px 12px rgba(0,0,0,0.02)">
+              <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:12px">
+                <span style="font-weight:800;font-size:14px;color:var(--navy)">${typeLabel}</span>
+                <span style="font-size:10.5px;font-weight:700;padding:2px 8px;border-radius:99px;${badgeStyle}">${s._draft ? '📝 Draft' : '✅ Submitted'}</span>
+              </div>
+              <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;font-size:12px;margin-bottom:12px;color:var(--ink2)">
+                <div>👤 <strong>Initiating HOD:</strong> <span style="color:var(--navy);font-weight:700;text-decoration:underline;cursor:pointer" onclick="drillDownHOD(this.innerText)">${s.identity.hodName || '—'}</span></div>
+                <div>📅 <strong>Filing Date:</strong> ${s.timestamp ? s.timestamp.substring(0, 16).replace('T', ' ') : '—'}</div>
+                <div>📊 <strong>HOD Checklist:</strong> ${yes}/${total} Yes (${pct}%)</div>
+                <div>👥 <strong>Faculty Responses:</strong> <span style="background:#e0f4ff;color:var(--navy);font-weight:800;padding:2px 8px;border-radius:99px">${facCount}</span></div>
+              </div>
+          `;
+
+          if (facCount > 0) {
+            html += `
+              <div style="background:#fafbff;border:1px solid #e2e8f0;border-radius:8px;padding:10px;margin-top:10px">
+                <div style="font-size:10.5px;font-weight:700;color:var(--navy);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.04em">Faculty Details:</div>
+                <div style="overflow-x:auto">
+                  <table class="sub-table" style="font-size:11.5px;width:100%">
+                    <thead>
+                      <tr style="background:var(--navy)">
+                        <th style="padding:6px 8px;color:#fff;font-size:10px">Faculty Name</th>
+                        <th style="padding:6px 8px;color:#fff;font-size:10px">Course Name (Code)</th>
+                        <th style="padding:6px 8px;color:#fff;font-size:10px">Program</th>
+                        <th style="padding:6px 8px;color:#fff;font-size:10px">Checklist</th>
+                        <th style="padding:6px 8px;color:#fff;font-size:10px">HOD Review</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+            res.submissions.forEach(f => {
+              const fChk = f.checklist || {};
+              const fYes = Object.values(fChk).filter(x => x.status === 'Yes').length;
+              const fTotal = Object.keys(fChk).length || 12;
+              const fPct = Math.round((fYes / fTotal) * 100) || 0;
+
+              const statusClass = f.hod_review_status === 'reviewed' ? 'reviewed' : (f.hod_review_status === 'flagged' ? 'flagged' : 'pending');
+              const statusText = f.hod_review_status === 'reviewed' ? 'Reviewed' : (f.hod_review_status === 'flagged' ? 'Flagged' : 'Pending');
+
+              html += `
+                <tr style="border-bottom:1px solid #f0f3fb">
+                  <td style="padding:6px 8px;font-weight:700;color:var(--navy)">${f.faculty_name || '—'}<br><span style="font-size:9.5px;color:var(--ink3);font-weight:400">${f.faculty_email || ''}</span></td>
+                  <td style="padding:6px 8px">${f.course_name || '—'} <span style="color:var(--ink3)">(${f.course_code || '—'})</span></td>
+                  <td style="padding:6px 8px">${f.program || '—'}</td>
+                  <td style="padding:6px 8px"><span style="font-weight:700">${fYes}/${fTotal} Yes</span> (${fPct}%)</td>
+                  <td style="padding:6px 8px"><span class="fs-status ${statusClass}">${statusText}</span></td>
+                </tr>
+              `;
+            });
+
+            html += `
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            `;
+          } else {
+            html += `
+              <div style="background:#f8fafc;border:1px dashed #cbd5e1;border-radius:8px;padding:12px;text-align:center;color:var(--ink3);font-size:12px">
+                No faculty member submissions recorded yet.
+              </div>
+            `;
+          }
+
+          html += `</div>`;
+        });
+
+        body.innerHTML = html;
+      }).catch(err => {
+        console.error(err);
+        body.innerHTML = `<div style="color:var(--danger);padding:20px;text-align:center;font-weight:700">Failed to load department details.</div>`;
+      });
+    }
+
+    function closeModal() { document.getElementById('modalOverlay').classList.remove('open'); }
+    function closeFacModal() { document.getElementById('facModalOverlay').classList.remove('open'); }
+
+    function deleteSub(id, btn) {
+      if (!confirm('Delete this submission permanently? (Faculty submissions will also be deleted)')) return;
+      fetch(`/admin/delete/${id}`, { method: 'POST' }).then(r => r.json()).then(res => {
+        if (res.ok) { btn.closest('tr').remove(); alert('Deleted.'); }
+      });
+    }
+
+    function approveEdit(id) {
+      if (!confirm('Approve edit access?')) return;
+      fetch(`/admin/approve-edit/${id}`, { method: 'POST' }).then(r => r.json()).then(res => {
+        if (res.ok) window.location.reload();
+      });
+    }
+
+    function saveSettings() {
+      const enabled_years = [];
+      document.querySelectorAll('.set_enabled_year:checked').forEach(cb => {
+        enabled_years.push(cb.value);
+      });
+      const enabled_semesters = [];
+      document.querySelectorAll('.set_enabled_sem:checked').forEach(cb => {
+        enabled_semesters.push(cb.value);
+      });
+      const payload = {
+        readiness_enabled: document.getElementById('set_readiness_enabled').checked,
+        readiness_deadline: document.getElementById('set_readiness_deadline').value,
+        closure_enabled: document.getElementById('set_closure_enabled').checked,
+        closure_deadline: document.getElementById('set_closure_deadline').value,
+        enabled_years: enabled_years,
+        enabled_semesters: enabled_semesters
+      };
+      fetch('/erp/admin/settings', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      }).then(r => r.json()).then(res => {
+        if (res.ok) alert('Settings saved successfully.');
+        else alert('Failed.');
+      });
+    }
+
+    function sendManualReminders() {
+      if (!confirm('Are you sure you want to trigger manual email reminders to all pending HODs now?')) return;
+      const btn = document.querySelector('button[onclick="sendManualReminders()"]');
+      const originalText = btn.innerText;
+      btn.disabled = true;
+      btn.innerText = '📧 Sending Reminders...';
+
+      fetch('/erp/admin/send-manual-reminders', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' }
+      }).then(r => r.json()).then(res => {
+        if (res.ok) {
+          alert(`Email reminders triggered successfully! Sent to ${res.sent_count} pending departments.`);
+        } else {
+          alert('Error: ' + res.error);
+        }
+        btn.disabled = false;
+        btn.innerText = originalText;
+      }).catch(err => {
+        console.error(err);
+        alert('An error occurred while sending manual reminders.');
+        btn.disabled = false;
+        btn.innerText = originalText;
+      });
+    }
+
+    function toggleReminderDeptSelect() {
+      const type = document.getElementById('reminder_target_type').value;
+      const container = document.getElementById('reminder_dept_container');
+      if (type === 'specific_dept') {
+        container.style.display = 'block';
+      } else {
+        container.style.display = 'none';
+      }
+    }
+
+    function sendTargetedReminders() {
+      const type = document.getElementById('reminder_target_type').value;
+      const dept = document.getElementById('reminder_department').value;
+      
+      let confirmMsg = 'Are you sure you want to send email reminders to ';
+      if (type === 'all_pending') confirmMsg += 'all HODs with any pending readiness or closure submissions?';
+      else if (type === 'pending_readiness') confirmMsg += 'all HODs with pending Semester Readiness checklists?';
+      else if (type === 'pending_closure') confirmMsg += 'all HODs with pending Semester Closure reports?';
+      else confirmMsg += `the HOD of "${dept}"?`;
+      
+      if (!confirm(confirmMsg)) return;
+      
+      const btn = document.querySelector('button[onclick="sendTargetedReminders()"]');
+      const originalText = btn.innerHTML;
+      btn.disabled = true;
+      btn.innerHTML = '<span>📧 Sending...</span>';
+      
+      fetch('/erp/admin/send-targeted-reminders', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          target_type: type,
+          department: dept
+        })
+      }).then(r => r.json()).then(res => {
+        if (res.ok) {
+          alert(`Targeted email reminders successfully sent! Total emails dispatched: ${res.sent_count}`);
+        } else {
+          alert('Error: ' + res.error);
+        }
+        btn.disabled = false;
+        btn.innerHTML = originalText;
+      }).catch(err => {
+        console.error(err);
+        alert('An error occurred while sending targeted reminders.');
+        btn.disabled = false;
+        btn.innerHTML = originalText;
+      });
+    }
+
+    function sendBroadcastNotification() {
+      const title = document.getElementById('notif_title').value.trim();
+      const body = document.getElementById('notif_body').value.trim();
+      if (!title || !body) {
+        alert('Please fill out both the notification title and body details.');
+        return;
+      }
+      fetch('/erp/api/send-notification', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title, body })
+      }).then(r => r.json()).then(res => {
+        if (res.ok) {
+          alert('🔔 Broadcast Announcement successfully sent to all active users!');
+          document.getElementById('notif_title').value = '';
+          document.getElementById('notif_body').value = '';
+          window.location.reload(); // Reload immediately so the history list updates!
+        } else {
+          alert('Failed to send announcement: ' + (res.error || 'Unknown error'));
+        }
+      });
+    }
+
+    function deleteBroadcastNotification(id, btn) {
+      if (!confirm('Are you sure you want to delete this notification broadcast? It will immediately stop showing on active mobile devices.')) return;
+      fetch(`/admin/delete-notification/${id}`, { method: 'POST' })
+        .then(r => r.json())
+        .then(res => {
+          if (res.ok) {
+            btn.closest('tr').remove();
+            alert('🗑️ Notification broadcast successfully deleted.');
+          } else {
+            alert('Failed to delete notification.');
+          }
+        });
+    }
+
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeModal(); closeFacModal(); } });
+  </script>
+  <script src="/static/erp/loading.js"></script>
+</body>
+
+</html>

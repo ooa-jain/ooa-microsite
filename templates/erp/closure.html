@@ -1,0 +1,2375 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Semester Closure Portal — OoA</title>
+  <link rel="manifest" href="/erp/manifest.json">
+  <meta name="theme-color" content="#0a2558">
+  <link rel="apple-touch-icon" href="/static/erp/images/applogo.png">
+  <script>
+    if (false && 'serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js');
+      });
+    }
+  </script>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,700;1,400&display=swap"
+    rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0
+    }
+
+    :root {
+      --navy: #0a2558;
+      --navy2: #143572;
+      --navy3: #1a428a;
+      --gold: #f2a900;
+      --gold2: #e09b00;
+      --teal: #0f6e74;
+      --teal-lt: #e0f4f5;
+      --amber: #c97820;
+      --amber-lt: #fef3e2;
+      --red: #b83030;
+      --red-lt: #fdeaea;
+      --green: #1e6b3c;
+      --green-lt: #e8f7ee;
+      --ink: #111827;
+      --ink2: #374151;
+      --ink3: #6b7280;
+      --bg: #fff;
+      --bg2: #fff;
+      --bg3: #f0f3fb;
+      --border: #dde3f0;
+      --border2: #c0bab0;
+      --danger: #dc2626;
+      --success: #16a34a;
+      --r: 12px;
+      --r2: 8px;
+      --r3: 6px;
+      --sh: 0 4px 20px rgba(0, 0, 0, .05);
+      --sh2: 0 12px 48px rgba(0, 0, 0, .08)
+    }
+
+    html {
+      scroll-behavior: smooth
+    }
+
+    body {
+      background-color: var(--bg);
+      background-image:
+        linear-gradient(rgba(10, 37, 88, .03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(10, 37, 88, .03) 1px, transparent 1px);
+      background-size: 32px 32px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      color: var(--ink);
+      min-height: 100vh;
+      font-size: 14px;
+    }
+
+    /* Header */
+    .site-header {
+      background: #fff;
+      position: sticky;
+      top: 0;
+      z-index: 200;
+      box-shadow: 0 2px 24px rgba(0, 0, 0, .08)
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 0 28px;
+      height: 68px
+    }
+
+    .logo-area {
+      display: flex;
+      align-items: center;
+      gap: 14px
+    }
+
+    .logo-img {
+      height: 38px
+    }
+
+    .logo-text .l1 {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--navy);
+      line-height: 1.1
+    }
+
+    .logo-text .l2 {
+      font-size: 11px;
+      color: var(--gold);
+      font-weight: 600;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      margin-top: 2px
+    }
+
+    .hdr-user {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-left: 20px;
+      padding-left: 20px;
+      border-left: 1px solid var(--border)
+    }
+
+    .user-greeting {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--navy)
+    }
+
+    .btn-profile {
+      background: #ffffff;
+      color: var(--ink2);
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-weight: 700;
+      font-size: 12px;
+      cursor: pointer;
+      border: 1px solid #dde3f0;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+    }
+
+    .btn-profile:hover {
+      background: #f8fafc;
+      color: var(--navy);
+      border-color: var(--navy);
+    }
+
+    .semester-tag {
+      display: inline-block;
+      background: var(--amber-lt);
+      color: var(--amber);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 99px
+    }
+
+    .campus-tag {
+      font-size: 10.5px;
+      color: var(--ink3);
+      font-weight: 600;
+      margin-top: 2px
+    }
+
+    /* Progress */
+    .prog-bar {
+      background: #fafbff;
+      border-top: 1px solid #edf0f8
+    }
+
+    .prog-inner {
+      max-width: 980px;
+      margin: 0 auto;
+      display: flex;
+      padding: 0 28px
+    }
+
+    .ps {
+      flex: 1;
+      padding: 10px 4px;
+      font-size: 11px;
+      color: var(--ink3);
+      text-align: center;
+      cursor: pointer;
+      transition: .2s;
+      border-bottom: 3px solid transparent;
+      letter-spacing: .03em;
+      user-select: none;
+      font-weight: 500
+    }
+
+    .ps:hover {
+      color: var(--navy)
+    }
+
+    .ps.active {
+      color: var(--navy);
+      border-bottom-color: var(--amber);
+      font-weight: 700
+    }
+
+    .ps.done {
+      color: var(--navy3)
+    }
+
+    .ps.done::after {
+      content: '';
+      color: var(--green)
+    }
+
+    /* Layout */
+    .dash-wrap,
+    .page-wrap {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 36px 28px 100px
+    }
+
+    .section-page {
+      display: none
+    }
+
+    .section-page.active {
+      display: block;
+      animation: up .28s ease
+    }
+
+    @keyframes up {
+      from {
+        opacity: 0;
+        transform: translateY(10px)
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0)
+      }
+    }
+
+    /* Page heading */
+    .page-heading {
+      margin-bottom: 32px
+    }
+
+    .step-badge {
+      display: inline-block;
+      background: var(--amber);
+      color: #fff;
+      font-size: 10.5px;
+      font-weight: 800;
+      padding: 3px 12px;
+      border-radius: 99px;
+      margin-bottom: 12px;
+      letter-spacing: .08em;
+      text-transform: uppercase
+    }
+
+    .page-heading h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 30px;
+      color: var(--navy);
+      line-height: 1.2;
+      margin-bottom: 8px
+    }
+
+    .page-heading p {
+      color: var(--ink3);
+      font-size: 13.5px;
+      line-height: 1.65
+    }
+
+    /* Cards */
+    .card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      padding: 26px;
+      margin-bottom: 22px;
+      box-shadow: var(--sh)
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+      padding-bottom: 14px;
+      border-bottom: 2px solid var(--bg3)
+    }
+
+    .ch-icon {
+      width: 36px;
+      height: 36px;
+      background: var(--amber-lt);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0
+    }
+
+    .ch-title {
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--navy)
+    }
+
+    .ch-sub {
+      font-size: 11.5px;
+      color: var(--ink3);
+      margin-top: 2px
+    }
+
+    /* Fields */
+    .field-grid {
+      display: grid;
+      gap: 16px;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      margin-bottom: 6px
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 5px
+    }
+
+    .field label {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--navy);
+      letter-spacing: .04em;
+      text-transform: uppercase
+    }
+
+    .field label .req {
+      color: var(--amber);
+      margin-left: 2px
+    }
+
+    .field input,
+    .field select,
+    .field textarea {
+      padding: 10px 14px;
+      border: 2px solid var(--border);
+      border-radius: var(--r2);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 14px;
+      color: var(--ink);
+      background: #fafbff;
+      transition: .15s;
+      outline: none;
+      width: 100%
+    }
+
+    .field input:focus,
+    .field select:focus,
+    .field textarea:focus {
+      border-color: var(--navy);
+      background: #fff;
+      box-shadow: 0 0 0 4px rgba(10, 37, 88, .08)
+    }
+
+    .field textarea {
+      min-height: 96px;
+      resize: vertical;
+      line-height: 1.55
+    }
+
+    /* Snapshot */
+    .snap-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px
+    }
+
+    .snap-item {
+      background: linear-gradient(135deg, #fff8e7, #fffbf0);
+      border: 2px solid #ecd9b1;
+      border-radius: var(--r);
+      padding: 16px 12px;
+      text-align: center;
+      transition: .15s
+    }
+
+    .snap-item:focus-within {
+      border-color: var(--amber);
+      background: #fff;
+      box-shadow: 0 0 0 4px rgba(242, 169, 0, .12)
+    }
+
+    .snap-item label {
+      display: block;
+      font-size: 10.5px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 10px;
+      line-height: 1.35;
+      text-transform: uppercase;
+      letter-spacing: .04em
+    }
+
+    .snap-item input {
+      width: 100%;
+      border: none;
+      background: transparent;
+      text-align: center;
+      font-size: 26px;
+      font-weight: 800;
+      color: var(--navy);
+      font-family: 'Playfair Display', serif;
+      outline: none
+    }
+
+    /* HOD Report items */
+    .hod-item {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      padding: 0;
+      margin-bottom: 14px;
+      overflow: hidden;
+      transition: .15s
+    }
+
+    .hod-item:focus-within {
+      border-color: var(--amber);
+      box-shadow: 0 0 0 3px rgba(242, 169, 0, .1)
+    }
+
+    .hod-item-hdr {
+      background: linear-gradient(90deg, #fafbff, #f4f7ff);
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--bg3);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 13.5px;
+      font-weight: 700;
+      color: var(--navy)
+    }
+
+    .hod-item-num {
+      background: var(--amber);
+      color: #fff;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 800;
+      flex-shrink: 0
+    }
+
+    .hod-item-body {
+      padding: 14px 18px
+    }
+
+    .hod-hint {
+      font-size: 11.5px;
+      color: var(--ink3);
+      margin-bottom: 8px;
+      line-height: 1.5
+    }
+
+    .hod-item textarea {
+      width: 100%;
+      padding: 10px 14px;
+      border: 2px solid var(--border);
+      border-radius: var(--r2);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 13.5px;
+      color: var(--ink);
+      background: #fafbff;
+      transition: .15s;
+      outline: none;
+      min-height: 80px;
+      resize: vertical;
+      line-height: 1.55
+    }
+
+    .hod-item textarea:focus {
+      border-color: var(--navy);
+      background: #fff;
+      box-shadow: 0 0 0 4px rgba(10, 37, 88, .08)
+    }
+
+    /* Share card */
+    .share-card {
+      background: linear-gradient(135deg, #fff8e7, #fffbf0);
+      border: 2px solid var(--gold);
+      border-radius: var(--r);
+      padding: 22px;
+      margin-bottom: 22px
+    }
+
+    .share-card h3 {
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px
+    }
+
+    .share-card p {
+      font-size: 13px;
+      color: var(--ink2);
+      margin-bottom: 14px;
+      line-height: 1.55
+    }
+
+    .share-link-row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      background: #fff;
+      padding: 10px 12px;
+      border: 1.5px dashed var(--gold2);
+      border-radius: var(--r2)
+    }
+
+    .share-link-row input {
+      flex: 1;
+      border: none;
+      background: transparent;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      color: var(--navy);
+      outline: none;
+      padding: 4px 6px
+    }
+
+    .share-copy-btn {
+      padding: 8px 14px;
+      border-radius: var(--r3);
+      background: var(--navy);
+      color: #fff;
+      border: none;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+      white-space: nowrap;
+      transition: .15s
+    }
+
+    .share-copy-btn:hover {
+      background: var(--navy2)
+    }
+
+    /* Share Methods Tabs */
+    .share-methods-tabs .tab-btn {
+      padding: 10px 18px;
+      background: #f1f5f9;
+      color: #475569;
+      border: none;
+      border-radius: 6px 6px 0 0;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.15s;
+    }
+
+    .share-methods-tabs .tab-btn.active {
+      background: #ffffff;
+      color: var(--navy);
+      border-bottom: 2px solid var(--navy);
+      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .share-method-content {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 0 0 var(--r) var(--r);
+      padding: 24px;
+      box-shadow: var(--sh);
+      margin-bottom: 22px;
+    }
+
+    /* Upload Drop Area */
+    .upload-drop-area {
+      border: 2px dashed #cbd5e1;
+      border-radius: var(--r2);
+      padding: 30px 20px;
+      text-align: center;
+      background: #faf8f5;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .upload-drop-area:hover {
+      border-color: var(--amber);
+      background: #fffefb;
+    }
+
+    .upload-icon {
+      font-size: 32px;
+      margin-bottom: 10px;
+    }
+
+    .upload-status {
+      margin-top: 15px;
+      padding: 10px;
+      border-radius: 6px;
+      font-size: 13px;
+      display: none;
+    }
+
+    .upload-status.success {
+      background: #e6f4ea;
+      color: #137333;
+      display: block;
+    }
+
+    .upload-status.error {
+      background: #fce8e6;
+      color: #c5221f;
+      display: block;
+    }
+
+    .upload-status.loading {
+      background: #e8f0fe;
+      color: #1a73e8;
+      display: block;
+    }
+
+    /* Faculty submission cards */
+    .fs-card {
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      padding: 14px 18px;
+      margin-bottom: 10px;
+      background: #fff;
+      transition: .15s
+    }
+
+    .fs-card:hover {
+      border-color: var(--amber);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, .04)
+    }
+
+    .fs-card-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 10px;
+      flex-wrap: wrap
+    }
+
+    .fs-name {
+      font-size: 14.5px;
+      font-weight: 700;
+      color: var(--navy)
+    }
+
+    .fs-meta {
+      font-size: 11.5px;
+      color: var(--ink3);
+      margin-top: 3px;
+      line-height: 1.4
+    }
+
+    .fs-status {
+      display: inline-block;
+      font-size: 10.5px;
+      font-weight: 800;
+      padding: 3px 10px;
+      border-radius: 99px;
+      text-transform: uppercase;
+      letter-spacing: .05em
+    }
+
+    .fs-status.pending {
+      background: #fef3c7;
+      color: #92400e
+    }
+
+    .fs-status.reviewed {
+      background: #dbeafe;
+      color: #1e40af
+    }
+
+    .fs-status.flagged {
+      background: #fdeaea;
+      color: #991b1b
+    }
+
+    .fs-actions {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: 8px
+    }
+
+    .fs-detail {
+      display: none;
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px dashed var(--border)
+    }
+
+    .fs-detail.open {
+      display: block
+    }
+
+    .fs-chk-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 6px;
+      margin-top: 8px
+    }
+
+    .fs-chk-item {
+      font-size: 11px;
+      padding: 5px 8px;
+      border-radius: 4px;
+      background: #f7f9ff;
+      color: var(--ink2)
+    }
+
+    .fs-chk-item.yes {
+      background: var(--green-lt);
+      color: var(--green)
+    }
+
+    .fs-chk-item.no {
+      background: var(--red-lt);
+      color: var(--red)
+    }
+
+    .fs-chk-item.na {
+      background: #f3f4f6;
+      color: var(--ink3)
+    }
+
+    .fs-empty {
+      text-align: center;
+      padding: 28px;
+      background: #fafbff;
+      border: 1px dashed var(--border);
+      border-radius: var(--r2);
+      color: var(--ink3);
+      font-size: 13px
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 18px;
+      border-radius: var(--r2);
+      font-size: 13px;
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+      border: none;
+      transition: .15s;
+      text-decoration: none
+    }
+
+    .btn-primary {
+      background: var(--navy);
+      color: #fff
+    }
+
+    .btn-primary:hover {
+      background: var(--navy2)
+    }
+
+    .btn-ghost {
+      background: #fff;
+      color: var(--ink2);
+      border: 2px solid var(--border)
+    }
+
+    .btn-ghost:hover {
+      background: #f7f9ff;
+      border-color: var(--navy)
+    }
+
+    .btn-gold {
+      background: var(--gold);
+      color: var(--navy)
+    }
+
+    .btn-gold:hover {
+      background: var(--gold2)
+    }
+
+    .btn-success {
+      background: var(--success);
+      color: #fff
+    }
+
+    .btn-success:hover {
+      background: #15803d
+    }
+
+    .btn-sm {
+      padding: 6px 11px;
+      font-size: 11.5px
+    }
+
+    .btn:disabled {
+      opacity: .5;
+      cursor: not-allowed
+    }
+
+    .nav-bar {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 30px;
+      gap: 10px;
+      flex-wrap: wrap
+    }
+
+    /* Dashboard cards */
+    .dash-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      padding: 18px 22px;
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      box-shadow: var(--sh);
+      transition: .15s
+    }
+
+    .dash-card:hover {
+      box-shadow: var(--sh2)
+    }
+
+    .dc-title {
+      font-size: 14.5px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 4px
+    }
+
+    .dc-sub {
+      font-size: 11.5px;
+      color: var(--ink3)
+    }
+
+    .dc-tag {
+      display: inline-block;
+      font-size: 10.5px;
+      color: var(--amber);
+      font-weight: 700;
+      background: var(--amber-lt);
+      padding: 2px 8px;
+      border-radius: 99px;
+      margin-top: 5px
+    }
+
+    .dc-right {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap
+    }
+
+    /* Filter section */
+    .filter-section {
+      background: #fafbff;
+      border: 1px solid var(--border);
+      border-radius: var(--r2);
+      padding: 12px 16px;
+      margin-bottom: 18px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px
+    }
+
+    .filter-group {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap
+    }
+
+    .filter-label {
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--ink3);
+      letter-spacing: .06em;
+      text-transform: uppercase
+    }
+
+    .tab-btn {
+      padding: 5px 12px;
+      border: 1px solid var(--border);
+      border-radius: 99px;
+      background: #fff;
+      color: var(--ink2);
+      font-size: 11.5px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+      transition: .15s
+    }
+
+    .tab-btn:hover {
+      border-color: var(--amber)
+    }
+
+    .tab-btn.active {
+      background: var(--amber);
+      color: #fff;
+      border-color: var(--amber)
+    }
+
+    /* Success */
+    .success-screen {
+      display: none;
+      text-align: center;
+      padding: 60px 20px;
+      background: #fff;
+      border-radius: var(--r);
+      border: 1px solid var(--border);
+      box-shadow: var(--sh2)
+    }
+
+    .success-screen.active {
+      display: block
+    }
+
+    .success-icon {
+      font-size: 64px;
+      margin-bottom: 18px
+    }
+
+    .success-screen h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 30px;
+      color: var(--navy);
+      margin-bottom: 10px
+    }
+
+    .success-screen p {
+      font-size: 14px;
+      color: var(--ink3);
+      max-width: 520px;
+      margin: 0 auto 24px;
+      line-height: 1.55
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(120%);
+      background: var(--navy);
+      color: #fff;
+      padding: 12px 22px;
+      border-radius: 99px;
+      font-size: 13px;
+      font-weight: 600;
+      box-shadow: 0 8px 26px rgba(10, 37, 88, .3);
+      transition: transform .3s;
+      z-index: 9999;
+      max-width: 90vw
+    }
+
+    .toast.show {
+      transform: translateX(-50%) translateY(0)
+    }
+
+    /* Modal */
+    .view-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(10, 37, 88, .5);
+      z-index: 1000;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 40px 20px;
+      overflow-y: auto
+    }
+
+    .view-modal.show {
+      display: flex
+    }
+
+    .vm-content {
+      background: #fff;
+      border-radius: var(--r);
+      max-width: 800px;
+      width: 100%;
+      padding: 30px;
+      position: relative;
+      box-shadow: var(--sh2)
+    }
+
+    .vm-close {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      background: none;
+      border: none;
+      font-size: 22px;
+      color: var(--ink3);
+      cursor: pointer;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      transition: .15s
+    }
+
+    .vm-close:hover {
+      background: #f7f9ff;
+      color: var(--navy)
+    }
+
+    /* Review block */
+    .rev-block {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      padding: 18px 22px;
+      margin-bottom: 14px
+    }
+
+    .rev-header {
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--navy);
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      margin-bottom: 10px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--bg3);
+      display: flex;
+      justify-content: space-between;
+      align-items: center
+    }
+
+    .rev-badge {
+      background: var(--amber-lt);
+      color: var(--amber);
+      font-size: 10.5px;
+      font-weight: 700;
+      padding: 2px 10px;
+      border-radius: 99px;
+      text-transform: none;
+      letter-spacing: 0
+    }
+
+    .rev-body {
+      font-size: 13px;
+      color: var(--ink2);
+      line-height: 1.6
+    }
+
+    .rb-row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 5px
+    }
+
+    .rb-label {
+      font-weight: 700;
+      color: var(--navy);
+      min-width: 120px;
+      font-size: 12px
+    }
+
+    .rb-val {
+      color: var(--ink2)
+    }
+
+    .rev-narrative {
+      background: #fafbff;
+      border-left: 3px solid var(--amber);
+      padding: 8px 12px;
+      margin: 6px 0 12px;
+      font-size: 12.5px;
+      color: var(--ink2);
+      line-height: 1.6;
+      white-space: pre-wrap
+    }
+
+    /* Mobile Hamburger & Sandwich Menu Styles */
+    .hamburger-menu {
+      display: none;
+      flex-direction: column;
+      justify-content: space-between;
+      width: 22px;
+      height: 16px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      z-index: 1001;
+      margin-left: auto;
+    }
+
+    .hamburger-menu span {
+      width: 100%;
+      height: 2px;
+      background-color: var(--navy);
+      border-radius: 99px;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      transform-origin: left center;
+    }
+
+    .hamburger-menu.active span:nth-child(1) {
+      transform: rotate(45deg) translate(1px, -1px);
+    }
+
+    .hamburger-menu.active span:nth-child(2) {
+      opacity: 0;
+      transform: scaleX(0);
+    }
+
+    .hamburger-menu.active span:nth-child(3) {
+      transform: rotate(-45deg) translate(1px, 1px);
+    }
+
+    @media (max-width: 768px) {
+      .snap-grid {
+        grid-template-columns: repeat(2, 1fr)
+      }
+
+      .header-inner {
+        padding: 0 16px
+      }
+
+      .dash-wrap,
+      .page-wrap {
+        padding: 20px 16px 70px
+      }
+
+      .ps {
+        font-size: 9.5px
+      }
+
+      .logo-text .l1 {
+        font-size: 13.5px
+      }
+
+      .logo-text .l2 {
+        font-size: 9.5px
+      }
+
+      .hamburger-menu {
+        display: flex;
+      }
+
+      .hdr-right {
+        display: none !important;
+        flex-direction: column !important;
+        position: fixed !important;
+        top: 68px !important;
+        left: 0 !important;
+        right: 0 !important;
+        background: #ffffff !important;
+        border-bottom: 2px solid #dde3f0 !important;
+        padding: 20px 24px !important;
+        gap: 12px !important;
+        z-index: 999 !important;
+        box-shadow: 0 12px 30px rgba(10, 37, 88, 0.1) !important;
+        align-items: stretch !important;
+        text-align: left !important;
+        animation: slideDown 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+      }
+
+      .hdr-right.active {
+        display: flex !important;
+      }
+
+      .hdr-right>div {
+        text-align: left !important;
+        margin-bottom: 8px;
+      }
+
+      .hdr-user {
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 10px !important;
+        margin-top: 8px;
+      }
+
+      .hdr-user button,
+      .hdr-user a {
+        width: 100%;
+        text-align: center;
+        justify-content: center;
+        padding: 10px !important;
+      }
+
+      @keyframes slideDown {
+        from {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="logo-area">
+        <img src="/static/erp/images/jain.png" alt="Jain University" class="logo-img" onerror="this.style.display='none'">
+        <div class="logo-text">
+          <div class="l1">Semester Closure Portal</div>
+          <div class="l2">Office of Academics — OoA</div>
+        </div>
+      </div>
+      <button class="hamburger-menu" id="hamburgerMenu" onclick="toggleMobileMenu()" aria-label="Toggle Navigation">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <div class="hdr-right" id="hdrRight" style="display: flex; align-items: center; gap: 12px;">
+        <div class="hdr-user" style="display: flex; align-items: center; gap: 8px;">
+          <a href="/erp/" class="btn-profile">Home</a>
+          {% if session.get('admin') %}
+          <a href="/erp/admin" class="btn-profile"
+            style="color: var(--navy); border-color: var(--gold); background: #fffbeb; font-weight: bold;">Admin
+            Control</a>
+          {% endif %}
+          <button class="btn-profile" onclick="openWorkflowModal()">Workflow</button>
+          <a href="/erp/api/logout" class="btn-profile"
+            style="color: var(--danger); border-color: #fca5a5; background: #fef2f2;">Logout</a>
+        </div>
+      </div>
+    </div>
+    <div class="prog-bar" id="mainProgBar"
+      style="{% if view_mode == 'form' %}display:flex;{% else %}display:none;{% endif %}">
+      <div class="prog-inner" id="progBar">
+        <div class="ps active" onclick="goTo(0)">1. Identity</div>
+        <div class="ps" onclick="goTo(1)" id="ps_share">2. Share &amp; Review Faculty Checklists <span id="facNotifBadge"
+            style="display:none;background:#dc2626;color:#fff;border-radius:99px;font-size:9px;padding:1px 6px;margin-left:4px;font-weight:800"></span>
+        </div>
+        <div class="ps" onclick="goTo(2)">3. HOD Closure Report</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ═════════ DASHBOARD VIEW ═════════ -->
+  <div class="dash-wrap" id="dashView"
+    style="{% if view_mode == 'list' %}display:block;{% else %}display:none;{% endif %}">
+    <div class="page-heading"
+      style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:12px;margin-bottom:24px">
+      <div>
+        <div style="margin-bottom: 12px;">
+          <span class="semester-tag"
+            style="background: var(--gold); color: var(--navy); font-size: 11px; font-weight: 700; padding: 3px 12px; border-radius: 99px; letter-spacing: .06em; display: inline-block;">Even
+            Semester 2025–26</span>
+          <span class="campus-tag" style="color: var(--ink3); font-size: 11px; margin-left: 8px;">Bangalore, Kochi, ODL
+            &amp; Online Campus</span>
+        </div>
+        <h2>Your Closure Submissions, Hi {{ user.name }}!</h2>
+        <p>Manage past closure reports, view faculty responses, or start a new one.</p>
+      </div>
+      {% if is_deadline_passed and not has_override %}
+        <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+          <span style="background: #fee2e2; color: #dc2626; border: 1.5px solid #fca5a5; font-weight: 700; font-size: 11px; padding: 8px 16px; border-radius: 20px; text-transform: uppercase; letter-spacing: .05em;">⚠️ Deadline Exceeded</span>
+          <a href="javascript:void(0)" class="btn btn-primary" style="text-decoration: none; opacity: 0.4; filter: blur(0.5px); cursor: not-allowed; pointer-events: none;">＋ Start New Submission</a>
+        </div>
+      {% else %}
+        <a href="/erp/closure/form" class="btn btn-primary" style="text-decoration:none">＋ Start New Submission</a>
+      {% endif %}
+    </div>
+
+    <!-- Late Access/Extension Request Banner -->
+    {% if is_deadline_passed %}
+      <div style="background: #ffffff; border: 1.5px solid {% if has_override %}#a7f3d0{% elif extension_request and extension_request.status == 'pending' %}#fde68a{% else %}#fca5a5{% endif %}; border-radius: 12px; padding: 20px; margin-bottom: 28px; box-shadow: var(--sh2); text-align: left;">
+        {% if has_override %}
+          <div style="display: flex; align-items: flex-start; gap: 14px;">
+            <div style="font-size: 28px; line-height: 1;">✅</div>
+            <div>
+              <div style="font-weight: 800; color: #065f46; font-size: 15px; margin-bottom: 4px;">Late Submission Access Granted</div>
+              <p style="font-size: 13px; color: #047857; line-height: 1.4; margin: 0;">The Office of Academics administration has granted you special late submission override access.</p>
+              {% if extension_request and extension_request.admin_comment %}
+                <div style="margin-top: 10px; background: #ecfdf5; border-left: 4px solid #10b981; padding: 8px 12px; border-radius: 6px; font-size: 12.5px; color: #065f46; font-style: italic;">
+                  <strong>Admin Response:</strong> "{{ extension_request.admin_comment }}"
+                </div>
+              {% endif %}
+            </div>
+          </div>
+        {% elif extension_request and extension_request.status == 'pending' %}
+          <div style="display: flex; align-items: flex-start; gap: 14px;">
+            <div style="font-size: 28px; line-height: 1;">⏳</div>
+            <div>
+              <div style="font-weight: 800; color: #92400e; font-size: 15px; margin-bottom: 4px;">Extension Request Pending Approval</div>
+              <p style="font-size: 13px; color: #b45309; line-height: 1.4; margin: 0;">You have requested special late submission access. The administration has been notified and is currently reviewing your request.</p>
+              <div style="margin-top: 10px; background: #fffbeb; border-left: 4px solid #f59e0b; padding: 8px 12px; border-radius: 6px; font-size: 12.5px; color: #92400e; font-style: italic;">
+                <strong>Your Reason:</strong> "{{ extension_request.comment }}"
+              </div>
+            </div>
+          </div>
+        {% else %}
+          <div style="display: flex; align-items: flex-start; gap: 14px; flex-wrap: wrap;">
+            <div style="font-size: 28px; line-height: 1;">⚠️</div>
+            <div style="flex: 1; min-width: 250px;">
+              <div style="font-weight: 800; color: #b91c1c; font-size: 15px; margin-bottom: 4px;">Official Submission Window Closed</div>
+              <p style="font-size: 13px; color: #dc2626; line-height: 1.4; margin-bottom: 14px;">The deadline for submissions has passed and late submissions are blocked. If you need to request special access, please submit a request to the Office of Academics below:</p>
+              <form onsubmit="submitExtensionRequestDirect(event, 'Semester Closure')" style="display: flex; gap: 10px; flex-direction: column;">
+                <textarea id="commentDirect" placeholder="Describe the reason for late submission request..." required style="width: 100%; min-height: 70px; padding: 10px 12px; border: 1.5px solid #fca5a5; border-radius: 8px; font-family: inherit; font-size: 13px; outline: none; resize: none;"></textarea>
+                <button type="submit" class="btn btn-primary" style="background: #dc2626; border-color: #dc2626; align-self: flex-start; font-size: 12px; padding: 8px 16px;">Request Late Submission Access</button>
+              </form>
+            </div>
+          </div>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    <div class="filter-section">
+      <div class="filter-group">
+        <span class="filter-label">Academic Year:</span>
+        <button class="tab-btn active" onclick="filterAcYear('All',this)">All Years</button>
+        {% for year in ['2024-25', '2025-26', '2026-27', '2027-28', '2028-29'] %}
+        {% if year in settings.enabled_years %}
+        <button class="tab-btn" onclick="filterAcYear('{{ year }}',this)">{{ year }}</button>
+        {% endif %}
+        {% endfor %}
+      </div>
+      <div class="filter-group">
+        <span class="filter-label">Semester Type:</span>
+        <button class="tab-btn active" onclick="filterSem('All',this)">All Semesters</button>
+        {% if 'Even' in settings.enabled_semesters %}
+        <button class="tab-btn" onclick="filterSem('Even',this)">Even Semesters</button>
+        {% endif %}
+        {% if 'Odd' in settings.enabled_semesters %}
+        <button class="tab-btn" onclick="filterSem('Odd',this)">Odd Semesters</button>
+        {% endif %}
+      </div>
+    </div>
+
+    <div id="dashList">
+      <div style="text-align:center;color:var(--ink3);padding:40px">Loading submissions…</div>
+    </div>
+  </div>
+
+  <!-- ═════════ FORM VIEW ═════════ -->
+  <div class="page-wrap" id="formView"
+    style="{% if view_mode == 'form' %}display:block;{% else %}display:none;{% endif %}">
+    <div style="margin-bottom:20px;display:flex;align-items:center;justify-content:space-between">
+      <a href="/erp/closure" class="btn btn-ghost"
+        style="font-weight:700;display:inline-flex;align-items:center;gap:8px;text-decoration:none">
+        ← Back to Submissions
+      </a>
+    </div>
+
+    <!-- PAGE 0: IDENTITY + SNAPSHOT -->
+    <div class="section-page active" id="page0">
+      <div class="page-heading">
+        <div style="margin-bottom: 12px;">
+          <span class="semester-tag"
+            style="background: var(--gold); color: var(--navy); font-size: 11px; font-weight: 700; padding: 3px 12px; border-radius: 99px; letter-spacing: .06em; display: inline-block;">Even
+            Semester 2025–26</span>
+          <span class="campus-tag" style="color: var(--ink3); font-size: 11px; margin-left: 8px;">Bangalore, Kochi, ODL
+            &amp; Online Campus</span>
+        </div>
+        <span class="step-badge">Step 1 of 3</span>
+        <h2>Department Identity</h2>
+        <p>Fill once — these details auto-fill the faculty closure form when you share the link.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="ch-icon">🏛️</div>
+          <div>
+            <div class="ch-title">Campus &amp; Department</div>
+          </div>
+        </div>
+        <div class="field-grid">
+          <div class="field"><label>Campus <span class="req">*</span></label>
+            <select id="f_campus">
+              <option value="">— Select campus —</option>
+              <option>Bangalore</option>
+              <option>Kochi</option>
+              <option>ODL</option>
+              <option>Online</option>
+            </select>
+          </div>
+          <div class="field"><label>Department Name <span class="req">*</span></label>
+            <select id="f_dept">
+              <option value="">— Select department —</option>{% for d in departments %}<option>{{ d }}</option>{% endfor
+              %}
+            </select>
+          </div>
+          <div class="field"><label>Program(s)</label>
+            <input type="text" id="f_programs" placeholder="e.g. B.Tech CSE, M.Tech AI">
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="ch-icon">👤</div>
+          <div>
+            <div class="ch-title">HOD Details</div>
+          </div>
+        </div>
+        <div class="field-grid">
+          <div class="field"><label>HOD Full Name <span class="req">*</span></label>
+            <input type="text" id="f_hod_name" placeholder="Dr. / Prof. Full Name" value="{{ user.name }}">
+          </div>
+          <div class="field"><label>HOD Email <span class="req">*</span></label>
+            <input type="email" id="f_hod_email" placeholder="hod@jainuniversity.ac.in" value="{{ user.email }}">
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="ch-icon">📅</div>
+          <div>
+            <div class="ch-title">Semester Details</div>
+          </div>
+        </div>
+        <div class="field-grid">
+          <div class="field"><label>Semester &amp; Year <span class="req">*</span></label>
+            <select id="f_semester">
+              <option value="">— Select —</option>
+              {% for year in settings.enabled_years %}
+              {% if 'Even' in settings.enabled_semesters %}
+              <option>Even {{ year }}</option>
+              {% endif %}
+              {% if 'Odd' in settings.enabled_semesters %}
+              <option {% if year=='2025-26' %}selected{% endif %}>Odd {{ year }}</option>
+              {% endif %}
+              {% endfor %}
+            </select>
+          </div>
+          <div class="field"><label>Academic Year <span class="req">*</span></label>
+            <select id="f_ac_year">
+              <option value="">— Select Academic Year —</option>
+              {% for year in settings.enabled_years %}
+              <option value="{{ year }}" {% if year=='2025-26' %}selected{% endif %}>{{ year }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="field"><label>Submission Date</label><input type="date" id="f_sub_date"></div>
+          <div class="field"><label>Last Day for Faculty Submission</label><input type="date" id="f_hod_deadline"></div>
+        </div>
+      </div>
+
+      <div class="nav-bar"><button class="btn btn-ghost" onclick="saveDraftManual()">💾 Save Draft</button><button
+          class="btn btn-primary" onclick="goTo(1)">Next: Share &amp; Review Faculty Link →</button></div>
+    </div>
+
+    <!-- PAGE 1: SHARE & REVIEW -->
+    <div class="section-page" id="page1">
+      <div class="page-heading">
+        <span class="step-badge">Step 2 of 3</span>
+        <h2>Share &amp; Review Faculty Closure Checklists</h2>
+        <p>Save to generate a unique faculty link. Once shared, faculty submit their closure checklists — you'll see a
+          notification here. Review each submission, add a comment, request rework, or accept it.</p>
+      </div>
+
+      <div id="preShareCard" class="card">
+        <div class="card-header">
+          <div class="ch-icon">💾</div>
+          <div>
+            <div class="ch-title">Save Form &amp; Generate Faculty Link</div>
+          </div>
+        </div>
+        <p style="color:var(--ink3);font-size:13px;margin-bottom:14px">Click below to save your closure form and create
+          a unique shareable link. Faculty don't need a login to fill their closure checklist.</p>
+        <button class="btn btn-gold" onclick="saveAndGenerateLink()">💾 Save &amp; Generate Faculty Share Link</button>
+      </div>
+
+      <div id="shareSection" style="display:none">
+        <div class="share-card"
+          style="margin: 0; border: none; padding: 0; background: transparent; margin-bottom: 20px;">
+          <h3>🔗 Faculty Closure Submission Link Ready</h3>
+          <p>Share this link with all faculty. When they open it, they'll see <strong>"{{ user.name }} (HOD) shared this
+              document with you"</strong> and the closure form will be pre-filled with department, HOD, and semester
+            details.</p>
+          <div class="share-link-row">
+            <input type="text" id="shareLinkInput" readonly value="">
+            <button class="share-copy-btn" onclick="copyShareLink()">📋 Copy Link</button>
+          </div>
+          <p style="font-size:11.5px;color:var(--ink3);margin-top:10px;margin-bottom:0">💡 Share via email, WhatsApp, or
+            your department group. No login required for faculty.</p>
+        </div>
+
+        <div class="card">
+          <div class="card-header" style="justify-content:space-between">
+            <div style="display:flex;gap:12px;align-items:center">
+              <div class="ch-icon">📥</div>
+              <div>
+                <div class="ch-title">Faculty Closure Submissions</div>
+                <div class="ch-sub" id="facSubCountText">No submissions yet</div>
+              </div>
+            </div>
+            <button class="btn btn-ghost btn-sm" onclick="loadFacultySubmissions()">🔄 Refresh</button>
+          </div>
+          <div id="facSubList">
+            <div class="fs-empty">No faculty have submitted yet. Share the link above to get started.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="nav-bar">
+        <button class="btn btn-ghost" onclick="goTo(0)">← Back</button>
+        <button class="btn btn-ghost" onclick="saveDraftManual()">💾 Save Draft</button>
+        <button class="btn btn-primary" onclick="goTo(2)">Next: HOD Closure Report →</button>
+      </div>
+    </div>
+
+    <!-- PAGE 2: HOD CLOSURE REPORT (14 narrative verticals) -->
+    <div class="section-page" id="page2">
+      <div class="page-heading">
+        <span class="step-badge">Step 3 of 3</span>
+        <h2>HOD Semester Closure Report</h2>
+        <p>Fill each section with a brief narrative. These become the 14 verticals in the HOD closing report sent to the
+          Academic Office.</p>
+      </div>
+
+      <div id="hodReportBody"></div>
+
+      <div class="nav-bar">
+        <button class="btn btn-ghost" onclick="goTo(1)">← Back</button>
+        <button class="btn btn-ghost" onclick="saveDraftManual()">💾 Save Draft</button>
+        <button class="btn btn-success" onclick="submitForm()">✓ Submit to Academic Office</button>
+      </div>
+    </div>
+
+    <!-- SUCCESS -->
+    <div class="success-screen" id="successScreen">
+      <div class="success-icon">🎉</div>
+      <h2>Closure Report Submitted!</h2>
+      <p>Your semester closure report has been recorded. The Academic Office will review your submission.</p>
+      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+        <button class="btn btn-primary" onclick="window.location.reload()">Return to Dashboard</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Modals -->
+  <div class="view-modal" id="viewModal">
+    <div class="vm-content">
+      <button class="vm-close" onclick="document.getElementById('viewModal').classList.remove('show')">✕</button>
+      <h2 style="margin-bottom:20px;color:var(--navy);font-family:'Playfair Display',serif">Closure Submission Summary
+      </h2>
+      <div id="viewModalContent"></div>
+    </div>
+  </div>
+
+  <div class="view-modal" id="facSubModal">
+    <div class="vm-content">
+      <button class="vm-close" onclick="document.getElementById('facSubModal').classList.remove('show')">✕</button>
+      <h2 style="margin-bottom:16px;color:var(--navy);font-family:'Playfair Display',serif">Faculty Closure Submissions
+      </h2>
+      <div id="facSubModalContent"></div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    function toggleMobileMenu() {
+      const burger = document.getElementById('hamburgerMenu');
+      const drawer = document.getElementById('hdrRight');
+      burger.classList.toggle('active');
+      drawer.classList.toggle('active');
+    }
+
+    const HOD_CLOSURE_SECTIONS = {{ hod_closure_sections | tojson }};
+    let currentSubmissionId = null;
+    let currentShareToken = null;
+    const USER = {{ user | tojson }};
+    const VIEW_MODE = "{{ view_mode }}";
+    const EDIT_ID = "{{ edit_id or '' }}";
+
+    let submissionsCache = [];
+    let activeAcYearFilter = 'All';
+    let activeSemFilter = 'All';
+
+    // ─── Filters & Dashboard ───
+    function filterAcYear(year, btn) {
+      activeAcYearFilter = year;
+      btn.parentElement.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderSubmissions();
+    }
+    function filterSem(sem, btn) {
+      activeSemFilter = sem;
+      btn.parentElement.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderSubmissions();
+    }
+
+    function renderSubmissions() {
+      const list = document.getElementById('dashList');
+      if (!submissionsCache || !submissionsCache.length) {
+        list.innerHTML = '<div style="text-align:center;padding:40px;background:#fff;border-radius:12px;border:1px dashed #c8d2e8;color:var(--ink3)">No closure submissions found. Start a new one!</div>';
+        return;
+      }
+      const filtered = submissionsCache.filter(s => {
+        const idt = s.identity || {};
+        const acYear = idt.acYear || '';
+        const semester = (idt.semester || '').toLowerCase();
+        const matchYear = activeAcYearFilter === 'All' || acYear === activeAcYearFilter || acYear.includes(activeAcYearFilter);
+        const matchSem = activeSemFilter === 'All' ||
+          (activeSemFilter === 'Even' && semester.includes('even')) ||
+          (activeSemFilter === 'Odd' && semester.includes('odd'));
+        return matchYear && matchSem;
+      });
+      if (!filtered.length) {
+        list.innerHTML = '<div style="text-align:center;padding:40px;background:#fff;border-radius:12px;border:1px dashed #c8d2e8;color:var(--ink3)">No submissions match the selected filters.</div>';
+        return;
+      }
+      list.innerHTML = filtered.map(s => {
+        const dt = new Date(s.timestamp).toLocaleDateString();
+        const isLocked = s.edit_count >= 2 && (!s.edit_request || s.edit_request.status !== 'approved');
+        const isPending = s.edit_request && s.edit_request.status === 'pending';
+        const facCount = s.faculty_submission_count || 0;
+
+        let rightAction = '';
+        if (isLocked) {
+          if (isPending) rightAction = `<button class="btn btn-ghost" disabled>Pending Admin</button>`;
+          else rightAction = `<button class="btn btn-ghost" onclick="requestEdit('${s._id}')">Request Edit</button>`;
+        } else {
+          rightAction = `<a href="/erp/closure/form/${s._id}" class="btn btn-gold" style="text-decoration:none">Edit</a>`;
+        }
+
+        let facBtn = '';
+        if (s.share_token) {
+          facBtn = `<button class="btn btn-ghost" onclick="viewFacultySubmissions('${s._id}','${s.share_token}')">👥 Faculty (${facCount})</button>`;
+        }
+        const dlBtn = `<button class="btn btn-ghost" onclick="downloadSubmission('${s._id}')" title="Download Excel">📥</button>`;
+        const delBtn = `<button class="btn btn-ghost" onclick="deleteOwnSubmission('${s._id}')" title="Delete" style="color:var(--danger);border-color:#f5b8b8">🗑</button>`;
+
+        const statusBadge = s._draft
+          ? `<span style="background:#fff3e0; color:#b45309; border: 1px solid #ffe0b2; padding: 2px 8px; border-radius: 4px; font-weight:800; font-size:11px; display:inline-block; margin-bottom:8px;">📝 Draft</span>`
+          : `<span style="background:#e8f7ee; color:#0f5a2a; border: 1px solid #c8e6c9; padding: 2px 8px; border-radius: 4px; font-weight:800; font-size:11px; display:inline-block; margin-bottom:8px;">✅ Submitted</span>`;
+
+        const timeLabel = s._draft ? 'Last saved draft' : 'Submitted';
+
+        return `<div class="dash-card">
+        <div class="dc-left">
+          <div>${statusBadge}</div>
+          <div class="dc-title">${s.identity?.dept || 'Draft Submission'}</div>
+          <div class="dc-sub">${timeLabel} on ${dt} · ${s.identity?.semester || ''} · A.Y. ${s.identity?.acYear || ''}</div>
+          <div><span class="dc-tag">👥 ${facCount} faculty submission${facCount !== 1 ? 's' : ''}</span></div>
+        </div>
+        <div class="dc-right">
+          <button class="btn btn-ghost" onclick="viewSubmission('${s._id}')">View</button>
+          ${facBtn}
+          ${dlBtn}
+          ${rightAction}
+          ${delBtn}
+        </div>
+      </div>`;
+      }).join('');
+    }
+
+    function loadDashboard() {
+      fetch('/erp/api/my-submissions?type=closure').then(r => r.json()).then(res => {
+        submissionsCache = (res.ok && res.submissions) ? res.submissions : [];
+        renderSubmissions();
+      });
+    }
+
+    function requestEdit(id) {
+      const comment = prompt("You have reached the maximum edits for this submission.\nPlease enter a reason to request edit access from the Admin:");
+      if (comment === null) return;
+      fetch('/erp/api/request-edit/' + id, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ comment })
+      }).then(r => r.json()).then(res => {
+        if (res.ok) { showToast('Request sent to admin'); loadDashboard(); }
+        else showToast('Failed to send request');
+      });
+    }
+
+    function deleteOwnSubmission(id) {
+      if (!confirm('Delete this closure submission permanently?\nAll linked faculty responses will also be removed.\n\nThis cannot be undone.')) return;
+      fetch('/erp/api/delete-submission/' + id, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' }
+      }).then(r => r.json()).then(res => {
+        if (res.ok) { showToast('🗑 Submission deleted'); loadDashboard(); }
+        else showToast('⚠ ' + (res.error || 'Delete failed'));
+      });
+    }
+
+    function downloadSubmission(id) {
+      window.location.href = '/erp/api/export/' + id;
+      showToast('📥 Downloading…');
+    }
+
+    function downloadHodChecklist() {
+      if (!currentSubmissionId) { showToast('⚠ Save the form first'); return; }
+      window.location.href = '/erp/api/export-hod-checklist/' + currentSubmissionId;
+      showToast('📥 Downloading HOD report…');
+    }
+    function downloadFullReport() {
+      if (!currentSubmissionId) { showToast('⚠ Save the form first'); return; }
+      window.location.href = '/erp/api/export/' + currentSubmissionId;
+      showToast('📊 Downloading full report…');
+    }
+
+    function clearForm() {
+      currentSubmissionId = null;
+      currentShareToken = null;
+      setVal('f_campus', '');
+      setVal('f_dept', USER.department || '');
+      setVal('f_programs', '');
+      setVal('f_hod_name', USER.name || '');
+      setVal('f_hod_email', USER.email || '');
+      setVal('f_semester', 'Odd 2025-26');
+      setVal('f_ac_year', '2025-26');
+      document.getElementById('f_sub_date').value = new Date().toISOString().split('T')[0];
+      setVal('f_hod_deadline', '');
+      document.getElementById('preShareCard').style.display = 'block';
+      document.getElementById('shareSection').style.display = 'none';
+      HOD_CLOSURE_SECTIONS.forEach(item => {
+        const t = document.getElementById('hod_' + item.id);
+        if (t) t.value = '';
+        const link = document.getElementById('hod_link_' + item.id);
+        if (link) link.value = '';
+        const status = document.getElementById('hod_upload_status_' + item.id);
+        if (status) {
+          status.innerHTML = 'No file uploaded (optional)';
+          delete status.dataset.fileUrl;
+        }
+      });
+    }
+
+    function submitExtensionRequestDirect(e, moduleName) {
+      e.preventDefault();
+      const comment = document.getElementById('commentDirect').value;
+      const btn = e.target.querySelector('button');
+      btn.disabled = true;
+      btn.innerText = 'Sending...';
+
+      fetch('/erp/api/request-extension', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          comment: comment,
+          module: moduleName
+        })
+      }).then(r => r.json()).then(res => {
+        if (res.ok) {
+          alert('Late submission access request has been sent to the admin.');
+          window.location.reload();
+        } else {
+          alert('Error: ' + res.error);
+          btn.disabled = false;
+          btn.innerText = 'Request Late Submission Access';
+        }
+      }).catch(err => {
+        console.error(err);
+        btn.disabled = false;
+        btn.innerText = 'Request Late Submission Access';
+      });
+    }
+
+    function startNewForm() {
+      document.getElementById('dashView').style.display = 'none';
+      document.getElementById('formView').style.display = 'block';
+      document.getElementById('mainProgBar').style.display = 'flex';
+      clearForm();
+      goTo(0);
+    }
+
+    function editSubmission(id) {
+      fetch('/erp/api/get-submission/' + id).then(r => r.json()).then(res => {
+        if (!res.ok) { showToast('⚠ Failed to load submission'); return; }
+        const d = res.submission;
+        currentSubmissionId = id;
+        currentShareToken = d.share_token || null;
+
+        if (d.identity) {
+          setVal('f_campus', d.identity.campus);
+          setVal('f_dept', d.identity.dept);
+          setVal('f_programs', d.identity.programs);
+          setVal('f_hod_name', d.identity.hodName || d.identity.hod);
+          setVal('f_hod_email', d.identity.hodEmail || d.identity.email);
+          setVal('f_semester', d.identity.semester || d.identity.sem);
+          setVal('f_ac_year', d.identity.acYear);
+          setVal('f_sub_date', d.identity.subDate || d.identity.date);
+          setVal('f_hod_deadline', d.identity.hodDeadline);
+        }
+        if (d.hodReport) {
+          Object.entries(d.hodReport).forEach(([k, v]) => {
+            const t = document.getElementById('hod_' + k);
+            if (t) {
+              if (typeof v === 'object' && v !== null) {
+                t.value = v.text || '';
+                const linkInput = document.getElementById('hod_link_' + k);
+                if (linkInput) linkInput.value = v.link || '';
+                const statusSpan = document.getElementById('hod_upload_status_' + k);
+                if (statusSpan) {
+                  if (v.file_url) {
+                    statusSpan.innerHTML = `✅ <a href="${v.file_url}" target="_blank" style="color: var(--success); font-weight: 700; text-decoration: underline;">View Uploaded File</a>`;
+                    statusSpan.dataset.fileUrl = v.file_url;
+                  } else {
+                    statusSpan.innerHTML = 'No file uploaded (optional)';
+                    delete statusSpan.dataset.fileUrl;
+                  }
+                }
+              } else {
+                t.value = v || '';
+              }
+            }
+          });
+        }
+        if (currentShareToken) showShareLink(currentShareToken);
+        else {
+          document.getElementById('preShareCard').style.display = 'block';
+          document.getElementById('shareSection').style.display = 'none';
+        }
+        document.getElementById('dashView').style.display = 'none';
+        document.getElementById('formView').style.display = 'block';
+        document.getElementById('mainProgBar').style.display = 'flex';
+        goTo(0);
+        showToast('Form loaded for editing');
+      });
+    }
+
+    function viewSubmission(id) {
+      fetch('/erp/api/get-submission/' + id).then(r => r.json()).then(res => {
+        if (!res.ok) return;
+        const modal = document.getElementById('viewModal');
+        document.getElementById('viewModalContent').innerHTML = generateReviewHTML(res.submission);
+        modal.classList.add('show');
+      });
+    }
+
+    function viewFacultySubmissions(subId, shareToken) {
+      fetch('/erp/api/faculty-submissions/' + subId).then(r => r.json()).then(res => {
+        const modal = document.getElementById('facSubModal');
+        const content = document.getElementById('facSubModalContent');
+        const shareUrl = window.location.origin + '/erp/faculty-form/' + shareToken;
+        let html = `<div class="share-card" style="margin-bottom:18px">
+        <h3>🔗 Faculty Closure Link</h3>
+        <div class="share-link-row">
+          <input type="text" readonly value="${shareUrl}">
+          <button class="share-copy-btn" onclick="navigator.clipboard.writeText('${shareUrl}');this.textContent='✓ Copied'">📋 Copy</button>
+        </div>
+      </div>`;
+        if (!res.ok || !res.submissions.length) {
+          html += '<div class="fs-empty">No faculty have submitted yet. Share the link above.</div>';
+        } else {
+          html += `<p style="font-size:13px;color:var(--ink2);margin-bottom:12px"><strong>${res.submissions.length}</strong> faculty submission(s) received:</p>`;
+          html += res.submissions.map(f => renderFacSubCard(f)).join('');
+        }
+        content.innerHTML = html;
+        modal.classList.add('show');
+      });
+    }
+
+    function renderFacSubCard(f) {
+      const chk = f.checklist || {};
+      const yes = Object.values(chk).filter(x => x.status === 'Yes').length;
+      const no = Object.values(chk).filter(x => x.status === 'No').length;
+      const total = Object.keys(chk).length || 23;
+      const dt = new Date(f.timestamp).toLocaleString();
+      const status = f.hod_review_status || 'pending';
+      const statusClass = status === 'accepted' ? 'reviewed' : (status === 'rework' ? 'flagged' : 'pending');
+      const statusText = status === 'accepted' ? '✅ Accepted' : (status === 'rework' ? '🔁 Rework Requested' : '⏳ Pending Review');
+
+      return `<div class="fs-card" id="fs_${f._id}">
+      <div class="fs-card-header">
+        <div>
+          <div class="fs-name">${f.faculty_name || 'Unknown Faculty'}</div>
+          <div class="fs-meta">📧 ${f.faculty_email || '—'} · 📚 ${f.course_name || '—'} (${f.course_code || '—'}) · 🎓 ${f.program || '—'}</div>
+          <div class="fs-meta">Submitted: ${dt}</div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px">
+          <span class="fs-status ${statusClass}">${statusText}</span>
+          <span style="font-size:11px;color:var(--ink3);font-weight:700">${yes}/${total} ✓ · ${no} ✗</span>
+        </div>
+      </div>
+      <div class="fs-actions">
+        <button class="btn btn-ghost btn-sm" onclick="toggleFacDetail('${f._id}')">👁 View</button>
+        <button class="btn btn-success btn-sm" onclick="reviewFacSub('${f._id}','accepted')">✅ Accept</button>
+        <button class="btn btn-ghost btn-sm" style="color:#d97706;border-color:#d97706" onclick="reviewFacSub('${f._id}','rework')">🔁 Rework</button>
+        <button class="btn btn-ghost btn-sm" onclick="deleteFacSub('${f._id}')" style="color:var(--danger);border-color:var(--danger)">🗑 Delete</button>
+      </div>
+      <div class="fs-detail" id="fs_detail_${f._id}">
+        <strong style="font-size:12px;color:var(--navy)">Checklist Responses:</strong>
+        <div class="fs-chk-grid">
+          ${Object.entries(chk).map(([id, v]) => {
+        const cls = v.status === 'Yes' ? 'yes' : v.status === 'No' ? 'no' : v.status === 'N/A' ? 'na' : 'blank';
+        const icon = v.status === 'Yes' ? '✓' : v.status === 'No' ? '✗' : v.status === 'N/A' ? '—' : '?';
+        return `<div class="fs-chk-item ${cls}">${icon} ${id}: ${v.status || 'Not answered'}${v.remark ? ' · ' + v.remark.substring(0, 30) : ''}</div>`;
+      }).join('')}
+        </div>
+        ${f.hod_remarks ? `<div style="margin-top:10px;padding:8px;background:#f0f4ff;border-radius:6px;font-size:12px"><strong>HOD Remarks:</strong> ${f.hod_remarks}</div>` : ''}
+        <div style="margin-top:10px;display:flex;gap:6px;align-items:center">
+          <input type="text" id="hodremark_${f._id}" placeholder="Add comment for faculty…" value="${f.hod_remarks || ''}" style="flex:1;padding:8px 10px;border:2px solid #dde3f0;border-radius:6px;font-size:12.5px;font-family:inherit">
+          <button class="btn btn-primary btn-sm" onclick="saveHodRemark('${f._id}')">💬 Save Comment</button>
+        </div>
+      </div>
+    </div>`;
+    }
+
+    function toggleFacDetail(id) { document.getElementById('fs_detail_' + id).classList.toggle('open'); }
+
+    function reviewFacSub(id, status) {
+      const remark = document.getElementById('hodremark_' + id)?.value || '';
+      const msg = status === 'accepted' ? '✅ Accepted' : (status === 'rework' ? '🔁 Rework requested' : '✓ Saved');
+      fetch('/erp/api/faculty-review/' + id, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ hod_review_status: status, hod_remarks: remark })
+      }).then(r => r.json()).then(res => {
+        if (res.ok) { showToast(msg); if (currentSubmissionId) loadFacultySubmissions(); }
+      });
+    }
+    function saveHodRemark(id) {
+      const remark = document.getElementById('hodremark_' + id).value;
+      fetch('/erp/api/faculty-review/' + id, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ hod_remarks: remark, hod_review_status: 'reviewed' })
+      }).then(r => r.json()).then(res => {
+        if (res.ok) { showToast('💬 Comment saved'); if (currentSubmissionId) loadFacultySubmissions(); }
+      });
+    }
+    function deleteFacSub(id) {
+      if (!confirm('Delete this faculty submission permanently?')) return;
+      fetch('/erp/api/faculty-delete/' + id, { method: 'POST' }).then(r => r.json()).then(res => {
+        if (res.ok) {
+          showToast('Deleted');
+          document.getElementById('fs_' + id)?.remove();
+          if (currentSubmissionId) loadFacultySubmissions();
+        }
+      });
+    }
+
+    function setVal(id, val) {
+      const el = document.getElementById(id);
+      if (el && val !== undefined && val !== null) el.value = val;
+    }
+
+    // ─── Share Link ───
+    function saveAndGenerateLink() {
+      const campus = document.getElementById('f_campus').value;
+      const dept = document.getElementById('f_dept').value;
+      const hodName = document.getElementById('f_hod_name').value;
+      if (!campus || !dept || !hodName) {
+        showToast('⚠ Please fill Campus, Department & HOD Name (Step 1) before sharing');
+        goTo(0);
+        return;
+      }
+      const payload = collectData();
+      payload._draft = true;
+      fetch('/erp/api/submit', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      }).then(r => r.json()).then(res => {
+        if (res.ok) {
+          currentSubmissionId = res.id;
+          currentShareToken = res.share_token;
+          showShareLink(currentShareToken);
+          showToast('✓ Form saved! Share link is ready below.');
+        } else {
+          showToast('⚠ ' + (res.error || 'Failed to save'));
+        }
+      });
+    }
+
+    function saveDraftManual(silent = false) {
+      const campus = document.getElementById('f_campus').value;
+      const dept = document.getElementById('f_dept').value;
+      const hodName = document.getElementById('f_hod_name').value;
+      if (!campus || !dept || !hodName) {
+        if (!silent) {
+          showToast('⚠ Please fill Campus, Department & HOD Name (Step 1) before saving draft');
+          goTo(0);
+        }
+        return;
+      }
+
+      const payload = collectData();
+      payload._draft = true;
+
+      fetch('/erp/api/submit', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      }).then(r => r.json()).then(res => {
+        if (res.ok) {
+          currentSubmissionId = res.id;
+          currentShareToken = res.share_token;
+          if (!silent) {
+            showToast('✓ Progress saved as Draft!');
+            loadDashboard();
+          }
+        } else {
+          if (!silent) {
+            showToast('⚠ ' + (res.error || 'Failed to save draft'));
+          }
+        }
+      });
+    }
+
+    function showShareLink(token) {
+      const url = window.location.origin + '/erp/faculty-form/' + token;
+      document.getElementById('shareLinkInput').value = url;
+      document.getElementById('preShareCard').style.display = 'none';
+      document.getElementById('shareSection').style.display = 'block';
+      loadFacultySubmissions();
+    }
+
+    function copyShareLink() {
+      const input = document.getElementById('shareLinkInput');
+      input.select();
+      navigator.clipboard.writeText(input.value).then(() => showToast('✓ Link copied to clipboard'));
+    }
+
+    function loadFacultySubmissions() {
+      if (!currentSubmissionId) return;
+      fetch('/erp/api/faculty-submissions/' + currentSubmissionId).then(r => r.json()).then(res => {
+        const list = document.getElementById('facSubList');
+        const countText = document.getElementById('facSubCountText');
+        if (!res.ok || !res.submissions.length) {
+          list.innerHTML = '<div class="fs-empty">No faculty have submitted yet. Share the link above to get started.</div>';
+          countText.textContent = 'No submissions yet';
+          updateNotifBadge(0, 0);
+          return;
+        }
+        const subs = res.submissions;
+        const pending = subs.filter(f => !f.hod_review_status || f.hod_review_status === 'pending').length;
+        countText.textContent = `${subs.length} submission(s) · ${pending} pending review`;
+        list.innerHTML = subs.map(f => renderFacSubCard(f)).join('');
+        updateNotifBadge(subs.length, pending);
+      });
+    }
+
+    function updateNotifBadge(total, pending) {
+      const badge = document.getElementById('facNotifBadge');
+      if (!badge) return;
+      if (pending > 0) { badge.textContent = pending + ' new'; badge.style.display = 'inline'; }
+      else badge.style.display = 'none';
+    }
+
+
+
+    // ─── HOD Closure Report Builder ───
+    function buildHodReport() {
+      const body = document.getElementById('hodReportBody');
+      let html = '';
+      HOD_CLOSURE_SECTIONS.forEach(item => {
+        html += `<div class="hod-item">
+        <div class="hod-item-hdr"><div class="hod-item-num">${item.id}</div>${item.title}</div>
+        <div class="hod-item-body">
+          <div class="hod-hint">${item.hint}</div>
+          <textarea id="hod_${item.id}" placeholder="Enter your narrative here…" style="margin-bottom: 12px;"></textarea>
+          <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+            <input type="text" id="hod_link_${item.id}" placeholder="Add a link (optional)" style="flex: 1; min-width: 240px; padding: 8px 12px; border: 1.5px solid var(--border); border-radius: 6px; font-size: 13px; font-family: inherit;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <label for="hod_file_${item.id}" class="btn" style="padding: 7px 14px; font-size: 11px; font-weight: 700; border-radius: 6px; border: 1.5px solid var(--navy); background: transparent; color: var(--navy); cursor: pointer; display: inline-flex; align-items: center; gap: 6px; margin: 0; font-family: inherit; transition: all 0.15s ease;">
+                📎 Upload File
+              </label>
+              <input type="file" id="hod_file_${item.id}" style="display: none;" onchange="uploadClosureReportFile('${item.id}')">
+              <span id="hod_upload_status_${item.id}" style="font-size: 11.5px; color: var(--ink3);">No file uploaded (optional)</span>
+            </div>
+          </div>
+        </div>
+      </div>`;
+      });
+      body.innerHTML = html;
+    }
+
+    function uploadClosureReportFile(itemId) {
+      const fileInput = document.getElementById('hod_file_' + itemId);
+      const file = fileInput.files[0];
+      if (!file) return;
+
+      const statusSpan = document.getElementById('hod_upload_status_' + itemId);
+      statusSpan.innerHTML = '⏳ Uploading...';
+      statusSpan.style.color = 'var(--navy)';
+
+      const formData = new FormData();
+      formData.append('file', file);
+
+      fetch('/erp/api/upload-evidence', {
+        method: 'POST',
+        body: formData
+      })
+      .then(r => r.json())
+      .then(res => {
+        if (res.ok) {
+          statusSpan.innerHTML = `✅ <a href="${res.url}" target="_blank" style="color: var(--success); font-weight: 700; text-decoration: underline;">View Uploaded File</a>`;
+          statusSpan.style.color = 'var(--success)';
+          statusSpan.dataset.fileUrl = res.url;
+          showToast('File uploaded successfully!');
+        } else {
+          statusSpan.innerHTML = '❌ Upload failed: ' + (res.error || 'Unknown error');
+          statusSpan.style.color = 'var(--danger)';
+          showToast('Upload failed: ' + (res.error || 'Unknown error'));
+        }
+      })
+      .catch(err => {
+        console.error(err);
+        statusSpan.innerHTML = '❌ Upload error';
+        statusSpan.style.color = 'var(--danger)';
+        showToast('Network error during upload');
+      });
+    }
+
+    // ─── Nav ───
+    function goTo(step) {
+      if (step > 0) {
+        saveDraftManual(true);
+      }
+      document.querySelectorAll('.section-page').forEach((p, i) => p.classList.toggle('active', i === step));
+      document.querySelectorAll('.ps').forEach((p, i) => {
+        p.classList.remove('active', 'done');
+        if (i === step) p.classList.add('active');
+        else if (i < step) p.classList.add('done');
+      });
+      if (step === 1 && currentShareToken) loadFacultySubmissions();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // ─── Data Collection ───
+    const v = id => (document.getElementById(id) || {}).value || '';
+
+    function collectData() {
+      const hodRpt = {};
+      HOD_CLOSURE_SECTIONS.forEach(item => {
+        const text = v('hod_' + item.id);
+        const link = v('hod_link_' + item.id);
+        const statusSpan = document.getElementById('hod_upload_status_' + item.id);
+        const file_url = statusSpan ? (statusSpan.dataset.fileUrl || '') : '';
+        hodRpt[item.id] = { title: item.title, text, link, file_url };
+      });
+      const payload = {
+        identity: {
+          submitterEmail: USER.email, submitterName: USER.name,
+          campus: v('f_campus'), dept: v('f_dept'), programs: v('f_programs'),
+          hodName: v('f_hod_name'), hodEmail: v('f_hod_email'),
+          semester: v('f_semester'), acYear: v('f_ac_year'),
+          subDate: v('f_sub_date'), hodDeadline: v('f_hod_deadline')
+        },
+        hodReport: hodRpt,
+        form_type: 'closure'
+      };
+      if (currentSubmissionId) payload._id = currentSubmissionId;
+      return payload;
+    }
+
+    function generateReviewHTML(d) {
+      const idt = d.identity || {};
+      const rpt = d.hodReport || {};
+      const filled = HOD_CLOSURE_SECTIONS.filter(i => {
+        const entry = rpt[i.id] || {};
+        const text = typeof entry === 'object' ? (entry.text || '') : entry;
+        return (text || '').trim().length > 0;
+      }).length;
+      const shareUrl = (d.share_token || currentShareToken)
+        ? (window.location.origin + '/erp/faculty-form/' + (d.share_token || currentShareToken)) : null;
+
+      let html = '';
+      if (shareUrl) {
+        html += `<div class="share-card"><h3>🔗 Faculty Share Link</h3>
+        <div class="share-link-row"><input type="text" readonly value="${shareUrl}">
+        <button class="share-copy-btn" onclick="navigator.clipboard.writeText('${shareUrl}');this.textContent='✓'">📋</button></div></div>`;
+      }
+      html += `<div class="rev-block">
+      <div class="rev-header">Department Identity<span class="rev-badge">${idt.campus || '—'}</span></div>
+      <div class="rev-body">
+        <div class="rb-row"><span class="rb-label">Department</span><span class="rb-val">${idt.dept || '—'}</span></div>
+        <div class="rb-row"><span class="rb-label">Program(s)</span><span class="rb-val">${idt.programs || '—'}</span></div>
+        <div class="rb-row"><span class="rb-label">HOD</span><span class="rb-val">${idt.hodName || idt.hod || '—'} · ${idt.hodEmail || idt.email || '—'}</span></div>
+        <div class="rb-row"><span class="rb-label">Semester</span><span class="rb-val">${idt.semester || idt.sem || '—'} · A.Y. ${idt.acYear || '—'}</span></div>
+      </div>
+    </div>`;
+      html += `<div class="rev-block">
+      <div class="rev-header">HOD Closure Report <span class="rev-badge">${filled}/${HOD_CLOSURE_SECTIONS.length} filled</span></div>
+      <div class="rev-body">`;
+      HOD_CLOSURE_SECTIONS.forEach(item => {
+        const entry = rpt[item.id] || {};
+        const text = typeof entry === 'object' ? (entry.text || '').trim() : (entry || '').trim();
+        const link = typeof entry === 'object' ? (entry.link || '').trim() : '';
+        const file_url = typeof entry === 'object' ? (entry.file_url || '').trim() : '';
+
+        html += `<div style="margin-bottom:12px"><strong style="font-size:12.5px;color:var(--navy)">${item.id}. ${item.title}</strong>
+        <div class="rev-narrative">${text || '— Not filled —'}</div>`;
+        if (link) {
+          html += `<div style="font-size:11.5px; margin-top: 4px; color: var(--navy)">🔗 Link: <a href="${link}" target="_blank" style="text-decoration: underline; color: var(--navy)">${link}</a></div>`;
+        }
+        if (file_url) {
+          html += `<div style="font-size:11.5px; margin-top: 4px; color: var(--success)">📎 File: <a href="${file_url}" target="_blank" style="text-decoration: underline; color: var(--success); font-weight: bold;">View Evidence Document</a></div>`;
+        }
+        html += `</div>`;
+      });
+      html += `</div></div>`;
+      return html;
+    }
+
+    function submitForm() {
+      const d = collectData();
+      if (!d.identity.campus || !d.identity.dept || !d.identity.hodName) {
+        showToast('⚠ Please fill Campus, Department & HOD Name (Step 1)'); return;
+      }
+      const unfilled = HOD_CLOSURE_SECTIONS.filter(i => !(d.hodReport[i.id]?.text || '').trim()).length;
+      if (unfilled > 0 && !confirm(`${unfilled} HOD report section(s) are empty. Submit anyway?`)) return;
+
+      d._draft = false; // Finalize submission
+
+      fetch('/erp/api/submit', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(d)
+      }).then(r => r.json()).then(res => {
+        if (res.ok) {
+          document.querySelectorAll('.section-page').forEach(p => p.classList.remove('active'));
+          document.getElementById('successScreen').classList.add('active');
+          document.getElementById('mainProgBar').style.display = 'none';
+          currentSubmissionId = res.id;
+        } else {
+          showToast('⚠ ' + (res.error || 'Submission failed'));
+        }
+      });
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg; t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 3200);
+    }
+
+    function openWorkflowModal() {
+      document.getElementById('workflowModal').classList.add('show');
+    }
+    function closeWorkflowModal() {
+      document.getElementById('workflowModal').classList.remove('show');
+    }
+
+    // ─── Init ───
+    buildHodReport();
+    document.getElementById('f_sub_date').value = new Date().toISOString().split('T')[0];
+    if (VIEW_MODE === 'form') {
+      if (EDIT_ID) {
+        editSubmission(EDIT_ID);
+      } else {
+        startNewForm();
+      }
+    } else {
+      loadDashboard();
+    }
+  </script>
+
+  <!-- Workflow Modal -->
+  <div class="view-modal" id="workflowModal">
+    <div class="vm-content" style="max-width: 800px; text-align: left;">
+      <button class="vm-close" onclick="closeWorkflowModal()">✕</button>
+      <div
+        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; border-bottom: 1px solid #eee; padding-bottom: 16px; flex-wrap: wrap; gap: 12px;">
+        <h2 style="font-size: 22px; color: var(--navy); margin-bottom: 0; font-family: 'Playfair Display', serif;">
+          Portal Workflow</h2>
+        <a href="/static/uploads/Workflow.pdf" target="_blank" class="btn btn-primary"
+          style="background: linear-gradient(135deg, #ff9900, #ff5500); border-color: transparent; box-shadow: 0 4px 12px rgba(255, 85, 0, 0.2); font-size: 13px; padding: 8px 16px; text-decoration: none; color: #fff;">
+          📄 Download PDF Manual
+        </a>
+      </div>
+
+      <div class="workflow-grid"
+        style="display: flex; align-items: stretch; justify-content: space-between; gap: 14px; flex-wrap: wrap; text-align: left; width: 100%;">
+        <div class="step-card step-1"
+          style="flex: 1; min-width: 200px; border: 1px solid #eee; border-radius: 12px; padding: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.02); transition: transform 0.2s;">
+          <div class="step-badge"
+            style="background: linear-gradient(135deg, #0a2558, #1e40af); color: #fff; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; border-radius: 8px; font-weight: 800; margin-bottom: 14px;">
+            1</div>
+          <h4 style="color: var(--navy); font-size: 15px; font-weight: 700; margin-bottom: 8px;">Login &amp; Initiate
+          </h4>
+          <p style="color: var(--ink3); font-size: 13px; line-height: 1.5; margin: 0;">Head of Department (HOD)
+            authenticates securely via the portal using their registered email. Once logged in, you will select the
+            academic year and semester (Even or Odd) to initiate either the Semester Readiness or Semester Closure
+            Report.</p>
+        </div>
+
+        <div class="workflow-arrow"
+          style="display: flex; align-items: center; justify-content: center; font-size: 24px; color: var(--navy); font-weight: 800; opacity: 0.6;">
+          ➔</div>
+
+        <div class="step-card step-2"
+          style="flex: 1; min-width: 200px; border: 1px solid #eee; border-radius: 12px; padding: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.02); transition: transform 0.2s;">
+          <div class="step-badge"
+            style="background: linear-gradient(135deg, #7c3aed, #4f46e5); color: #fff; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; border-radius: 8px; font-weight: 800; margin-bottom: 14px;">
+            2</div>
+          <h4 style="color: var(--navy); font-size: 15px; font-weight: 700; margin-bottom: 8px;">Complete &amp; Link
+          </h4>
+          <p style="color: var(--ink3); font-size: 13px; line-height: 1.5; margin: 0;">HOD fills the identity and goes to share to faculty, generates the link and shares to the faculty.</p>
+        </div>
+
+        <div class="workflow-arrow"
+          style="display: flex; align-items: center; justify-content: center; font-size: 24px; color: var(--navy); font-weight: 800; opacity: 0.6;">
+          ➔</div>
+
+        <div class="step-card step-3"
+          style="flex: 1; min-width: 200px; border: 1px solid #eee; border-radius: 12px; padding: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.02); transition: transform 0.2s;">
+          <div class="step-badge"
+            style="background: linear-gradient(135deg, #ec4899, #db2777); color: #fff; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; border-radius: 8px; font-weight: 800; margin-bottom: 14px;">
+            3</div>
+          <h4 style="color: var(--navy); font-size: 15px; font-weight: 700; margin-bottom: 8px;">Share &amp; Faculty
+          </h4>
+          <p style="color: var(--ink3); font-size: 13px; line-height: 1.5; margin: 0;">Once faculty filled, you will get notification.</p>
+        </div>
+
+        <div class="workflow-arrow"
+          style="display: flex; align-items: center; justify-content: center; font-size: 24px; color: var(--navy); font-weight: 800; opacity: 0.6;">
+          ➔</div>
+
+        <div class="step-card step-4"
+          style="flex: 1; min-width: 200px; border: 1px solid #eee; border-radius: 12px; padding: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.02); transition: transform 0.2s;">
+          <div class="step-badge"
+            style="background: linear-gradient(135deg, #10b981, #059669); color: #fff; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; border-radius: 8px; font-weight: 800; margin-bottom: 14px;">
+            4</div>
+          <h4 style="color: var(--navy); font-size: 15px; font-weight: 700; margin-bottom: 8px;">Complete &amp; Submit</h4>
+          <p style="color: var(--ink3); font-size: 13px; line-height: 1.5; margin: 0;">Go to checkpoint, fill and submit to OoA.</p>
+        </div>
+      </div>
+
+      <style>
+        .workflow-arrow {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 24px;
+          color: var(--navy);
+          font-weight: 800;
+          opacity: 0.6;
+          transition: all 0.3s;
+        }
+
+        @media (max-width: 992px) {
+          .workflow-arrow {
+            transform: rotate(90deg);
+            margin: 10px 0;
+            width: 100%;
+            text-align: center;
+          }
+        }
+      </style>
+
+      <div style="display: flex; justify-content: flex-end; margin-top: 24px;">
+        <button class="btn btn-ghost"
+          style="border: 1px solid var(--navy); font-weight: 700; border-radius: 6px; padding: 8px 16px; color: var(--navy);"
+          onclick="closeWorkflowModal()">Close</button>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

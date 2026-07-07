@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/jain.png') }}" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Dashboard | Office of Academics</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root{--navy:#0A2540;--navy-mid:#205295;--gold:#F5A623;--white:#fff;--off-white:#f8fafc;--border:#e2e4f0;--text:#1a2b3c;--muted:#6b7280;--shadow-sm:0 2px 8px rgba(10,37,64,.08);--shadow-md:0 6px 24px rgba(10,37,64,.12);--shadow-lg:0 16px 48px rgba(10,37,64,.16);--r-sm:8px;--r-md:14px;--r-lg:22px;--r-xl:32px;--t:all .28s cubic-bezier(.4,0,.2,1)}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--off-white);color:var(--text);min-height:100vh}
+a{text-decoration:none;color:inherit}
+
+/* HEADER */
+header{background:var(--white);position:sticky;top:0;z-index:100;box-shadow:0 2px 0 var(--border),var(--shadow-sm)}
+.hdr{max-width:1440px;margin:0 auto;padding:0 28px;height:64px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.logo-row{display:flex;align-items:center;gap:12px}
+.logo-row img{height:46px}
+.logo-text h1{font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--navy);font-weight:700;line-height:1.2}
+.logo-text p{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+nav{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+nav a{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:var(--r-xl);font-size:13px;font-weight:600;color:var(--navy);transition:var(--t)}
+nav a:hover{background:var(--off-white)}
+nav a.logout{color:#e74c3c}
+nav a.logout:hover{background:#fee2e2}
+
+/* MAIN */
+.main{max-width:1440px;margin:0 auto;padding:28px}
+
+/* FLASH */
+.flash{padding:12px 18px;border-radius:var(--r-sm);margin-bottom:16px;display:flex;align-items:center;gap:10px;font-size:14px}
+.flash.success{background:#d4edda;color:#155724;border-left:4px solid #27ae60}
+.flash.warning{background:#fff3cd;color:#856404;border-left:4px solid #ffc107}
+.flash.error{background:#f8d7da;color:#721c24;border-left:4px solid #e74c3c}
+
+/* PAGE TITLE */
+.page-title{text-align:center;margin-bottom:24px}
+.page-title h2{font-family:'Cormorant Garamond',serif;font-size:2rem;color:var(--navy);font-weight:700}
+.page-title p{font-size:14px;color:var(--muted);margin-top:4px}
+
+/* STAT CARDS */
+.stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:16px;margin-bottom:28px}
+.scard{background:var(--white);padding:20px;border-radius:var(--r-md);box-shadow:var(--shadow-sm);border:1px solid var(--border);display:flex;align-items:center;gap:16px;transition:var(--t)}
+.scard:hover{box-shadow:var(--shadow-md);transform:translateY(-2px)}
+.scard-icon{width:52px;height:52px;border-radius:var(--r-sm);display:flex;align-items:center;justify-content:center;font-size:1.6rem;flex-shrink:0}
+.scard-icon.total{background:linear-gradient(135deg,#667eea,#764ba2);color:var(--white)}
+.scard-icon.pending{background:linear-gradient(135deg,#f093fb,#f5576c);color:var(--white)}
+.scard-icon.approved{background:linear-gradient(135deg,#43e97b,#38f9d7);color:var(--white)}
+.scard-icon.active{background:linear-gradient(135deg,var(--navy),var(--navy-mid));color:var(--gold)}
+.scard-details h3{font-family:'Cormorant Garamond',serif;font-size:1.8rem;color:var(--navy);line-height:1}
+.scard-details p{font-size:12px;color:var(--muted);margin-top:4px}
+
+/* TABS */
+.tabs{display:flex;gap:6px;border-bottom:2px solid var(--border);padding-bottom:0;margin-bottom:24px;overflow-x:auto}
+.tab-btn{padding:11px 22px;border:none;background:transparent;border-bottom:3px solid transparent;margin-bottom:-2px;font-weight:600;color:var(--muted);cursor:pointer;display:flex;align-items:center;gap:7px;font-family:'Inter',sans-serif;font-size:13px;white-space:nowrap;transition:var(--t)}
+.tab-btn:hover{color:var(--navy)}
+.tab-btn.active{color:var(--navy);border-bottom-color:var(--navy);background:transparent}
+.cmd-center{background:#fff;border:1px solid #e3e5f2;border-radius:16px;padding:18px 20px;margin:0 0 22px;box-shadow:0 2px 10px rgba(4,4,58,.07)}
+.cmd-title{font-weight:800;color:#04043a;font-size:14px;display:flex;align-items:center;gap:9px;margin-bottom:14px;letter-spacing:.2px}
+.cmd-title i{color:#e6b800}
+.cmd-title span{font-weight:500;color:#6b6d8a;font-size:11.5px;margin-left:2px}
+.cmd-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px}
+.cmd-card{display:flex;align-items:center;gap:12px;padding:13px 14px;border:1px solid #e3e5f2;border-radius:12px;text-decoration:none;background:#fafbff;transition:all .25s ease}
+.cmd-card:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(4,4,58,.12);border-color:rgba(4,4,58,.25);background:#fff}
+.cmd-ico{width:40px;height:40px;flex-shrink:0;border-radius:10px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#04043a,#0d0d6b);color:#fff;font-size:15px}
+.cmd-card strong{display:block;font-size:13px;color:#04043a;font-weight:700}
+.cmd-card small{display:block;font-size:11px;color:#6b6d8a;margin-top:2px}
+.tab-content{display:none}.tab-content.active{display:block}
+
+/* FILTER SECTION */
+.filter-sec{background:var(--white);padding:20px 24px;border-radius:var(--r-md);box-shadow:var(--shadow-sm);border:1px solid var(--border);margin-bottom:20px}
+.filter-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;align-items:end}
+.fg label{display:block;font-size:12px;font-weight:700;color:var(--navy);margin-bottom:5px;text-transform:uppercase;letter-spacing:.4px}
+.fg input,.fg select{width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:var(--r-sm);font-family:'Inter',sans-serif;font-size:13px;color:var(--text);transition:var(--t)}
+.fg input:focus,.fg select:focus{outline:none;border-color:var(--navy)}
+.filter-btns{display:flex;gap:8px;align-items:center}
+.btn{display:inline-flex;align-items:center;gap:7px;padding:9px 18px;border-radius:var(--r-sm);font-weight:600;font-size:13px;cursor:pointer;border:none;font-family:'Inter',sans-serif;transition:var(--t)}
+.btn-primary{background:var(--navy);color:var(--white)}
+.btn-primary:hover{background:var(--navy-mid)}
+.btn-secondary{background:#6c757d;color:var(--white)}
+.btn-secondary:hover{background:#5a6268}
+.btn-success{background:#27ae60;color:var(--white)}
+.btn-success:hover{background:#219a52}
+.btn-danger{background:#e74c3c;color:var(--white)}
+.btn-danger:hover{background:#c0392b}
+.btn-edit{background:#3498db;color:var(--white)}
+.btn-edit:hover{background:#2980b9}
+.btn-activity{background:linear-gradient(135deg,#d97706,#f59e0b);color:#fff;border:none;}
+.btn-activity:hover{background:linear-gradient(135deg,#b45309,#d97706);}
+
+/* ACTIVITY SLIDE-OVER */
+#activityOv{display:none;position:fixed;inset:0;z-index:2000;background:rgba(4,4,58,.55);backdrop-filter:blur(4px)}
+#activityOv.show{display:flex;align-items:flex-start;justify-content:flex-end}
+.activity-panel{background:#fff;width:min(680px,95vw);height:100vh;overflow-y:auto;box-shadow:-8px 0 40px rgba(0,0,0,.18);display:flex;flex-direction:column;animation:slideIn .28s cubic-bezier(.4,0,.2,1)}
+@keyframes slideIn{from{transform:translateX(100%)}to{transform:translateX(0)}}
+.ap-head{background:linear-gradient(135deg,#090e1a,#1a2a4a);padding:24px 28px;position:sticky;top:0;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.ap-head h2{font-family:'Cormorant Garamond',serif;font-size:1.3rem;color:#fff;margin:0}
+.ap-close{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.15);color:#fff;font-size:18px;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.2s}
+.ap-close:hover{background:#d97706;color:#090e1a}
+.ap-body{padding:24px 28px;flex:1}
+.ap-profile{display:flex;align-items:center;gap:16px;margin-bottom:24px;background:#f8fafc;border:1px solid #e5e7eb;border-radius:12px;padding:18px 20px}
+.ap-avatar{width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#090e1a,#1a2a4a);color:#d97706;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700;flex-shrink:0}
+.ap-meta h3{font-size:16px;font-weight:700;color:#090e1a;margin:0 0 4px}
+.ap-meta p{font-size:12px;color:#6b7280;margin:0 0 2px}
+.ap-section{margin-bottom:22px}
+.ap-section h4{font-size:12px;font-weight:700;color:#090e1a;text-transform:uppercase;letter-spacing:.8px;margin:0 0 10px;display:flex;align-items:center;gap:6px}
+.ap-section h4 i{color:#d97706}
+.ap-table{width:100%;border-collapse:collapse;font-size:12.5px}
+.ap-table th{background:#f8fafc;color:#374151;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;padding:8px 12px;text-align:left;border-bottom:1px solid #e5e7eb}
+.ap-table td{padding:9px 12px;border-bottom:1px solid #f3f4f6;color:#374151}
+.ap-table tr:hover td{background:#fafafa}
+.ap-empty{text-align:center;padding:20px;color:#9ca3af;font-size:13px}
+.ap-badge{display:inline-flex;align-items:center;gap:4px;padding:2px 10px;border-radius:20px;font-size:11px;font-weight:700}
+.ap-badge.sent{background:#d4edda;color:#155724}
+.ap-badge.pending{background:#f8d7da;color:#721c24}
+
+/* TABLE */
+.tbl-wrap{background:var(--white);border-radius:var(--r-md);box-shadow:var(--shadow-sm);border:1px solid var(--border);overflow:hidden}
+.tbl-head{background:linear-gradient(135deg,var(--navy),var(--navy-mid));color:var(--white);padding:18px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.tbl-head h3{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:700;display:flex;align-items:center;gap:8px}
+.tbl-count{background:rgba(255,255,255,.2);padding:3px 14px;border-radius:20px;font-size:12px;font-weight:700}
+table{width:100%;border-collapse:collapse}
+th,td{padding:13px 16px;text-align:left;border-bottom:1px solid var(--border)}
+th{background:#f8f9fb;color:var(--navy);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.4px}
+tr:hover td{background:var(--off-white)}
+tr.pending-row{background:#fffbeb}
+
+/* USER CELL */
+.user-cell{display:flex;align-items:center;gap:10px}
+.avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--navy),var(--navy-mid));display:flex;align-items:center;justify-content:center;color:var(--white);font-size:14px;font-weight:700;flex-shrink:0}
+.avatar.active-av{background:linear-gradient(135deg,#16a34a,#22c55e)}
+.user-name{font-weight:700;font-size:13px;color:var(--navy);line-height:1.3}
+.user-joined{font-size:11px;color:var(--muted);margin-top:1px}
+
+/* BADGES */
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.3px}
+.badge.approved{background:#d4edda;color:#155724}
+.badge.pending{background:#f8d7da;color:#721c24}
+.badge.core{background:#e8eaff;color:var(--navy-mid)}
+.badge.faculty{background:#dbeafe;color:#1e40af}
+.badge.leader{background:#fef3c7;color:#92400e}
+.badge.admin{background:linear-gradient(135deg,var(--navy),var(--navy-mid));color:var(--white)}
+
+/* ACTIVE INDICATOR */
+.active-dot{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600}
+.dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.dot.on{background:#16a34a;box-shadow:0 0 0 3px rgba(22,163,74,.2)}
+.dot.off{background:#d1d5db}
+
+/* DEPT/LOCATION CELL */
+.info-cell{font-size:13px}
+.info-cell .main-val{font-weight:600;color:var(--navy);display:flex;align-items:center;gap:5px;margin-bottom:2px}
+.info-cell .sub-val{font-size:11px;color:var(--muted);display:flex;align-items:center;gap:4px}
+.info-cell i{font-size:11px;color:var(--gold)}
+
+/* SESSION / ACTIVITY CELL */
+.act-cell{font-size:12px}
+.act-cell .act-row{display:flex;align-items:center;gap:6px;margin-bottom:3px;color:var(--text)}
+.act-cell .act-row i{font-size:11px;color:var(--navy);width:14px;text-align:center}
+.act-cell .act-count{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:12px;background:#e8eaff;color:var(--navy-mid);font-weight:700;font-size:11px}
+
+/* TOGGLE */
+.toggle-sw{position:relative;display:inline-block;width:46px;height:22px}
+.toggle-sw input{opacity:0;width:0;height:0}
+.slider{position:absolute;cursor:pointer;top:0;left:0;right:0;bottom:0;background:#ccc;transition:.35s;border-radius:22px}
+.slider:before{position:absolute;content:'';height:14px;width:14px;left:4px;bottom:4px;background:var(--white);transition:.35s;border-radius:50%}
+input:checked+.slider{background:#27ae60}
+input:checked+.slider:before{transform:translateX(24px)}
+
+/* ACTION BUTTONS */
+.act-btns{display:flex;gap:6px;flex-wrap:wrap}
+.act-btns .btn{padding:6px 12px;font-size:12px}
+
+/* EMPTY STATE */
+.empty-tbl{text-align:center;padding:52px 20px;color:var(--muted)}
+.empty-tbl i{font-size:3rem;opacity:.2;display:block;margin-bottom:14px}
+.empty-tbl h3{font-family:'Cormorant Garamond',serif;font-size:1.3rem;color:var(--navy);margin-bottom:6px}
+
+/* EDIT MODAL */
+.modal-ov{display:none;position:fixed;inset:0;z-index:1000;background:rgba(4,4,58,.7);backdrop-filter:blur(4px);align-items:center;justify-content:center}
+.modal-ov.show{display:flex;animation:fi .2s ease}
+@keyframes fi{from{opacity:0}to{opacity:1}}
+.modal-box{background:var(--white);border-radius:var(--r-lg);width:90%;max-width:520px;max-height:90vh;overflow-y:auto;box-shadow:var(--shadow-lg)}
+.modal-head{background:linear-gradient(135deg,var(--navy),var(--navy-mid));padding:20px 24px;border-radius:var(--r-lg) var(--r-lg) 0 0;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0}
+.modal-head h3{font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:var(--white);font-weight:700;display:flex;align-items:center;gap:8px}
+.modal-close{width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.15);color:var(--white);font-size:18px;display:flex;align-items:center;justify-content:center;cursor:pointer;border:none;transition:var(--t)}
+.modal-close:hover{background:var(--gold);color:var(--navy)}
+.modal-body{padding:24px}
+.mfg{margin-bottom:18px}
+.mfg label{display:block;font-size:12px;font-weight:700;color:var(--navy);margin-bottom:6px;text-transform:uppercase;letter-spacing:.4px}
+.mfg input,.mfg select{width:100%;padding:10px 14px;border:1.5px solid var(--border);border-radius:var(--r-sm);font-family:'Inter',sans-serif;font-size:14px;color:var(--text);transition:var(--t)}
+.mfg input:focus,.mfg select:focus{outline:none;border-color:var(--navy)}
+.mfg .hint{font-size:12px;color:var(--muted);margin-top:5px}
+.modal-actions{display:flex;justify-content:flex-end;gap:10px;padding:16px 24px;border-top:1px solid var(--border)}
+
+/* PREASSIGN */
+.pa-section{background:var(--white);padding:22px 24px;border-radius:var(--r-md);box-shadow:var(--shadow-sm);border:1px solid var(--border);margin-bottom:20px}
+.pa-section h3{font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--navy);font-weight:700;margin-bottom:4px}
+.pa-section p{font-size:13px;color:var(--muted);margin-bottom:16px}
+
+/* QUICK ACTIONS */
+.qa-grid{display:flex;flex-wrap:wrap;gap:10px}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .hdr{padding:0 16px}.main{padding:16px}
+  table{display:block;overflow-x:auto;white-space:nowrap}
+  .tabs{gap:2px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="hdr">
+    <div class="logo-row">
+      <img src="{{ url_for('static', filename='images/jain.png') }}" alt="Jain University" onerror="this.src='https://via.placeholder.com/46x46/04043a/FFD700?text=JU'">
+      <div class="logo-text">
+        <h1>Office of Academics</h1>
+        <p>Admin Dashboard</p>
+      </div>
+    </div>
+    <nav>
+      <a href="{{ url_for('admin_dashboard') }}"><i class="fas fa-users-cog"></i> Users</a>
+      <a href="{{ url_for('edit_ugc') }}"><i class="fas fa-file-alt"></i> UGC</a>
+      <a href="{{ url_for('admin_events') }}"><i class="fas fa-calendar"></i> Events</a>
+      <a href="{{ url_for('newsletter') }}"><i class="fas fa-newspaper"></i> Newsletter</a>
+      <a href="{{ url_for('edit_monthly') }}"><i class="fas fa-chart-line"></i> Monthly</a>
+      <a href="/erp/admin"><i class="fas fa-layer-group"></i> ERP Admin</a>
+      <a href="{{ url_for('campus') }}"><i class="fas fa-camera-retro"></i> Campus</a>
+      <a href="{{ url_for('logout') }}" class="logout" onclick="return confirm('Logout?')"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    </nav>
+  </div>
+</header>
+
+<div class="main">
+  {% with messages = get_flashed_messages(with_categories=true) %}{% if messages %}
+    {% for cat,msg in messages %}
+    <div class="flash {{ cat }}"><i class="fas fa-{{ 'check-circle' if cat == 'success' else 'exclamation-triangle' }}"></i>{{ msg }}</div>
+    {% endfor %}
+  {% endif %}{% endwith %}
+
+  <div class="page-title">
+    <h2><i class="fas fa-users-cog"></i> User Management</h2>
+    <p>Approve accounts, manage roles, and monitor user activity across the portal</p>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats-row">
+    <div class="scard">
+      <div class="scard-icon total"><i class="fas fa-users"></i></div>
+      <div class="scard-details"><h3>{{ total_users }}</h3><p>Total Users</p></div>
+    </div>
+    <div class="scard">
+      <div class="scard-icon pending"><i class="fas fa-clock"></i></div>
+      <div class="scard-details"><h3>{{ pending_users }}</h3><p>Pending Approval</p></div>
+    </div>
+    <div class="scard">
+      <div class="scard-icon approved"><i class="fas fa-check-circle"></i></div>
+      <div class="scard-details"><h3>{{ approved_users }}</h3><p>Approved</p></div>
+    </div>
+    <div class="scard">
+      <div class="scard-icon active"><i class="fas fa-circle" style="font-size:1rem"></i></div>
+      <div class="scard-details"><h3>{{ active_now }}</h3><p>Active Now</p></div>
+    </div>
+  </div>
+
+  <!-- ═══ COMMAND CENTER — all admin surfaces, one page ═══ -->
+  <div class="cmd-center">
+    <div class="cmd-title"><i class="fas fa-table-columns"></i> Command Center <span>every admin surface, one click</span></div>
+    <div class="cmd-grid">
+      <a class="cmd-card" href="{{ url_for('admin_events') }}">
+        <div class="cmd-ico"><i class="fas fa-calendar-plus"></i></div>
+        <div><strong>Events Manager</strong><small>Add / edit university events</small></div>
+      </a>
+      <a class="cmd-card" href="{{ url_for('campus') }}">
+        <div class="cmd-ico"><i class="fas fa-camera-retro"></i></div>
+        <div><strong>Campus Gallery</strong><small>Publish campus moments &amp; photos</small></div>
+      </a>
+      <a class="cmd-card" href="/erp/admin">
+        <div class="cmd-ico"><i class="fas fa-clipboard-check"></i></div>
+        <div><strong>ERP · Readiness</strong><small>HOD &amp; faculty readiness submissions</small></div>
+      </a>
+      <a class="cmd-card" href="/erp/admin">
+        <div class="cmd-ico"><i class="fas fa-flag-checkered"></i></div>
+        <div><strong>ERP · Closure</strong><small>Semester closure reports &amp; exports</small></div>
+      </a>
+      <a class="cmd-card" href="/calendar">
+        <div class="cmd-ico"><i class="fas fa-calendar-days"></i></div>
+        <div><strong>Academic Calendar</strong><small>2026–27 master calendar</small></div>
+      </a>
+      <a class="cmd-card" href="{{ url_for('newsletter') }}">
+        <div class="cmd-ico"><i class="fas fa-newspaper"></i></div>
+        <div><strong>Newsletter</strong><small>AI newsletter management</small></div>
+      </a>
+    </div>
+  </div>
+
+  <!-- TABS -->
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('users',this)"><i class="fas fa-users"></i> Registered Users</button>
+    <button class="tab-btn" onclick="switchTab('activity',this)"><i class="fas fa-chart-line"></i> Activity Monitor</button>
+    <button class="tab-btn" onclick="switchTab('preassign',this)"><i class="fas fa-user-plus"></i> Pre-Assign Roles</button>
+    <button class="tab-btn" onclick="switchTab('campuses',this)"><i class="fas fa-map-marker-alt"></i> Manage Campuses</button>
+    <button class="tab-btn" onclick="switchTab('quick',this)"><i class="fas fa-bolt"></i> Quick Actions</button>
+  </div>
+
+  <!-- TAB: USERS -->
+  <div id="tab-users" class="tab-content active">
+    <!-- Filters -->
+    <div class="filter-sec">
+      <form method="GET" action="{{ url_for('admin_dashboard') }}">
+        <div class="filter-grid">
+          <div class="fg">
+            <label><i class="fas fa-search"></i> Search Email</label>
+            <input type="text" name="search" value="{{ request.args.get('search','') }}" placeholder="email@jain…">
+          </div>
+          <div class="fg">
+            <label><i class="fas fa-user-tag"></i> User Type</label>
+            <select name="type_filter">
+              <option value="">All Types</option>
+              <option value="faculty" {% if request.args.get('type_filter')=='faculty' %}selected{% endif %}>Faculty</option>
+              <option value="core" {% if request.args.get('type_filter')=='core' %}selected{% endif %}>Core Team</option>
+            </select>
+          </div>
+          <div class="fg">
+            <label><i class="fas fa-user-shield"></i> Special Role</label>
+            <select name="role_filter">
+              <option value="">All Roles</option>
+              <option value="office_barrier" {% if request.args.get('role_filter')=='office_barrier' %}selected{% endif %}>Core Member</option>
+              <option value="leader" {% if request.args.get('role_filter')=='leader' %}selected{% endif %}>Leader</option>
+              <option value="none" {% if request.args.get('role_filter')=='none' %}selected{% endif %}>None</option>
+            </select>
+          </div>
+          <div class="fg">
+            <label><i class="fas fa-building"></i> Department</label>
+            <select name="dept_filter">
+              <option value="">All Departments</option>
+              {% for dept in all_departments %}
+              <option value="{{ dept }}" {% if request.args.get('dept_filter')==dept %}selected{% endif %}>{{ dept|replace('Department of ','')|truncate(32,True,'…') }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="fg filter-btns">
+            <button type="submit" class="btn btn-primary"><i class="fas fa-filter"></i> Filter</button>
+            <a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary"><i class="fas fa-redo"></i> Clear</a>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <!-- Table -->
+    <div class="tbl-wrap">
+      <div class="tbl-head">
+        <h3><i class="fas fa-table"></i> Users</h3>
+        <span class="tbl-count">{{ users|length }} shown</span>
+      </div>
+      {% if users %}
+      <table>
+        <thead>
+          <tr>
+            <th>User</th>
+            <th>Email</th>
+            <th>Department &amp; Location</th>
+            <th>Status</th>
+            <th>Type / Role</th>
+            <th>Session Activity</th>
+            <th>Approve</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for user in users %}
+          <tr class="{% if not user.approved %}pending-row{% endif %}">
+            <!-- USER -->
+            <td>
+              <div class="user-cell">
+                <div class="avatar {% if user.is_active_now %}active-av{% endif %}">{{ user.email[0]|upper }}</div>
+                <div>
+                  <div class="user-name">{{ user.email.split('@')[0]|title }}</div>
+                  <div class="user-joined">Joined: {{ user.created_at.strftime('%d/%m/%Y') if user.created_at else 'N/A' }}</div>
+                  {% if user.is_active_now %}
+                  <div class="active-dot" style="margin-top:3px"><span class="dot on"></span><span style="font-size:11px;color:#16a34a;font-weight:700">Online now</span></div>
+                  {% endif %}
+                </div>
+              </div>
+            </td>
+            <!-- EMAIL -->
+            <td style="font-size:13px">{{ user.email }}</td>
+            <!-- DEPT & LOCATION -->
+            <td>
+              <div class="info-cell">
+                <div class="main-val"><i class="fas fa-building"></i> {{ user.dept_display }}</div>
+                <div class="sub-val"><i class="fas fa-map-marker-alt"></i> {{ user.location_display }}</div>
+              </div>
+            </td>
+            <!-- STATUS -->
+            <td>
+              <span class="badge {% if user.approved %}approved{% else %}pending{% endif %}">
+                <i class="fas fa-{% if user.approved %}check-circle{% else %}clock{% endif %}"></i>
+                {% if user.approved %}Approved{% else %}Pending{% endif %}
+              </span>
+            </td>
+            <!-- TYPE / ROLE -->
+            <td>
+              {% if user.role == 'admin' %}
+              <span class="badge admin"><i class="fas fa-crown"></i> Admin</span>
+              {% elif user.special_role == 'leader' %}
+              <span class="badge leader"><i class="fas fa-crown"></i> Leader</span>
+              {% elif user.special_role == 'office_barrier' or user.user_type == 'core' %}
+              <span class="badge core"><i class="fas fa-users"></i> Core</span>
+              {% else %}
+              <span class="badge faculty"><i class="fas fa-chalkboard-teacher"></i> Faculty</span>
+              {% endif %}
+            </td>
+            <!-- SESSION ACTIVITY -->
+            <td>
+              <div class="act-cell">
+                <div class="act-row"><i class="fas fa-sign-in-alt"></i> Last login: {{ user.last_login_display }}</div>
+                <div class="act-row"><i class="fas fa-eye"></i> Last seen: {{ user.last_seen_display }}</div>
+                <div class="act-row">
+                  <i class="fas fa-edit"></i>
+                  <span class="act-count"><i class="fas fa-pencil-alt"></i> {{ user.changes_made }} changes</span>
+                </div>
+                <div class="act-row"><i class="fas fa-redo"></i> {{ user.total_logins }} login{{ 's' if user.total_logins != 1 else '' }}</div>
+              </div>
+            </td>
+            <!-- APPROVE TOGGLE -->
+            <td>
+              <form method="POST" action="{{ url_for('update_user', user_id=user._id) }}" id="af{{ loop.index }}" class="aform">
+                <input type="hidden" name="email" value="{{ user.email }}">
+                <input type="hidden" name="role" value="{{ user.role }}">
+                <input type="hidden" name="user_type" value="{{ user.user_type }}">
+                <input type="hidden" name="special_role" value="{{ user.special_role or '' }}">
+                <label class="toggle-sw">
+                  <input type="checkbox" name="approved" value="true" {% if user.approved %}checked{% endif %} class="atoggle" data-em="{{ user.email }}">
+                  <span class="slider"></span>
+                </label>
+              </form>
+            </td>
+            <!-- ACTIONS -->
+            <td>
+              <div class="act-btns">
+                <button class="btn btn-activity" onclick="loadUserActivity('{{ user._id }}','{{ user.email }}')"
+                  title="View full activity">
+                  <i class="fas fa-chart-bar"></i> Activity
+                </button>
+                <button class="btn btn-edit" onclick="openEdit('{{ user._id }}','{{ user.email }}','{{ user.user_type }}','{{ user.special_role or '' }}','{{ 'true' if user.approved else 'false' }}','{{ user.role }}','{{ user.dept_display }}','{{ user.location_display }}')">
+                  <i class="fas fa-edit"></i> Edit
+                </button>
+                {% if user.email != session.email %}
+                <form method="POST" action="{{ url_for('delete_user', user_id=user._id) }}" style="display:inline" onsubmit="return confirm('Delete {{ user.email }}?')">
+                  <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i></button>
+                </form>
+                {% endif %}
+              </div>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+      <div class="empty-tbl">
+        <i class="fas fa-users-slash"></i><h3>No users found</h3>
+        <p style="font-size:13px">Try adjusting your filters.</p>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- TAB: ACTIVITY MONITOR -->
+  <div id="tab-activity" class="tab-content">
+    <div class="tbl-wrap">
+      <div class="tbl-head">
+        <h3><i class="fas fa-chart-line"></i> User Activity Monitor</h3>
+        <span class="tbl-count">All users tracked</span>
+      </div>
+      {% if users %}
+      <table>
+        <thead>
+          <tr>
+            <th>User</th>
+            <th>Department</th>
+            <th>Location / Campus</th>
+            <th>Online Status</th>
+            <th>Last Login</th>
+            <th>Last Seen</th>
+            <th>Changes Made</th>
+            <th>Total Logins</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for user in users %}
+          <tr>
+            <td>
+              <div class="user-cell">
+                <div class="avatar {% if user.is_active_now %}active-av{% endif %}">{{ user.email[0]|upper }}</div>
+                <div>
+                  <div class="user-name">{{ user.email.split('@')[0]|title }}</div>
+                  <div style="font-size:11px;color:var(--muted)">{{ user.email }}</div>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="info-cell">
+                <div class="main-val"><i class="fas fa-building"></i> {{ user.dept_display }}</div>
+              </div>
+            </td>
+            <td>
+              <div class="info-cell">
+                <div class="main-val"><i class="fas fa-map-marker-alt"></i> {{ user.location_display }}</div>
+              </div>
+            </td>
+            <td>
+              {% if user.is_active_now %}
+              <div class="active-dot"><span class="dot on"></span><span style="color:#16a34a;font-weight:700;font-size:12px">Active now</span></div>
+              {% else %}
+              <div class="active-dot"><span class="dot off"></span><span style="color:var(--muted);font-size:12px">Offline</span></div>
+              {% endif %}
+            </td>
+            <td style="font-size:13px">{{ user.last_login_display }}</td>
+            <td style="font-size:13px">{{ user.last_seen_display }}</td>
+            <td>
+              <span class="act-count" style="{% if user.changes_made > 0 %}background:#d4edda;color:#155724{% endif %}">
+                <i class="fas fa-pencil-alt"></i> {{ user.changes_made }}
+              </span>
+            </td>
+            <td style="font-size:13px;font-weight:600;color:var(--navy)">{{ user.total_logins }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+      <div class="empty-tbl"><i class="fas fa-chart-line"></i><h3>No activity data</h3></div>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- TAB: PRE-ASSIGN -->
+  <div id="tab-preassign" class="tab-content">
+    <div class="pa-section">
+      <h3><i class="fas fa-crown" style="color:var(--gold)"></i> Pre-Assign Leader Email</h3>
+      <p>This email will automatically become a Leader when they register.</p>
+      <div class="filter-grid">
+        <div class="fg"><label>Leader Email</label><input type="email" id="leaderEmail" placeholder="leader@jainuniversity.ac.in"></div>
+        <div class="fg"><label>School (optional)</label><input type="text" id="leaderSchool" placeholder="e.g. School of Management"></div>
+        <div class="fg filter-btns"><button class="btn btn-success" onclick="preLeader()"><i class="fas fa-user-plus"></i> Add Leader</button></div>
+      </div>
+    </div>
+    <div class="pa-section">
+      <h3><i class="fas fa-users" style="color:var(--navy)"></i> Pre-Assign Core Member Email</h3>
+      <p>This email will automatically become a Core Team member when they register.</p>
+      <div class="filter-grid">
+        <div class="fg"><label>Core Member Email</label><input type="email" id="coreEmail" placeholder="core@jainuniversity.ac.in"></div>
+        <div class="fg"><label>Department (optional)</label><input type="text" id="coreDept" placeholder="e.g. Computer Science"></div>
+        <div class="fg filter-btns"><button class="btn btn-success" onclick="preCore()"><i class="fas fa-user-plus"></i> Add Core Member</button></div>
+      </div>
+    </div>
+
+    <!-- Leaders list -->
+    <div class="tbl-wrap" style="margin-bottom:20px">
+      <div class="tbl-head"><h3><i class="fas fa-crown"></i> Pre-Assigned Leaders</h3><span class="tbl-count">{{ pre_assigned_leaders|length }}</span></div>
+      {% if pre_assigned_leaders %}
+      <table>
+        <thead><tr><th>Email</th><th>School</th><th>Assigned By</th><th>Date</th><th>Action</th></tr></thead>
+        <tbody>
+          {% for l in pre_assigned_leaders %}
+          <tr>
+            <td>{{ l.email }}</td><td>{{ l.school or '—' }}</td><td>{{ l.assigned_by }}</td>
+            <td>{{ l.assigned_at.strftime('%d/%m/%Y') if l.assigned_at else '—' }}</td>
+            <td><button class="btn btn-danger" style="padding:5px 12px;font-size:12px" onclick="removePre('leader','{{ l.email }}')"><i class="fas fa-trash"></i> Remove</button></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% else %}<div class="empty-tbl" style="padding:28px"><i class="fas fa-crown" style="font-size:2rem"></i><h3 style="font-size:1rem;margin-top:8px">No pre-assigned leaders</h3></div>{% endif %}
+    </div>
+
+    <!-- Core list -->
+    <div class="tbl-wrap">
+      <div class="tbl-head"><h3><i class="fas fa-users"></i> Pre-Assigned Core Members</h3><span class="tbl-count">{{ pre_assigned_core|length }}</span></div>
+      {% if pre_assigned_core %}
+      <table>
+        <thead><tr><th>Email</th><th>Department</th><th>Assigned By</th><th>Date</th><th>Action</th></tr></thead>
+        <tbody>
+          {% for c in pre_assigned_core %}
+          <tr>
+            <td>{{ c.email }}</td><td>{{ c.department or '—' }}</td><td>{{ c.assigned_by }}</td>
+            <td>{{ c.assigned_at.strftime('%d/%m/%Y') if c.assigned_at else '—' }}</td>
+            <td><button class="btn btn-danger" style="padding:5px 12px;font-size:12px" onclick="removePre('core','{{ c.email }}')"><i class="fas fa-trash"></i> Remove</button></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% else %}<div class="empty-tbl" style="padding:28px"><i class="fas fa-users" style="font-size:2rem"></i><h3 style="font-size:1rem;margin-top:8px">No pre-assigned core members</h3></div>{% endif %}
+    </div>
+  </div>
+
+  <!-- TAB: QUICK ACTIONS -->
+  <div id="tab-quick" class="tab-content">
+    <div class="filter-sec">
+      <h3 style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:var(--navy);margin-bottom:16px">Debug & Setup Tools</h3>
+      <div class="qa-grid">
+        <a href="/debug/users" class="btn btn-secondary" target="_blank"><i class="fas fa-bug"></i> Debug Users</a>
+        <a href="/debug/db" class="btn btn-secondary" target="_blank"><i class="fas fa-database"></i> Check DB</a>
+        <a href="/debug/create_test_user" class="btn btn-secondary" target="_blank"><i class="fas fa-user-plus"></i> Create Test User</a>
+        <a href="/setup/admin" class="btn btn-primary" target="_blank"><i class="fas fa-user-shield"></i> Setup Admin</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: MANAGE CAMPUSES -->
+  <div id="tab-campuses" class="tab-content">
+    <div class="filter-sec" style="margin-bottom: 24px;">
+      <h3 style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;color:var(--navy);margin-bottom:12px"><i class="fas fa-plus-circle"></i> Add New Campus / Location</h3>
+      <div style="display:flex; gap:12px; align-items:center;">
+        <input type="text" id="newCampusName" placeholder="e.g. Yelahanka Campus" style="padding:10px 14px; border:1px solid #d1d5db; border-radius:8px; width:300px; outline:none; font-family:'Inter', sans-serif;">
+        <button class="btn btn-primary" onclick="addCampus()"><i class="fas fa-plus"></i> Add Campus</button>
+      </div>
+    </div>
+
+    <div class="tbl-wrap">
+      <div class="tbl-head">
+        <h3><i class="fas fa-map-marker-alt"></i> Configured Campuses</h3>
+        <span class="tbl-count" id="campusCount">{{ campuses|length }} locations</span>
+      </div>
+      <table id="campusesTable">
+        <thead>
+          <tr>
+            <th>Campus Name</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% if campuses %}
+            {% for campus in campuses %}
+            <tr id="campus-row-{{ campus._id }}">
+              <td>
+                <span class="campus-name-text" id="campus-text-{{ campus._id }}">{{ campus.name }}</span>
+                <input type="text" class="campus-edit-input" id="campus-input-{{ campus._id }}" value="{{ campus.name }}" style="display:none; padding:6px 10px; border:1px solid var(--navy); border-radius:6px;">
+              </td>
+              <td>
+                <div style="display:flex; gap:8px;">
+                  <button class="btn btn-edit" id="btn-edit-{{ campus._id }}" onclick="startEditCampus('{{ campus._id }}')" style="padding:4px 10px; font-size:12px;"><i class="fas fa-edit"></i> Edit</button>
+                  <button class="btn btn-primary" id="btn-save-{{ campus._id }}" onclick="saveCampus('{{ campus._id }}')" style="display:none; padding:4px 10px; font-size:12px;"><i class="fas fa-save"></i> Save</button>
+                  <button class="btn btn-secondary" id="btn-cancel-{{ campus._id }}" onclick="cancelEditCampus('{{ campus._id }}')" style="display:none; padding:4px 10px; font-size:12px;"><i class="fas fa-times"></i> Cancel</button>
+                  <button class="btn btn-danger" onclick="deleteCampus('{{ campus._id }}', '{{ campus.name|replace('\'','\\\'') }}')" style="padding:4px 10px; font-size:12px; background-color:#ef4444; border-color:#ef4444;"><i class="fas fa-trash"></i> Delete</button>
+                </div>
+              </td>
+            </tr>
+            {% endfor %}
+          {% else %}
+            <tr>
+              <td colspan="2">
+                <div class="empty-tbl">
+                  <i class="fas fa-map-marked-alt"></i><h3>No campuses defined</h3>
+                </div>
+              </td>
+            </tr>
+          {% endif %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div><!-- end main -->
+
+<!-- USER ACTIVITY SLIDE-OVER -->
+<div id="activityOv">
+  <div class="activity-panel" id="activityPanel">
+    <div class="ap-head">
+      <h2><i class="fas fa-chart-bar" style="color:#d97706;margin-right:8px"></i> User Activity</h2>
+      <button class="ap-close" onclick="closeActivity()">×</button>
+    </div>
+    <div class="ap-body" id="apBody">
+      <div style="text-align:center;padding:60px 20px;color:#9ca3af">
+        <i class="fas fa-spinner fa-spin" style="font-size:2rem;display:block;margin-bottom:12px"></i>
+        Loading activity...
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- EDIT MODAL -->
+<div class="modal-ov" id="editOv">
+  <div class="modal-box">
+    <div class="modal-head">
+      <h3><i class="fas fa-edit" style="color:var(--gold)"></i> Edit User</h3>
+      <button class="modal-close" onclick="closeEdit()">×</button>
+    </div>
+    <div class="modal-body">
+      <form id="editForm" method="POST">
+        <input type="hidden" name="role" id="eRole" value="user">
+        <div class="mfg">
+          <label>Email Address</label>
+          <input type="email" id="eEmail" name="email" required>
+        </div>
+        <div class="mfg">
+          <label>Department</label>
+          <input type="text" id="eDept" name="department" placeholder="e.g. Department of Computer Science and Engineering">
+          <div class="hint">This updates the department displayed in the admin panel.</div>
+        </div>
+        <div class="mfg">
+          <label>Campus / Location</label>
+          <select id="eLoc" name="location" required style="width:100%; padding:10px; border:1px solid #ccc; border-radius:6px;">
+            <option value="" disabled selected>— Select Campus / Location —</option>
+            {% for campus in campuses %}
+            <option value="{{ campus.name }}">{{ campus.name }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="mfg">
+          <label>User Type</label>
+          <select id="eType" name="user_type" onchange="typeChanged()">
+            <option value="faculty">Faculty</option>
+            <option value="core">Core Team</option>
+          </select>
+        </div>
+        <div class="mfg">
+          <label>Special Role</label>
+          <select id="eRole2" name="special_role">
+            <option value="">None</option>
+            <option value="office_barrier">Core Member</option>
+            <option value="leader">Leader</option>
+          </select>
+        </div>
+        <div class="mfg">
+          <label style="display:flex;align-items:center;gap:10px;text-transform:none;font-weight:600;font-size:13px">
+            <input type="checkbox" id="eApproved" name="approved" value="true" style="width:16px;height:16px;accent-color:var(--navy)">
+            Account Approved
+          </label>
+          <div class="hint">When checked, user can access all portal features.</div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-actions">
+      <button type="button" class="btn btn-secondary" onclick="closeEdit()"><i class="fas fa-times"></i> Cancel</button>
+      <button type="button" class="btn btn-primary" onclick="submitEdit()"><i class="fas fa-save"></i> Save Changes</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* TABS */
+function switchTab(name,btn){
+  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  btn.classList.add('active');
+}
+
+/* EDIT MODAL */
+let _uid='';
+function openEdit(id,email,type,srole,approved,role,dept,loc){
+  _uid=id;
+  document.getElementById('eEmail').value=email;
+  document.getElementById('eType').value=type||'faculty';
+  document.getElementById('eRole2').value=srole||'';
+  document.getElementById('eApproved').checked=(approved==='true');
+  document.getElementById('eRole').value=role||'user';
+  document.getElementById('eDept').value=(dept==='—')?'':dept;
+  const elocSelect = document.getElementById('eLoc');
+  const normalizedLoc = (loc==='—')?'':loc;
+  elocSelect.value = normalizedLoc;
+  if (normalizedLoc && elocSelect.value !== normalizedLoc) {
+    const opt = document.createElement('option');
+    opt.value = normalizedLoc;
+    opt.textContent = normalizedLoc;
+    elocSelect.appendChild(opt);
+    elocSelect.value = normalizedLoc;
+  }
+  document.getElementById('editForm').action=`/update_user/${id}`;
+  document.getElementById('editOv').classList.add('show');
+  document.body.style.overflow='hidden';
+}
+function closeEdit(){document.getElementById('editOv').classList.remove('show');document.body.style.overflow='';}
+function submitEdit(){
+  if(confirm('Save changes for '+document.getElementById('eEmail').value+'?')){
+    document.getElementById('editForm').submit();
+  }
+}
+function typeChanged(){
+  const t=document.getElementById('eType').value;
+  const r=document.getElementById('eRole2');
+  if(t==='core'&&!r.value)r.value='office_barrier';
+  if(t==='faculty'&&r.value==='office_barrier')r.value='';
+}
+document.getElementById('eRole2')?.addEventListener('change',function(){
+  const t=document.getElementById('eType');
+  if(this.value==='office_barrier')t.value='core';
+  if(this.value==='leader')t.value='faculty';
+});
+
+/* CAMPUS MANAGEMENT HANDLERS */
+function addCampus() {
+  const nameInput = document.getElementById('newCampusName');
+  const name = nameInput.value.trim();
+  if (!name) { alert('Please enter a campus name.'); return; }
+  fetch('/admin/campuses', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name: name })
+  })
+  .then(r => r.json())
+  .then(d => {
+    if (d.success) {
+      alert('Campus added successfully!');
+      location.reload();
+    } else {
+      alert(d.error || 'Error adding campus.');
+    }
+  })
+  .catch(err => {
+    console.error(err);
+    alert('Server error.');
+  });
+}
+
+function startEditCampus(id) {
+  document.getElementById('campus-text-' + id).style.display = 'none';
+  document.getElementById('campus-input-' + id).style.display = 'inline-block';
+  document.getElementById('btn-edit-' + id).style.display = 'none';
+  document.getElementById('btn-save-' + id).style.display = 'inline-block';
+  document.getElementById('btn-cancel-' + id).style.display = 'inline-block';
+}
+
+function cancelEditCampus(id) {
+  document.getElementById('campus-text-' + id).style.display = 'inline';
+  document.getElementById('campus-input-' + id).style.display = 'none';
+  document.getElementById('btn-edit-' + id).style.display = 'inline-block';
+  document.getElementById('btn-save-' + id).style.display = 'none';
+  document.getElementById('btn-cancel-' + id).style.display = 'none';
+  const textVal = document.getElementById('campus-text-' + id).textContent;
+  document.getElementById('campus-input-' + id).value = textVal;
+}
+
+function saveCampus(id) {
+  const name = document.getElementById('campus-input-' + id).value.trim();
+  if (!name) { alert('Please enter a campus name.'); return; }
+  fetch('/admin/campuses/edit/' + id, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name: name })
+  })
+  .then(r => r.json())
+  .then(d => {
+    if (d.success) {
+      alert('Campus updated successfully!');
+      location.reload();
+    } else {
+      alert(d.error || 'Error updating campus.');
+    }
+  })
+  .catch(err => {
+    console.error(err);
+    alert('Server error.');
+  });
+}
+
+function deleteCampus(id, name) {
+  if (confirm('Are you sure you want to delete campus "' + name + '"?')) {
+    fetch('/admin/campuses/delete/' + id, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' }
+    })
+    .then(r => r.json())
+    .then(d => {
+      if (d.success) {
+        alert('Campus deleted successfully!');
+        location.reload();
+      } else {
+        alert(d.error || 'Error deleting campus.');
+      }
+    })
+    .catch(err => {
+      console.error(err);
+      alert('Server error.');
+    });
+  }
+}
+
+/* APPROVAL TOGGLE */
+document.addEventListener('DOMContentLoaded',()=>{
+  document.querySelectorAll('.atoggle').forEach(t=>{
+    t.addEventListener('change',function(){
+      const em=this.getAttribute('data-em');
+      if(confirm(this.checked?`Approve ${em}?`:`Revoke approval for ${em}?`)){
+        this.closest('.aform').submit();
+      }else{this.checked=!this.checked;}
+    });
+  });
+});
+
+/* PRE-ASSIGN */
+function preLeader(){
+  const email=document.getElementById('leaderEmail').value.trim();
+  const school=document.getElementById('leaderSchool').value.trim();
+  if(!email){alert('Enter an email address');return;}
+  fetch('/pre_assign_leader',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,school})})
+  .then(r=>r.json()).then(d=>{if(d.success){alert('Leader pre-assigned!');location.reload();}else{alert(d.error||'Error');}})
+  .catch(()=>alert('Server error'));
+}
+function preCore(){
+  const email=document.getElementById('coreEmail').value.trim();
+  const department=document.getElementById('coreDept').value.trim();
+  if(!email){alert('Enter an email address');return;}
+  fetch('/pre_assign_core',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,department})})
+  .then(r=>r.json()).then(d=>{if(d.success){alert('Core member pre-assigned!');location.reload();}else{alert(d.error||'Error');}})
+  .catch(()=>alert('Server error'));
+}
+function removePre(type,email){
+  if(!confirm(`Remove ${email}?`))return;
+  fetch(`/remove_pre_assigned/${type}/${email}`,{method:'DELETE'})
+  .then(r=>r.json()).then(d=>{if(d.success)location.reload();else alert(d.error||'Error');})
+  .catch(()=>alert('Server error'));
+}
+
+/* CLOSE MODAL ON BACKDROP / ESC */
+document.addEventListener('click',e=>{if(e.target===document.getElementById('editOv'))closeEdit();if(e.target===document.getElementById('activityOv'))closeActivity();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeEdit();closeActivity();}});
+
+/* USER ACTIVITY SLIDE-OVER */
+function loadUserActivity(userId, email) {
+  document.getElementById('activityOv').classList.add('show');
+  document.body.style.overflow = 'hidden';
+  document.getElementById('apBody').innerHTML = `<div style="text-align:center;padding:60px 20px;color:#9ca3af"><i class="fas fa-spinner fa-spin" style="font-size:2rem;display:block;margin-bottom:12px"></i>Loading activity for ${email}...</div>`;
+  fetch(`/admin/user-activity/${userId}`)
+    .then(r => r.json())
+    .then(data => {
+      if (!data.success) { document.getElementById('apBody').innerHTML = `<div class="ap-empty"><i class="fas fa-exclamation-triangle" style="color:#e74c3c;font-size:2rem;display:block;margin-bottom:10px"></i>${data.error || 'Failed to load activity'}</div>`; return; }
+      const u = data.user;
+      const initials = (u.name || email).split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase() || email[0].toUpperCase();
+      const roleBadge = u.special_role === 'leader' ? 'Leader' : u.special_role === 'office_barrier' ? 'Core Team' : u.user_type === 'core' ? 'Core Team' : 'Faculty';
+      let html = `
+        <div class="ap-profile">
+          <div class="ap-avatar">${initials}</div>
+          <div class="ap-meta">
+            <h3>${u.name || email.split('@')[0]}</h3>
+            <p><i class="fas fa-envelope" style="color:#d97706"></i> ${u.email}</p>
+            <p><i class="fas fa-building" style="color:#d97706"></i> ${u.department || '—'} &nbsp;|&nbsp; <i class="fas fa-map-marker-alt" style="color:#d97706"></i> ${u.location || '—'}</p>
+            <p style="margin-top:4px"><span style="background:#e8eaff;color:#374151;padding:2px 10px;border-radius:20px;font-size:11px;font-weight:700">${roleBadge}</span> &nbsp; <span style="background:${u.approved?'#d4edda':'#f8d7da'};color:${u.approved?'#155724':'#721c24'};padding:2px 10px;border-radius:20px;font-size:11px;font-weight:700">${u.approved?'Approved':'Pending'}</span></p>
+            <p style="font-size:11px;color:#9ca3af;margin-top:4px">Joined: ${u.created_at} &nbsp;·&nbsp; Last seen: ${u.last_seen}</p>
+          </div>
+        </div>`;
+
+      // Activity Logs
+      html += `<div class="ap-section"><h4><i class="fas fa-history"></i> Recent Activity (last 30)</h4>`;
+      if (data.logs.length) {
+        html += `<table class="ap-table"><thead><tr><th>Action</th><th>Details</th><th>Time</th></tr></thead><tbody>`;
+        data.logs.forEach(l => { html += `<tr><td><strong>${l.action}</strong></td><td style="color:#6b7280">${l.details}</td><td style="white-space:nowrap">${l.timestamp}</td></tr>`; });
+        html += `</tbody></table>`;
+      } else { html += `<div class="ap-empty"><i class="fas fa-clock"></i> No activity logs yet</div>`; }
+      html += `</div>`;
+
+      // Documents
+      html += `<div class="ap-section"><h4><i class="fas fa-file-alt"></i> Documents Submitted (${data.docs.length})</h4>`;
+      if (data.docs.length) {
+        html += `<table class="ap-table"><thead><tr><th>Document</th><th>Status</th><th>Date</th></tr></thead><tbody>`;
+        data.docs.forEach(d => { html += `<tr><td>${d.name}</td><td><span class="ap-badge ${d.status}">${d.status}</span></td><td>${d.timestamp}</td></tr>`; });
+        html += `</tbody></table>`;
+      } else { html += `<div class="ap-empty"><i class="fas fa-file"></i> No documents submitted</div>`; }
+      html += `</div>`;
+
+      // File Uploads
+      html += `<div class="ap-section"><h4><i class="fas fa-upload"></i> File Uploads (${data.files.length})</h4>`;
+      if (data.files.length) {
+        html += `<table class="ap-table"><thead><tr><th>File</th><th>Date</th></tr></thead><tbody>`;
+        data.files.forEach(f => { html += `<tr><td>${f.name}</td><td>${f.timestamp}</td></tr>`; });
+        html += `</tbody></table>`;
+      } else { html += `<div class="ap-empty"><i class="fas fa-cloud-upload-alt"></i> No file uploads</div>`; }
+      html += `</div>`;
+
+      // Reminders
+      html += `<div class="ap-section"><h4><i class="fas fa-bell"></i> Event Reminders Set (${data.reminders.length})</h4>`;
+      if (data.reminders.length) {
+        html += `<table class="ap-table"><thead><tr><th>Event</th><th>Reminder Time</th><th>Status</th></tr></thead><tbody>`;
+        data.reminders.forEach(r => { html += `<tr><td><strong>${r.event}</strong><br><span style="font-size:11px;color:#9ca3af">${r.event_date}</span></td><td style="white-space:nowrap">${r.reminder_time}</td><td><span class="ap-badge ${r.sent?'sent':'pending'}">${r.sent?'✓ Sent':'Pending'}</span></td></tr>`; });
+        html += `</tbody></table>`;
+      } else { html += `<div class="ap-empty"><i class="fas fa-bell-slash"></i> No reminders set</div>`; }
+      html += `</div>`;
+
+      document.getElementById('apBody').innerHTML = html;
+    })
+    .catch(() => {
+      document.getElementById('apBody').innerHTML = `<div class="ap-empty"><i class="fas fa-wifi" style="font-size:2rem;display:block;margin-bottom:10px"></i>Network error. Please try again.</div>`;
+    });
+}
+function closeActivity() {
+  document.getElementById('activityOv').classList.remove('show');
+  document.body.style.overflow = '';
+}
+</script>
+</body>
+</html>

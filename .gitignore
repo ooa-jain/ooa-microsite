@@ -1,0 +1,40 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg-info/
+*.egg
+*.whl
+dist/
+build/
+.Python
+env/
+venv/
+.venv/
+
+# Environment
+.env
+*.env
+
+# Uploads / user content
+static/uploads/
+uploads/
+
+# Test / debug scripts
+test_profile.py
+list_db_users.py
+kill_server.py
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log

@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/jain.png') }}" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Jain (Deemed-to-be University) - Office of Academics{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&display=swap');
+        :root {
+            --jain-navy:#0A1929;--jain-navy-light:#1E3A5F;--jain-gold:#C5A572;
+            --jain-gold-light:#E8D5B5;--jain-text:#1A2B3C;
+            --header-hover:#1E3A5F;--header-active:#C5A572;--ai-bar-h:54px;
+        }
+        *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+             background:linear-gradient(135deg,#f5f7fa 0%,#eef2f6 100%);
+             color:var(--jain-text);-webkit-font-smoothing:antialiased;
+             padding-bottom:0 !important}
+        h1,h2,h3,h4,h5,h6{font-family:'Playfair Display',serif}
+
+        /* === TOP NAV === */
+        .top-nav{background:rgba(255, 255, 255, 0.85);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+                 border-bottom:1px solid rgba(15, 23, 42, 0.06);box-shadow:0 4px 20px rgba(0, 0, 0, 0.02);
+                 position:sticky;top:0;z-index:9000;animation:slideDown .5s ease}
+        @keyframes slideDown{from{opacity:0;transform:translateY(-16px)}to{opacity:1;transform:translateY(0)}}
+        .nav-container{max-width:1380px;margin:0 auto;padding:0 32px}
+        .logo-area{display:flex;align-items:center;gap:14px;text-decoration:none;flex-shrink:0}
+        .logo-area img{height:46px;width:auto;object-fit:contain}
+        .nav-menu{display:flex;align-items:center;gap:6px;margin:0 14px}
+        .nav-item{display:flex;align-items:center;gap:6px;padding:8px 18px;border-radius:100px;
+                  color:#475569;text-decoration:none;font-size:14px;
+                  font-weight:600;transition:all .2s;white-space:nowrap}
+        .nav-item:hover, .nav-item.active{background:#090e1a;color:#ffffff;transform:none}
+        .nav-item i{font-size:13px;color:inherit}
+        .nav-item:hover i, .nav-item.active i{color:inherit}
+
+        /* shared dropdown */
+        .nav-dropdown{position:absolute;top:calc(100% + 10px);right:0;background:rgba(255, 255, 255, 0.95);
+                       backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+                       border-radius:14px;box-shadow:0 20px 40px rgba(0,0,0,0.08);
+                       border:1px solid rgba(15, 23, 42, 0.08);opacity:0;visibility:hidden;
+                       transform:translateY(-8px);transition:all .22s ease;z-index:10000}
+        .nav-dropdown.open{opacity:1;visibility:visible;transform:translateY(0)}
+
+        /* user menu */
+        .user-menu-btn{display:flex;align-items:center;gap:8px;padding:9px 18px;border-radius:100px;
+                        background:#090e1a;color:#ffffff;font-size:14px;font-weight:600;cursor:pointer;
+                        transition:all .2s;border:none;flex-shrink:0}
+        .user-menu-btn:hover{background:#101a30}
+        .user-name-txt{color:#ffffff;font-weight:600;font-size:13px}
+        .user-role-txt{color:#ffb700;font-size:10px;display:flex;align-items:center;gap:3px;font-weight:500}
+        .user-drop-hdr{background:linear-gradient(135deg, #090e1a, #101a30);padding:16px 20px;border-radius:14px 14px 0 0}
+        .user-drop-hdr .dn{color:#ffffff;font-size:15px;font-weight:700;margin-bottom:2px}
+        .user-drop-hdr .de{color:rgba(255,255,255,.7);font-size:11.5px}
+        .user-drop-hdr .dm{color:#ffb700;font-size:11px;margin-top:3px}
+        .drop-menu{padding:7px}
+        .drop-item{display:flex;align-items:center;gap:11px;padding:9px 11px;border-radius:8px;color:#0f172a;
+                    text-decoration:none;font-size:13px;transition:all .18s;cursor:pointer;background:none;border:none;
+                    width:100%;text-align:left;font-family:'Inter',sans-serif;font-weight:500}
+        .drop-item:hover{background:#f1f5f9;transform:translateX(3px)}
+        .drop-item i{color:#d97706;width:17px;font-size:13px}
+        .drop-divider{height:1px;background:#e5e7eb;margin:5px 0}
+        
+        /* Hide Jain AI */
+        #jainAiBar, #jainAiPanel { display: none !important; }
+        .ai-bar-h { display: none !important; }
+        .search-bar:focus{outline:none;width:270px;background:rgba(255,255,255,.16);border-color:var(--jain-gold)}
+        .search-icon-abs{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:rgba(255,255,255,.4);font-size:12px;pointer-events:none}
+        .mobile-menu-btn{display:none;background:rgba(255,255,255,.1);border:1px solid rgba(197,165,114,.28);border-radius:8px;padding:8px;color:#fff;cursor:pointer}
+
+        /* === MAIN === */
+        .main-content{min-height:100vh;padding:24px 32px;max-width:1600px;margin:0 auto}
+        .page-header{margin-bottom:22px}
+        .page-title{color:var(--jain-navy);font-size:26px;font-weight:700;margin-bottom:3px}
+        .page-subtitle{color:#6b7280;font-size:13.5px}
+        .alert{animation:alertIn .38s ease;border-radius:11px;margin-bottom:14px}
+        @keyframes alertIn{from{opacity:0;transform:translateY(-14px) scale(.96)}to{opacity:1;transform:translateY(0) scale(1)}}
+        .alert-success{background:#ecfdf5;border:1px solid #a7f3d0;color:#065f46}
+        .alert-error{background:#fef2f2;border:1px solid #fecaca;color:#991b1b}
+        .alert-info{background:#eff6ff;border:1px solid #bfdbfe;color:#1e40af}
+        .alert-warning{background:#fffbeb;border:1px solid #fde68a;color:#92400e}
+        .footer{background:#fff;border-top:1px solid rgba(197,165,114,.18);padding:13px 30px;margin-top:32px}
+        .footer a{color:#6b7280;font-size:12px;text-decoration:none;transition:color .18s}
+        .footer a:hover{color:var(--jain-navy)}
+        .jain-divider{height:2px;background:linear-gradient(90deg,transparent,var(--jain-gold),var(--jain-navy),var(--jain-gold),transparent);margin:14px 0}
+        .jain-card{background:#fff;border-radius:12px;padding:18px;box-shadow:0 4px 12px rgba(10,25,41,.05);border:1px solid rgba(197,165,114,.18);transition:all .28s}
+        .jain-card:hover{box-shadow:0 8px 24px rgba(10,25,41,.1);border-color:var(--jain-gold);transform:translateY(-2px)}
+        .spinner{border:3px solid #f3f4f6;border-top:3px solid var(--jain-gold);border-radius:50%;width:34px;height:34px;animation:spin 1s linear infinite}
+        @keyframes spin{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}
+
+        @media(max-width:1100px){
+            .nav-menu{display:none;position:absolute;top:100%;left:0;right:0;background:var(--jain-navy);flex-direction:column;padding:12px;z-index:8999;border-top:1px solid rgba(197,165,114,.2);box-shadow:0 18px 36px rgba(0,0,0,.18)}
+            .nav-menu.open{display:flex}
+            .nav-item{width:100%}
+            .mobile-menu-btn{display:flex;align-items:center;justify-content:center}
+            .search-bar{width:150px}
+        }
+        @media(max-width:768px){
+            .main-content{padding:14px}
+            .search-bar{width:120px}
+            .user-name-txt,.user-role-txt{display:none}
+        }
+
+        /* === TEAM CHAT === */
+        .team-chat-popup{position:fixed;bottom:16px;right:20px;width:360px;height:480px;background:rgba(255,255,255,0.85);backdrop-filter:blur(16px);border-radius:16px;box-shadow:0 24px 64px rgba(9,14,26,0.25);display:flex;flex-direction:column;z-index:8200;border:1px solid rgba(197,165,114,0.35);opacity:0;visibility:hidden;transform:translateY(24px);transition:all .32s cubic-bezier(0.16,1,0.3,1)}
+        .team-chat-popup.open{opacity:1;visibility:visible;transform:translateY(0)}
+        .tchat-header{padding:14px 18px;background:linear-gradient(135deg,var(--jain-navy) 0%,#101a30 100%);color:#fff;border-radius:16px 16px 0 0;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(197,165,114,0.25)}
+        .tchat-header h3{font-size:14px;font-weight:700;display:flex;align-items:center;gap:8px;font-family:'Syne',sans-serif;letter-spacing:0.5px}
+        .tchat-messages{flex:1;overflow-y:auto;padding:16px;background:rgba(248,249,252,0.4);scroll-behavior:smooth}
+        .tchat-messages::-webkit-scrollbar{width:5px}
+        .tchat-messages::-webkit-scrollbar-track{background:transparent}
+        .tchat-messages::-webkit-scrollbar-thumb{background:rgba(9,14,26,0.1);border-radius:10px}
+        .tchat-messages::-webkit-scrollbar-thumb:hover{background:rgba(9,14,26,0.2)}
+        .tchat-input-row{padding:12px;border-top:1px solid rgba(197,165,114,0.2);display:flex;gap:8px;background:#fff;border-radius:0 0 16px 16px}
+        .tchat-input{flex:1;padding:9px 14px;border:1px solid #e5e7eb;border-radius:10px;font-size:12.5px;font-family:'Inter',sans-serif;transition:border-color 0.2s}
+        .tchat-input:focus{outline:none;border-color:var(--jain-gold)}
+        .tchat-send{padding:9px 14px;background:var(--jain-navy);color:#fff;border:none;border-radius:10px;font-size:13px;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;justify-content:center}
+        .tchat-send:hover{background:var(--jain-gold);color:var(--jain-navy)}
+        .tc-msg{margin-bottom:12px;display:flex;flex-direction:column}
+        .tc-msg.sent{align-items:flex-end}
+        .tc-msg.recv{align-items:flex-start}
+        .tc-bubble{max-width:82%;padding:8px 12px;border-radius:12px;font-size:12.5px;line-height:1.5;box-shadow:0 2px 4px rgba(0,0,0,0.02)}
+        .tc-msg.sent .tc-bubble{background:linear-gradient(135deg,#d97706 0%,#f59e0b 100%);color:#fff;border-bottom-right-radius:2px}
+        .tc-msg.recv .tc-bubble{background:#fff;color:var(--jain-text);border:1px solid rgba(9,14,26,0.08);border-bottom-left-radius:2px}
+        .tc-time{font-size:9.5px;color:#9ca3af;margin-top:4px;padding:0 4px}
+
+        /* === JAIN AI BAR === */
+        #jainAiBar{position:fixed;bottom:0;left:0;right:0;z-index:8500;height:var(--ai-bar-h);background:linear-gradient(90deg,#0A1929 0%,#1a1a6e 55%,#0A1929 100%);border-top:2px solid var(--jain-gold);box-shadow:0 -4px 22px rgba(4,4,58,.28);display:flex;align-items:center;gap:10px;padding:0 16px}
+        .ai-bar-brand{font-family:'Syne',sans-serif;font-size:12px;font-weight:800;color:var(--jain-gold);white-space:nowrap;display:flex;align-items:center;gap:6px;flex-shrink:0}
+        .ai-dot{width:7px;height:7px;border-radius:50%;background:#22c55e;animation:pulse 1.4s infinite}
+        .ai-bar-input{flex:1;min-width:0;background:rgba(255,255,255,.1);border:1px solid rgba(197,165,114,.35);border-radius:30px;padding:7px 16px;color:#fff;font-size:13px;font-family:'Inter',sans-serif;transition:all .2s}
+        .ai-bar-input::placeholder{color:rgba(255,255,255,.42)}
+        .ai-bar-input:focus{outline:none;background:rgba(255,255,255,.18);border-color:var(--jain-gold)}
+        .ai-bar-btn{background:var(--jain-gold);color:var(--jain-navy);border:none;border-radius:30px;padding:7px 15px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Syne',sans-serif;transition:all .15s;display:flex;align-items:center;gap:5px;white-space:nowrap;flex-shrink:0}
+        .ai-bar-btn:hover{background:#dab96a;transform:translateY(-1px)}
+        .ai-bar-btn.sec{background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.22);font-family:'Inter',sans-serif}
+        .ai-bar-btn.sec:hover{background:rgba(255,255,255,.22)}
+
+        /* === AI PANEL === */
+        #jainAiPanel{position:fixed;bottom:var(--ai-bar-h);left:0;right:0;z-index:8400;background:#fff;border-top:1px solid #e5e7eb;box-shadow:0 -8px 40px rgba(10,25,41,.18);transform:translateY(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;max-height:500px}
+        #jainAiPanel.open{transform:translateY(0)}
+        .ai-panel-hdr{background:var(--jain-navy);padding:9px 16px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+        .ai-panel-title{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:#fff;display:flex;align-items:center;gap:8px}
+        .ai-panel-title .gold{color:var(--jain-gold)}
+        .ai-panel-acts{display:flex;gap:6px}
+        .ai-act-btn{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#fff;border-radius:6px;padding:5px 10px;font-size:11px;cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:5px;font-family:'Inter',sans-serif}
+        .ai-act-btn:hover{background:rgba(255,255,255,.22)}
+        .ai-act-btn.gold{background:var(--jain-gold);color:var(--jain-navy);border-color:var(--jain-gold);font-weight:700}
+        .ai-act-btn.gold:hover{background:#dab96a}
+        .ai-stats-row{display:flex;gap:6px;flex-wrap:wrap;padding:8px 16px;background:#f8f7ff;border-bottom:1px solid #e5e7eb;flex-shrink:0}
+        .ai-stat-pill{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:600;cursor:pointer;transition:all .15s;font-family:'Inter',sans-serif}
+        .ai-stat-pill:hover{transform:translateY(-1px);box-shadow:0 2px 8px rgba(0,0,0,.12)}
+        .spt{background:#dbeafe;color:#1e40af}.spp{background:#fef9c3;color:#854d0e}
+        .spa{background:#dcfce7;color:#166534}.spo{background:#fee2e2;color:#991b1b}
+        .spr{background:#f3e8ff;color:#6b21a8}
+        #aiMessages{flex:1;overflow-y:auto;padding:13px 16px;display:flex;flex-direction:column;gap:9px;background:#f8f9fc}
+        #aiMessages::-webkit-scrollbar{width:4px}
+        #aiMessages::-webkit-scrollbar-thumb{background:#d1d5db;border-radius:4px}
+        .ai-msg-user{align-self:flex-end;background:var(--jain-navy);color:#fff;padding:9px 13px;border-radius:14px 14px 3px 14px;font-size:13px;line-height:1.5;max-width:80%;word-break:break-word}
+        .ai-msg-bot{align-self:flex-start;background:#fff;color:var(--jain-text);padding:9px 13px;border-radius:14px 14px 14px 3px;font-size:13px;line-height:1.65;max-width:86%;border:1px solid #e5e7eb;white-space:pre-wrap;word-break:break-word}
+        .ai-msg-think{align-self:flex-start;display:flex;gap:5px;align-items:center;padding:9px 13px;background:#fff;border:1px solid #e5e7eb;border-radius:14px 14px 14px 3px;font-size:11px;color:#9ca3af}
+        .td{width:6px;height:6px;border-radius:50%;background:var(--jain-gold);animation:blink 1s infinite}
+        .td:nth-child(2){animation-delay:.2s}.td:nth-child(3){animation-delay:.4s}
+        @keyframes blink{0%,80%,100%{opacity:.2}40%{opacity:1}}
+
+        /* === PDF MODAL === */
+        #pdfModal{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:99999;display:none;align-items:center;justify-content:center;padding:1rem;backdrop-filter:blur(4px)}
+        #pdfModal.open{display:flex}
+        .pdf-box{background:#fff;border-radius:14px;box-shadow:0 20px 60px rgba(10,25,41,.25);width:100%;max-width:450px;overflow:hidden;animation:popIn .24s ease}
+        @keyframes popIn{from{transform:scale(.9);opacity:0}to{transform:scale(1);opacity:1}}
+        .pdf-hdr{background:var(--jain-navy);padding:13px 17px;display:flex;align-items:center;justify-content:space-between}
+        .pdf-hdr-title{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;color:#fff;display:flex;align-items:center;gap:7px}
+        .pdf-body{padding:17px}
+        .pdf-preview{background:#f8f9fc;border:1px solid #e5e7eb;border-radius:8px;padding:11px;max-height:220px;overflow-y:auto;font-size:12px;line-height:1.7;color:#374151;white-space:pre-wrap;margin-bottom:13px}
+
+        /* === TOASTS === */
+        #toastCenter{position:fixed;bottom:16px;left:16px;z-index:99999;width:300px;max-width:90vw;display:flex;flex-direction:column;gap:7px;pointer-events:none}
+        .toast{pointer-events:all;background:#fff;border-radius:10px;box-shadow:0 8px 28px rgba(10,25,41,.14);padding:11px 13px;display:flex;align-items:flex-start;gap:9px;border-left:4px solid;animation:tIn .28s ease}
+        .toast.success{border-left-color:#22c55e}.toast.error{border-left-color:#ef4444}
+        .toast.info{border-left-color:#3b82f6}.toast.warning{border-left-color:#f59e0b}
+        @keyframes tIn{from{transform:translateX(-110%);opacity:0}to{transform:translateX(0);opacity:1}}
+        @keyframes tOut{from{transform:translateX(0);opacity:1}to{transform:translateX(-110%);opacity:0}}
+
+        #comingSoonModal{position:fixed;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;z-index:99998}
+    </style>
+</head>
+<body>
+{% if notifications is not defined %}{% set notifications = [] %}{% endif %}
+
+<!-- =================== TOP NAV =================== -->
+<nav class="top-nav">
+  <div class="nav-container">
+    <div class="flex items-center justify-between h-16 gap-3">
+
+      <!-- Brand -->
+      <a href="{{ url_for('home') }}" class="logo-area">
+        <img src="{{ url_for('static', filename='images/jainu.png') }}" alt="Jain University" onerror="this.src='https://via.placeholder.com/52x52/04043a/FFD700?text=JU'" style="height: 44px; width: auto; object-fit: contain;">
+      </a>
+
+      <!-- Desktop links -->
+      <div class="nav-menu" id="navMenu">
+        {% if request.endpoint in ['leader_dashboard', 'core_dashboard'] %}
+          <a href="{{ url_for('home') }}" class="nav-item"><i class="fas fa-arrow-left"></i><span>Back to Home</span></a>
+        {% else %}
+          <a href="{{ url_for('home') }}" class="nav-item {% if request.endpoint=='home' %}active{% endif %}"><i class="fas fa-home"></i><span>Home</span></a>
+          {% if session.approved %}
+            <a href="{{ url_for('university_repo') }}" class="nav-item {% if request.endpoint=='university_repo' %}active{% endif %}"><i class="fas fa-database"></i><span>University Repository</span></a>
+          {% endif %}
+        {% endif %}
+      </div>
+
+      <!-- Right cluster -->
+      <div class="flex items-center gap-2 flex-shrink-0">
+
+        <!-- USER MENU -->
+        <div class="relative" id="userWrap">
+          <div class="user-menu-btn" onclick="toggleUserDrop()">
+            <i class="fas fa-user-circle" style="font-size:16px"></i>
+            <div class="hidden lg:flex flex-col" style="line-height:1.2; text-align: left;">
+              <span class="user-name-txt">{{ session.email.split('@')[0] if session.email else 'Guest' }}</span>
+              <span class="user-role-txt">
+                {% if session.special_role=='leader' %}<i class="fas fa-crown"></i>Leader
+                {% elif session.special_role=='office_barrier' or session.user_type=='core' %}<i class="fas fa-users"></i>Core Team
+                {% elif session.role=='admin' %}<i class="fas fa-shield-alt"></i>Admin
+                {% else %}<i class="fas fa-user"></i>Faculty{% endif %}
+              </span>
+            </div>
+            <i class="fas fa-chevron-down" style="color:#ffb700;font-size:10px;margin-left:4px"></i>
+          </div>
+          <div class="nav-dropdown" id="userDropdown" style="width:280px">
+            <div class="user-drop-hdr">
+              <div class="dn">{{ session.email.split('@')[0] if session.email else 'Guest' }}</div>
+              <div class="de">{{ session.email if session.email else '' }}</div>
+              {% if session.user_department %}<div class="dm"><i class="fas fa-building" style="margin-right:4px"></i>{{ session.user_department }}</div>{% endif %}
+              {% if session.user_location %}<div class="dm"><i class="fas fa-map-marker-alt" style="margin-right:4px"></i>{{ session.user_location }}</div>{% endif %}
+            </div>
+            <div class="drop-menu">
+              <a href="/profile" class="drop-item"><i class="fas fa-user-circle"></i>My Profile</a>
+              <a href="{{ url_for('user_preferences') }}" class="drop-item"><i class="fas fa-cog"></i>Settings</a>
+              <a href="{{ url_for('university_repo') }}" class="drop-item"><i class="fas fa-database"></i>University Repository</a>
+              {% if session.approved %}
+                {% if session.user_type == 'core' or session.special_role in ['office_barrier', 'leader'] %}
+                  <a href="{{ url_for('core_repo') }}" class="drop-item"><i class="fas fa-cloud-upload-alt"></i>Upload to University Repo</a>
+                {% else %}
+                  <a href="{{ url_for('dept_repo') }}" class="drop-item"><i class="fas fa-upload"></i>Upload to OOA</a>
+                {% endif %}
+                
+                {% if session.special_role == 'leader' %}
+                  <a href="{{ url_for('leader_dashboard') }}" class="drop-item"><i class="fas fa-crown"></i>Leader Dashboard</a>
+                {% endif %}
+                {% if session.special_role == 'office_barrier' or session.user_type == 'core' %}
+                  <a href="{{ url_for('core_dashboard') }}" class="drop-item"><i class="fas fa-users"></i>Core Dashboard</a>
+                {% endif %}
+                {% if session.role == 'admin' %}
+                  <a href="{{ url_for('admin_dashboard') }}" class="drop-item"><i class="fas fa-users-cog"></i>Admin Dashboard</a>
+                {% endif %}
+              {% endif %}
+              <div class="drop-divider"></div>
+              <a href="{{ url_for('logout') }}" class="drop-item" style="color:#ef4444" onclick="return confirm('Logout?')"><i class="fas fa-sign-out-alt" style="color:#ef4444"></i>Logout</a>
+            </div>
+          </div>
+        </div>
+
+        <button class="mobile-menu-btn" onclick="document.getElementById('navMenu').classList.toggle('open')"><i class="fas fa-bars"></i></button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- =================== MAIN =================== -->
+<main class="main-content">
+  <div class="page-header">
+    <h1 class="page-title">{% block page_title %}Jain (Deemed-to-be University){% endblock %}</h1>
+    <p class="page-subtitle">{% block page_subtitle %}Office of Academics{% endblock %}</p>
+  </div>
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}{% for cat,msg in messages %}
+    <div class="alert">
+      <div class="alert-{{ cat }} px-3 py-2 rounded-xl flex items-center gap-2 text-sm">
+        <i class="fas fa-{% if cat=='error' %}exclamation-circle{% elif cat=='success' %}check-circle{% elif cat=='info' %}info-circle{% else %}exclamation-triangle{% endif %}"></i>
+        <span class="flex-1">{{ msg }}</span>
+        <button onclick="this.parentElement.parentElement.remove()"><i class="fas fa-times"></i></button>
+      </div>
+    </div>
+    {% endfor %}{% endif %}
+  {% endwith %}
+  {% block content %}
+  <div class="jain-card text-center p-12">
+    <i class="fas fa-university" style="font-size:2.5rem;color:var(--jain-navy);margin-bottom:12px;display:block"></i>
+    <h2 style="color:var(--jain-navy);font-size:22px;margin-bottom:6px">Welcome to Jain OOA</h2>
+    <p style="color:#6b7280;font-size:14px">Office of Academics Portal</p>
+    <div class="jain-divider" style="max-width:300px;margin:20px auto"></div>
+    <p style="font-size:13px;font-style:italic;color:#8B1E3F">"श्रद्धावान् लभते ज्ञानम्"</p>
+  </div>
+  {% endblock %}
+</main>
+
+<footer class="footer">
+  <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+    <p style="font-size:12px;color:#6b7280">© 2026 Jain (Deemed-to-be University). All rights reserved.</p>
+    <div style="display:flex;gap:16px">
+      <a href="{{ url_for('about') }}">About</a>
+      <a href="/cdn-cgi/l/email-protection#402f2f21002a21292e352e29362532332934396e21236e292e">Contact</a>
+      <a href="{{ url_for('home') }}">Privacy</a>
+    </div>
+  </div>
+</footer>
+
+<!-- TEAM CHAT POPUP -->
+{% if session.approved and (session.user_type=='core' or session.special_role in ['office_barrier','leader']) %}
+<div class="team-chat-popup" id="teamChatPopup">
+  <div class="tchat-header">
+    <h3><i class="fas fa-users"></i> Core Team Chat</h3>
+    <button onclick="toggleTeamChat()" style="background:none;border:none;color:#fff;cursor:pointer;font-size:14px"><i class="fas fa-times"></i></button>
+  </div>
+  <div class="tchat-messages" id="tchatMessages"></div>
+  <div class="tchat-input-row">
+    <input class="tchat-input" id="tchatInput" placeholder="Type message..." onkeydown="if(event.key==='Enter')sendTeamMsg()">
+    <button class="tchat-send" onclick="sendTeamMsg()"><i class="fas fa-paper-plane"></i></button>
+  </div>
+</div>
+{% endif %}
+
+<!-- JAIN AI DOCKED BAR -->
+<div id="jainAiBar">
+  <div class="ai-bar-brand"><div class="ai-dot"></div><span>&#10022; JAIN AI</span></div>
+  <input class="ai-bar-input" id="aiBarInput" placeholder="Ask Jain AI — tasks, pending reviews, overdue, documents..." onkeydown="if(event.key==='Enter')sendAiMsg()">
+  <button class="ai-bar-btn" onclick="sendAiMsg()"><i class="fas fa-paper-plane"></i> Ask</button>
+  <button class="ai-bar-btn sec" onclick="aiMyStats()" title="Dashboard summary"><i class="fas fa-chart-bar"></i><span class="hidden sm:inline"> Stats</span></button>
+  <button class="ai-bar-btn sec" onclick="toggleAiPanel()" id="aiToggleBtn" title="Expand AI (Alt+A)"><i class="fas fa-chevron-up" id="aiChevron"></i></button>
+</div>
+
+<!-- JAIN AI EXPANDED PANEL -->
+<div id="jainAiPanel">
+  <div class="ai-panel-hdr">
+    <div class="ai-panel-title">
+      <span class="gold">&#10022;</span> Jain AI Assistant
+      <span style="background:rgba(255,255,255,.15);color:rgba(255,255,255,.7);font-size:10px;padding:2px 8px;border-radius:20px;font-family:'Inter',sans-serif;font-weight:400">LLaMA 3.3 · OOA</span>
+    </div>
+    <div class="ai-panel-acts">
+      <button class="ai-act-btn" onclick="clearAiChat()"><i class="fas fa-trash-alt"></i> Clear</button>
+      <button class="ai-act-btn gold" onclick="exportPdf()"><i class="fas fa-file-pdf"></i> Export PDF</button>
+      <button class="ai-act-btn" onclick="toggleAiPanel()"><i class="fas fa-chevron-down"></i> Collapse</button>
+    </div>
+  </div>
+  <div class="ai-stats-row" id="aiStatsPills"><span style="font-size:11px;color:#9ca3af">Loading stats...</span></div>
+  <div id="aiMessages"></div>
+</div>
+
+<!-- PDF MODAL -->
+<div id="pdfModal">
+  <div class="pdf-box">
+    <div class="pdf-hdr">
+      <div class="pdf-hdr-title"><i class="fas fa-file-pdf" style="color:var(--jain-gold)"></i> Export Conversation as PDF</div>
+      <button onclick="closePdfModal()" style="background:rgba(255,255,255,.15);border:none;border-radius:50%;width:26px;height:26px;cursor:pointer;color:#fff;font-size:12px;display:flex;align-items:center;justify-content:center"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="pdf-body">
+      <p style="font-size:12px;color:#6b7280;margin-bottom:10px">Preview of content to export:</p>
+      <div class="pdf-preview" id="pdfPreviewBox"></div>
+      <div style="display:flex;gap:10px">
+        <button onclick="doPdfDownload()" style="flex:1;background:var(--jain-navy);color:#fff;border:none;border-radius:8px;padding:10px;font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;font-family:'Inter',sans-serif"><i class="fas fa-download"></i> Download PDF</button>
+        <button onclick="closePdfModal()" style="padding:10px 16px;background:#f3f4f6;border:none;border-radius:8px;font-size:13px;cursor:pointer">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="toastCenter"></div>
+<div id="loadingOverlay" style="display:none;position:fixed;inset:0;background:rgba(10,25,41,.45);z-index:99998;align-items:center;justify-content:center">
+  <div style="background:#fff;padding:1.6rem 2.2rem;border-radius:14px;text-align:center;box-shadow:0 20px 60px rgba(10,25,41,.25);border-top:3px solid var(--jain-gold)">
+    <div style="width:36px;height:36px;border:3px solid #f3f4f6;border-top-color:var(--jain-gold);border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto"></div>
+    <p style="margin-top:10px;font-size:13px;color:#6b7280;font-family:'Inter',sans-serif" id="loadingMsg">Processing...</p>
+  </div>
+</div>
+
+
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+'use strict';
+// Dropdown helpers
+function _closeAll(ex){['notifDropdown','userDropdown'].forEach(id=>{if(id!==ex)document.getElementById(id)?.classList.remove('open')});}
+function toggleNotifDrop(){_closeAll('notifDropdown');document.getElementById('notifDropdown').classList.toggle('open');}
+function toggleUserDrop(){_closeAll('userDropdown');document.getElementById('userDropdown').classList.toggle('open');}
+document.addEventListener('click',e=>{['notifWrap','userWrap'].forEach(id=>{const w=document.getElementById(id);if(w&&!w.contains(e.target))w.querySelector('.nav-dropdown')?.classList.remove('open');});});
+
+// Team chat
+function toggleTeamChat(){
+  _closeAll('');
+  const p=document.getElementById('teamChatPopup');
+  if(!p)return;
+  p.classList.toggle('open');
+  if(p.classList.contains('open')){
+    loadTeamChat();
+    const badge = document.getElementById('msgBadge');
+    if(badge) badge.style.display = 'none';
+  }
+}
+async function loadTeamChat(){
+  try{
+    const r=await fetch('/api/chat/messages',{credentials:'same-origin'});
+    const d=await r.json();
+    if(!d.success)return;
+    const msgs = d.messages || [];
+    const badge = document.getElementById('msgBadge');
+    if(badge){
+      const unread = msgs.filter(m=>!m.is_me).length;
+      if(unread>0){
+        badge.textContent=unread>9?'9+':unread;
+        badge.style.display='flex';
+        badge.style.alignItems='center';
+        badge.style.justifyContent='center';
+      }else{
+        badge.style.display='none';
+      }
+    }
+    const box=document.getElementById('tchatMessages');
+    if(!box)return;
+    box.innerHTML=msgs.map(m=>`<div class="tc-msg ${m.is_me?'sent':'recv'}"><div class="tc-bubble"><p style="font-weight:600;font-size:11px;margin-bottom:2px">${m.sender_name}</p><p>${m.content}</p></div><div class="tc-time">${m.timestamp}</div></div>`).join('');
+    box.scrollTop=box.scrollHeight;
+  }catch(e){}
+}
+async function sendTeamMsg(){
+  const inp=document.getElementById('tchatInput');
+  const txt=inp.value.trim();
+  if(!txt)return;
+  try{
+    await fetch('/api/chat/send',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:JSON.stringify({content:txt})});
+    inp.value='';
+    await loadTeamChat();
+  }catch(e){}
+}
+
+// ===== JAIN AI =====
+let _aiOpen=false,_aiHist=[],_pdfLog=[];
+function openAiPanel(){if(!_aiOpen)toggleAiPanel();}
+function toggleAiPanel(){
+  _aiOpen=!_aiOpen;
+  document.getElementById('jainAiPanel').classList.toggle('open',_aiOpen);
+  document.getElementById('aiChevron').className=_aiOpen?'fas fa-chevron-down':'fas fa-chevron-up';
+  if(_aiOpen){
+    buildStatsPills();
+    if(_aiHist.length===0)_addBot("Hello! I'm Jain AI.\n\nI have access to your live dashboard stats. Click a stats pill above for instant analysis, or ask me anything about your tasks, documents, or dashboard.");
+    setTimeout(()=>{const m=document.getElementById('aiMessages');if(m)m.scrollTop=m.scrollHeight;},350);
+  }
+}
+function buildStatsPills(){
+  const pills=document.getElementById('aiStatsPills');if(!pills)return;
+  const s=window.DASH_STATS||_scrapeStats();
+  if(!s||!Object.keys(s).length){pills.innerHTML='<span style="font-size:11px;color:#9ca3af"><i class="fas fa-info-circle" style="margin-right:4px"></i>Open a dashboard page to see live stats</span>';return;}
+  window._STATS=s;
+  let html='<span style="font-size:11px;color:#64748b;font-weight:500;align-self:center">Quick ask:</span>';
+  if(s.total_tasks!=null)    html+=`<span class="ai-stat-pill spt" onclick="aiQuick('tasks')"><i class="fas fa-tasks"></i>${s.total_tasks} Tasks</span>`;
+  if(s.pending_tasks!=null)  html+=`<span class="ai-stat-pill spp" onclick="aiQuick('pending')"><i class="fas fa-clock"></i>${s.pending_tasks} Pending</span>`;
+  if(s.pending_review!=null) html+=`<span class="ai-stat-pill spr" onclick="aiQuick('review')"><i class="fas fa-file-alt"></i>${s.pending_review} Pending Review</span>`;
+  if(s.accepted_tasks!=null) html+=`<span class="ai-stat-pill spa" onclick="aiQuick('accepted')"><i class="fas fa-check-circle"></i>${s.accepted_tasks} Accepted</span>`;
+  if(s.overdue_tasks!=null)  html+=`<span class="ai-stat-pill spo" onclick="aiQuick('overdue')"><i class="fas fa-exclamation-triangle"></i>${s.overdue_tasks} Overdue</span>`;
+  if(s.approved_docs!=null)  html+=`<span class="ai-stat-pill spa" onclick="aiQuick('approved_docs')"><i class="fas fa-thumbs-up"></i>${s.approved_docs} Approved Docs</span>`;
+  pills.innerHTML=html;
+}
+function _scrapeStats(){
+  const s={};
+  document.querySelectorAll('[data-stat]').forEach(el=>{const k=el.getAttribute('data-stat');const v=parseInt(el.textContent.trim(),10);if(!isNaN(v))s[k]=v;});
+  if(!Object.keys(s).length){const nums=[...document.querySelectorAll('.num')];nums.forEach(n=>{const lbl=n.parentElement?.querySelector('.lbl');if(!lbl)return;const v=parseInt(n.textContent.trim(),10);const k=lbl.textContent.trim().toLowerCase().replace(/\W+/g,'_');if(!isNaN(v))s[k]=v;});}
+  return s;
+}
+function aiQuick(type){
+  const s=window._STATS||window.DASH_STATS||_scrapeStats();
+  const qs={
+    tasks:`I have ${s.total_tasks??'?'} total tasks — ${s.pending_tasks??'?'} pending, ${s.in_progress??'?'} in progress, ${s.completed_tasks??'?'} completed, ${s.overdue_tasks??'?'} overdue. Give me a prioritised action plan.`,
+    pending:`I have ${s.pending_tasks??'?'} pending tasks. How should I work through them most effectively?`,
+    review:`There are ${s.pending_review??'?'} documents pending my review. How should I prioritise and approach this?`,
+    accepted:`${s.accepted_tasks??'?'} of my tasks have been accepted. What does this tell me about my performance?`,
+    overdue:`I have ${s.overdue_tasks??'?'} overdue tasks. Give me a realistic catch-up plan and advice to prevent this in future.`,
+    approved_docs:`${s.approved_docs??'?'} of my documents were approved. What is my approval rate and how can I improve?`,
+  };
+  if(!_aiOpen)openAiPanel();
+  document.getElementById('aiBarInput').value=qs[type]||`Tell me about my ${type}.`;
+  sendAiMsg();
+}
+function aiMyStats(){
+  if(!_aiOpen)openAiPanel();
+  const s=window.DASH_STATS||_scrapeStats();
+  let q;
+  if(!s||!Object.keys(s).length){q="What can you help me with on this portal?";}
+  else{const line=Object.entries(s).map(([k,v])=>`${k.replace(/_/g,' ')}: ${v}`).join(', ');q=`My dashboard stats: ${line}. Give me a concise performance summary and top 3 action items.`;}
+  document.getElementById('aiBarInput').value=q;
+  sendAiMsg();
+}
+async function sendAiMsg(){
+  const inp=document.getElementById('aiBarInput');const text=inp.value.trim();if(!text)return;
+  inp.value='';if(!_aiOpen)openAiPanel();
+  _addUser(text);_aiHist.push({role:'user',content:text});_pdfLog.push({role:'user',text});
+  _showThink();
+  try{
+    const s=window.DASH_STATS||_scrapeStats();
+    const ctx=Object.keys(s||{}).length?`Live dashboard stats: ${JSON.stringify(s)}. `:'';
+    const r=await fetch('/api/ai/chat',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({message:text,task_title:'OOA Microsite Assistant',task_desc:ctx+'User is on the Jain University OOA microsite.',history:_aiHist.slice(-12)})});
+    const d=await r.json();_removeThink();
+    const reply=d.success?d.reply:'Jain AI is temporarily unavailable. Please try again.';
+    _addBot(reply);_aiHist.push({role:'assistant',content:reply});_pdfLog.push({role:'assistant',text:reply});
+  }catch(e){_removeThink();_addBot('Connection error. Please check your network.');}
+}
+function _addUser(t){const el=document.createElement('div');el.className='ai-msg-user';el.textContent=t;_app(el);}
+function _addBot(t){const el=document.createElement('div');el.className='ai-msg-bot';el.textContent=t;_app(el);}
+function _app(el){const b=document.getElementById('aiMessages');if(!b)return;b.appendChild(el);b.scrollTop=b.scrollHeight;}
+function _showThink(){const d=document.createElement('div');d.className='ai-msg-think';d.id='aiThinking';d.innerHTML='<div class="td"></div><div class="td"></div><div class="td"></div><span style="margin-left:7px;font-size:11px">Jain AI is thinking...</span>';_app(d);}
+function _removeThink(){document.getElementById('aiThinking')?.remove();}
+function clearAiChat(){if(!confirm('Clear this conversation?'))return;_aiHist=[];_pdfLog=[];const b=document.getElementById('aiMessages');if(b)b.innerHTML='';_addBot('Conversation cleared. How can I help?');}
+
+// PDF export
+function exportPdf(){if(!_pdfLog.length){showToast('Start a conversation first!','warning');return;}document.getElementById('pdfPreviewBox').textContent=_pdfLog.map(m=>(m.role==='user'?'You:\n':'Jain AI:\n')+m.text).join('\n\n---\n\n');document.getElementById('pdfModal').classList.add('open');}
+function closePdfModal(){document.getElementById('pdfModal').classList.remove('open');}
+function doPdfDownload(){if(typeof window.jspdf!=='undefined'){_buildPdf();return;}const s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';s.onload=_buildPdf;s.onerror=()=>showToast('Could not load PDF library','error');document.head.appendChild(s);}
+function _buildPdf(){
+  try{
+    const{jsPDF}=window.jspdf;const doc=new jsPDF({unit:'mm',format:'a4'});
+    const W=doc.internal.pageSize.getWidth();const H=doc.internal.pageSize.getHeight();const mg=18;let y=mg;
+    doc.setFillColor(10,25,41);doc.rect(0,0,W,30,'F');
+    doc.setDrawColor(197,165,114);doc.setLineWidth(.5);doc.line(0,30,W,30);
+    doc.setFontSize(15);doc.setFont('helvetica','bold');doc.setTextColor(197,165,114);doc.text('Jain (Deemed-to-be University)',mg,12);
+    doc.setFontSize(9);doc.setFont('helvetica','normal');doc.setTextColor(180,185,200);doc.text('Office of Academics  -  Jain AI Conversation Export',mg,20);
+    doc.setFontSize(8);doc.text(new Date().toLocaleString(),W-mg,20,{align:'right'});y=40;
+    const stats=window.DASH_STATS||_scrapeStats();
+    if(stats&&Object.keys(stats).length){
+      doc.setFontSize(10);doc.setFont('helvetica','bold');doc.setTextColor(10,25,41);doc.text('Dashboard Stats Snapshot',mg,y);y+=5;
+      doc.setFontSize(8.5);doc.setFont('helvetica','normal');doc.setTextColor(60,70,90);
+      const line=Object.entries(stats).map(([k,v])=>`${k.replace(/_/g,' ')}: ${v}`).join('   |   ');
+      const wrapped=doc.splitTextToSize(line,W-mg*2);doc.text(wrapped,mg,y);y+=wrapped.length*5+4;
+      doc.setDrawColor(197,165,114);doc.setLineWidth(.4);doc.line(mg,y,W-mg,y);y+=7;
+    }
+    doc.setFontSize(11);doc.setFont('helvetica','bold');doc.setTextColor(10,25,41);doc.text('Conversation',mg,y);y+=7;
+    _pdfLog.forEach(m=>{
+      if(y>H-32){doc.addPage();y=mg;}
+      const isUser=m.role==='user';
+      doc.setFontSize(8);doc.setFont('helvetica','bold');doc.setTextColor(isUser?10:70,isUser?25:40,isUser?41:150);doc.text(isUser?'You':'Jain AI',mg,y);y+=4;
+      doc.setFontSize(9);doc.setFont('helvetica','normal');
+      const lines=doc.splitTextToSize(m.text,W-mg*2-8);const bh=lines.length*5+7;
+      doc.setFillColor(isUser?10:248,isUser?25:249,isUser?41:252);doc.setDrawColor(isUser?197:210,isUser?165:215,isUser?114:225);doc.setLineWidth(.3);
+      doc.roundedRect(mg,y-2,W-mg*2,bh,3,3,'FD');
+      doc.setTextColor(isUser?240:30,isUser?235:30,isUser?200:50);doc.text(lines,mg+4,y+3);
+      y+=bh+6;if(y>H-20){doc.addPage();y=mg;}
+    });
+    const pages=doc.internal.getNumberOfPages();
+    for(let i=1;i<=pages;i++){doc.setPage(i);doc.setFontSize(7);doc.setFont('helvetica','normal');doc.setTextColor(160);doc.text(`Jain University OOA - Jain AI Export  |  Page ${i} of ${pages}`,W/2,H-7,{align:'center'});}
+    doc.save(`JainAI_${new Date().toISOString().slice(0,10)}.pdf`);closePdfModal();showToast('PDF downloaded','success');
+  }catch(e){console.error(e);showToast('PDF error: '+e.message,'error');}
+}
+
+// Toasts
+function showToast(msg,type='info'){
+  const icons={success:'check-circle',error:'times-circle',warning:'exclamation-triangle',info:'info-circle'};
+  const t=document.createElement('div');t.className='toast '+type;
+  t.innerHTML=`<i class="fas fa-${icons[type]||'info-circle'}" style="font-size:14px;flex-shrink:0;margin-top:1px"></i><div style="flex:1;font-size:12px;color:#1a2b3c">${msg}</div><button onclick="this.parentElement.remove()" style="background:none;border:none;cursor:pointer;color:#9ca3af;font-size:12px"><i class="fas fa-times"></i></button>`;
+  document.getElementById('toastCenter').appendChild(t);
+  setTimeout(()=>{t.style.animation='tOut .28s ease forwards';setTimeout(()=>t.remove(),300);},5000);
+}
+window.showNotification=function(title,msg,type){showToast(title+(msg?': '+msg:''),type||'info');};
+
+function showLoading(msg){
+  const el=document.getElementById('loadingOverlay');
+  if(!el)return;
+  document.getElementById('loadingMsg').textContent=msg||'Processing...';
+  el.style.display='flex';
+}
+function hideLoading(){
+  const el=document.getElementById('loadingOverlay');
+  if(el)el.style.display='none';
+}
+
+
+
+
+document.addEventListener('DOMContentLoaded',()=>{
+  document.querySelectorAll('.alert').forEach(a=>setTimeout(()=>{a.style.opacity='0';a.style.transform='translateY(-8px)';setTimeout(()=>a.remove(),300);},5500));
+  document.getElementById('globalSearch')?.addEventListener('keypress',e=>{if(e.key==='Enter'){const q=e.target.value.trim();if(q)window.location.href=`/search?q=${encodeURIComponent(q)}`;}});
+  if(document.getElementById('teamChatPopup')){
+    loadTeamChat();
+    setInterval(loadTeamChat,15000);
+  }
+  document.addEventListener('keydown',e=>{
+    if(e.altKey&&e.key==='a'){e.preventDefault();toggleAiPanel();}
+    if(e.altKey&&e.key==='m'){e.preventDefault();if(typeof toggleTeamChat!=='undefined')toggleTeamChat();}
+    if(e.altKey&&e.key==='n'){e.preventDefault();toggleNotifDrop();}
+    if(e.altKey&&e.key==='c'){e.preventDefault();if(typeof toggleTeamChat!=='undefined')toggleTeamChat();}
+    if(e.key==='Escape'){['notifDropdown','userDropdown'].forEach(id=>document.getElementById(id)?.classList.remove('open'));closePdfModal();if(_aiOpen)toggleAiPanel();}
+  });
+  window.addEventListener('online',()=>showToast('Back online','success'));
+  window.addEventListener('offline',()=>showToast('You are offline','error'));
+});
+Object.assign(window,{toggleAiPanel,openAiPanel,sendAiMsg,aiMyStats,aiQuick,clearAiChat,buildStatsPills,exportPdf,closePdfModal,doPdfDownload,toggleNotifDrop,toggleUserDrop,toggleTeamChat,sendTeamMsg,loadTeamChat,showToast,showLoading,hideLoading});
+</script>
+{% block scripts %}{% endblock %}
+</body>
+</html>

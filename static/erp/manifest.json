@@ -1,0 +1,20 @@
+{
+  "name": "OoA Portal",
+  "short_name": "OoA Portal",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0a2558",
+  "icons": [
+    {
+      "src": "/static/images/applogo.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/static/images/applogo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

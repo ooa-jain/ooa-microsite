@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Faculty OoA Portal</title>
+  <link rel="manifest" href="/erp/manifest.json">
+  <meta name="theme-color" content="#0a2558">
+  <link rel="apple-touch-icon" href="/static/erp/images/applogo.png">
+  <script>
+    if (false && 'serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js');
+      });
+    }
+  </script>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,700;1,400&display=swap"
+    rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --navy: #0a2558;
+      --navy2: #143572;
+      --gold: #f2a900;
+      --bg: #ffffff;
+      --ink: #111827;
+      --ink2: #374151;
+      --ink3: #6b7280;
+      --danger: #dc2626;
+      --r: 12px;
+      --sh2: 0 12px 48px rgba(0, 0, 0, 0.08);
+    }
+
+    body {
+      background-color: var(--bg);
+      background-image:
+        linear-gradient(rgba(10, 37, 88, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(10, 37, 88, 0.03) 1px, transparent 1px);
+      background-size: 32px 32px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      color: var(--ink);
+      min-height: 100vh;
+    }
+
+    .auth-wrap {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 24px;
+      gap: 60px;
+    }
+
+    .auth-box {
+      width: 100%;
+      max-width: 440px;
+      background: #fff;
+      border-radius: var(--r);
+      padding: 36px 32px;
+      box-shadow: var(--sh2);
+      border: 1px solid rgba(10, 37, 88, 0.05);
+    }
+
+    .workflow-section {
+      width: 100%;
+      max-width: 1100px;
+      margin-top: 20px;
+    }
+
+    .workflow-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 32px;
+      border-bottom: 2px solid rgba(10, 37, 88, 0.08);
+      padding-bottom: 16px;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .workflow-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      color: var(--navy);
+      font-weight: 700;
+    }
+
+    .pdf-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, #ff9900, #ff5500);
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 99px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 13px;
+      transition: all 0.2s;
+      box-shadow: 0 4px 15px rgba(255, 85, 0, 0.3);
+    }
+
+    .pdf-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(255, 85, 0, 0.4);
+    }
+
+    .workflow-grid {
+      display: flex;
+      align-items: stretch;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+      width: 100%;
+    }
+
+    .workflow-arrow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      color: var(--navy);
+      font-weight: 800;
+      opacity: 0.6;
+      transition: all 0.3s;
+    }
+
+    @media (max-width: 992px) {
+      .workflow-arrow {
+        transform: rotate(90deg);
+        margin: 10px 0;
+        width: 100%;
+        text-align: center;
+      }
+    }
+
+    .step-card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 28px;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.02);
+      border: 1px solid rgba(0, 0, 0, 0.03);
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .step-card:hover {
+      transform: translateY(-6px);
+    }
+
+    .step-card.step-1:hover {
+      box-shadow: 0 12px 30px rgba(10, 37, 88, 0.12);
+      border-color: rgba(10, 37, 88, 0.2);
+    }
+
+    .step-card.step-2:hover {
+      box-shadow: 0 12px 30px rgba(139, 92, 246, 0.12);
+      border-color: rgba(139, 92, 246, 0.2);
+    }
+
+    .step-card.step-3:hover {
+      box-shadow: 0 12px 30px rgba(236, 72, 153, 0.12);
+      border-color: rgba(236, 72, 153, 0.2);
+    }
+
+    .step-card.step-4:hover {
+      box-shadow: 0 12px 30px rgba(16, 185, 129, 0.12);
+      border-color: rgba(16, 185, 129, 0.2);
+    }
+
+    .step-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      color: #fff;
+      font-weight: 800;
+      font-size: 18px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .step-1 .step-badge {
+      background: linear-gradient(135deg, #0a2558, #1e40af);
+      box-shadow: 0 4px 12px rgba(10, 37, 88, 0.2);
+    }
+
+    .step-2 .step-badge {
+      background: linear-gradient(135deg, #7c3aed, #4f46e5);
+      box-shadow: 0 4px 12px rgba(124, 58, 237, 0.2);
+    }
+
+    .step-3 .step-badge {
+      background: linear-gradient(135deg, #ec4899, #db2777);
+      box-shadow: 0 4px 12px rgba(236, 72, 153, 0.2);
+    }
+
+    .step-4 .step-badge {
+      background: linear-gradient(135deg, #10b981, #059669);
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+    }
+
+    .step-card h4 {
+      font-size: 16px;
+      color: var(--navy);
+      margin-bottom: 10px;
+      font-weight: 700;
+    }
+
+    .step-card p {
+      font-size: 13.5px;
+      color: var(--ink3);
+      line-height: 1.6;
+    }
+
+    .auth-tabs {
+      display: flex;
+      margin-bottom: 24px;
+      border-bottom: 2px solid #e8ecf5;
+    }
+
+    .auth-tab {
+      flex: 1;
+      text-align: center;
+      padding: 10px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--ink3);
+      border-bottom: 2px solid transparent;
+      margin-bottom: -2px;
+    }
+
+    .auth-tab.active {
+      color: var(--navy);
+      border-bottom-color: var(--navy);
+    }
+
+    .field {
+      margin-bottom: 16px;
+    }
+
+    .field label {
+      display: block;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--ink2);
+      margin-bottom: 6px;
+    }
+
+    .field input {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid #dde3f0;
+      border-radius: 8px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 14px;
+      outline: none;
+      transition: 0.15s;
+    }
+
+    .field input:focus {
+      border-color: var(--navy);
+      box-shadow: 0 0 0 3px rgba(10, 37, 88, 0.1);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: 0.2s;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    .btn-primary {
+      background: var(--navy);
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      background: var(--navy2);
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: var(--ink);
+      color: #fff;
+      padding: 12px 24px;
+      border-radius: 99px;
+      font-size: 13px;
+      font-weight: 600;
+      transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      z-index: 9999;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .req {
+      color: var(--danger);
+    }
+
+    @media (max-width: 768px) {
+      .auth-wrap>div {
+        flex-direction: column-reverse !important;
+        gap: 20px !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- PWA Install Banner at the top of the body -->
+  <div id="pwaLoginSection"
+    style="display: none; width: calc(100% - 20px); max-width: 1100px; margin: 10px auto; padding: 14px; background: #e0f2fe; border: 1.5px solid #bae6fd; border-radius: 10px; align-items: center; justify-content: space-between; gap: 10px; text-align: left; box-shadow: var(--sh); box-sizing: border-box;">
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <div style="font-size: 24px;">📱</div>
+      <div>
+        <div style="font-weight: 700; color: #0369a1; font-size: 13px;">Mobile App Available</div>
+        <div style="font-size: 11px; color: #0284c7;">Install on your home screen for quick access</div>
+      </div>
+    </div>
+    <button id="pwaLoginInstallBtn" class="btn"
+      style="background: #0284c7; color: #fff; padding: 6px 12px; font-size: 11px; border-radius: 6px; border: none; font-weight: 700; cursor: pointer; white-space: nowrap;">Download
+      App</button>
+  </div>
+
+  <!-- iOS Instruction inside Login -->
+  <div id="pwaLoginIosSection"
+    style="display: none; width: calc(100% - 20px); max-width: 1100px; margin: 10px auto; padding: 14px; background: #fef3c7; border: 1.5px solid #fde68a; border-radius: 10px; text-align: left; box-shadow: var(--sh); box-sizing: border-box;">
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <div style="font-size: 24px;">🍎</div>
+      <div>
+        <div style="font-weight: 700; color: #92400e; font-size: 13px;">Install on iPhone</div>
+        <div style="font-size: 11px; color: #b45309; line-height: 1.4; margin-top: 2px;">Tap <span
+            style="font-weight: 700;">Share</span> in Safari, then <span style="font-weight: 700;">"Add to Home
+            Screen"</span>.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="auth-wrap">
+    <div
+      style="display: flex; gap: 40px; align-items: stretch; justify-content: center; max-width: 1100px; width: 100%; flex-wrap: wrap;">
+      <!-- Left Pane: Guidance Card -->
+      <div class="brand-panel"
+        style="flex: 1.2; min-width: 320px; background: #fff; border-radius: var(--r); padding: 36px 32px; box-shadow: var(--sh2); border: 1px solid rgba(10, 37, 88, 0.05); display: flex; flex-direction: column; justify-content: center;">
+        <img src="/static/erp/images/jain.png" alt="Jain University"
+          style="height: 64px; margin-bottom: 24px; align-self: flex-start;" onerror="this.style.display='none'">
+        <h2
+          style="font-size: 26px; color: var(--navy); font-weight: 800; font-family: 'Playfair Display', serif; margin-bottom: 8px;">
+          JAIN (Deemed-to-be University)</h2>
+        <h3
+          style="font-size: 14px; color: var(--gold); font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 20px;">
+          Office of Academics Portal</h3>
+
+        <div class="instruction-box"
+          style="background: #fafbff; border-left: 4px solid var(--gold); border-radius: 6px; padding: 20px; margin-top: 10px; text-align: left;">
+          <h4
+            style="font-size: 14px; font-weight: 700; color: var(--navy); margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+            🔑 Login Instructions</h4>
+          <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 12px;">
+            <li
+              style="font-size: 13.5px; color: var(--ink2); line-height: 1.5; display: flex; gap: 8px; align-items: flex-start; font-weight: 700; background: rgba(220,38,38,0.06); padding: 8px 12px; border-radius: 6px; border-left: 3px solid var(--danger);">
+              <span style="color: var(--danger); font-weight: bold;">⚠</span>
+              <span>Only HOD of Jain Deemed-to-be University to use this link and doesn't share the link with any.</span>
+            </li>
+            <li
+              style="font-size: 13.5px; color: var(--ink2); line-height: 1.5; display: flex; gap: 8px; align-items: flex-start;">
+              <span style="color: var(--gold); font-weight: bold;">✔</span>
+              <span><strong>New User Registration</strong>: For the first time user, Click the <strong>"New
+                  User"</strong> tab, enter your Full Name and <code>jainuniversity.ac.in</code> email ID, and click
+                Register.</span>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+
+      <!-- Right Pane: Auth Card -->
+      <div class="auth-box"
+        style="flex: 0.9; min-width: 320px; margin-top: 0; display: flex; flex-direction: column; justify-content: center;">
+        <div style="text-align: center; margin-bottom: 32px;">
+          <h2 style="font-size: 22px; color: var(--navy); font-weight: 700; margin-bottom: 8px;">Sign In</h2>
+          <p style="color: var(--ink3); font-size: 13px;">Authenticate to access your department portal</p>
+        </div>
+
+        <div class="auth-tabs">
+          <div class="auth-tab active" id="tabLogin" onclick="switchAuth('login')">Login</div>
+          <div class="auth-tab" id="tabRegister" onclick="switchAuth('register')">New User</div>
+        </div>
+
+        <div id="authLogin">
+          <div class="field" style="margin-bottom: 16px;">
+            <label>Your Mail ID <span class="req">*</span></label>
+            <input type="email" id="auth_l_email" placeholder="you@jainuniversity.ac.in">
+          </div>
+          <div class="field" style="margin-bottom: 8px;">
+            <label>Password <span class="req">*</span></label>
+            <input type="password" id="auth_l_password" placeholder="••••••••"
+              onkeydown="if(event.key==='Enter') doLogin()">
+          </div>
+          <div style="text-align: right; margin-bottom: 20px;">
+            <a href="#" onclick="showForgotPassword(); return false;"
+              style="font-size: 12px; color: var(--navy); font-weight: 600; text-decoration: none;">Forgot Password?</a>
+          </div>
+          <button class="btn btn-primary" style="width: 100%; justify-content: center;"
+            onclick="doLogin()">Login</button>
+        </div>
+
+        <div id="authRegister" style="display: none;">
+          <div class="field" style="margin-bottom: 16px;">
+            <label>Your Name <span class="req">*</span></label>
+            <input type="text" id="auth_r_name" placeholder="Full Name">
+          </div>
+          <div class="field" style="margin-bottom: 16px;">
+            <label>Your Mail ID <span class="req">*</span></label>
+            <input type="email" id="auth_r_email" placeholder="you@jainuniversity.ac.in">
+          </div>
+          <div class="field" style="margin-bottom: 20px;">
+            <label>Set Password <span class="req">*</span></label>
+            <input type="password" id="auth_r_password" placeholder="Min 6 characters"
+              onkeydown="if(event.key==='Enter') doRegister()">
+          </div>
+          <button class="btn btn-primary" style="width: 100%; justify-content: center;"
+            onclick="doRegister()">Register</button>
+        </div>
+
+        <div id="authForgot" style="display: none;">
+          <h3 style="font-size: 16px; color: var(--navy); margin-bottom: 8px;">Reset Password</h3>
+          <p style="font-size: 13px; color: var(--ink3); margin-bottom: 16px;">Enter your email to receive an OTP.</p>
+          <div class="field" style="margin-bottom: 20px;">
+            <label>Your Mail ID <span class="req">*</span></label>
+            <input type="email" id="auth_f_email" placeholder="you@jainuniversity.ac.in">
+          </div>
+          <button class="btn btn-primary" style="width: 100%; justify-content: center; margin-bottom: 12px;"
+            onclick="sendOtp()">Send OTP</button>
+          <div style="text-align: center;">
+            <a href="#" onclick="switchAuth('login'); return false;"
+              style="font-size: 12px; color: var(--ink3); font-weight: 600; text-decoration: none;">Back to Login</a>
+          </div>
+        </div>
+
+        <div id="authReset" style="display: none;">
+          <h3 style="font-size: 16px; color: var(--navy); margin-bottom: 8px;">Enter OTP</h3>
+          <p style="font-size: 13px; color: var(--ink3); margin-bottom: 16px;">Enter the OTP sent to your email.</p>
+          <div class="field" style="margin-bottom: 16px;">
+            <label>OTP <span class="req">*</span></label>
+            <input type="text" id="auth_reset_otp" placeholder="4-digit OTP" maxlength="4"
+              style="text-align:center; letter-spacing:4px; font-size:16px;">
+          </div>
+          <div class="field" style="margin-bottom: 20px;">
+            <label>New Password <span class="req">*</span></label>
+            <input type="password" id="auth_reset_password" placeholder="Min 6 characters">
+          </div>
+          <button class="btn btn-primary" style="width: 100%; justify-content: center; margin-bottom: 12px;"
+            onclick="resetPassword()">Reset Password</button>
+          <div style="text-align: center;">
+            <a href="#" onclick="switchAuth('login'); return false;"
+              style="font-size: 12px; color: var(--ink3); font-weight: 600; text-decoration: none;">Cancel</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Workflow section moved to bottom -->
+    <div class="workflow-section" id="workflow">
+      <div class="workflow-header">
+        <h3 class="workflow-title">Workflow</h3>
+        <a href="/static/uploads/Workflow.pdf" target="_blank" class="pdf-btn">
+          📄 Click here for Workflow PDF
+        </a>
+      </div>
+
+      <div class="workflow-grid">
+        <div class="step-card step-1" style="flex: 1; min-width: 220px;">
+          <div class="step-badge">1</div>
+          <h4>Login &amp; Initiate Report</h4>
+          <p>Head of Department (HOD) authenticates securely via the portal using their registered email. Once logged in,
+            you will select the academic year and semester (Even or Odd) to initiate either the <strong>Semester
+              Readiness Report</strong> or the <strong>Semester Closure Report</strong> to compile critical checklists.
+          </p>
+        </div>
+
+        <div class="workflow-arrow">➔</div>
+
+        <div class="step-card step-2" style="flex: 1; min-width: 220px;">
+          <div class="step-badge">2</div>
+          <h4>Complete HOD Checklist &amp; Link</h4>
+          <p>HOD fills the identity and goes to share to faculty, generates the link and shares to the faculty.</p>
+        </div>
+
+        <div class="workflow-arrow">➔</div>
+
+        <div class="step-card step-3" style="flex: 1; min-width: 220px;">
+          <div class="step-badge">3</div>
+          <h4>Share Link &amp; Faculty Checklists</h4>
+          <p>Once faculty filled, you will get notification.</p>
+        </div>
+
+        <div class="workflow-arrow">➔</div>
+
+        <div class="step-card step-4" style="flex: 1; min-width: 220px;">
+          <div class="step-badge">4</div>
+          <h4>Complete Checkpoints &amp; Submit</h4>
+          <p>Go to checkpoint, fill and submit to OoA.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    function switchAuth(tab) {
+      document.getElementById('tabLogin').classList.toggle('active', tab === 'login');
+      document.getElementById('tabRegister').classList.toggle('active', tab === 'register');
+      document.getElementById('authLogin').style.display = tab === 'login' ? 'block' : 'none';
+      document.getElementById('authRegister').style.display = tab === 'register' ? 'block' : 'none';
+      document.getElementById('authForgot').style.display = 'none';
+      document.getElementById('authReset').style.display = 'none';
+      document.querySelector('.auth-tabs').style.display = (tab === 'login' || tab === 'register') ? 'flex' : 'none';
+    }
+
+    function showForgotPassword() {
+      document.getElementById('authLogin').style.display = 'none';
+      document.getElementById('authRegister').style.display = 'none';
+      document.querySelector('.auth-tabs').style.display = 'none';
+      document.getElementById('authForgot').style.display = 'block';
+      document.getElementById('authReset').style.display = 'none';
+    }
+
+    function doLogin() {
+      const email = document.getElementById('auth_l_email').value.trim();
+      const password = document.getElementById('auth_l_password').value;
+      if (!email || !password) { showToast('Email and Password required'); return; }
+      fetch('/erp/api/login', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+      }).then(r => r.json()).then(res => {
+        if (res.ok) window.location.href = '/erp/';
+        else showToast('⚠ ' + res.error);
+      });
+    }
+
+    function doRegister() {
+      const name = document.getElementById('auth_r_name').value.trim();
+      const email = document.getElementById('auth_r_email').value.trim();
+      const password = document.getElementById('auth_r_password').value;
+      if (!name || !email || !password) { showToast('Name, Email, and Password required'); return; }
+      if (password.length < 6) { showToast('Password must be at least 6 characters'); return; }
+      fetch('/erp/api/register', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, password })
+      }).then(r => r.json()).then(res => {
+        if (res.ok) window.location.href = '/erp/';
+        else showToast('⚠ ' + res.error);
+      });
+    }
+
+    function sendOtp() {
+      const email = document.getElementById('auth_f_email').value.trim();
+      if (!email) { showToast('Email required'); return; }
+      fetch('/erp/api/forgot-password', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email })
+      }).then(r => r.json()).then(res => {
+        if (res.ok) {
+          document.getElementById('authForgot').style.display = 'none';
+          document.getElementById('authReset').style.display = 'block';
+          showToast('OTP sent to your email');
+        }
+        else showToast('⚠ ' + res.error);
+      });
+    }
+
+    function resetPassword() {
+      const otp = document.getElementById('auth_reset_otp').value.trim();
+      const password = document.getElementById('auth_reset_password').value;
+      if (!otp || !password) { showToast('OTP and New Password required'); return; }
+      fetch('/erp/api/reset-password', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ otp, password })
+      }).then(r => r.json()).then(res => {
+        if (res.ok) {
+          showToast('Password reset successfully!');
+          switchAuth('login');
+        } else {
+          showToast('⚠ ' + res.error);
+        }
+      });
+    }
+
+    function showToast(msg) {
+      const el = document.getElementById('toast');
+      el.textContent = msg;
+      el.classList.add('show');
+      setTimeout(() => el.classList.remove('show'), 3000);
+    }
+
+    // PWA Custom Install Prompt Script
+    let deferredPrompt;
+    const pwaLoginSection = document.getElementById('pwaLoginSection');
+    const pwaLoginInstallBtn = document.getElementById('pwaLoginInstallBtn');
+    const pwaLoginIosSection = document.getElementById('pwaLoginIosSection');
+
+    const isIos = () => {
+      const userAgent = window.navigator.userAgent.toLowerCase();
+      return /iphone|ipad|ipod/.test(userAgent);
+    };
+
+    const isMobile = () => {
+      const userAgent = window.navigator.userAgent.toLowerCase();
+      return /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent);
+    };
+
+    const isStandalone = () => {
+      return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+    };
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      if (!isStandalone() && isMobile() && pwaLoginSection) {
+        pwaLoginSection.style.display = 'flex';
+      }
+    });
+
+    if (pwaLoginInstallBtn) {
+      pwaLoginInstallBtn.addEventListener('click', async () => {
+        if (deferredPrompt) {
+          deferredPrompt.prompt();
+          const { outcome } = await deferredPrompt.userChoice;
+          if (outcome === 'accepted') {
+            fetch('/erp/api/track-install', { method: 'POST' }).catch(() => { });
+          }
+          deferredPrompt = null;
+          pwaLoginSection.style.display = 'none';
+        }
+      });
+    }
+
+    window.addEventListener('appinstalled', (evt) => {
+      fetch('/erp/api/track-install', { method: 'POST' }).catch(() => { });
+      if (pwaLoginSection) pwaLoginSection.style.display = 'none';
+    });
+
+    window.addEventListener('load', () => {
+      if (isIos() && !isStandalone() && isMobile() && pwaLoginIosSection) {
+        pwaLoginIosSection.style.display = 'block';
+      }
+      if (isStandalone()) {
+        fetch('/erp/api/track-launch', { method: 'POST' }).catch(() => { });
+      }
+    });
+  </script>
+</body>
+
+</html>

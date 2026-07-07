@@ -613,14 +613,7 @@
             }
         }
         
-        /* Event Ticker Animation Styles */
-        .ticker-track:hover .ticker-text {
-            animation-play-state: paused;
-        }
-        @keyframes ticker-scroll {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-        }
+
     </style>
 </head>
 <body>
@@ -642,38 +635,6 @@
                 <a href="#features">Platform Capabilities</a>
                 <button onclick="scrollToLogin()" class="btn-access"><i class="fas fa-sign-in-alt"></i> Access Portal</button>
             </nav>
-        </div>
-        <!-- Today's Events Ticker -->
-        <div class="ticker-container" style="background: #040d1a; border-top: 1px solid rgba(255, 255, 255, 0.08); border-bottom: 1px solid rgba(255, 122, 0, 0.15); display: flex; height: 40px; align-items: center; overflow: hidden; position: relative; width: 100%;">
-            <div class="ticker-badge" style="background: linear-gradient(135deg, var(--accent-orange), #e05e00); color: #ffffff; padding: 0 16px; font-size: 10.5px; font-weight: 700; white-space: nowrap; letter-spacing: 0.5px; text-transform: uppercase; display: flex; align-items: center; gap: 6px; flex-shrink: 0; height: 100%; z-index: 2;">
-                <i class="fas fa-calendar-day"></i> Today's Events
-            </div>
-            <div class="ticker-track" style="overflow: hidden; flex: 1; display: flex; align-items: center; height: 100%; position: relative;">
-                <div class="ticker-text" style="display: inline-flex; animation: ticker-scroll 30s linear infinite; white-space: nowrap; height: 100%; align-items: center;">
-                    {% if today_events %}
-                        {% for event in today_events %}
-                        <span class="ticker-item" style="color: rgba(255, 255, 255, 0.85); font-size: 13px; padding: 0 24px; border-right: 1px solid rgba(255, 255, 255, 0.08); font-weight: 500; display: inline-flex; align-items: center; gap: 8px; height: 100%; transition: color 0.2s;" onmouseover="this.style.color='var(--accent-gold)'" onmouseout="this.style.color='rgba(255, 255, 255, 0.85)'">
-                            <i class="fas fa-calendar-check" style="color: var(--accent-orange); font-size: 11px;"></i>
-                            <strong>{{ event.event_name }}</strong> · {{ event.event_time }} · <span style="opacity: 0.7; font-size: 12px;">{{ event.venue }}</span>
-                        </span>
-                        {% endfor %}
-                        {# Duplicate for loop #}
-                        {% for event in today_events %}
-                        <span class="ticker-item" style="color: rgba(255, 255, 255, 0.85); font-size: 13px; padding: 0 24px; border-right: 1px solid rgba(255, 255, 255, 0.08); font-weight: 500; display: inline-flex; align-items: center; gap: 8px; height: 100%; transition: color 0.2s;" onmouseover="this.style.color='var(--accent-gold)'" onmouseout="this.style.color='rgba(255, 255, 255, 0.85)'">
-                            <i class="fas fa-calendar-check" style="color: var(--accent-orange); font-size: 11px;"></i>
-                            <strong>{{ event.event_name }}</strong> · {{ event.event_time }} · <span style="opacity: 0.7; font-size: 12px;">{{ event.venue }}</span>
-                        </span>
-                        {% endfor %}
-                    {% else %}
-                        <span class="ticker-item" style="color: rgba(255, 255, 255, 0.65); font-size: 13px; padding: 0 24px; font-weight: 400; display: inline-flex; align-items: center; gap: 8px; height: 100%;">
-                            <i class="fas fa-info-circle" style="color: var(--accent-gold); font-size: 11px;"></i> No academic events scheduled for today.
-                        </span>
-                        <span class="ticker-item" style="color: rgba(255, 255, 255, 0.65); font-size: 13px; padding: 0 24px; font-weight: 400; display: inline-flex; align-items: center; gap: 8px; height: 100%;">
-                            <i class="fas fa-info-circle" style="color: var(--accent-gold); font-size: 11px;"></i> No academic events scheduled for today.
-                        </span>
-                    {% endif %}
-                </div>
-            </div>
         </div>
     </header>
 
@@ -771,32 +732,6 @@
         </div>
     </main>
 
-    <!-- Today's Events Section -->
-    {% if today_events %}
-    <section id="today-events" class="section" style="padding: 60px 24px; background: #fffcf5; border-bottom: 1px solid rgba(255,183,0,0.15);">
-        <div class="section-header" style="margin-bottom: 40px;">
-            <h2 class="section-title" style="font-size: 2.2rem; color: #040d1a;"><i class="fas fa-calendar-day" style="color: var(--accent-orange); margin-right: 10px;"></i>Today's Academic Events</h2>
-            <p class="section-subtitle" style="color: var(--text-muted);">Live events and announcements for today</p>
-            <div class="yellow-line-sub"></div>
-        </div>
-        <div style="max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px;">
-            {% for event in today_events %}
-            <div style="background: #ffffff; border: 1.5px solid rgba(255,183,0,0.25); border-radius: 14px; padding: 20px 24px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 15px rgba(0,0,0,0.02); transition: transform 0.2s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
-                <div>
-                    <h3 style="font-family: 'Inter', sans-serif; font-size: 1.15rem; color: #040d1a; font-weight: 600; margin-bottom: 6px;">{{ event.event_name }}</h3>
-                    <div style="display: flex; gap: 20px; font-size: 13px; color: var(--text-muted);">
-                        <span><i class="far fa-clock" style="color: var(--accent-orange); margin-right: 6px;"></i>{{ event.event_time }}</span>
-                        <span><i class="fas fa-location-dot" style="color: var(--accent-orange); margin-right: 6px;"></i>{{ event.venue }}</span>
-                    </div>
-                </div>
-                <div style="background: #fff5eb; color: var(--accent-orange); font-size: 12px; font-weight: 700; padding: 6px 12px; border-radius: 30px; border: 1px solid rgba(255,122,0,0.15);">
-                    <i class="fas fa-circle-play" style="margin-right: 4px;"></i> Scheduled Today
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-    </section>
-    {% endif %}
 
     <!-- Governance Overview -->
     <section id="overview" class="section">

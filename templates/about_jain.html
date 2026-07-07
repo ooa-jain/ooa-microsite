@@ -209,9 +209,9 @@
       <nav class="main-nav" id="mainNav">
         <a href="{{ url_for('home') }}" class="nav-link"><i class="fas fa-home"></i>Jain Hub</a>
         <a href="{{ url_for('about_jain') }}" class="nav-link active"><i class="fas fa-circle-info"></i>About JAIN</a>
-        <a href="#" class="nav-link"><i class="fas fa-university"></i>Campus</a>
+        <a href="{{ url_for('campus') }}" class="nav-link"><i class="fas fa-university"></i>Campus</a>
         <a href="#" class="nav-link" onclick="startTour();return false;"><i class="fas fa-route"></i>Tour</a>
-        <a href="#" class="nav-link"><i class="fas fa-clock"></i>Take 15 Mins</a>
+        <a href="{{ url_for('home') }}#course-section" class="nav-link"><i class="fas fa-clock"></i>Take 15 Mins</a>
       </nav>
       <div class="user-area">
         {% if user_logged_in %}
@@ -243,6 +243,7 @@
               <span class="dp-status approved"><i class="fas fa-check-circle"></i> Approved</span>
               {% endif %}
             </div>
+            <a href="/profile" class="dp-item"><i class="fas fa-user-circle"></i> My Profile</a>
             {% if approved %}
             {% if user_role == 'user' %}
             <a href="{{ url_for('dept_repo') }}" class="dp-item"><i class="fas fa-folder-open"></i> My Files &amp; Dept Repository</a>

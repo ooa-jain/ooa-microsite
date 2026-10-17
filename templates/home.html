@@ -92,19 +92,19 @@
     }
 
     /* ── DARK THEME ──
-       Deep indigo grounds keep the navy brand; gold becomes the accent that
-       carries headings' emphasis, active states and focus. */
+       Near-black charcoal grounds, as on the Board of Studies portal; the navy
+       brand bands stay, and gold becomes the accent for active states. */
     :root[data-theme="dark"] {
       color-scheme: dark;
-      --off-white: #0a0c1b;
-      --surface: #13162b;
-      --card: #13162b;
-      --border: #262b4b;
-      --text: #e2e4f3;
-      --muted: #a3a7c7;
-      --heading: #f3f4ff;
+      --off-white: #0a0a0b;
+      --surface: #141416;
+      --card: #141416;
+      --border: #26262a;
+      --text: #e8e8eb;
+      --muted: #a1a1aa;
+      --heading: #fafafa;
       --accent: #f5d266;
-      --glass: rgba(14, 16, 34, .82);
+      --glass: rgba(10, 10, 11, .8);
       --shadow-xs: 0 1px 3px rgba(0, 0, 0, .35);
       --shadow-sm: 0 2px 10px rgba(0, 0, 0, .35);
       --shadow-md: 0 8px 24px rgba(0, 0, 0, .4);
@@ -3339,52 +3339,111 @@
     .driver-popover-arrow-side-bottom { border-top-color: rgba(255, 215, 0, 0.45) !important; }
 
     /* ══════════════════════════════════════════════════════════════
-       THEME TOGGLE
+       THEME SWITCH — a pill switch; the new theme grows out of it as a
+       circle (View Transitions), falling back to an instant swap
     ══════════════════════════════════════════════════════════════ */
-    .theme-toggle {
-      width: 42px;
-      height: 42px;
+    .theme-switch {
+      --w: 50px;
+      --h: 28px;
+      --k: 22px;
+      position: relative;
       flex: none;
+      width: var(--w);
+      height: var(--h);
+      padding: 0;
+      border-radius: 999px;
+      background: #18181b;
+      border: 1px solid rgba(0, 0, 0, .1);
+      box-shadow: inset 0 1px 2px rgba(0, 0, 0, .35);
+      transition: background .35s ease, box-shadow .2s ease
+    }
+
+    .theme-switch:hover {
+      box-shadow: inset 0 1px 2px rgba(0, 0, 0, .35), 0 0 0 4px rgba(24, 24, 27, .1)
+    }
+
+    .theme-switch-knob {
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: var(--k);
+      height: var(--k);
       border-radius: 50%;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      border: 1px solid var(--border);
-      background: var(--card);
-      color: var(--heading);
-      box-shadow: var(--shadow-xs);
-      transition: var(--transition)
+      display: grid;
+      place-items: center;
+      background: #fff;
+      color: #18181b;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, .4);
+      transition: transform .4s cubic-bezier(.65, 0, .35, 1), background .35s ease, color .35s ease
     }
 
-    .theme-toggle:hover {
-      border-color: var(--gold-deep);
-      box-shadow: var(--glow-gold);
-      transform: rotate(-14deg)
-    }
-
-    .theme-toggle svg {
-      width: 19px;
-      height: 19px;
+    .theme-switch svg {
+      grid-area: 1 / 1;
+      width: 13px;
+      height: 13px;
       fill: none;
       stroke: currentColor;
-      stroke-width: 2;
+      stroke-width: 2.2;
       stroke-linecap: round;
-      stroke-linejoin: round
+      stroke-linejoin: round;
+      transition: opacity .3s ease, transform .4s cubic-bezier(.65, 0, .35, 1)
     }
 
-    .theme-toggle .ico-moon {
+    .theme-switch .ico-moon {
       fill: currentColor;
-      stroke: none
+      stroke: none;
+      opacity: 0;
+      transform: rotate(-90deg) scale(.4)
     }
 
-    .theme-toggle .ico-sun,
-    [data-theme="dark"] .theme-toggle .ico-moon {
-      display: none
+    [data-theme="dark"] .theme-switch {
+      background: #f4f4f5;
+      border-color: rgba(255, 255, 255, .2);
+      box-shadow: inset 0 1px 2px rgba(0, 0, 0, .18)
     }
 
-    [data-theme="dark"] .theme-toggle .ico-sun {
-      display: block;
-      color: var(--gold)
+    [data-theme="dark"] .theme-switch:hover {
+      box-shadow: inset 0 1px 2px rgba(0, 0, 0, .18), 0 0 0 4px rgba(255, 255, 255, .1)
+    }
+
+    [data-theme="dark"] .theme-switch-knob {
+      transform: translateX(calc(var(--w) - var(--k) - 6px));
+      background: #0a0a0b;
+      color: #f5d266
+    }
+
+    [data-theme="dark"] .theme-switch .ico-sun {
+      opacity: 0;
+      transform: rotate(90deg) scale(.4)
+    }
+
+    [data-theme="dark"] .theme-switch .ico-moon {
+      opacity: 1;
+      transform: none
+    }
+
+    /* the circle is drawn by script on the new snapshot; the default
+       cross-fade would muddy it */
+    ::view-transition-old(root),
+    ::view-transition-new(root) {
+      animation: none;
+      mix-blend-mode: normal
+    }
+
+    ::view-transition-old(root) {
+      z-index: 1
+    }
+
+    ::view-transition-new(root) {
+      z-index: 2
+    }
+
+    /* colours snap during the swap (no half-faded cards inside the circle);
+       movement such as the switch knob and the carousels keeps animating */
+    html.theme-switching *,
+    html.theme-switching *::before,
+    html.theme-switching *::after {
+      transition-property: transform, opacity !important
     }
 
     .chart-card canvas {
@@ -3408,8 +3467,8 @@
     ══════════════════════════════════════════════════════════════ */
     [data-theme="dark"] body {
       background:
-        radial-gradient(1200px 500px at 85% -100px, rgba(90, 90, 230, .12), transparent 60%),
-        radial-gradient(900px 420px at -10% 30%, rgba(255, 215, 0, .05), transparent 55%),
+        radial-gradient(1200px 500px at 85% -100px, rgba(60, 60, 170, .10), transparent 60%),
+        radial-gradient(900px 420px at -10% 30%, rgba(255, 215, 0, .04), transparent 55%),
         var(--off-white)
     }
 
@@ -3421,8 +3480,8 @@
     }
 
     [data-theme="dark"] .skeleton {
-      background: #1c2038;
-      background-image: linear-gradient(to right, #1c2038 0%, #262b48 20%, #1c2038 40%, #1c2038 100%)
+      background: #1c1c1f;
+      background-image: linear-gradient(to right, #1c1c1f 0%, #2a2a2e 20%, #1c1c1f 40%, #1c1c1f 100%)
     }
 
     [data-theme="dark"] .btn-login,
@@ -3459,7 +3518,7 @@
     [data-theme="dark"] .danger-box { background: rgba(231, 76, 60, .1); color: #ffc2bb }
     [data-theme="dark"] .tbl-wrap tr:hover td { background: rgba(255, 255, 255, .05) }
     [data-theme="dark"] .acad-cal-shell,
-    [data-theme="dark"] .nep-img-grid img { background: #1a1d34 }
+    [data-theme="dark"] .nep-img-grid img { background: #1c1c1f }
     [data-theme="dark"] .form-control { background: var(--off-white); color: var(--text) }
     [data-theme="dark"] .toast { color: var(--text) }
     [data-theme="dark"] .know-uni-btn { background: linear-gradient(135deg, rgba(255, 255, 255, .03), rgba(255, 215, 0, .12)) }
@@ -4690,9 +4749,10 @@
         padding: 8px 12px
       }
 
-      .theme-toggle {
-        width: 38px;
-        height: 38px
+      .theme-switch {
+        --w: 46px;
+        --h: 26px;
+        --k: 20px
       }
 
       .greeting-section h2 {
@@ -4876,10 +4936,12 @@
         <a href="#quizSection" class="nav-link" onclick="event.preventDefault();const q=document.getElementById('quizSection');if(q){q.scrollIntoView({behavior:'smooth',block:'center'});expandQuiz();}"><i class="fas fa-clock"></i>Take 15 Mins</a>
       </nav>
       <div class="user-area">
-        <button type="button" class="theme-toggle" id="themeToggle" onclick="toggleTheme()" aria-pressed="false"
-          aria-label="Dark mode" title="Switch to dark mode">
-          <svg class="ico-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
-          <svg class="ico-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.2M12 19.8V22M4.9 4.9l1.6 1.6M17.5 17.5l1.6 1.6M2 12h2.2M19.8 12H22M4.9 19.1l1.6-1.6M17.5 6.5l1.6-1.6"/></svg>
+        <button type="button" class="theme-switch" id="themeToggle" role="switch" aria-checked="false"
+          aria-label="Dark mode" title="Switch to dark mode" onclick="toggleTheme()">
+          <span class="theme-switch-knob" aria-hidden="true">
+            <svg class="ico-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.2M12 19.8V22M4.9 4.9l1.6 1.6M17.5 17.5l1.6 1.6M2 12h2.2M19.8 12H22M4.9 19.1l1.6-1.6M17.5 6.5l1.6-1.6"/></svg>
+            <svg class="ico-moon" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+          </span>
         </button>
         {% if user_logged_in %}
         <div class="user-dropdown">
@@ -6600,13 +6662,31 @@
       if (persist) { try { localStorage.setItem('ooa-theme', t); } catch (e) { } }
       const btn = document.getElementById('themeToggle');
       if (btn) {
-        btn.setAttribute('aria-pressed', t === 'dark' ? 'true' : 'false');
+        btn.setAttribute('aria-checked', t === 'dark' ? 'true' : 'false');
         btn.title = t === 'dark' ? 'Switch to light mode' : 'Switch to dark mode';
       }
       if (window._liChart) initLinkedInChart();
     }
     function toggleTheme() {
-      setTheme(document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark', true);
+      const root = document.documentElement;
+      const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      const btn = document.getElementById('themeToggle');
+      const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+      root.classList.add('theme-switching');
+      const done = () => requestAnimationFrame(() => root.classList.remove('theme-switching'));
+      if (!document.startViewTransition || reduce || !btn) { setTheme(next, true); done(); return; }
+      // grow the new theme as a circle from the switch until it reaches the farthest corner
+      const r = btn.getBoundingClientRect();
+      const x = r.left + r.width / 2, y = r.top + r.height / 2;
+      const radius = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
+      const vt = document.startViewTransition(() => setTheme(next, true));
+      vt.ready.then(() => {
+        root.animate(
+          { clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${radius}px at ${x}px ${y}px)`] },
+          { duration: 750, easing: 'cubic-bezier(.65, 0, .35, 1)', pseudoElement: '::view-transition-new(root)' }
+        );
+      }).catch(() => { });
+      vt.finished.finally(done);
     }
     function initTheme() {
       setTheme(document.documentElement.getAttribute('data-theme') || 'light', false);
@@ -6639,7 +6719,7 @@
       if (!ctx || typeof Chart === 'undefined') return;
       if (window._liChart) window._liChart.destroy();
       const dark = document.documentElement.getAttribute('data-theme') === 'dark';
-      const tick = dark ? '#a3a7c7' : '#6b6d8a';
+      const tick = dark ? '#a1a1aa' : '#6b6d8a';
       window._liChart = new Chart(ctx.getContext('2d'), {
         type: 'bar',
         data: { labels: ['Management', 'CS & IT', 'Commerce', 'Humanities', 'Animation', 'Journalism', 'Art/Design', 'Healthcare', 'Others'], datasets: [{ label: 'Completions', data: [39020, 8169, 7736, 652, 568, 93, 84, 81, 202], backgroundColor: dark ? 'rgba(245,210,102,0.85)' : 'rgba(4,4,58,0.8)', borderColor: dark ? '#f5d266' : 'rgba(4,4,58,1)', borderWidth: 1, borderRadius: 7 }] },

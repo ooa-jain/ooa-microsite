@@ -91,20 +91,22 @@
       --glass: rgba(255, 255, 255, .86);
     }
 
-    /* ── DARK THEME ──
-       Near-black charcoal grounds, as on the Board of Studies portal; the navy
-       brand bands stay, and gold becomes the accent for active states. */
+    /* ── DARK THEME — "deep space" ──
+       A near-black sky with nebula glows and a live starfield (#spaceCanvas);
+       the big panels and navy bands turn to tinted glass so the stars show
+       through. Gold stays the accent for active states. */
     :root[data-theme="dark"] {
       color-scheme: dark;
-      --off-white: #0a0a0b;
-      --surface: #141416;
-      --card: #141416;
-      --border: #26262a;
-      --text: #e8e8eb;
-      --muted: #a1a1aa;
-      --heading: #fafafa;
+      --off-white: #05060d;
+      --surface: #0f1019;
+      --card: #0f1019;
+      --border: #22243a;
+      --text: #e8e8ee;
+      --muted: #a3a6bd;
+      --heading: #fafaff;
       --accent: #f5d266;
-      --glass: rgba(10, 10, 11, .8);
+      --glass: rgba(6, 7, 16, .74);
+      --space-panel: rgba(12, 13, 24, .74);
       --shadow-xs: 0 1px 3px rgba(0, 0, 0, .35);
       --shadow-sm: 0 2px 10px rgba(0, 0, 0, .35);
       --shadow-md: 0 8px 24px rgba(0, 0, 0, .4);
@@ -3467,9 +3469,73 @@
     ══════════════════════════════════════════════════════════════ */
     [data-theme="dark"] body {
       background:
-        radial-gradient(1200px 500px at 85% -100px, rgba(60, 60, 170, .10), transparent 60%),
-        radial-gradient(900px 420px at -10% 30%, rgba(255, 215, 0, .04), transparent 55%),
-        var(--off-white)
+        radial-gradient(1100px 620px at 82% -8%, rgba(96, 64, 214, .24), transparent 62%),
+        radial-gradient(900px 560px at -6% 38%, rgba(32, 96, 178, .18), transparent 60%),
+        radial-gradient(760px 520px at 104% 78%, rgba(178, 58, 146, .13), transparent 60%),
+        radial-gradient(640px 420px at 30% 104%, rgba(255, 196, 80, .06), transparent 62%),
+        var(--off-white);
+      background-attachment: fixed
+    }
+
+    /* the live starfield sits behind everything; drawn only in dark mode */
+    #spaceCanvas {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      display: none
+    }
+
+    [data-theme="dark"] #spaceCanvas {
+      display: block
+    }
+
+    /* big section panels and the navy bands become glass over the sky */
+    [data-theme="dark"] .dig-inner,
+    [data-theme="dark"] .cap-inner,
+    [data-theme="dark"] .cal-section {
+      background: var(--space-panel);
+      border-color: rgba(255, 255, 255, .08);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, .45), inset 0 1px 0 rgba(255, 255, 255, .04)
+    }
+
+    [data-theme="dark"] .ticker {
+      background: linear-gradient(90deg, rgba(4, 4, 58, .62), rgba(20, 20, 110, .5) 60%, rgba(4, 4, 58, .62))
+    }
+
+    [data-theme="dark"] .stats-bar {
+      background:
+        radial-gradient(600px 240px at 15% 0%, rgba(255, 215, 0, .07), transparent 60%),
+        linear-gradient(135deg, rgba(4, 4, 58, .5), rgba(13, 13, 107, .32))
+    }
+
+    [data-theme="dark"] footer {
+      background: linear-gradient(to bottom, rgba(13, 13, 107, .28), rgba(2, 2, 20, .82))
+    }
+
+    [data-theme="dark"] .sw-hero {
+      background:
+        radial-gradient(420px 260px at 92% 8%, rgba(150, 110, 255, .28), transparent 65%),
+        linear-gradient(150deg, #03031a 0%, #0a0a3d 55%, #23136a 100%)
+    }
+
+    /* a fixed sprinkle of stars inside the SWAYAM hero band */
+    [data-theme="dark"] .sw-hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: .7;
+      background-image:
+        radial-gradient(1px 1px at 12% 22%, #fff, transparent 70%),
+        radial-gradient(1px 1px at 34% 70%, #cfe0ff, transparent 70%),
+        radial-gradient(1.4px 1.4px at 58% 18%, #fff, transparent 70%),
+        radial-gradient(1px 1px at 76% 54%, #ffecbe, transparent 70%),
+        radial-gradient(1.2px 1.2px at 90% 30%, #fff, transparent 70%),
+        radial-gradient(1px 1px at 66% 86%, #fff, transparent 70%),
+        radial-gradient(1px 1px at 22% 88%, #cfe0ff, transparent 70%),
+        radial-gradient(1.3px 1.3px at 46% 42%, #fff, transparent 70%);
+      background-size: 340px 220px
     }
 
     [data-theme="dark"] .logo-wrap img {
@@ -4899,6 +4965,7 @@
 </head>
 
 <body>
+  <canvas id="spaceCanvas" aria-hidden="true"></canvas>
 
   <div id="pageTopLoader"></div>
 
@@ -6655,6 +6722,112 @@
     }
 
     /* ═══════════════════════════════════
+       SPACE BACKDROP (dark mode only) — twinkling stars that drift slowly,
+       shift with scroll for depth, and the odd shooting star
+    ═══════════════════════════════════ */
+    const Space = (() => {
+      const TINTS = ['255,255,255', '255,255,255', '255,255,255', '207,224,255', '255,236,190'];
+      const reduce = window.matchMedia ? matchMedia('(prefers-reduced-motion: reduce)') : null;
+      let cv = null, ctx = null, stars = [], shoot = null, nextShoot = 0;
+      let w = 0, h = 0, field = 0, raf = 0, on = false, scrollQueued = false;
+
+      function build() {
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        const regen = innerWidth !== w || !stars.length;
+        w = innerWidth; h = innerHeight; field = h * 1.6;   // taller than the screen so scroll parallax never runs out
+        cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr);
+        cv.style.width = w + 'px'; cv.style.height = h + 'px';
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        if (!regen) return;   // mobile URL-bar resizes keep the same sky
+        const n = Math.round(Math.min(420, (w * h) / 5200));
+        stars = Array.from({ length: n }, () => {
+          const z = Math.random();   // depth: 0 far, 1 near
+          return {
+            x: Math.random() * w, y: Math.random() * field, z,
+            r: z > .96 ? 1.3 + Math.random() * .9 : .35 + z * .9,
+            a: .35 + Math.random() * .65, tw: .6 + Math.random() * 2.2, ph: Math.random() * 6.283,
+            c: TINTS[(Math.random() * TINTS.length) | 0]
+          };
+        });
+      }
+
+      function draw(t) {
+        const still = reduce && reduce.matches;
+        const sy = window.scrollY || 0;
+        ctx.clearRect(0, 0, w, h);
+        for (const s of stars) {
+          if (!still) { s.x -= .012 * (s.z + .15); if (s.x < -4) s.x += w + 8; }
+          let y = (s.y - sy * (.03 + s.z * .08)) % field;
+          if (y < 0) y += field;
+          if (y > h + 4) continue;
+          const a = still ? s.a : s.a * (.55 + .45 * Math.sin(t * .001 * s.tw + s.ph));
+          ctx.fillStyle = `rgba(${s.c},${a.toFixed(3)})`;
+          ctx.beginPath(); ctx.arc(s.x, y, s.r, 0, 6.283); ctx.fill();
+          if (s.r > 1.2) {   // soft halo on the few bright ones
+            ctx.fillStyle = `rgba(${s.c},${(a * .12).toFixed(3)})`;
+            ctx.beginPath(); ctx.arc(s.x, y, s.r * 3.2, 0, 6.283); ctx.fill();
+          }
+        }
+        if (!still) shootingStar(t);
+      }
+
+      function shootingStar(t) {
+        if (!shoot && t > nextShoot) {
+          const ltr = Math.random() < .5;
+          shoot = { x: ltr ? Math.random() * w * .5 : w * (.5 + Math.random() * .5), y: Math.random() * h * .35,
+                    vx: (ltr ? 1 : -1) * (7 + Math.random() * 4), vy: 2.2 + Math.random() * 1.6, life: 0 };
+        }
+        if (!shoot) return;
+        shoot.life++; shoot.x += shoot.vx; shoot.y += shoot.vy;
+        const fade = Math.max(0, 1 - shoot.life / 70);
+        const tx = shoot.x - shoot.vx * 14, ty = shoot.y - shoot.vy * 14;
+        const g = ctx.createLinearGradient(shoot.x, shoot.y, tx, ty);
+        g.addColorStop(0, `rgba(255,255,255,${(.9 * fade).toFixed(3)})`);
+        g.addColorStop(1, 'rgba(255,255,255,0)');
+        ctx.strokeStyle = g; ctx.lineWidth = 1.4; ctx.lineCap = 'round';
+        ctx.beginPath(); ctx.moveTo(shoot.x, shoot.y); ctx.lineTo(tx, ty); ctx.stroke();
+        if (fade <= 0 || shoot.y > h || shoot.x < -200 || shoot.x > w + 200) {
+          shoot = null; nextShoot = t + 6000 + Math.random() * 9000;
+        }
+      }
+
+      function loop(t) {
+        draw(t);
+        raf = on && !document.hidden && !(reduce && reduce.matches) ? requestAnimationFrame(loop) : 0;
+      }
+      function resume() {
+        cancelAnimationFrame(raf); raf = 0;
+        if (!on) return;
+        draw(performance.now());
+        if (!document.hidden && !(reduce && reduce.matches)) raf = requestAnimationFrame(loop);
+      }
+
+      window.addEventListener('resize', () => { if (on) { build(); resume(); } });
+      document.addEventListener('visibilitychange', resume);
+      reduce?.addEventListener?.('change', resume);
+      // with motion reduced there is no loop, so redraw on scroll for the parallax
+      window.addEventListener('scroll', () => {
+        if (!on || raf || scrollQueued) return;
+        scrollQueued = true;
+        requestAnimationFrame(() => { scrollQueued = false; draw(performance.now()); });
+      }, { passive: true });
+
+      return {
+        start() {
+          cv = cv || document.getElementById('spaceCanvas');
+          if (!cv || !cv.getContext) return;
+          ctx = ctx || cv.getContext('2d');
+          if (!on) nextShoot = performance.now() + 2500;
+          on = true; build(); resume();
+        },
+        stop() {
+          on = false; cancelAnimationFrame(raf); raf = 0; shoot = null;
+          if (ctx) ctx.clearRect(0, 0, w, h);
+        }
+      };
+    })();
+
+    /* ═══════════════════════════════════
        THEME (light / dark)
     ═══════════════════════════════════ */
     function setTheme(t, persist) {
@@ -6666,6 +6839,7 @@
         btn.title = t === 'dark' ? 'Switch to light mode' : 'Switch to dark mode';
       }
       if (window._liChart) initLinkedInChart();
+      t === 'dark' ? Space.start() : Space.stop();
     }
     function toggleTheme() {
       const root = document.documentElement;

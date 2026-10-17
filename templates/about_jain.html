@@ -161,6 +161,9 @@
     .fc ul li a { font-size: 14px; opacity: 0.72; display: inline-flex; align-items: center; gap: 9px; transition: var(--t) }
     .fc ul li a i { color: var(--gold-2); font-size: 11px; width: 14px }
     .fc ul li a:hover { opacity: 1; color: var(--gold-2) }
+    .fc ul li a { overflow-wrap: anywhere }
+    .fc ul li a.fc-addr { align-items: flex-start; line-height: 1.55 }
+    .fc ul li a.fc-addr i { margin-top: 5px }
     .socials { display: flex; gap: 11px; margin-top: 16px }
     .social-icon { width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,0.08); display: flex; align-items: center; justify-content: center; transition: var(--t); border: 1px solid rgba(255,255,255,0.14) }
     .social-icon:hover { background: var(--gold-2); color: var(--navy); transform: translateY(-2px) }
@@ -440,9 +443,10 @@
       <div class="fc">
         <h3>Contact</h3>
         <ul>
-          <li><a href="mailto:academics@jainuniversity.ac.in"><i class="fas fa-envelope"></i> academics@jainuniversity.ac.in</a></li>
-          <li><a href="#"><i class="fas fa-phone"></i> +91-80-4343-XXXX</a></li>
-          <li><a href="#"><i class="fas fa-map-marker-alt"></i> JC Road, Bengaluru – 560 002</a></li>
+          <li><a href="mailto:officeofacademicaffairs@jainuniversity.ac.in"><i class="fas fa-envelope"></i> officeofacademicaffairs@jainuniversity.ac.in</a></li>
+          <li><a href="tel:+918043432500"><i class="fas fa-phone"></i> 080 4343 2500</a></li>
+          <li><a class="fc-addr" href="https://www.google.com/maps/search/?api=1&amp;query=JAIN+University+Head+Office+423+9th+Main+Rd+Banashankari+2nd+Stage+Bengaluru+560070" target="_blank" rel="noopener"><i class="fas fa-map-marker-alt"></i>
+              <span>JAIN University Head Office, 423, 9th Main Rd, Siddanna Layout, Banashankari 2nd Stage, Bengaluru, Karnataka 560070</span></a></li>
         </ul>
       </div>
     </div>

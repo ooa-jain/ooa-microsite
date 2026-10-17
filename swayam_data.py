@@ -8,13 +8,13 @@ everything from SWAYAM.
 """
 
 CATEGORIES = [
-    # key, label, Font Awesome icon
-    ('vac', 'VAC (Mandate Course)', 'fa-landmark'),
-    ('ai', 'AI and New Technologies', 'fa-robot'),
-    ('bb', 'Bharatiya Bhasha', 'fa-language'),
-    ('ent', 'Entrepreneurship', 'fa-rocket'),
-    ('iks', 'Indian Knowledge Systems', 'fa-om'),
-    ('sus', 'Sustainability', 'fa-leaf'),
+    # key, label, Font Awesome icon, short label for course-card tags
+    ('vac', 'VAC (Mandate Course)', 'fa-landmark', 'Mandate course'),
+    ('ai', 'AI and New Technologies', 'fa-robot', 'AI & New Tech'),
+    ('bb', 'Bharatiya Bhasha', 'fa-language', 'Bharatiya Bhasha'),
+    ('ent', 'Entrepreneurship', 'fa-rocket', 'Entrepreneurship'),
+    ('iks', 'Indian Knowledge Systems', 'fa-om', 'IKS'),
+    ('sus', 'Sustainability', 'fa-leaf', 'Sustainability'),
 ]
 
 _PREVIEW = 'https://onlinecourses.swayam2.ac.in/e-learning/preview/'
@@ -110,7 +110,7 @@ MENTOR_STEPS = [
 
 def _with_label(course):
     cat = next(c for c in CATEGORIES if c[0] == course['cat'])
-    return dict(course, cat_label=cat[1], icon=cat[2])
+    return dict(course, cat_label=cat[1], icon=cat[2], cat_short=cat[3])
 
 
 SWAYAM = dict(
@@ -121,7 +121,7 @@ SWAYAM = dict(
     portal='onlinecourses.swayam2.ac.in',
     chapter_id='7730',
     categories=[dict(key=k, label=l, icon=i, count=sum(1 for c in COURSES if c['cat'] == k))
-                for k, l, i in CATEGORIES],
+                for k, l, i, _short in CATEGORIES],
     courses=[_with_label(c) for c in COURSES],
     form_fields=FORM_FIELDS,
     form_selections=FORM_SELECTIONS,

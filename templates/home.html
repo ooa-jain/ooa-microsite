@@ -3426,17 +3426,17 @@
 
     /* the circle is drawn by script on the new snapshot; the default
        cross-fade would muddy it */
-    ::view-transition-old(root),
-    ::view-transition-new(root) {
+    html.theme-switching::view-transition-old(root),
+    html.theme-switching::view-transition-new(root) {
       animation: none;
       mix-blend-mode: normal
     }
 
-    ::view-transition-old(root) {
+    html.theme-switching::view-transition-old(root) {
       z-index: 1
     }
 
-    ::view-transition-new(root) {
+    html.theme-switching::view-transition-new(root) {
       z-index: 2
     }
 
@@ -3513,30 +3513,7 @@
       background: linear-gradient(to bottom, rgba(13, 13, 107, .28), rgba(2, 2, 20, .82))
     }
 
-    [data-theme="dark"] .sw-hero {
-      background:
-        radial-gradient(420px 260px at 92% 8%, rgba(150, 110, 255, .28), transparent 65%),
-        linear-gradient(150deg, #03031a 0%, #0a0a3d 55%, #23136a 100%)
-    }
-
     /* a fixed sprinkle of stars inside the SWAYAM hero band */
-    [data-theme="dark"] .sw-hero::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      opacity: .7;
-      background-image:
-        radial-gradient(1px 1px at 12% 22%, #fff, transparent 70%),
-        radial-gradient(1px 1px at 34% 70%, #cfe0ff, transparent 70%),
-        radial-gradient(1.4px 1.4px at 58% 18%, #fff, transparent 70%),
-        radial-gradient(1px 1px at 76% 54%, #ffecbe, transparent 70%),
-        radial-gradient(1.2px 1.2px at 90% 30%, #fff, transparent 70%),
-        radial-gradient(1px 1px at 66% 86%, #fff, transparent 70%),
-        radial-gradient(1px 1px at 22% 88%, #cfe0ff, transparent 70%),
-        radial-gradient(1.3px 1.3px at 46% 42%, #fff, transparent 70%);
-      background-size: 340px 220px
-    }
 
     [data-theme="dark"] .logo-wrap img {
       background: #fff;
@@ -3665,71 +3642,11 @@
       box-shadow: var(--shadow-md)
     }
 
-    .sw-btn-gold {
-      background: #eebd1b;
-      color: var(--navy)
-    }
-
-    .sw-btn-gold:hover {
-      background: var(--gold-light)
-    }
-
-    .sw-btn-ghost {
-      background: transparent;
-      color: #fff;
-      border-color: rgba(255, 255, 255, .3)
-    }
-
-    .sw-btn-ghost:hover {
-      background: rgba(255, 255, 255, .1)
-    }
-
-    .sw-btn-dark {
-      background: var(--sw-btn);
-      color: var(--sw-btn-ink)
-    }
-
     .sw-btn-block {
       width: 100%
     }
 
-    [data-theme="dark"] .sw-course .sw-btn-dark {
-      background: rgba(245, 210, 102, .1);
-      color: #f5d266;
-      border-color: rgba(245, 210, 102, .35)
-    }
-
-    [data-theme="dark"] .sw-course .sw-btn-dark:hover {
-      background: #f5d266;
-      color: var(--navy)
-    }
-
     /* ── hero band ── */
-    .sw-hero {
-      position: relative;
-      overflow: hidden;
-      border-radius: 28px;
-      padding: 34px 36px;
-      margin-bottom: 26px;
-      color: #e9ebff;
-      background: linear-gradient(150deg, #02022a 0%, var(--navy) 55%, #14148a 100%);
-      box-shadow: var(--shadow-lg)
-    }
-
-    .sw-hero::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      background:
-        radial-gradient(560px 300px at 88% 0%, rgba(255, 215, 0, .16), transparent 62%),
-        radial-gradient(460px 280px at 0% 100%, rgba(75, 163, 200, .18), transparent 60%)
-    }
-
-    .sw-hero>* {
-      position: relative;
-      z-index: 1
-    }
 
     .sw-hero-top {
       display: flex;
@@ -3737,10 +3654,6 @@
       align-items: center;
       gap: 10px 16px;
       margin-bottom: 18px
-    }
-
-    .sw-hero .sw-eyebrow {
-      color: var(--sw-gold-hi)
     }
 
     .sw-chip {
@@ -3751,8 +3664,17 @@
       border-radius: 999px;
       font-size: .78rem;
       font-weight: 600;
+      color: #2a1730;
+      background: rgba(255, 255, 255, .62);
+      border: 1px solid rgba(255, 255, 255, .9);
+      box-shadow: 0 4px 14px -8px rgba(80, 20, 60, .35)
+    }
+
+    [data-theme="dark"] .sw-chip {
+      color: #fff;
       background: rgba(255, 255, 255, .08);
-      border: 1px solid rgba(255, 255, 255, .16)
+      border-color: rgba(255, 255, 255, .16);
+      box-shadow: none
     }
 
     .sw-chip-dot {
@@ -3778,63 +3700,6 @@
           box-shadow: 0 0 0 8px rgba(86, 208, 138, .06)
         }
       }
-    }
-
-    .sw-hero-title {
-      font-family: var(--sw-head);
-      font-weight: 500;
-      font-stretch: 95%;
-      font-size: clamp(1.45rem, 3.1vw, 2.25rem);
-      line-height: 1.1;
-      letter-spacing: -.03em;
-      color: #fff;
-      max-width: 24ch;
-      margin-bottom: 14px
-    }
-
-    .sw-hero-title em {
-      font-style: normal;
-      color: var(--sw-gold-hi)
-    }
-
-    .sw-hero p {
-      max-width: 64ch;
-      font-size: .95rem;
-      line-height: 1.65;
-      color: rgba(233, 235, 255, .82);
-      margin-bottom: 24px
-    }
-
-    .sw-hero-stats {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 18px 40px;
-      padding-top: 20px;
-      margin-bottom: 24px;
-      border-top: 1px solid rgba(255, 255, 255, .12)
-    }
-
-    .sw-hero-stats .n {
-      font-family: var(--sw-head);
-      font-size: 2rem;
-      font-weight: 600;
-      line-height: 1;
-      color: var(--sw-gold-hi)
-    }
-
-    .sw-hero-stats .l {
-      font-family: var(--sw-mono);
-      font-size: .7rem;
-      text-transform: uppercase;
-      letter-spacing: .06em;
-      color: rgba(233, 235, 255, .78);
-      margin-top: 7px
-    }
-
-    .sw-hero-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px
     }
 
     /* ── segmented section tabs ── */
@@ -4051,36 +3916,6 @@
     }
 
     /* ── course cards ── */
-    .sw-course-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(268px, 1fr));
-      gap: 18px
-    }
-
-    .sw-course {
-      --cat: #1d4ed8;
-      --cat-bg: #e8efff;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      padding: 20px 20px 20px;
-      position: relative
-    }
-
-    .sw-course::before {
-      content: "";
-      position: absolute;
-      inset: 0 auto 0 0;
-      width: 4px;
-      background: var(--cat);
-      opacity: .85;
-      border-radius: 0 4px 4px 0
-    }
-
-    .sw-course:hover {
-      transform: translateY(-3px);
-      box-shadow: var(--shadow-lg)
-    }
 
     .sw-c-vac { --cat: #a16207; --cat-bg: #fdf3d7 }
     .sw-c-ai { --cat: #1d4ed8; --cat-bg: #e8efff }
@@ -4095,61 +3930,6 @@
     [data-theme="dark"] .sw-c-ent { --cat: #fdae7b; --cat-bg: rgba(253, 174, 123, .12) }
     [data-theme="dark"] .sw-c-iks { --cat: #c4a7ff; --cat-bg: rgba(196, 167, 255, .12) }
     [data-theme="dark"] .sw-c-sus { --cat: #6ee7b7; --cat-bg: rgba(110, 231, 183, .12) }
-
-    .sw-course-top {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      min-width: 0
-    }
-
-    .sw-course-top .sw-eyebrow {
-      flex: 1;
-      min-width: 0;
-      line-height: 1.3
-    }
-
-    .sw-cat-ico {
-      width: 34px;
-      height: 34px;
-      flex: none;
-      border-radius: 10px;
-      display: grid;
-      place-items: center;
-      background: var(--cat-bg);
-      color: var(--cat);
-      font-size: .9rem
-    }
-
-    .sw-pill {
-      flex: none;
-      padding: 3px 9px;
-      border-radius: 999px;
-      font: 500 .68rem var(--sw-mono);
-      letter-spacing: .03em;
-      background: var(--cat-bg);
-      color: var(--cat)
-    }
-
-    .sw-course h4 {
-      font-family: var(--sw-head);
-      font-weight: 600;
-      font-size: 1.08rem;
-      line-height: 1.25;
-      letter-spacing: -.015em;
-      color: var(--sw-ink)
-    }
-
-    .sw-course h4[lang="hi"] {
-      font-family: 'Inter', 'Noto Sans Devanagari', 'Nirmala UI', 'Mangal', sans-serif;
-      letter-spacing: 0
-    }
-
-    .sw-course-sub {
-      margin-top: -8px;
-      font-size: .85rem;
-      color: var(--sw-soft)
-    }
 
     .sw-codes {
       display: grid;
@@ -4177,20 +3957,6 @@
       color: var(--sw-ink);
       margin-top: 2px;
       word-break: break-all
-    }
-
-    .sw-course-meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px 16px;
-      font-size: .8rem;
-      color: var(--sw-soft)
-    }
-
-    .sw-course-meta i {
-      color: var(--sw-gold);
-      margin-right: 4px;
-      font-size: .75rem
     }
 
     .sw-empty {
@@ -4596,6 +4362,714 @@
       color: var(--sw-ink)
     }
 
+    /* ── wobble bento (after Aceternity's WobbleCard): pastel cards that
+       lean toward the pointer while their content drifts the other way ── */
+    .sw-bento {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 28px
+    }
+
+    .sw-wobble {
+      --wb-ink: #23122b;
+      --wb-soft: rgba(35, 18, 43, .72);
+      --wb-accent: #db2777;
+      position: relative;
+      overflow: hidden;
+      isolation: isolate;
+      min-height: 300px;
+      border-radius: 24px;
+      color: var(--wb-ink);
+      box-shadow: 0 10px 32px rgba(34, 42, 53, .12), 0 1px 1px rgba(0, 0, 0, .05), 0 0 0 1px rgba(34, 42, 53, .05),
+        0 4px 6px rgba(34, 42, 53, .08), 0 24px 108px rgba(47, 48, 55, .1);
+      transition: transform .1s ease-out
+    }
+
+    .sw-wobble::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background-image: radial-gradient(88% 100% at top, rgba(255, 255, 255, .55), rgba(255, 255, 255, 0))
+    }
+
+    .sw-wobble-inner {
+      position: relative;
+      height: 100%;
+      padding: 34px 36px;
+      transition: transform .1s ease-out
+    }
+
+    .sw-wb-wide {
+      grid-column: span 2
+    }
+
+    .sw-wb-full {
+      grid-column: 1 / -1
+    }
+
+    .sw-wb-rose {
+      background: linear-gradient(135deg, #ffe1ea 0%, #ffd6c9 55%, #ffe8d2 100%)
+    }
+
+    .sw-wb-butter {
+      --wb-ink: #2c2106;
+      --wb-soft: rgba(44, 33, 6, .7);
+      --wb-accent: #b45309;
+      background: linear-gradient(140deg, #fff7d6 0%, #ffe9b0 100%)
+    }
+
+    .sw-wb-sky {
+      --wb-ink: #111a44;
+      --wb-soft: rgba(17, 26, 68, .7);
+      --wb-accent: #3b5bdb;
+      background: linear-gradient(120deg, #e1efff 0%, #e9e2ff 55%, #dcf6ff 100%)
+    }
+
+    [data-theme="dark"] .sw-wobble {
+      --wb-ink: #fff;
+      --wb-soft: rgba(255, 255, 255, .74);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, .45), inset 0 0 0 1px rgba(255, 255, 255, .08)
+    }
+
+    [data-theme="dark"] .sw-wobble::before {
+      background-image: radial-gradient(88% 100% at top, rgba(255, 255, 255, .1), rgba(255, 255, 255, 0))
+    }
+
+    [data-theme="dark"] .sw-wb-rose { --wb-accent: #f9a8d4; background: linear-gradient(135deg, rgba(190, 24, 93, .55), rgba(234, 88, 12, .32)), #12101a }
+    [data-theme="dark"] .sw-wb-butter { --wb-accent: #fcd34d; background: linear-gradient(140deg, rgba(180, 83, 9, .5), rgba(202, 138, 4, .3)), #13110c }
+    [data-theme="dark"] .sw-wb-sky { --wb-accent: #a5b4fc; background: linear-gradient(120deg, rgba(59, 91, 219, .5), rgba(124, 58, 237, .38)), #0e1020 }
+
+    .sw-noise {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      pointer-events: none;
+      opacity: .1;
+      transform: scale(1.2);
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+      -webkit-mask-image: radial-gradient(#fff, transparent 75%);
+      mask-image: radial-gradient(#fff, transparent 75%)
+    }
+
+    .sw-wobble-copy {
+      position: relative;
+      z-index: 1;
+      max-width: 54%
+    }
+
+    .sw-wb-full .sw-wobble-copy {
+      max-width: 46%
+    }
+
+    .sw-wobble h3 {
+      font-family: var(--sw-head);
+      font-weight: 600;
+      font-size: clamp(1.25rem, 2.3vw, 1.85rem);
+      line-height: 1.12;
+      letter-spacing: -.02em;
+      text-wrap: balance;
+      color: var(--wb-ink);
+      margin: 0 0 12px
+    }
+
+    .sw-wobble p {
+      font-size: .95rem;
+      line-height: 1.6;
+      color: var(--wb-soft);
+      max-width: 42ch
+    }
+
+    .sw-wobble .sw-hero-top {
+      margin-bottom: 18px
+    }
+
+    .sw-wobble .sw-eyebrow {
+      color: var(--wb-soft)
+    }
+
+    .sw-wb-stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 26px;
+      margin: 20px 0 22px
+    }
+
+    .sw-wb-stats b {
+      display: block;
+      font-family: var(--sw-head);
+      font-size: 1.6rem;
+      font-weight: 600;
+      line-height: 1;
+      color: var(--wb-ink)
+    }
+
+    .sw-wb-stats span {
+      font: .66rem var(--sw-mono);
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      color: var(--wb-soft)
+    }
+
+    .sw-wb-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 20px
+    }
+
+    .sw-btn-ink {
+      background: var(--wb-ink, var(--heading));
+      color: #fff
+    }
+
+    [data-theme="dark"] .sw-btn-ink {
+      color: #0b0b14
+    }
+
+    .sw-btn-soft {
+      background: rgba(255, 255, 255, .62);
+      border-color: rgba(255, 255, 255, .9);
+      color: var(--wb-ink, var(--heading))
+    }
+
+    [data-theme="dark"] .sw-btn-soft {
+      background: rgba(255, 255, 255, .08);
+      border-color: rgba(255, 255, 255, .16);
+      color: #fff
+    }
+
+    .sw-wb-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 22px;
+      font-weight: 700;
+      font-size: .9rem;
+      color: var(--wb-accent)
+    }
+
+    .sw-wb-link i {
+      transition: transform .2s ease
+    }
+
+    .sw-wb-link:hover i {
+      transform: translateX(4px)
+    }
+
+    .sw-wobble-img {
+      position: absolute;
+      z-index: 0;
+      width: 440px;
+      height: auto;
+      max-width: none;
+      right: -130px;
+      bottom: -56px;
+      transform: rotate(-3deg);
+      border-radius: 16px;
+      border: 5px solid rgba(255, 255, 255, .7);
+      box-shadow: 0 24px 60px -18px rgba(30, 20, 60, .45);
+      filter: saturate(.85)
+    }
+
+    .sw-wb-full .sw-wobble-img {
+      width: 560px;
+      right: -30px;
+      bottom: -90px;
+      transform: rotate(-2deg)
+    }
+
+    /* a tiny form mock: what SWAYAM accepts and what it rejects */
+    .sw-wb-form {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 8px;
+      margin-top: 22px;
+      transform: rotate(-2deg)
+    }
+
+    .sw-wb-form span {
+      min-width: 0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, .7);
+      border: 1px solid rgba(255, 255, 255, .95);
+      box-shadow: 0 8px 20px -12px rgba(120, 80, 0, .45);
+      font: .78rem var(--sw-mono);
+      color: var(--wb-ink)
+    }
+
+    .sw-wb-form small {
+      flex: none;
+      width: 52px;
+      font: 600 .62rem 'Inter', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      color: var(--wb-soft)
+    }
+
+    .sw-wb-form em {
+      flex: 1;
+      min-width: 0;
+      font-style: normal;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap
+    }
+
+    .sw-wb-form b {
+      flex: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font: 700 .7rem 'Inter', sans-serif;
+      color: #fff;
+      background: #16a34a
+    }
+
+    .sw-wb-form .no {
+      opacity: .75
+    }
+
+    .sw-wb-form .no em {
+      text-decoration: line-through;
+      text-decoration-color: #dc2626
+    }
+
+    .sw-wb-form .no b {
+      background: #dc2626
+    }
+
+    [data-theme="dark"] .sw-wb-form span {
+      background: rgba(255, 255, 255, .08);
+      border-color: rgba(255, 255, 255, .14);
+      box-shadow: none
+    }
+
+    [data-theme="dark"] .sw-wobble-img {
+      border-color: rgba(255, 255, 255, .12);
+      filter: saturate(.85) brightness(.92)
+    }
+
+    /* ── courses as expandable rows (after Aceternity's ExpandableCard) ── */
+    .sw-xlist {
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px
+    }
+
+    .sw-course {
+      --cat: #1d4ed8;
+      --cat-bg: #e8efff
+    }
+
+    .sw-xrow {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 10px 14px 10px 10px;
+      border-radius: 18px;
+      text-align: left;
+      background: var(--sw-surface);
+      border: 1px solid var(--sw-line);
+      color: inherit;
+      transition: background .2s ease, border-color .2s ease, transform .2s ease, box-shadow .2s ease
+    }
+
+    .sw-xrow:hover {
+      background: var(--cat-bg);
+      border-color: transparent;
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md)
+    }
+
+    .sw-xthumb {
+      width: 58px;
+      height: 58px;
+      flex: none;
+      border-radius: 14px;
+      object-fit: cover
+    }
+
+    .sw-xtext {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 3px
+    }
+
+    .sw-xtitle {
+      font-family: var(--sw-head);
+      font-weight: 600;
+      font-size: 1rem;
+      line-height: 1.25;
+      letter-spacing: -.01em;
+      color: var(--sw-ink)
+    }
+
+    .sw-xtitle[lang="hi"] {
+      font-family: 'Inter', 'Noto Sans Devanagari', 'Nirmala UI', 'Mangal', sans-serif;
+      letter-spacing: 0
+    }
+
+    .sw-xdesc {
+      font-size: .8rem;
+      color: var(--sw-soft)
+    }
+
+    .sw-xdesc code {
+      font: .76rem var(--sw-mono);
+      color: var(--cat)
+    }
+
+    .sw-xcta {
+      flex: none;
+      padding: 8px 16px;
+      border-radius: 999px;
+      font-size: .82rem;
+      font-weight: 700;
+      background: #f1f2f6;
+      color: #111;
+      transition: background .2s ease, color .2s ease
+    }
+
+    .sw-xrow:hover .sw-xcta {
+      background: #22c55e;
+      color: #fff
+    }
+
+    [data-theme="dark"] .sw-xcta {
+      background: rgba(255, 255, 255, .08);
+      color: #fff
+    }
+
+    /* the expanded card */
+    .sw-xmodal {
+      position: fixed;
+      inset: 0;
+      z-index: 3500;
+      display: grid;
+      place-items: center;
+      padding: 20px
+    }
+
+    .sw-xmodal[hidden] {
+      display: none
+    }
+
+    .sw-xbackdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(12, 12, 28, .28);
+      backdrop-filter: blur(3px)
+    }
+
+    [data-theme="dark"] .sw-xbackdrop {
+      background: rgba(0, 0, 0, .55)
+    }
+
+    .sw-xcard {
+      position: relative;
+      width: 100%;
+      max-width: 520px;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      border-radius: 28px;
+      background: var(--card);
+      color: var(--text);
+      box-shadow: 0 40px 100px -20px rgba(10, 10, 40, .45), 0 0 0 1px rgba(0, 0, 0, .04)
+    }
+
+    [data-theme="dark"] .sw-xcard {
+      background: #11121c;
+      box-shadow: 0 40px 100px -20px rgba(0, 0, 0, .8), 0 0 0 1px rgba(255, 255, 255, .08)
+    }
+
+    .sw-xmodal.pop .sw-xcard {
+      animation: swPop .32s cubic-bezier(.2, .9, .25, 1)
+    }
+
+    @keyframes swPop {
+      from {
+        opacity: 0;
+        transform: translateY(16px) scale(.96)
+      }
+    }
+
+    .sw-ximg {
+      width: 100%;
+      height: 280px;
+      flex: none;
+      object-fit: cover;
+      object-position: center
+    }
+
+    .sw-xclose {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      z-index: 2;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: rgba(255, 255, 255, .9);
+      color: #111;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, .18);
+      transition: transform .2s ease
+    }
+
+    .sw-xclose:hover {
+      transform: rotate(90deg)
+    }
+
+    .sw-xclose svg {
+      width: 16px;
+      height: 16px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2.4;
+      stroke-linecap: round
+    }
+
+    .sw-xhead {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 20px 22px 6px
+    }
+
+    .sw-xhead .sw-xtitle {
+      display: block;
+      font-size: 1.25rem;
+      margin: 0 0 4px
+    }
+
+    .sw-xhead .sw-xdesc {
+      display: block;
+      font-size: .86rem
+    }
+
+    .sw-xenrol {
+      padding: 11px 20px;
+      background: #22c55e;
+      color: #fff;
+      text-decoration: none;
+      box-shadow: 0 10px 24px -10px rgba(34, 197, 94, .8)
+    }
+
+    .sw-xenrol:hover {
+      background: #16a34a
+    }
+
+    [data-theme="dark"] .sw-xenrol {
+      background: #22c55e;
+      color: #fff
+    }
+
+    .sw-xbody {
+      padding: 12px 22px 34px;
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      scrollbar-width: none;
+      -webkit-mask-image: linear-gradient(to bottom, #000 0, #000 calc(100% - 46px), transparent);
+      mask-image: linear-gradient(to bottom, #000 0, #000 calc(100% - 46px), transparent);
+      font-size: .9rem;
+      line-height: 1.6
+    }
+
+    .sw-xbody::-webkit-scrollbar {
+      display: none
+    }
+
+    .sw-xbody h4 {
+      font-family: var(--sw-head);
+      font-weight: 600;
+      font-size: .98rem;
+      color: var(--heading);
+      margin: 18px 0 6px
+    }
+
+    .sw-xbody p {
+      color: var(--muted)
+    }
+
+    .sw-xbody .sw-codes {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 14px
+    }
+
+    .sw-xbody .sw-list li {
+      color: var(--muted)
+    }
+
+    .sw-xchips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px
+    }
+
+    .sw-xchips span {
+      padding: 4px 10px;
+      border-radius: 999px;
+      font: 500 .7rem var(--sw-mono);
+      letter-spacing: .02em;
+      background: var(--cat-bg);
+      color: var(--cat)
+    }
+
+    .sw-xlinks {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px
+    }
+
+    .sw-xlinks .sw-btn-soft {
+      background: var(--off-white);
+      border-color: var(--border);
+      color: var(--heading);
+      font-size: .8rem;
+      padding: 8px 14px
+    }
+
+    /* shared-element morph timing (row ↔ card) */
+    html.swx-morph::view-transition-group(*) {
+      animation-duration: .45s;
+      animation-timing-function: cubic-bezier(.2, .85, .25, 1)
+    }
+
+    html.swx-morph::view-transition-old(swx-img),
+    html.swx-morph::view-transition-new(swx-img) {
+      height: 100%;
+      object-fit: cover
+    }
+
+    @media (max-width: 1100px) {
+      .sw-wobble-img {
+        width: 360px;
+        right: -140px;
+        bottom: -50px
+      }
+
+      .sw-wb-full .sw-wobble-img {
+        width: 440px;
+        right: -120px;
+        bottom: -110px
+      }
+    }
+
+    @media (max-width: 960px) {
+      .sw-bento {
+        grid-template-columns: 1fr
+      }
+
+      .sw-wb-wide {
+        grid-column: auto
+      }
+
+      .sw-wb-form {
+        max-width: 380px
+      }
+
+      .sw-xlist {
+        grid-template-columns: 1fr
+      }
+    }
+
+    @media (max-width: 760px) {
+      .sw-bento {
+        grid-template-columns: 1fr
+      }
+
+      .sw-wb-wide,
+      .sw-wb-full {
+        grid-column: auto
+      }
+
+      .sw-wobble {
+        min-height: 0
+      }
+
+      .sw-wobble-inner {
+        padding: 26px 22px
+      }
+
+      .sw-wobble-copy,
+      .sw-wb-full .sw-wobble-copy {
+        max-width: none
+      }
+
+      /* the screenshot peeks in under the copy instead of beside it */
+      .sw-wb-wide .sw-wobble-inner,
+      .sw-wb-full .sw-wobble-inner {
+        padding-bottom: 200px
+      }
+
+      .sw-wobble-img,
+      .sw-wb-full .sw-wobble-img {
+        width: 420px;
+        right: -110px;
+        bottom: -40px;
+        transform: rotate(-3deg)
+      }
+
+      .sw-wb-stats {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px
+      }
+
+      .sw-xrow {
+        gap: 12px;
+        padding: 8px 10px 8px 8px
+      }
+
+      .sw-xthumb {
+        width: 52px;
+        height: 52px;
+        border-radius: 12px
+      }
+
+      .sw-xcta {
+        padding: 7px 12px;
+        font-size: .76rem
+      }
+
+      /* the expanded card fills the phone screen */
+      .sw-xmodal {
+        padding: 0
+      }
+
+      .sw-xcard {
+        max-width: none;
+        height: 100%;
+        max-height: none;
+        border-radius: 0
+      }
+
+      .sw-ximg {
+        height: 230px
+      }
+    }
+
     /* ── screenshot lightbox ── */
     .sw-lightbox {
       position: fixed;
@@ -4678,24 +5152,6 @@
     }
 
     @media (max-width: 760px) {
-      .sw-hero {
-        padding: 24px 20px;
-        border-radius: 22px
-      }
-
-      .sw-hero-stats {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 16px
-      }
-
-      .sw-hero-stats .n {
-        font-size: 1.7rem
-      }
-
-      .sw-hero-actions .sw-btn {
-        flex: 1 1 auto
-      }
 
       /* section tabs and category pills scroll sideways instead of stacking */
       .sw-tabs-wrap {
@@ -4734,7 +5190,6 @@
         flex-basis: auto
       }
 
-      .sw-course-grid,
       .sw-guide-grid,
       .sw-flow {
         grid-template-columns: 1fr
@@ -5325,30 +5780,72 @@
               {% set enrol_open = today <= swayam.enrolment_ends %}
               {% set a = swayam.assessment %}
 
-              <section class="sw-hero">
-                <div class="sw-hero-top">
-                  <span class="sw-chip {{ 'is-open' if enrol_open else 'is-closed' }}"><span class="sw-chip-dot"
-                      aria-hidden="true"></span>{% if enrol_open %}Enrolment open until {{ swayam.enrolment_ends_label }}{% else %}Enrolment closed on {{ swayam.enrolment_ends_label }}{% endif %}</span>
-                  <span class="sw-eyebrow">{{ swayam.cycle }}</span>
-                </div>
-                <h3 class="sw-hero-title">University-wide open electives — <em>in-house SWAYAM courses</em> aligned
-                  with SAMUDI categories</h3>
-                <p>Courses are taken on the SWAYAM portal under JAIN’s Local Chapter and earn credits in the SAMUDI
-                  basket. Pick a course, enrol with your official JAIN email and ABC ID, and select your faculty
-                  mentor inside the course.</p>
-                <div class="sw-hero-stats">
-                  <div><div class="n">{{ swayam.courses|length }}</div><div class="l">Courses</div></div>
-                  <div><div class="n">{{ swayam.categories|length }}</div><div class="l">Categories</div></div>
-                  <div><div class="n">{{ a.credits }}</div><div class="l">Credits each</div></div>
-                  <div><div class="n">{{ swayam.chapter_id }}</div><div class="l">Local Chapter ID</div></div>
-                </div>
-                <div class="sw-hero-actions">
-                  <a class="sw-btn sw-btn-gold" href="https://{{ swayam.portal }}" target="_blank" rel="noopener"><i
-                      class="fas fa-arrow-up-right-from-square"></i> Open SWAYAM portal</a>
-                  <button type="button" class="sw-btn sw-btn-ghost" data-sw-go="guide"><i
-                      class="fas fa-list-check"></i> How to enrol</button>
-                </div>
-              </section>
+              <div class="sw-bento">
+                <article class="sw-wobble sw-wb-rose sw-wb-wide" data-wobble>
+                  <div class="sw-wobble-inner">
+                    <div class="sw-wobble-copy">
+                      <div class="sw-hero-top">
+                        <span class="sw-chip {{ 'is-open' if enrol_open else 'is-closed' }}"><span class="sw-chip-dot"
+                            aria-hidden="true"></span>{% if enrol_open %}Enrolment open until {{ swayam.enrolment_ends_label }}{% else %}Enrolment closed on {{ swayam.enrolment_ends_label }}{% endif %}</span>
+                        <span class="sw-eyebrow">{{ swayam.cycle }}</span>
+                      </div>
+                      <h3>University-wide open electives, in&#8209;house on SWAYAM</h3>
+                      <p>{{ swayam.courses|length }} courses across the SAMUDI categories, taken on the SWAYAM portal under
+                        JAIN’s Local Chapter for credit.</p>
+                      <div class="sw-wb-stats">
+                        <div><b>{{ swayam.courses|length }}</b><span>Courses</span></div>
+                        <div><b>{{ swayam.categories|length }}</b><span>Categories</span></div>
+                        <div><b>{{ a.credits }}</b><span>Credits each</span></div>
+                        <div><b>{{ swayam.chapter_id }}</b><span>Chapter ID</span></div>
+                      </div>
+                      <div class="sw-wb-actions">
+                        <a class="sw-btn sw-btn-ink" href="https://{{ swayam.portal }}" target="_blank" rel="noopener"><i
+                            class="fas fa-arrow-up-right-from-square"></i> Open SWAYAM portal</a>
+                        <button type="button" class="sw-btn sw-btn-soft" data-sw-go="guide"><i
+                            class="fas fa-list-check"></i> How to enrol</button>
+                      </div>
+                    </div>
+                    <img class="sw-wobble-img" src="{{ url_for('static', filename='images/swayam/mentee-3.webp') }}"
+                      alt="" width="1400" height="683" loading="lazy" decoding="async">
+                  </div>
+                  <span class="sw-noise" aria-hidden="true"></span>
+                </article>
+
+                <article class="sw-wobble sw-wb-butter" data-wobble>
+                  <div class="sw-wobble-inner">
+                    <h3>No ABC ID. No personal email. No enrolment.</h3>
+                    <p>Enter your 12-digit ABC ID and sign up with your official JAIN email — Gmail and other personal
+                      IDs are not accepted.</p>
+                    <button type="button" class="sw-wb-link" data-sw-go="guide">Read the guidelines <i
+                        class="fas fa-arrow-right"></i></button>
+                    <div class="sw-wb-form" aria-hidden="true">
+                      <span><small>ABC ID</small><em>1234 5678 9012</em><b>✓</b></span>
+                      <span><small>Email</small><em>usn@jainuniversity.ac.in</em><b>✓</b></span>
+                      <span class="no"><small>Email</small><em>myname@gmail.com</em><b>✕</b></span>
+                    </div>
+                  </div>
+                  <span class="sw-noise" aria-hidden="true"></span>
+                </article>
+
+                <article class="sw-wobble sw-wb-sky sw-wb-full" data-wobble>
+                  <div class="sw-wobble-inner">
+                    <div class="sw-wobble-copy">
+                      <h3>Pick your mentor on SWAYAM, then never miss a weekly assignment.</h3>
+                      <p>Students choose their faculty mentor inside the course in {{ swayam.mentee_steps|length }} quick
+                        steps. Mentors see every mentee and download weekly marks as a CSV.</p>
+                      <div class="sw-wb-actions">
+                        <button type="button" class="sw-btn sw-btn-ink" data-sw-go="mentee"><i
+                            class="fas fa-user-graduate"></i> Student guide</button>
+                        <button type="button" class="sw-btn sw-btn-soft" data-sw-go="mentor"><i
+                            class="fas fa-chalkboard-teacher"></i> Mentor guide</button>
+                      </div>
+                    </div>
+                    <img class="sw-wobble-img" src="{{ url_for('static', filename='images/swayam/mentee-8.webp') }}"
+                      alt="" width="1400" height="638" loading="lazy" decoding="async">
+                  </div>
+                  <span class="sw-noise" aria-hidden="true"></span>
+                </article>
+              </div>
 
               <div class="sw-tabs-wrap">
                 <div class="sw-tabs" role="tablist" aria-label="SWAYAM sections">
@@ -5382,30 +5879,27 @@
                   </label>
                 </div>
 
-                <div class="sw-course-grid" id="swCourseGrid">
+                <ul class="sw-xlist" id="swCourseGrid">
                   {% for c in swayam.courses %}
-                  <article class="sw-card sw-course sw-c-{{ c.cat }}" data-cat="{{ c.cat }}"
+                  <li class="sw-course sw-c-{{ c.cat }}" data-cat="{{ c.cat }}"
                     data-search="{{ (c.title ~ ' ' ~ (c.subtitle or '') ~ ' ' ~ c.ug ~ ' ' ~ (c.pg or '') ~ ' ' ~ c.cat_label ~ ' ' ~ c.type)|lower }}">
-                    <div class="sw-course-top">
-                      <span class="sw-cat-ico" aria-hidden="true"><i class="fas {{ c.icon }}"></i></span>
-                      <span class="sw-eyebrow">{{ c.cat_label }}</span>
-                      <span class="sw-pill" title="{{ 'Value Added Course' if c.type == 'VAC' else 'Multidisciplinary Course' }}">{{ c.type }}</span>
-                    </div>
-                    <h4 {% if c.lang %}lang="{{ c.lang }}" {% endif %}>{{ c.title }}</h4>
-                    {% if c.subtitle %}<p class="sw-course-sub">{{ c.subtitle }}</p>{% endif %}
-                    <dl class="sw-codes">
-                      <div><dt>UG code</dt><dd>{{ c.ug }}</dd></div>
-                      <div><dt>PG code</dt><dd>{{ c.pg or 'UG only' }}</dd></div>
-                    </dl>
-                    <div class="sw-course-meta">
-                      <span><i class="fas fa-star"></i> {{ a.credits }} credits</span>
-                      <span><i class="fas fa-rotate"></i> {{ 'Rerun' if c.offered == 'Rerun' else 'Odd semester' }}</span>
-                    </div>
-                    <a class="sw-btn sw-btn-dark sw-btn-block" href="{{ c.link }}" target="_blank" rel="noopener">View &amp;
-                      enrol on SWAYAM <i class="fas fa-arrow-right"></i></a>
-                  </article>
+                    <button type="button" class="sw-xrow" data-sw-open="{{ loop.index0 }}" aria-haspopup="dialog">
+                      <img class="sw-xthumb" src="{{ url_for('static', filename='images/swayam/courses/' ~ c.ug|lower ~ '.webp') }}"
+                        alt="" width="96" height="96" loading="lazy" decoding="async">
+                      <span class="sw-xtext">
+                        <span class="sw-xtitle" {% if c.lang %}lang="{{ c.lang }}" {% endif %}>{{ c.title }}</span>
+                        <span class="sw-xdesc">{% if c.subtitle %}{{ c.subtitle }} · {% endif %}{{ c.cat_label }} · <code>{{ c.ug }}</code></span>
+                      </span>
+                      <span class="sw-xcta">View</span>
+                    </button>
+                  </li>
                   {% endfor %}
-                </div>
+                </ul>
+                <script type="application/json" id="swCourseData">{{ {
+                  'courses': swayam.courses, 'assessment': a, 'open': enrol_open,
+                  'img': url_for('static', filename='images/swayam/courses/'),
+                  'chapter': swayam.chapter_id, 'college': swayam.form_fields[2][1]
+                }|tojson }}</script>
                 <p class="sw-empty" id="swEmpty" hidden><i class="fas fa-circle-info"></i> No course matches that
                   search. Try a course code such as <code>25SWGAI01</code>.</p>
 
@@ -6326,6 +6820,25 @@
     </div>
   </div>
 
+  <!-- SWAYAM COURSE — expanded card -->
+  <div class="sw sw-xmodal" id="swCourseModal" hidden>
+    <div class="sw-xbackdrop" data-sw-close></div>
+    <div class="sw-xcard" role="dialog" aria-modal="true" aria-labelledby="swxTitle">
+      <button type="button" class="sw-xclose" data-sw-close aria-label="Close course details">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+      <img class="sw-ximg" id="swxImg" alt="" width="960" height="600">
+      <div class="sw-xhead">
+        <div>
+          <h3 class="sw-xtitle" id="swxTitle"></h3>
+          <p class="sw-xdesc" id="swxDesc"></p>
+        </div>
+        <a class="sw-xcta sw-xenrol" id="swxCta" href="#" target="_blank" rel="noopener"></a>
+      </div>
+      <div class="sw-xbody" id="swxBody"></div>
+    </div>
+  </div>
+
   <!-- SWAYAM SCREENSHOT LIGHTBOX -->
   <div class="sw-lightbox" id="swLightbox" role="dialog" aria-modal="true" aria-label="Screenshot viewer" hidden>
     <button type="button" class="sw-lb-close" aria-label="Close screenshot"><i class="fas fa-times"></i></button>
@@ -6663,6 +7176,128 @@
       document.querySelector('.tab-bar-wrap')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
+    /* expanded course card — the row's image, title and button morph into
+       the card (View Transitions); without them the card simply pops in */
+    let _swData = null, _swRow = null;
+    const _swEsc = v => String(v ?? '').replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
+    function swParts(scope) {
+      return { card: scope, img: scope.querySelector('.sw-xthumb, .sw-ximg'), title: scope.querySelector('.sw-xtitle'),
+               desc: scope.querySelector('.sw-xdesc'), cta: scope.querySelector('.sw-xcta') };
+    }
+    function swName(parts, on) {
+      for (const [k, el] of Object.entries(parts)) if (el) el.style.viewTransitionName = on ? 'swx-' + k : '';
+    }
+    function swMorph(update) {
+      const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+      if (!document.startViewTransition || reduce) { update(); return null; }
+      document.documentElement.classList.add('swx-morph');
+      const vt = document.startViewTransition(update);
+      vt.finished.finally(() => document.documentElement.classList.remove('swx-morph'));
+      return vt;
+    }
+    function swFillCourse(i) {
+      _swData = _swData || JSON.parse(document.getElementById('swCourseData').textContent);
+      const c = _swData.courses[i], a = _swData.assessment;
+      const img = document.getElementById('swxImg');
+      img.src = _swData.img + c.ug.toLowerCase() + '.webp';
+      const title = document.getElementById('swxTitle');
+      title.textContent = c.title;
+      c.lang ? title.setAttribute('lang', c.lang) : title.removeAttribute('lang');
+      document.getElementById('swxDesc').textContent = (c.subtitle ? c.subtitle + ' · ' : '') + c.cat_label;
+      const cta = document.getElementById('swxCta');
+      cta.href = c.link;
+      cta.textContent = _swData.open ? 'Enrol' : 'View';
+      cta.setAttribute('aria-label', (_swData.open ? 'Enrol in ' : 'View ') + c.title + ' on SWAYAM (opens in a new tab)');
+      document.getElementById('swCourseModal').className = 'sw sw-xmodal sw-c-' + c.cat;
+      document.getElementById('swxBody').innerHTML = `
+        <div class="sw-xchips">
+          <span>${_swEsc(c.type === 'VAC' ? 'VAC · Value Added Course' : 'MDC · Multidisciplinary Course')}</span>
+          <span>${a.credits} credits</span>
+          <span>${c.offered === 'Rerun' ? 'Rerun' : 'Odd semester'}</span>
+          <span>LTPE ${_swEsc(a.ltpe)}</span>
+        </div>
+        <dl class="sw-codes">
+          <div><dt>UG code</dt><dd>${_swEsc(c.ug)}</dd></div>
+          <div><dt>PG code</dt><dd>${_swEsc(c.pg || 'UG only')}</dd></div>
+        </dl>
+        <h4>Assessment</h4>
+        <p>${_swEsc(a.type)} course. Internal assessment ${a.ia_max} marks (minimum ${a.ia_min}), end-semester theory
+          ${a.ese_max} marks (minimum ${a.ese_min}); you pass with ${a.pass_marks} out of ${a.ia_max + a.ese_max}.
+          Every weekly SWAYAM assignment counts — skipping one can cost marks or lead to a backlog.</p>
+        <h4>Before you enrol</h4>
+        <ul class="sw-list">
+          <li>Enter your <strong>12-digit ABC ID</strong> under Personal Details.</li>
+          <li>Sign up with your <strong>official JAIN email</strong> — personal IDs and Gmail are not accepted.</li>
+          <li>Local Chapter: <strong>YES</strong>, College: <strong>${_swEsc(_swData.college)}</strong>, roll number: your USN.</li>
+          <li>Reason: “Earn mandatory SWAYAM Credits”. Final exam registration: “No, my college is conducting an exam”.</li>
+        </ul>
+        <h4>After you enrol</h4>
+        <p>Open the course’s <strong>My Mentor</strong> tab and select your faculty mentor by email.</p>
+        <div class="sw-xlinks">
+          <button type="button" class="sw-btn sw-btn-soft" data-sw-guide="mentee"><i class="fas fa-user-graduate"></i> How to select a mentor</button>
+          <button type="button" class="sw-btn sw-btn-soft" data-sw-guide="guide"><i class="fas fa-clipboard-list"></i> Full guidelines</button>
+        </div>`;
+      document.getElementById('swxBody').scrollTop = 0;
+    }
+    function swOpenCourse(i, row) {
+      const modal = document.getElementById('swCourseModal');
+      if (!modal) return;
+      _swRow = row;
+      swName(swParts(row), true);
+      const vt = swMorph(() => {
+        swName(swParts(row), false);
+        swFillCourse(i);
+        modal.hidden = false;
+        document.body.style.overflow = 'hidden';
+        swName(swParts(modal.querySelector('.sw-xcard')), true);
+      });
+      if (!vt) { swName(swParts(row), false); modal.classList.add('pop'); }
+      const done = () => { swName(swParts(modal.querySelector('.sw-xcard')), false); modal.querySelector('.sw-xclose').focus(); };
+      vt ? vt.finished.finally(done) : done();
+    }
+    function swCloseCourse() {
+      const modal = document.getElementById('swCourseModal');
+      if (!modal || modal.hidden) return;
+      const row = _swRow, card = modal.querySelector('.sw-xcard');
+      const rowVisible = row && row.offsetParent !== null;
+      swName(swParts(card), true);
+      const vt = swMorph(() => {
+        swName(swParts(card), false);
+        modal.hidden = true;
+        document.body.style.overflow = '';
+        if (rowVisible) swName(swParts(row), true);
+      });
+      if (!vt) swName(swParts(card), false);
+      const done = () => { if (row) { swName(swParts(row), false); if (rowVisible) row.focus({ preventScroll: true }); } };
+      vt ? vt.finished.finally(done) : done();
+    }
+
+    /* wobble cards — the card leans toward the pointer and its content
+       drifts the other way (mouse only, motion allowed) */
+    function initWobble(root) {
+      const fine = window.matchMedia?.('(hover: hover) and (pointer: fine)');
+      const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)');
+      root.querySelectorAll('[data-wobble]').forEach(card => {
+        const inner = card.querySelector('.sw-wobble-inner');
+        let raf = 0;
+        card.addEventListener('pointermove', e => {
+          if (!fine?.matches || reduce?.matches || raf) return;
+          raf = requestAnimationFrame(() => {
+            raf = 0;
+            const r = card.getBoundingClientRect();
+            const x = (e.clientX - (r.left + r.width / 2)) / 20;
+            const y = (e.clientY - (r.top + r.height / 2)) / 20;
+            card.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+            inner.style.transform = `translate3d(${-x}px, ${-y}px, 0) scale3d(1.03, 1.03, 1)`;
+          });
+        });
+        card.addEventListener('pointerleave', () => {
+          cancelAnimationFrame(raf); raf = 0;
+          card.style.transform = inner.style.transform = '';
+        });
+      });
+    }
+
     function openSwayam(e, section) {
       e?.preventDefault();
       document.querySelector('.tab-pill[data-tab="2"]')?.click();
@@ -6693,7 +7328,9 @@
           return;
         }
         const shot = e.target.closest('[data-sw-zoom]');
-        if (shot) swOpenShot(shot);
+        if (shot) { swOpenShot(shot); return; }
+        const row = e.target.closest('[data-sw-open]');
+        if (row) swOpenCourse(+row.dataset.swOpen, row);
       });
       // arrow keys move between the SWAYAM section tabs
       root.querySelector('.sw-tabs')?.addEventListener('keydown', e => {
@@ -6705,7 +7342,26 @@
         next.focus(); swTab(next.dataset.swTab);
       });
       document.getElementById('swSearch')?.addEventListener('input', swFilter);
-      root.querySelectorAll('.sw-shot img').forEach(img => img.addEventListener('load', syncCarouselHeight));
+      root.querySelectorAll('.sw-shot img, .sw-wobble-img').forEach(img => img.addEventListener('load', syncCarouselHeight));
+
+      const modal = document.getElementById('swCourseModal');
+      modal?.addEventListener('click', e => {
+        if (e.target.closest('[data-sw-close]')) { swCloseCourse(); return; }
+        const go = e.target.closest('[data-sw-guide]');
+        if (go) { swCloseCourse(); openSwayam(null, go.dataset.swGuide); }
+      });
+      document.addEventListener('keydown', e => {
+        if (!modal || modal.hidden) return;
+        if (e.key === 'Escape') { e.preventDefault(); swCloseCourse(); }
+        else if (e.key === 'Tab') {   // keep focus inside the open card
+          const f = [...modal.querySelectorAll('button, a[href]')].filter(x => x.offsetParent !== null);
+          if (!f.length) return;
+          const first = f[0], last = f[f.length - 1];
+          if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+          else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+        }
+      });
+      initWobble(root);
 
       const lb = document.getElementById('swLightbox');
       lb?.addEventListener('click', e => {

@@ -1569,6 +1569,11 @@ def login():
 
 @app.route('/login/google', methods=['POST'])
 def login_google():
+    # Google sign-in is switched off: users sign in with email + password
+    # (Google-created accounts can set a password via "Forgot password?").
+    # Set GOOGLE_LOGIN_ENABLED=true in .env to turn it back on.
+    if os.getenv('GOOGLE_LOGIN_ENABLED', 'false').lower() != 'true':
+        return jsonify({'success': False, 'error': 'Google sign-in is disabled. Please sign in with your email and password.'}), 403
     try:
         data = request.get_json()
         if not data:

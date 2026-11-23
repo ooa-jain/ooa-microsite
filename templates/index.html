@@ -356,47 +356,7 @@
             box-shadow: 0 6px 20px rgba(255, 122, 0, 0.4);
         }
 
-        .divider {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin: 20px 0;
-        }
-        .divider::before, .divider::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: rgba(255, 255, 255, 0.1);
-        }
-        .divider span {
-            font-size: 12px;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-        }
 
-        /* Google button */
-        .google-btn {
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            padding: 13px;
-            border: 1.5px solid rgba(255, 255, 255, 0.15);
-            border-radius: 12px;
-            background: rgba(255, 255, 255, 0.05);
-            color: white;
-            font-size: 14.5px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-family: inherit;
-        }
-        .google-btn:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: rgba(255, 255, 255, 0.3);
-        }
 
         .register-link {
             text-align: center;
@@ -636,9 +596,10 @@
         body.ac-landing .stat-num { color: #fff; font-family: var(--ac-serif); font-weight: 600; }
         body.ac-landing .login-card { border-radius: 6px; border-top: 4px solid var(--ac-maroon); }
         body.ac-landing .yellow-line { background: var(--ac-maroon); }
-        body.ac-landing .input-field, body.ac-landing .google-btn { border-radius: 4px; }
+        body.ac-landing .input-field { border-radius: 4px; }
         body.ac-landing .input-field:focus { border-color: #c9474f; box-shadow: 0 0 0 3px rgba(201,71,79,.18); }
         body.ac-landing .register-link a, body.ac-landing .forgot-password a:hover { color: #e6b7bb; }
+        @media (max-width: 1180px) { body.ac-landing .ac-util-addr { display: none; } }
         @media (max-width: 900px) {
             body.ac-landing .ac-landing-utility { display: none; }
             body.ac-landing header { top: 0; }
@@ -659,14 +620,13 @@
     <div class="ac-utility ac-landing-utility">
         <div class="ac-wrap ac-utility-inner">
             <div class="ac-utility-left">
+                <a href="https://www.google.com/maps/search/?api=1&amp;query=JAIN+University+Head+Office+423+9th+Main+Rd+Banashankari+2nd+Stage+Bengaluru+560070" target="_blank" rel="noopener" class="ac-util-addr"><i class="fas fa-location-dot"></i> 423, 9th Main Rd, Banashankari 2nd Stage, Bengaluru 560070</a>
                 <a href="tel:+918043432500"><i class="fas fa-phone"></i> 080 4343 2500</a>
                 <a href="mailto:officeofacademicaffairs@jainuniversity.ac.in"><i class="fas fa-envelope"></i> officeofacademicaffairs@jainuniversity.ac.in</a>
             </div>
             <div class="ac-utility-right">
                 <a href="https://www.jainuniversity.ac.in" target="_blank" rel="noopener">University Website</a>
-                <a href="https://www.ugc.gov.in" target="_blank" rel="noopener">UGC</a>
-                <a href="https://www.naac.gov.in" target="_blank" rel="noopener">NAAC</a>
-                <a href="{{ url_for('usernewsletters') }}">Newsletters</a>
+                <a href="{{ url_for('ai_newsletter_archive') }}">Newsletter</a>
             </div>
         </div>
     </div>
@@ -759,23 +719,6 @@
                         </button>
                     </form>
 
-                    <!-- Divider -->
-                    <div class="divider">
-                        <span>or sign in with</span>
-                    </div>
-
-                    <!-- Google Sign-In Button -->
-                    <button id="google-login-btn" class="google-btn" onclick="signInWithGoogle()">
-                        <svg width="20" height="20" viewBox="0 0 48 48">
-                            <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
-                            <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
-                            <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
-                            <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
-                        </svg>
-                        <span>Sign in with Google</span>
-                    </button>
-                    <div id="google-error" style="display:none;color:#ff8080;font-size:13px;margin-top:10px;text-align:center;"></div>
-
                     <div class="register-link">
                         <p>New to the platform? <a href="{{ url_for('register') }}">Create an account</a></p>
                     </div>
@@ -855,9 +798,10 @@
             </div>
             <div class="footer-column">
                 <h3>Contact</h3>
-                <p style="margin-bottom:8px;"><i class="fas fa-map-marker-alt" style="color:var(--accent-orange);margin-right:6px;"></i> Bengaluru, Karnataka, India</p>
-                <p style="margin-bottom:8px;"><i class="fas fa-envelope" style="color:var(--accent-orange);margin-right:6px;"></i> ooa.connect@jainuniversity.ac.in</p>
-                <p><i class="fas fa-clock" style="color:var(--accent-orange);margin-right:6px;"></i> Mon–Fri, 9:00 AM – 5:30 PM IST</p>
+                <p style="margin-bottom:8px;"><i class="fas fa-map-marker-alt" style="color:#e05d68;margin-right:6px;"></i> <a href="https://www.google.com/maps/search/?api=1&amp;query=JAIN+University+Head+Office+423+9th+Main+Rd+Banashankari+2nd+Stage+Bengaluru+560070" target="_blank" rel="noopener" style="color:inherit;text-decoration:none">JAIN University Head Office, 423, 9th Main Rd, Siddanna Layout, Banashankari 2nd Stage, Bengaluru, Karnataka 560070</a></p>
+                <p style="margin-bottom:8px;"><i class="fas fa-phone" style="color:#e05d68;margin-right:6px;"></i> <a href="tel:+918043432500" style="color:inherit;text-decoration:none">080 4343 2500</a></p>
+                <p style="margin-bottom:8px;"><i class="fas fa-envelope" style="color:#e05d68;margin-right:6px;"></i> <a href="mailto:officeofacademicaffairs@jainuniversity.ac.in" style="color:inherit;text-decoration:none">officeofacademicaffairs@jainuniversity.ac.in</a></p>
+                <p><i class="fas fa-clock" style="color:#e05d68;margin-right:6px;"></i> Mon–Fri, 9:00 AM – 5:30 PM IST</p>
             </div>
         </div>
         <div class="footer-bottom">
@@ -892,68 +836,5 @@
         }
     </script>
 
-    <!-- Firebase SDK -->
-    <script type="module">
-        import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js';
-        import { getAuth, GoogleAuthProvider, signInWithPopup } from 'https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js';
-
-        const firebaseConfig = {
-            apiKey:            "{{ firebase_config.api_key }}",
-            authDomain:        "{{ firebase_config.auth_domain }}",
-            projectId:         "{{ firebase_config.project_id }}",
-            storageBucket:     "{{ firebase_config.storage_bucket }}",
-            messagingSenderId: "{{ firebase_config.messaging_sender_id }}",
-            appId:             "{{ firebase_config.app_id }}",
-            measurementId:     "{{ firebase_config.measurement_id }}"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const provider = new GoogleAuthProvider();
-        provider.setCustomParameters({ hd: 'jainuniversity.ac.in' });
-
-        window.signInWithGoogle = async function() {
-            const btn = document.getElementById('google-login-btn');
-            const errDiv = document.getElementById('google-error');
-            btn.disabled = true;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Signing in...';
-            errDiv.style.display = 'none';
-            try {
-                const result = await signInWithPopup(auth, provider);
-                const idToken = await result.user.getIdToken();
-                const email = result.user.email;
-
-                if (!email.endsWith('@jainuniversity.ac.in')) {
-                    btn.disabled = false;
-                    btn.innerHTML = '<svg width="20" height="20" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg> <span>Sign in with Google</span>';
-                    errDiv.textContent = '❌ Only @jainuniversity.ac.in email accounts are allowed.';
-                    errDiv.style.display = 'block';
-                    await auth.signOut();
-                    return;
-                }
-
-                const resp = await fetch('/login/google', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ idToken })
-                });
-                const data = await resp.json();
-                if (data.success) {
-                    window.location.href = data.redirect || '/';
-                } else {
-                    errDiv.textContent = '❌ ' + data.message;
-                    errDiv.style.display = 'block';
-                    btn.disabled = false;
-                    btn.innerHTML = '<svg width="20" height="20" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg> <span>Sign in with Google</span>';
-                }
-            } catch (err) {
-                console.error('Google sign-in error:', err);
-                errDiv.textContent = '❌ Google sign-in failed: ' + (err.message || 'Unknown error');
-                errDiv.style.display = 'block';
-                btn.disabled = false;
-                btn.innerHTML = '<svg width="20" height="20" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg> <span>Sign in with Google</span>';
-            }
-        };
-    </script>
 </body>
 </html>

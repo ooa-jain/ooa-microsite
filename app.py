@@ -62,6 +62,7 @@ logger = logging.getLogger(__name__)
 # ══════════════════════════════════════════════════════════════════════
 app = Flask(__name__)
 from config import Config
+from swayam_data import SWAYAM
 app.config.from_object(Config)
 
 app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_host=1)
@@ -1568,6 +1569,11 @@ def login():
 
 @app.route('/login/google', methods=['POST'])
 def login_google():
+    # Google sign-in is switched off: users sign in with email + password
+    # (Google-created accounts can set a password via "Forgot password?").
+    # Set GOOGLE_LOGIN_ENABLED=true in .env to turn it back on.
+    if os.getenv('GOOGLE_LOGIN_ENABLED', 'false').lower() != 'true':
+        return jsonify({'success': False, 'error': 'Google sign-in is disabled. Please sign in with your email and password.'}), 403
     try:
         data = request.get_json()
         if not data:
@@ -2219,7 +2225,8 @@ def home():
             user_email=session.get("email",""), user_role=session.get("role",""),
             user_type=user_type, is_faculty=is_fac, can_upload=can_upload,
             approved=approved, special_role=special_role,
-            user_department=user_department, user_location=user_location)
+            user_department=user_department, user_location=user_location,
+            swayam=SWAYAM)
     except Exception as e:
         logger.error(f"Home route error: {e}", exc_info=True)
         flash("Error loading home page", "error")

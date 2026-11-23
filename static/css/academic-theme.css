@@ -401,3 +401,6 @@ header.ac-header .btn-login { display: inline-flex; align-items: center; gap: 8p
 [data-theme="dark"] .ac-footer-bottom { background: #04050b; }
 /* theme switch sits beside the user button in the masthead */
 header.ac-header .user-area { gap: 12px; }
+
+/* ── 17. Utility strip: drop the address first when space runs out ── */
+@media (max-width: 1240px) { .ac-utility .ac-util-addr { display: none; } }

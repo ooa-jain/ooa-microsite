@@ -351,3 +351,53 @@ body.ac-theme section.hero .hero-inner { padding: 0 8px; }
 
 /* ── 15. Sign-in button baseline (pages without home.html's CSS) ── */
 header.ac-header .btn-login { display: inline-flex; align-items: center; gap: 8px; padding: 9px 18px; color: #fff; font-weight: 700; font-size: 14px; text-decoration: none; font-family: var(--ac-sans); white-space: nowrap; }
+
+/* ── 16. Dark mode (Jain Hub's theme switch sets html[data-theme="dark"]) ── */
+:root[data-theme="dark"] {
+  --ac-bg: #05060d;
+  --ac-surface: #0f1019;
+  --ac-line: #22243a;
+  --ac-line-soft: #1a1c2e;
+  --ac-ink: #e8e8ee;
+  --ac-muted: #a3a6bd;
+  --ac-maroon-50: rgba(201, 71, 79, .16);
+}
+[data-theme="dark"] body.ac-theme {
+  background:
+    radial-gradient(1100px 620px at 82% -8%, rgba(96, 64, 214, .24), transparent 62%),
+    radial-gradient(900px 560px at -6% 38%, rgba(32, 96, 178, .18), transparent 60%),
+    radial-gradient(760px 520px at 104% 78%, rgba(178, 58, 146, .13), transparent 60%),
+    var(--ac-bg);
+  background-attachment: fixed;
+  color: var(--ac-ink);
+}
+[data-theme="dark"] header.ac-header { background: rgba(15, 16, 25, .92); box-shadow: 0 1px 0 var(--ac-line); }
+[data-theme="dark"] .ac-crest, [data-theme="dark"] .ac-footer-logo { background: #fff; border-radius: 6px; padding: 4px 8px; }
+[data-theme="dark"] .ac-brand-title,
+[data-theme="dark"] .ac-accred strong,
+[data-theme="dark"] body.ac-theme #dynamicGreeting,
+[data-theme="dark"] body.ac-theme .ncp-header,
+[data-theme="dark"] body.ac-theme .tab-pill.active,
+[data-theme="dark"] body.ac-theme .tab-pill:not(.active):hover,
+[data-theme="dark"] body.ac-theme .cal-title,
+[data-theme="dark"] body.ac-theme .stat-num,
+[data-theme="dark"] body.ac-theme .know-uni-btn,
+[data-theme="dark"] header.ac-header .user-btn,
+[data-theme="dark"] header.ac-header .dp-item:hover,
+[data-theme="dark"] .ac-navbar .nav-dd-item strong { color: #fafaff !important; -webkit-text-fill-color: currentColor; }
+[data-theme="dark"] .ac-breadcrumb a { color: #93b4ff; }
+[data-theme="dark"] header.ac-header .user-btn:hover,
+[data-theme="dark"] body.ac-theme .know-uni-btn:hover { background: rgba(255, 255, 255, .06); border-color: #3a3d5c; }
+[data-theme="dark"] header.ac-header .dropdown-panel,
+[data-theme="dark"] .ac-navbar .nav-dd-panel { background: var(--ac-surface); border-color: var(--ac-line); }
+[data-theme="dark"] header.ac-header .dp-item i,
+[data-theme="dark"] .ac-navbar .nav-dd-item small { color: var(--ac-muted); }
+[data-theme="dark"] .ac-navbar { background: #0b0d1c; border-top-color: var(--ac-line); }
+[data-theme="dark"] .ac-navbar .nav-link.active { background: rgba(255, 255, 255, .07); }
+[data-theme="dark"] body.ac-theme .stats-bar { background: rgba(12, 13, 24, .74); }
+[data-theme="dark"] body.ac-theme .notice-card-panel,
+[data-theme="dark"] body.ac-theme .cal-section { background: rgba(12, 13, 24, .74); }
+[data-theme="dark"] footer.ac-footer { background: #070812; }
+[data-theme="dark"] .ac-footer-bottom { background: #04050b; }
+/* theme switch sits beside the user button in the masthead */
+header.ac-header .user-area { gap: 12px; }

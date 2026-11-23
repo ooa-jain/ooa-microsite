@@ -4,10 +4,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
   <title>Office of Academics – Jain (Deemed-to-be University)</title>
+  <script>
+    /* set the theme before first paint so dark mode never flashes white */
+    (function () {
+      var t = null;
+      try { t = localStorage.getItem('ooa-theme'); } catch (e) { }
+      if (t !== 'light' && t !== 'dark') t = window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link
-    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=Fragment+Mono&display=swap"
     rel="stylesheet">
   <style>
     /* Skeleton Loader Shimmer CSS */
@@ -73,6 +83,35 @@
       --radius-lg: 22px;
       --radius-xl: 32px;
       --transition: all .3s cubic-bezier(.4, 0, .2, 1);
+
+      /* theme-aware roles: these are what dark mode re-points */
+      --card: #ffffff;
+      --heading: var(--navy);
+      --accent: var(--navy);
+      --glass: rgba(255, 255, 255, .86);
+    }
+
+    /* ── DARK THEME — "deep space" ──
+       A near-black sky with nebula glows and a live starfield (#spaceCanvas);
+       the big panels and navy bands turn to tinted glass so the stars show
+       through. Gold stays the accent for active states. */
+    :root[data-theme="dark"] {
+      color-scheme: dark;
+      --off-white: #05060d;
+      --surface: #0f1019;
+      --card: #0f1019;
+      --border: #22243a;
+      --text: #e8e8ee;
+      --muted: #a3a6bd;
+      --heading: #fafaff;
+      --accent: #f5d266;
+      --glass: rgba(6, 7, 16, .74);
+      --space-panel: rgba(12, 13, 24, .74);
+      --shadow-xs: 0 1px 3px rgba(0, 0, 0, .35);
+      --shadow-sm: 0 2px 10px rgba(0, 0, 0, .35);
+      --shadow-md: 0 8px 24px rgba(0, 0, 0, .4);
+      --shadow-lg: 0 14px 44px rgba(0, 0, 0, .45);
+      --shadow-xl: 0 26px 70px rgba(0, 0, 0, .55);
     }
 
     *,
@@ -182,21 +221,20 @@
       box-shadow: var(--glow-gold)
     }
 
-    /* scroll-reveal */
-    .reveal {
-      opacity: 0;
-      transform: translateY(18px);
-      transition: opacity .6s ease, transform .6s cubic-bezier(.22, .7, .3, 1)
+    /* entrance animation (see "ANIMATED CONTENT" in the script): blocks wait
+       invisible in place — so their real position decides when they are on
+       screen — and the 100px rise is part of the animation itself */
+    .ac-pending {
+      opacity: 0
     }
 
-    .reveal.in {
-      opacity: 1;
-      transform: none
+    footer {
+      overflow: hidden
     }
 
     /* hub cards (slides 4 & 5) */
     .hub-card {
-      background: var(--white);
+      background: var(--card);
       border: 1px solid var(--border);
       border-radius: var(--radius-lg);
       box-shadow: var(--shadow-md);
@@ -240,7 +278,7 @@
 
     .hub-card h3 {
       font-size: 1.9rem;
-      color: var(--navy);
+      color: var(--heading);
       margin-bottom: 10px
     }
 
@@ -255,7 +293,7 @@
       position: sticky;
       top: 0;
       z-index: 200;
-      background: rgba(255, 255, 255, .86);
+      background: var(--glass);
       backdrop-filter: blur(14px) saturate(1.4);
       -webkit-backdrop-filter: blur(14px) saturate(1.4);
       border-bottom: 1px solid var(--border);
@@ -289,7 +327,7 @@
     .logo-text h1 {
       font-family: 'Playfair Display', serif;
       font-size: 18px;
-      color: var(--navy);
+      color: var(--heading);
       line-height: 1.2
     }
 
@@ -338,7 +376,7 @@
 
     .nav-link:hover,
     .nav-link.active {
-      color: var(--navy)
+      color: var(--heading)
     }
 
     .nav-link i {
@@ -369,7 +407,7 @@
       color: #fff; font-size: 15px; box-shadow: 0 3px 10px rgba(4, 4, 58, .22)
     }
     .nav-dd-item:hover .dd-ico { background: linear-gradient(135deg, var(--navy-mid), var(--navy-light)) }
-    .nav-dd-item strong { display: block; font-size: 13.5px; color: var(--navy); font-weight: 700 }
+    .nav-dd-item strong { display: block; font-size: 13.5px; color: var(--heading); font-weight: 700 }
     .nav-dd-item small { display: block; font-size: 11px; color: var(--muted); margin-top: 1px }
     @media (max-width: 768px) {
       .nav-dd-panel { position: static; opacity: 1; transform: none; pointer-events: auto;
@@ -409,10 +447,10 @@
     .cal-view-seg button i { font-size: 11px }
     .cal-view-seg button.on { background: linear-gradient(135deg, var(--navy), var(--navy-mid)); color: #fff;
       box-shadow: 0 4px 12px rgba(4, 4, 58, .28) }
-    .cal-dept-filter { padding: 9px 14px; border-radius: 999px; border: 1px solid var(--border); background: var(--white);
-      font-family: inherit; font-size: 12.5px; font-weight: 600; color: var(--navy); outline: none; cursor: pointer;
+    .cal-dept-filter { padding: 9px 14px; border-radius: 999px; border: 1px solid var(--border); background: var(--card);
+      font-family: inherit; font-size: 12.5px; font-weight: 600; color: var(--heading); outline: none; cursor: pointer;
       max-width: 250px; transition: var(--transition) }
-    .cal-dept-filter:hover, .cal-dept-filter:focus { border-color: var(--navy); box-shadow: 0 0 0 3px rgba(4, 4, 58, .08) }
+    .cal-dept-filter:hover, .cal-dept-filter:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(4, 4, 58, .08) }
 
     /* ── Embedded academic calendar ── */
     .acad-cal-shell { border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden;
@@ -421,7 +459,7 @@
     .acad-cal-foot { display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap;
       padding: 12px 6px 0; font-size: 12.5px; color: var(--muted) }
     .acad-cal-foot i { color: var(--gold-deep); margin-right: 6px }
-    .acad-cal-foot a { color: var(--navy); font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 6px }
+    .acad-cal-foot a { color: var(--heading); font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 6px }
     .acad-cal-foot a:hover { color: var(--gold-deep) }
     @media(max-width: 768px) {
       .cal-view-seg { width: 100%; justify-content: stretch }
@@ -444,7 +482,7 @@
       font-size: 10.5px; font-weight: 600; padding: 4px 9px; border-radius: 999px }
     .cm-card .cm-body { padding: 11px 13px 13px }
     .cm-card .cm-dept { font-size: 9.5px; font-weight: 700; letter-spacing: .6px; text-transform: uppercase; color: var(--gold-deep) }
-    .cm-card h5 { font-size: 13.5px; font-weight: 700; color: var(--navy); margin: 4px 0 0; line-height: 1.35;
+    .cm-card h5 { font-size: 13.5px; font-weight: 700; color: var(--heading); margin: 4px 0 0; line-height: 1.35;
       display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden }
 
     .user-area {
@@ -510,7 +548,7 @@
       position: absolute;
       right: 0;
       top: calc(100% + 10px);
-      background: var(--white);
+      background: var(--card);
       border-radius: var(--radius-md);
       box-shadow: var(--shadow-xl);
       min-width: 270px;
@@ -591,12 +629,12 @@
     .dp-item:hover {
       background: var(--off-white);
       padding-left: 22px;
-      color: var(--navy)
+      color: var(--heading)
     }
 
     .dp-item i {
       width: 18px;
-      color: var(--navy);
+      color: var(--heading);
       font-size: 13px
     }
 
@@ -604,7 +642,7 @@
       display: none;
       padding: 8px;
       border-radius: var(--radius-sm);
-      color: var(--navy);
+      color: var(--heading);
       font-size: 22px
     }
 
@@ -868,7 +906,7 @@
     }
 
     .tab-bar {
-      background: rgba(255, 255, 255, .9);
+      background: var(--glass);
       backdrop-filter: blur(12px);
       border-radius: var(--radius-xl);
       box-shadow: var(--shadow-md);
@@ -899,7 +937,7 @@
     }
 
     .tab-pill:not(.active):hover {
-      color: var(--navy);
+      color: var(--heading);
       background: var(--off-white)
     }
 
@@ -911,6 +949,7 @@
     /* ── CONTENT CAROUSEL ── */
     .content-carousel {
       overflow: hidden;
+      overflow: clip;   /* clip, not a scroll box: focus or scrollIntoView can't shift the slides sideways */
       width: 100%;
       transition: height .35s cubic-bezier(.4, 0, .2, 1)
     }
@@ -927,13 +966,16 @@
       width: 16.666%;
       opacity: 0;
       pointer-events: none;
-      transition: opacity .4s;
+      visibility: hidden;   /* off-screen tabs leave the tab order once they have faded out */
+      transition: opacity .4s, visibility 0s .4s;
       align-self: flex-start
     }
 
     .content-slide.active {
       opacity: 1;
-      pointer-events: auto
+      pointer-events: auto;
+      visibility: visible;
+      transition-delay: 0s
     }
 
     /* ── NOTICES ── */
@@ -945,7 +987,7 @@
     }
 
     .notice-card-panel {
-      background: var(--white);
+      background: var(--card);
       border-radius: var(--radius-lg);
       box-shadow: var(--shadow-md);
       overflow: hidden;
@@ -1002,7 +1044,7 @@
       left: 0;
       right: 0;
       height: 28px;
-      background: linear-gradient(to top, var(--white), transparent);
+      background: linear-gradient(to top, var(--card), transparent);
       z-index: 2;
       pointer-events: none
     }
@@ -1014,7 +1056,7 @@
       left: 0;
       right: 0;
       height: 16px;
-      background: linear-gradient(to bottom, var(--white), transparent);
+      background: linear-gradient(to bottom, var(--card), transparent);
       z-index: 2;
       pointer-events: none
     }
@@ -1056,7 +1098,7 @@
 
     .ncp-item:hover {
       border-color: var(--gold);
-      background: var(--white);
+      background: var(--card);
       transform: translateX(4px)
     }
 
@@ -1077,7 +1119,7 @@
     .ncp-desc {
       font-size: 13px;
       font-weight: 600;
-      color: var(--navy);
+      color: var(--heading);
       line-height: 1.4;
       margin-bottom: 4px
     }
@@ -1100,7 +1142,7 @@
     .ncp-footer a {
       font-size: 13px;
       font-weight: 700;
-      color: var(--navy);
+      color: var(--heading);
       display: inline-flex;
       align-items: center;
       gap: 6px;
@@ -1139,7 +1181,7 @@
     }
 
     .modal-box {
-      background: var(--white);
+      background: var(--card);
       border-radius: var(--radius-lg);
       max-width: 700px;
       width: 90%;
@@ -1233,7 +1275,7 @@
     .modal-section-label {
       font-size: 13px;
       font-weight: 700;
-      color: var(--navy);
+      color: var(--heading);
       display: flex;
       align-items: center;
       gap: 8px;
@@ -1256,7 +1298,7 @@
     }
 
     .pdf-btn:hover {
-      background: var(--white);
+      background: var(--card);
       border-color: #e74c3c;
       transform: translateY(-2px);
       box-shadow: var(--shadow-md)
@@ -1275,7 +1317,7 @@
     .pdf-btn .pdf-name {
       font-weight: 700;
       font-size: 14px;
-      color: var(--navy);
+      color: var(--heading);
       word-break: break-all
     }
 
@@ -1333,7 +1375,7 @@
 
     .pdf-modal-box {
       position: relative;
-      background: var(--white);
+      background: var(--card);
       width: 96%;
       height: 94%;
       border-radius: var(--radius-md);
@@ -1413,7 +1455,7 @@
 
     /* ══════ CALENDAR ══════ */
     .cal-section {
-      background: var(--white);
+      background: var(--card);
       border-radius: var(--radius-lg);
       padding: 32px;
       box-shadow: var(--shadow-md);
@@ -1432,7 +1474,7 @@
     .cal-title {
       font-family: 'Cormorant Garamond', serif;
       font-size: 1.8rem;
-      color: var(--navy);
+      color: var(--heading);
       display: flex;
       align-items: center;
       gap: 12px
@@ -1505,16 +1547,16 @@
     .mini-cal-nav h3 {
       font-size: 15px;
       font-weight: 700;
-      color: var(--navy)
+      color: var(--heading)
     }
 
     .cal-nav-btn {
       width: 32px;
       height: 32px;
       border-radius: 50%;
-      background: var(--white);
+      background: var(--card);
       border: 1.5px solid var(--border);
-      color: var(--navy);
+      color: var(--heading);
       font-size: 13px;
       display: flex;
       align-items: center;
@@ -1526,7 +1568,7 @@
     .cal-nav-btn:hover {
       background: var(--navy);
       color: var(--white);
-      border-color: var(--navy)
+      border-color: var(--accent)
     }
 
     .mini-cal-grid {
@@ -1588,7 +1630,7 @@
     }
 
     .cal-day.today::after {
-      background: var(--white)
+      background: var(--card)
     }
 
     .cal-day.selected {
@@ -1652,7 +1694,7 @@
     .event-group-title {
       font-size: 14px;
       font-weight: 700;
-      color: var(--navy);
+      color: var(--heading);
       display: flex;
       align-items: center;
       gap: 8px;
@@ -1662,8 +1704,8 @@
     }
 
     .event-item {
-      background: var(--white);
-      border-left: 4px solid var(--navy);
+      background: var(--card);
+      border-left: 4px solid var(--accent);
       padding: 14px 16px;
       margin-bottom: 12px;
       border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
@@ -1681,7 +1723,7 @@
 
     .event-item.today {
       border-left-color: #e74c3c;
-      background: linear-gradient(to right, #fff5f5, var(--white))
+      background: linear-gradient(to right, #fff5f5, var(--card))
     }
 
     .event-item.upcoming {
@@ -1690,7 +1732,7 @@
 
     .event-item-name {
       font-weight: 700;
-      color: var(--navy);
+      color: var(--heading);
       font-size: 14px;
       margin-bottom: 8px
     }
@@ -1720,7 +1762,7 @@
       font-size: 12px;
       font-weight: 600;
       background: var(--off-white);
-      color: var(--navy);
+      color: var(--heading);
       border: 1.5px solid var(--border);
       transition: var(--transition)
     }
@@ -1728,7 +1770,7 @@
     .set-reminder-btn:hover {
       background: var(--navy);
       color: var(--white);
-      border-color: var(--navy)
+      border-color: var(--accent)
     }
 
     .no-events-msg {
@@ -1752,7 +1794,7 @@
     }
 
     .featured-event-card {
-      background: var(--white);
+      background: var(--card);
       border-radius: var(--radius-md);
       overflow: hidden;
       box-shadow: var(--shadow-md);
@@ -1791,7 +1833,7 @@
     }
 
     .fec-meta i {
-      color: var(--navy);
+      color: var(--heading);
       font-size: 12px
     }
 
@@ -1832,7 +1874,7 @@
     }
 
     .reminder-box {
-      background: var(--white);
+      background: var(--card);
       border-radius: var(--radius-lg);
       width: 90%;
       max-width: 500px;
@@ -1864,7 +1906,7 @@
 
     .event-badge {
       background: linear-gradient(135deg, #eff6ff, #dbeafe);
-      border-left: 4px solid var(--navy);
+      border-left: 4px solid var(--accent);
       padding: 12px 16px;
       border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
       margin-bottom: 18px
@@ -1872,7 +1914,7 @@
 
     .event-badge .eb-title {
       font-weight: 700;
-      color: var(--navy);
+      color: var(--heading);
       font-size: 15px
     }
 
@@ -1912,7 +1954,7 @@
 
     .form-group label i {
       font-size: 12px;
-      color: var(--navy);
+      color: var(--heading);
       margin-right: 5px
     }
 
@@ -1929,7 +1971,7 @@
 
     .form-control:focus {
       outline: none;
-      border-color: var(--navy);
+      border-color: var(--accent);
       box-shadow: 0 0 0 3px rgba(4, 4, 58, .08)
     }
 
@@ -1975,7 +2017,7 @@
 
     /* ══════ DIGITAL INNOVATION ══════ */
     .dig-inner {
-      background: var(--white);
+      background: var(--card);
       border-radius: var(--radius-lg);
       padding: 32px;
       box-shadow: var(--shadow-md);
@@ -1985,7 +2027,7 @@
     .dig-title {
       font-family: 'Cormorant Garamond', serif;
       font-size: 1.8rem;
-      color: var(--navy);
+      color: var(--heading);
       text-align: center;
       margin-bottom: 6px
     }
@@ -2015,20 +2057,20 @@
       cursor: pointer;
       border: 2px solid var(--border);
       color: var(--muted);
-      background: var(--white);
+      background: var(--card);
       transition: var(--transition)
     }
 
     .plat-btn:hover {
-      border-color: var(--navy);
-      color: var(--navy);
+      border-color: var(--accent);
+      color: var(--heading);
       transform: translateY(-1px)
     }
 
     .plat-btn.swayam.active {
       background: linear-gradient(135deg, var(--navy), var(--navy-mid));
       color: var(--white);
-      border-color: var(--navy)
+      border-color: var(--accent)
     }
 
     .plat-btn.linkedin.active {
@@ -2037,374 +2079,8 @@
       border-color: #0a66c2
     }
 
-    .swayam-hero {
-      background: linear-gradient(135deg, var(--navy), var(--navy-mid));
-      border-radius: var(--radius-lg);
-      padding: 28px;
-      color: var(--white);
-      margin-bottom: 28px;
-      position: relative;
-      overflow: hidden
-    }
-
-    .swayam-hero::after {
-      content: '';
-      position: absolute;
-      top: -60px;
-      right: -60px;
-      width: 220px;
-      height: 220px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(168, 137, 79, .18), transparent 70%);
-      pointer-events: none
-    }
-
-    .swayam-hero h3 {
-      color: var(--gold);
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.5rem;
-      margin-bottom: 10px
-    }
-
-    .swayam-hero p {
-      font-size: 14px;
-      line-height: 1.7;
-      opacity: .9
-    }
-
-    .category-cards-title {
-      font-size: 16px;
-      font-weight: 700;
-      color: var(--navy);
-      margin-bottom: 16px;
-      display: flex;
-      align-items: center;
-      gap: 8px
-    }
-
-    .category-cards-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 18px;
-      margin-bottom: 28px
-    }
-
-    .cat-card {
-      border-radius: var(--radius-lg);
-      padding: 24px;
-      cursor: pointer;
-      transition: var(--transition);
-      position: relative;
-      overflow: hidden;
-      border: 2px solid transparent
-    }
-
-    .cat-card::before {
-      content: '';
-      position: absolute;
-      top: -40%;
-      right: -20%;
-      width: 120px;
-      height: 120px;
-      border-radius: 50%;
-      opacity: .12
-    }
-
-    .cat-card:hover {
-      transform: translateY(-6px);
-      box-shadow: var(--shadow-xl)
-    }
-
-    .cat-card.ai {
-      background: linear-gradient(135deg, #e8f4fd, #dbeafe);
-      border-color: #93c5fd
-    }
-
-    .cat-card.ai::before {
-      background: #1d4ed8
-    }
-
-    .cat-card.ai:hover {
-      border-color: #3b82f6;
-      background: linear-gradient(135deg, #dbeafe, #bfdbfe)
-    }
-
-    .cat-card.ent {
-      background: linear-gradient(135deg, #fef3e8, #fed7aa);
-      border-color: #fdba74
-    }
-
-    .cat-card.ent::before {
-      background: #ea580c
-    }
-
-    .cat-card.ent:hover {
-      border-color: #f97316;
-      background: linear-gradient(135deg, #fed7aa, #fdba74)
-    }
-
-    .cat-card.iks {
-      background: linear-gradient(135deg, #f3e8ff, #e9d5ff);
-      border-color: #c084fc
-    }
-
-    .cat-card.iks::before {
-      background: #7c3aed
-    }
-
-    .cat-card.iks:hover {
-      border-color: #a855f7;
-      background: linear-gradient(135deg, #e9d5ff, #d8b4fe)
-    }
-
-    .cat-card.sus {
-      background: linear-gradient(135deg, #e8fdf3, #bbf7d0);
-      border-color: #6ee7b7
-    }
-
-    .cat-card.sus::before {
-      background: #059669
-    }
-
-    .cat-card.sus:hover {
-      border-color: #34d399;
-      background: linear-gradient(135deg, #d1fae5, #a7f3d0)
-    }
-
-    .cat-card-icon {
-      font-size: 2rem;
-      margin-bottom: 12px
-    }
-
-    .cat-card.ai .cat-card-icon {
-      color: #1d4ed8
-    }
-
-    .cat-card.ent .cat-card-icon {
-      color: #ea580c
-    }
-
-    .cat-card.iks .cat-card-icon {
-      color: #7c3aed
-    }
-
-    .cat-card.sus .cat-card-icon {
-      color: #059669
-    }
-
-    .cat-card-badge {
-      display: inline-block;
-      padding: 3px 10px;
-      border-radius: 20px;
-      font-size: 11px;
-      font-weight: 700;
-      color: var(--white);
-      margin-bottom: 8px
-    }
-
-    .cat-card.ai .cat-card-badge {
-      background: #3b82f6
-    }
-
-    .cat-card.ent .cat-card-badge {
-      background: #f97316
-    }
-
-    .cat-card.iks .cat-card-badge {
-      background: #a855f7
-    }
-
-    .cat-card.sus .cat-card-badge {
-      background: #10b981
-    }
-
-    .cat-card-title {
-      font-size: 15px;
-      font-weight: 700;
-      color: var(--navy);
-      margin-bottom: 4px
-    }
-
-    .cat-card-count {
-      font-size: 12px;
-      color: var(--muted)
-    }
-
-    .cat-card-arrow {
-      position: absolute;
-      bottom: 16px;
-      right: 16px;
-      opacity: .4;
-      font-size: 13px;
-      transition: var(--transition)
-    }
-
-    .cat-card:hover .cat-card-arrow {
-      opacity: 1;
-      transform: translateX(3px)
-    }
-
-    .cat-detail {
-      display: none;
-      background: var(--off-white);
-      border-radius: var(--radius-lg);
-      padding: 28px;
-      border: 1px solid var(--border);
-      margin-bottom: 28px;
-      animation: fadeIn .3s ease
-    }
-
-    .cat-detail.open {
-      display: block
-    }
-
-    .cat-detail-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 20px;
-      flex-wrap: wrap;
-      gap: 12px
-    }
-
-    .cat-detail-header h3 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.4rem;
-      color: var(--navy);
-      display: flex;
-      align-items: center;
-      gap: 10px
-    }
-
-    .cat-back-btn {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      padding: 7px 16px;
-      border-radius: 20px;
-      background: var(--navy);
-      color: var(--white);
-      font-size: 13px;
-      font-weight: 700;
-      border: none;
-      cursor: pointer;
-      transition: var(--transition)
-    }
-
-    .cat-back-btn:hover {
-      background: var(--gold);
-      color: var(--navy)
-    }
-
-    .course-detail-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
-      gap: 16px
-    }
-
-    .course-detail-card {
-      background: var(--white);
-      border-radius: var(--radius-md);
-      overflow: hidden;
-      box-shadow: var(--shadow-sm);
-      border: 1px solid var(--border);
-      transition: var(--transition)
-    }
-
-    .course-detail-card:hover {
-      transform: translateY(-4px);
-      box-shadow: var(--shadow-md)
-    }
-
-    .cdc-head {
-      padding: 16px;
-      color: var(--white)
-    }
-
-    .cdc-head.ai {
-      background: linear-gradient(135deg, #1d4ed8, #3b82f6)
-    }
-
-    .cdc-head.ent {
-      background: linear-gradient(135deg, #c2410c, #f97316)
-    }
-
-    .cdc-head.iks {
-      background: linear-gradient(135deg, #6d28d9, #a855f7)
-    }
-
-    .cdc-head.sus {
-      background: linear-gradient(135deg, #065f46, #10b981)
-    }
-
-    .cdc-head h4 {
-      font-size: 14px;
-      font-weight: 700;
-      line-height: 1.4
-    }
-
-    .cdc-body {
-      padding: 16px
-    }
-
-    .cdc-codes {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      margin-bottom: 12px
-    }
-
-    .cdc-code {
-      font-size: 12px;
-      color: var(--muted);
-      display: flex;
-      align-items: center;
-      gap: 6px
-    }
-
-    .cdc-code strong {
-      color: var(--navy)
-    }
-
-    .cdc-meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin-bottom: 12px
-    }
-
-    .cdc-tag {
-      padding: 3px 10px;
-      border-radius: 20px;
-      font-size: 11px;
-      font-weight: 600;
-      background: var(--off-white);
-      color: var(--muted);
-      border: 1px solid var(--border)
-    }
-
-    .cdc-enroll {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      background: var(--navy);
-      color: var(--white);
-      padding: 7px 14px;
-      border-radius: 20px;
-      font-size: 12px;
-      font-weight: 700;
-      text-decoration: none;
-      transition: var(--transition);
-      width: fit-content
-    }
-
-    .cdc-enroll:hover {
-      background: var(--gold);
-      color: var(--navy)
-    }
-
     .section-card {
-      background: var(--white);
+      background: var(--card);
       border-radius: var(--radius-md);
       padding: 24px;
       margin-bottom: 24px;
@@ -2413,173 +2089,13 @@
     }
 
     .section-card h3 {
-      color: var(--navy);
+      color: var(--heading);
       font-size: 17px;
       font-weight: 700;
       margin-bottom: 16px;
       display: flex;
       align-items: center;
       gap: 10px
-    }
-
-    .guidelines-card {
-      background: var(--white);
-      border-radius: var(--radius-md);
-      padding: 24px;
-      margin: 24px 0;
-      box-shadow: var(--shadow-sm);
-      border: 1px solid var(--border);
-      border-left: 5px solid var(--navy)
-    }
-
-    .guidelines-card h3 {
-      color: var(--navy);
-      font-size: 16px;
-      font-weight: 700;
-      margin-bottom: 8px;
-      display: flex;
-      align-items: center;
-      gap: 8px
-    }
-
-    .guidelines-card>p {
-      font-size: 14px;
-      color: var(--text);
-      line-height: 1.7;
-      margin-bottom: 16px
-    }
-
-    .guide-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 16px
-    }
-
-    .guide-item {
-      padding: 14px;
-      background: var(--off-white);
-      border-radius: var(--radius-sm);
-      border-left: 3px solid var(--gold)
-    }
-
-    .guide-item h4 {
-      color: var(--navy);
-      font-size: 13px;
-      font-weight: 700;
-      margin-bottom: 8px;
-      display: flex;
-      align-items: center;
-      gap: 6px
-    }
-
-    .guide-item ul {
-      list-style: none;
-      padding: 0
-    }
-
-    .guide-item li {
-      font-size: 13px;
-      color: var(--text);
-      margin-bottom: 6px;
-      display: flex;
-      align-items: flex-start;
-      gap: 6px;
-      line-height: 1.5
-    }
-
-    .guide-item li i {
-      color: var(--gold-deep);
-      font-size: 11px;
-      margin-top: 3px;
-      flex-shrink: 0
-    }
-
-    .step-row {
-      display: flex;
-      align-items: flex-start;
-      gap: 12px;
-      padding: 11px;
-      background: var(--off-white);
-      border-radius: var(--radius-sm);
-      margin-bottom: 10px
-    }
-
-    .step-circle {
-      min-width: 30px;
-      height: 30px;
-      border-radius: 50%;
-      background: var(--gold);
-      color: var(--navy);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 800;
-      font-size: 13px
-    }
-
-    .step-text {
-      font-size: 14px;
-      color: var(--text);
-      line-height: 1.5
-    }
-
-    .faq-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: var(--gold);
-      color: var(--navy);
-      padding: 11px 24px;
-      border-radius: var(--radius-xl);
-      font-weight: 700;
-      font-size: 14px;
-      transition: var(--transition);
-      margin: 16px 0
-    }
-
-    .faq-link:hover {
-      transform: translateY(-2px);
-      box-shadow: var(--glow-gold)
-    }
-
-    .roles-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 16px;
-      margin-top: 16px
-    }
-
-    .role-card {
-      padding: 18px;
-      background: var(--off-white);
-      border-radius: var(--radius-sm);
-      border-left: 4px solid var(--navy)
-    }
-
-    .role-card h4 {
-      color: var(--navy);
-      font-size: 14px;
-      font-weight: 700;
-      margin-bottom: 10px;
-      display: flex;
-      align-items: center;
-      gap: 6px
-    }
-
-    .role-card li {
-      font-size: 13px;
-      color: var(--text);
-      list-style: none;
-      padding: 5px 0;
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      gap: 6px
-    }
-
-    .role-card li i {
-      color: var(--gold-deep);
-      font-size: 10px
     }
 
     /* LinkedIn */
@@ -2591,7 +2107,7 @@
     }
 
     .stat-card {
-      background: var(--white);
+      background: var(--card);
       padding: 18px;
       border-radius: var(--radius-md);
       box-shadow: var(--shadow-sm);
@@ -2608,7 +2124,7 @@
     .stat-card .sc-num {
       font-size: 2rem;
       font-weight: 800;
-      color: var(--navy)
+      color: var(--heading)
     }
 
     .stat-card .sc-label {
@@ -2640,7 +2156,7 @@
     }
 
     .chart-card {
-      background: var(--white);
+      background: var(--card);
       border-radius: var(--radius-md);
       padding: 24px;
       margin: 20px 0;
@@ -2649,7 +2165,7 @@
     }
 
     .chart-card h3 {
-      color: var(--navy);
+      color: var(--heading);
       font-size: 16px;
       font-weight: 700;
       margin-bottom: 20px;
@@ -2669,7 +2185,7 @@
       width: 100%;
       border-collapse: collapse;
       min-width: 560px;
-      background: var(--white);
+      background: var(--card);
       font-family: 'Inter', sans-serif
     }
 
@@ -2709,7 +2225,7 @@
 
     /* ══════ CAPACITY BUILDING ══════ */
     .cap-inner {
-      background: var(--white);
+      background: var(--card);
       border-radius: var(--radius-lg);
       padding: 36px;
       box-shadow: var(--shadow-md);
@@ -2728,7 +2244,7 @@
       font-family: 'Cormorant Garamond', serif;
       font-size: 2.2rem;
       font-weight: 700;
-      color: var(--navy);
+      color: var(--heading);
       letter-spacing: -.5px;
       line-height: 1.2
     }
@@ -2796,12 +2312,11 @@
     }
 
     .stab:hover {
-      background: var(--white);
-      color: var(--navy);
+      background: var(--card);
+      color: var(--heading);
       box-shadow: var(--shadow-xs)
     }
 
-    .stab.active-moocs,
     .stab.active-mentoring,
     .stab.active-nep,
     .stab.active-aedp {
@@ -2825,11 +2340,11 @@
     }
 
     .manual-card {
-      background: var(--white);
+      background: var(--card);
       border-radius: var(--radius-md);
       padding: 28px;
       margin-bottom: 22px;
-      border-left: 4px solid var(--navy);
+      border-left: 4px solid var(--accent);
       box-shadow: 0 1px 4px rgba(4, 4, 58, .07);
       border-top: 1px solid var(--border);
       border-right: 1px solid var(--border);
@@ -2844,7 +2359,7 @@
 
     .manual-card h3 {
       font-family: 'Cormorant Garamond', serif;
-      color: var(--navy);
+      color: var(--heading);
       font-size: 1.35rem;
       font-weight: 700;
       margin-bottom: 16px;
@@ -2862,7 +2377,7 @@
 
     .manual-card h4 {
       font-family: 'Inter', sans-serif;
-      color: var(--navy);
+      color: var(--heading);
       font-size: 13px;
       font-weight: 700;
       margin: 22px 0 10px;
@@ -2924,7 +2439,7 @@
     .manual-card ol li::before {
       content: counter(item)'.';
       counter-increment: item;
-      color: var(--navy);
+      color: var(--heading);
       font-weight: 700
     }
 
@@ -2976,7 +2491,6 @@
       color: #7f1d1d
     }
 
-    .mooc-hero,
     .mentoring-hero,
     .aedp-hero {
       background: linear-gradient(135deg, #02022a 0%, var(--navy) 55%, #131380 100%);
@@ -2988,7 +2502,6 @@
       overflow: hidden
     }
 
-    .mooc-hero::before,
     .mentoring-hero::before,
     .aedp-hero::before {
       content: '';
@@ -3002,15 +2515,6 @@
       pointer-events: none
     }
 
-    .mooc-hero h3 {
-      color: var(--gold);
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.7rem;
-      font-weight: 700;
-      margin-bottom: 10px;
-      letter-spacing: -.3px
-    }
-
     .mentoring-hero h2,
     .aedp-hero h2 {
       font-family: 'Cormorant Garamond', serif;
@@ -3020,7 +2524,6 @@
       letter-spacing: -.3px
     }
 
-    .mooc-hero p,
     .mentoring-hero p,
     .aedp-hero p {
       font-family: 'Inter', sans-serif;
@@ -3028,31 +2531,6 @@
       line-height: 1.8;
       opacity: .9;
       margin-bottom: 16px
-    }
-
-    .schedule-bar {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px
-    }
-
-    .sch-pill {
-      background: rgba(255, 255, 255, .15);
-      backdrop-filter: blur(4px);
-      border: 1px solid rgba(255, 255, 255, .2);
-      color: var(--white);
-      padding: 8px 18px;
-      border-radius: 30px;
-      font-size: 12.5px;
-      font-weight: 600;
-      font-family: 'Inter', sans-serif;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px
-    }
-
-    .sch-pill i {
-      color: var(--gold)
     }
 
     .mh-stats,
@@ -3092,126 +2570,6 @@
       display: block
     }
 
-    .moocs-section-title {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      margin-bottom: 20px
-    }
-
-    .moocs-section-title h3 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.5rem;
-      color: var(--navy);
-      font-weight: 700;
-      letter-spacing: -.3px
-    }
-
-    .moocs-count-badge {
-      background: var(--navy);
-      color: var(--white);
-      padding: 4px 14px;
-      border-radius: 20px;
-      font-size: 12px;
-      font-weight: 700;
-      font-family: 'Inter', sans-serif
-    }
-
-    .moocs-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 18px;
-      margin: 0 0 24px
-    }
-
-    .mooc-card {
-      background: var(--white);
-      border-radius: var(--radius-md);
-      overflow: hidden;
-      box-shadow: var(--shadow-sm);
-      border: 1px solid var(--border);
-      transition: var(--transition);
-      display: flex;
-      flex-direction: column
-    }
-
-    .mooc-card:hover {
-      transform: translateY(-6px);
-      box-shadow: var(--shadow-xl);
-      border-color: var(--navy)
-    }
-
-    .mooc-card-hd {
-      background: linear-gradient(135deg, var(--navy), var(--navy-mid));
-      color: var(--white);
-      padding: 18px 20px;
-      flex: 1
-    }
-
-    .mooc-card-hd h4 {
-      font-family: 'Inter', sans-serif;
-      font-size: 13.5px;
-      font-weight: 600;
-      line-height: 1.5
-    }
-
-    .mooc-card-bd {
-      padding: 16px 20px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-top: 1px solid var(--border)
-    }
-
-    .mooc-card-bd p {
-      font-family: 'Inter', sans-serif;
-      font-size: 12.5px;
-      color: var(--muted);
-      margin: 0;
-      display: flex;
-      align-items: center;
-      gap: 6px
-    }
-
-    .mooc-enroll {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: var(--navy);
-      color: var(--white);
-      padding: 8px 18px;
-      border-radius: 20px;
-      font-size: 12.5px;
-      font-weight: 700;
-      font-family: 'Inter', sans-serif;
-      transition: var(--transition);
-      white-space: nowrap
-    }
-
-    .mooc-enroll:hover {
-      background: var(--gold);
-      color: var(--navy)
-    }
-
-    .mooc-footer-bar {
-      background: linear-gradient(135deg, var(--navy), var(--navy-mid));
-      border-radius: var(--radius-md);
-      padding: 16px 22px;
-      color: var(--white);
-      font-size: 13px;
-      font-family: 'Inter', sans-serif;
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      flex-wrap: wrap;
-      margin-top: 4px
-    }
-
-    .mooc-footer-bar a {
-      color: var(--gold);
-      font-weight: 600
-    }
-
     .key-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
@@ -3225,7 +2583,7 @@
       padding: 18px;
       border: 1px solid var(--border);
       transition: var(--transition);
-      border-top: 3px solid var(--navy)
+      border-top: 3px solid var(--accent)
     }
 
     .key-card:hover {
@@ -3236,7 +2594,7 @@
 
     .key-card h5 {
       font-family: 'Inter', sans-serif;
-      color: var(--navy);
+      color: var(--heading);
       font-size: 13px;
       font-weight: 700;
       margin-bottom: 8px;
@@ -3275,9 +2633,9 @@
     }
 
     .step-box:hover {
-      background: var(--white);
+      background: var(--card);
       box-shadow: var(--shadow-sm);
-      border-color: var(--navy)
+      border-color: var(--accent)
     }
 
     .step-n {
@@ -3303,7 +2661,7 @@
     }
 
     .step-content strong {
-      color: var(--navy);
+      color: var(--heading);
       font-weight: 700
     }
 
@@ -3333,7 +2691,7 @@
 
     .mini-card h4 {
       font-family: 'Inter', sans-serif;
-      color: var(--navy);
+      color: var(--heading);
       font-size: 14px;
       font-weight: 700;
       margin-bottom: 6px
@@ -3390,7 +2748,7 @@
     }
 
     .mentor-coord-card:hover {
-      background: var(--white);
+      background: var(--card);
       box-shadow: var(--shadow-sm);
       transform: translateX(4px)
     }
@@ -3415,7 +2773,7 @@
       font-family: 'Inter', sans-serif;
       font-size: 14px;
       font-weight: 700;
-      color: var(--navy)
+      color: var(--heading)
     }
 
     .mentor-info p {
@@ -3498,6 +2856,9 @@
       margin-bottom: 8px
     }
 
+    .fc ul li a { overflow-wrap: anywhere }
+    .fc ul li a.fc-addr { align-items: flex-start; line-height: 1.55 }
+    .fc ul li a.fc-addr i { margin-top: 5px }
     .fc ul li a {
       font-size: 14px;
       opacity: .8;
@@ -3553,7 +2914,7 @@
       top: 90px;
       right: 28px;
       z-index: 9999;
-      background: var(--white);
+      background: var(--card);
       padding: 14px 18px;
       border-radius: var(--radius-md);
       box-shadow: var(--shadow-xl);
@@ -3708,7 +3069,7 @@
       gap: 6px;
       background: linear-gradient(135deg, rgba(4, 4, 58, .04), rgba(168, 137, 79, .1));
       border: 1px solid rgba(141, 113, 64, .45);
-      color: var(--navy);
+      color: var(--heading);
       border-radius: 30px;
       padding: 7px 18px;
       font-size: .8rem;
@@ -3824,7 +3185,7 @@
         top: 64px;
         left: 0;
         right: 0;
-        background: var(--white);
+        background: var(--card);
         padding: 16px;
         box-shadow: var(--shadow-md);
         z-index: 99
@@ -3884,10 +3245,6 @@
         border-radius: var(--radius-md)
       }
 
-      .category-cards-grid {
-        grid-template-columns: 1fr 1fr
-      }
-
       .hero-dots {
         right: 20px
       }
@@ -3909,9 +3266,8 @@
         animation: none !important
       }
 
-      .reveal {
-        opacity: 1;
-        transform: none
+      .ac-pending {
+        opacity: 1
       }
     }
 
@@ -3988,6 +3344,2333 @@
     .driver-popover-arrow-side-right { border-left-color: rgba(168, 137, 79, 0.45) !important; }
     .driver-popover-arrow-side-top { border-bottom-color: rgba(168, 137, 79, 0.45) !important; }
     .driver-popover-arrow-side-bottom { border-top-color: rgba(168, 137, 79, 0.45) !important; }
+
+    /* ══════════════════════════════════════════════════════════════
+       THEME SWITCH — a pill switch; the new theme grows out of it as a
+       circle (View Transitions), falling back to an instant swap
+    ══════════════════════════════════════════════════════════════ */
+    .theme-switch {
+      --w: 50px;
+      --h: 28px;
+      --k: 22px;
+      position: relative;
+      flex: none;
+      width: var(--w);
+      height: var(--h);
+      padding: 0;
+      border-radius: 999px;
+      background: #18181b;
+      border: 1px solid rgba(0, 0, 0, .1);
+      box-shadow: inset 0 1px 2px rgba(0, 0, 0, .35);
+      transition: background .35s ease, box-shadow .2s ease
+    }
+
+    .theme-switch:hover {
+      box-shadow: inset 0 1px 2px rgba(0, 0, 0, .35), 0 0 0 4px rgba(24, 24, 27, .1)
+    }
+
+    .theme-switch-knob {
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: var(--k);
+      height: var(--k);
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: #fff;
+      color: #18181b;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, .4);
+      transition: transform .4s cubic-bezier(.65, 0, .35, 1), background .35s ease, color .35s ease
+    }
+
+    .theme-switch svg {
+      grid-area: 1 / 1;
+      width: 13px;
+      height: 13px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2.2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      transition: opacity .3s ease, transform .4s cubic-bezier(.65, 0, .35, 1)
+    }
+
+    .theme-switch .ico-moon {
+      fill: currentColor;
+      stroke: none;
+      opacity: 0;
+      transform: rotate(-90deg) scale(.4)
+    }
+
+    [data-theme="dark"] .theme-switch {
+      background: #f4f4f5;
+      border-color: rgba(255, 255, 255, .2);
+      box-shadow: inset 0 1px 2px rgba(0, 0, 0, .18)
+    }
+
+    [data-theme="dark"] .theme-switch:hover {
+      box-shadow: inset 0 1px 2px rgba(0, 0, 0, .18), 0 0 0 4px rgba(255, 255, 255, .1)
+    }
+
+    [data-theme="dark"] .theme-switch-knob {
+      transform: translateX(calc(var(--w) - var(--k) - 6px));
+      background: #0a0a0b;
+      color: #f5d266
+    }
+
+    [data-theme="dark"] .theme-switch .ico-sun {
+      opacity: 0;
+      transform: rotate(90deg) scale(.4)
+    }
+
+    [data-theme="dark"] .theme-switch .ico-moon {
+      opacity: 1;
+      transform: none
+    }
+
+    /* the circle is drawn by script on the new snapshot; the default
+       cross-fade would muddy it */
+    html.theme-switching::view-transition-old(root),
+    html.theme-switching::view-transition-new(root) {
+      animation: none;
+      mix-blend-mode: normal
+    }
+
+    html.theme-switching::view-transition-old(root) {
+      z-index: 1
+    }
+
+    html.theme-switching::view-transition-new(root) {
+      z-index: 2
+    }
+
+    /* colours snap during the swap (no half-faded cards inside the circle);
+       movement such as the switch knob and the carousels keeps animating */
+    html.theme-switching *,
+    html.theme-switching *::before,
+    html.theme-switching *::after {
+      transition-property: transform, opacity !important
+    }
+
+    .chart-card canvas {
+      max-width: 100%
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+      border: 0
+    }
+
+    /* ══════════════════════════════════════════════════════════════
+       DARK THEME — component fixes for colours that are not tokens
+    ══════════════════════════════════════════════════════════════ */
+    [data-theme="dark"] body {
+      background:
+        radial-gradient(1100px 620px at 82% -8%, rgba(96, 64, 214, .24), transparent 62%),
+        radial-gradient(900px 560px at -6% 38%, rgba(32, 96, 178, .18), transparent 60%),
+        radial-gradient(760px 520px at 104% 78%, rgba(178, 58, 146, .13), transparent 60%),
+        radial-gradient(640px 420px at 30% 104%, rgba(255, 196, 80, .06), transparent 62%),
+        var(--off-white);
+      background-attachment: fixed
+    }
+
+    /* the live starfield sits behind everything; drawn only in dark mode */
+    #spaceCanvas {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      display: none
+    }
+
+    [data-theme="dark"] #spaceCanvas {
+      display: block
+    }
+
+    /* big section panels and the navy bands become glass over the sky */
+    [data-theme="dark"] .dig-inner,
+    [data-theme="dark"] .cap-inner,
+    [data-theme="dark"] .cal-section {
+      background: var(--space-panel);
+      border-color: rgba(255, 255, 255, .08);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, .45), inset 0 1px 0 rgba(255, 255, 255, .04)
+    }
+
+    [data-theme="dark"] .ticker {
+      background: linear-gradient(90deg, rgba(4, 4, 58, .62), rgba(20, 20, 110, .5) 60%, rgba(4, 4, 58, .62))
+    }
+
+    [data-theme="dark"] .stats-bar {
+      background:
+        radial-gradient(600px 240px at 15% 0%, rgba(168, 137, 79, .07), transparent 60%),
+        linear-gradient(135deg, rgba(4, 4, 58, .5), rgba(13, 13, 107, .32))
+    }
+
+    [data-theme="dark"] footer {
+      background: linear-gradient(to bottom, rgba(13, 13, 107, .28), rgba(2, 2, 20, .82))
+    }
+
+    /* a fixed sprinkle of stars inside the SWAYAM hero band */
+
+    [data-theme="dark"] .logo-wrap img {
+      background: #fff;
+      border-radius: 12px;
+      padding: 4px 10px;
+      height: 48px
+    }
+
+    [data-theme="dark"] .skeleton {
+      background: #1c1c1f;
+      background-image: linear-gradient(to right, #1c1c1f 0%, #2a2a2e 20%, #1c1c1f 40%, #1c1c1f 100%)
+    }
+
+    [data-theme="dark"] .btn-login,
+    [data-theme="dark"] .user-btn,
+    [data-theme="dark"] .cal-day.today,
+    [data-theme="dark"] .tag-pill.navy {
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .14)
+    }
+
+    [data-theme="dark"] .tab-pill.active,
+    [data-theme="dark"] .plat-btn.swayam.active,
+    [data-theme="dark"] .stab.active-mentoring,
+    [data-theme="dark"] .stab.active-nep,
+    [data-theme="dark"] .stab.active-aedp,
+    [data-theme="dark"] .step-n {
+      background: linear-gradient(135deg, #f5d266, var(--gold-deep));
+      color: var(--navy) !important;
+      border-color: transparent
+    }
+
+    [data-theme="dark"] .flash.success { background: rgba(39, 174, 96, .14); color: #a7f0c2 }
+    [data-theme="dark"] .flash.error { background: rgba(231, 76, 60, .14); color: #ffc2bb }
+    [data-theme="dark"] .flash.info { background: rgba(23, 162, 184, .14); color: #a5e6f0 }
+    [data-theme="dark"] .ncp-hint { color: #93b4ff }
+    [data-theme="dark"] .pdf-btn { background: rgba(231, 76, 60, .08); border-color: rgba(231, 76, 60, .35) }
+    [data-theme="dark"] .ext-link { background: rgba(59, 130, 246, .1); border-color: rgba(147, 197, 253, .35); color: #a9c8ff }
+    [data-theme="dark"] .ext-link:hover { background: #1d4ed8; color: #fff }
+    [data-theme="dark"] .event-item.today { background: linear-gradient(to right, rgba(231, 76, 60, .12), var(--card)) }
+    [data-theme="dark"] .event-badge { background: linear-gradient(135deg, rgba(59, 130, 246, .16), rgba(59, 130, 246, .05)) }
+    [data-theme="dark"] .email-note { background: rgba(22, 163, 74, .1); border-color: rgba(134, 239, 172, .3); color: #a7f0c2 }
+    [data-theme="dark"] .info-box { background: rgba(59, 130, 246, .1); color: #c3d6ff }
+    [data-theme="dark"] .exercise-box { background: rgba(245, 158, 11, .1); color: #fcdca6 }
+    [data-theme="dark"] .success-box { background: rgba(22, 163, 74, .1); color: #a7f0c2 }
+    [data-theme="dark"] .danger-box { background: rgba(231, 76, 60, .1); color: #ffc2bb }
+    [data-theme="dark"] .tbl-wrap tr:hover td { background: rgba(255, 255, 255, .05) }
+    [data-theme="dark"] .acad-cal-shell,
+    [data-theme="dark"] .nep-img-grid img { background: #1c1c1f }
+    [data-theme="dark"] .form-control { background: var(--off-white); color: var(--text) }
+    [data-theme="dark"] .toast { color: var(--text) }
+    [data-theme="dark"] .know-uni-btn { background: linear-gradient(135deg, rgba(255, 255, 255, .03), rgba(168, 137, 79, .12)) }
+
+    /* ══════════════════════════════════════════════════════════════
+       SWAYAM — card language from the Board of Studies portal:
+       hairline-bordered rounded cards, mono micro-labels, a gold accent
+       bar on stats, "01"-numbered steps and pill segmented controls.
+    ══════════════════════════════════════════════════════════════ */
+    .sw {
+      --sw-surface: var(--card);
+      --sw-line: var(--border);
+      --sw-ink: var(--heading);
+      --sw-soft: var(--muted);
+      --sw-gold: #7a5e05;            /* gold that can carry small text on light (5.6:1) */
+      --sw-gold-hi: #f5d266;         /* gold for text on the deep grounds */
+      --sw-tint: #fbf1d6;
+      --sw-btn: var(--navy);
+      --sw-btn-ink: #fff;
+      --sw-radius: 20px;
+      --sw-radius-sm: 12px;
+      --sw-head: "Bricolage Grotesque", "Inter", system-ui, sans-serif;
+      --sw-mono: "Fragment Mono", ui-monospace, "SF Mono", Consolas, monospace;
+      color: var(--text)
+    }
+
+    [data-theme="dark"] .sw {
+      --sw-gold: #f5d266;
+      --sw-tint: rgba(245, 210, 102, .1);
+      --sw-btn: #f5d266;
+      --sw-btn-ink: var(--navy)
+    }
+
+    .sw [hidden] {
+      display: none !important
+    }
+
+    .sw-eyebrow {
+      font-family: var(--sw-mono);
+      font-size: .72rem;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      color: var(--sw-soft)
+    }
+
+    .sw-num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 34px;
+      height: 24px;
+      padding: 0 8px;
+      border-radius: 999px;
+      background: var(--sw-tint);
+      color: var(--sw-gold);
+      font: 500 .78rem/1 var(--sw-mono);
+      letter-spacing: -.02em;
+      flex: none
+    }
+
+    /* ── buttons ── */
+    .sw-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 20px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      font: 600 .87rem/1.3 'Inter', sans-serif;
+      text-decoration: none;
+      cursor: pointer;
+      transition: .18s ease
+    }
+
+    .sw-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-md)
+    }
+
+    .sw-btn-block {
+      width: 100%
+    }
+
+    /* ── hero band ── */
+
+    .sw-hero-top {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px 16px;
+      margin-bottom: 18px
+    }
+
+    .sw-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 6px 14px 6px 10px;
+      border-radius: 999px;
+      font-size: .78rem;
+      font-weight: 600;
+      color: #2a1730;
+      background: rgba(255, 255, 255, .62);
+      border: 1px solid rgba(255, 255, 255, .9);
+      box-shadow: 0 4px 14px -8px rgba(80, 20, 60, .35)
+    }
+
+    [data-theme="dark"] .sw-chip {
+      color: #fff;
+      background: rgba(255, 255, 255, .08);
+      border-color: rgba(255, 255, 255, .16);
+      box-shadow: none
+    }
+
+    .sw-chip-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #56d08a;
+      box-shadow: 0 0 0 4px rgba(86, 208, 138, .18)
+    }
+
+    .sw-chip.is-closed .sw-chip-dot {
+      background: #ff8a7a;
+      box-shadow: 0 0 0 4px rgba(255, 138, 122, .16)
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      .sw-chip.is-open .sw-chip-dot {
+        animation: swPulse 2.4s ease-in-out infinite
+      }
+
+      @keyframes swPulse {
+        50% {
+          box-shadow: 0 0 0 8px rgba(86, 208, 138, .06)
+        }
+      }
+    }
+
+    /* ── segmented section tabs ── */
+    .sw-tabs-wrap {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 24px;
+      scroll-margin-top: 150px
+    }
+
+    .sw-tabs {
+      display: inline-flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 2px;
+      padding: 4px;
+      background: var(--off-white);
+      border: 1px solid var(--sw-line);
+      border-radius: 999px
+    }
+
+    .sw-tabs button {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 9px 16px;
+      border-radius: 999px;
+      font: 600 .8rem 'Inter', sans-serif;
+      letter-spacing: .02em;
+      color: var(--sw-soft);
+      white-space: nowrap;
+      transition: .18s ease
+    }
+
+    .sw-tabs button:hover {
+      color: var(--sw-ink);
+      background: var(--sw-surface)
+    }
+
+    .sw-tabs button.is-on {
+      background: var(--sw-btn);
+      color: var(--sw-btn-ink);
+      box-shadow: var(--shadow-sm)
+    }
+
+    .sw-panel {
+      display: none
+    }
+
+    .sw-panel.is-on {
+      display: block;
+      animation: swIn .35s ease
+    }
+
+    @keyframes swIn {
+      from {
+        opacity: 0;
+        transform: translateY(6px)
+      }
+    }
+
+    .sw-section-head {
+      text-align: center;
+      max-width: 62ch;
+      margin: 4px auto 26px
+    }
+
+    .sw-section-head h3 {
+      font-family: var(--sw-head);
+      font-weight: 600;
+      font-stretch: 95%;
+      font-size: clamp(1.3rem, 2.4vw, 1.7rem);
+      letter-spacing: -.025em;
+      line-height: 1.15;
+      color: var(--sw-ink);
+      margin: 8px 0 8px
+    }
+
+    .sw-section-head p {
+      color: var(--sw-soft);
+      font-size: .92rem
+    }
+
+    /* ── cards ── */
+    .sw-card {
+      background: var(--sw-surface);
+      border: 1px solid var(--sw-line);
+      border-radius: var(--sw-radius);
+      box-shadow: var(--shadow-xs);
+      overflow: hidden;
+      transition: box-shadow .25s ease, transform .25s ease, border-color .25s ease
+    }
+
+    .sw-card-head {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 15px 20px;
+      border-bottom: 1px solid var(--sw-line)
+    }
+
+    .sw-card-head h4 {
+      font-family: var(--sw-head);
+      font-weight: 600;
+      font-size: 1.02rem;
+      letter-spacing: -.015em;
+      line-height: 1.25;
+      color: var(--sw-ink)
+    }
+
+    .sw-card-head>i {
+      color: var(--sw-gold);
+      font-size: 1rem
+    }
+
+    .sw-card-body {
+      padding: 18px 20px
+    }
+
+    .sw-card-body.sw-tight {
+      padding: 6px 20px
+    }
+
+    /* ── course filter ── */
+
+    .sw-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px
+    }
+
+    .sw-pills button {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 7px 13px;
+      border-radius: 999px;
+      border: 1px solid var(--sw-line);
+      background: var(--sw-surface);
+      color: var(--sw-soft);
+      font: 600 .8rem 'Inter', sans-serif;
+      white-space: nowrap;
+      transition: .18s ease
+    }
+
+    .sw-pills button i {
+      font-size: .78rem
+    }
+
+    .sw-pills button span {
+      font-family: var(--sw-mono);
+      font-size: .7rem;
+      padding: 1px 7px;
+      border-radius: 999px;
+      background: var(--off-white);
+      color: var(--sw-soft)
+    }
+
+    .sw-pills button:hover {
+      color: var(--sw-ink);
+      border-color: var(--sw-soft)
+    }
+
+    .sw-pills button.is-on {
+      background: var(--sw-btn);
+      color: var(--sw-btn-ink);
+      border-color: transparent
+    }
+
+    .sw-pills button.is-on span {
+      background: rgba(255, 255, 255, .18);
+      color: inherit
+    }
+
+    /* ── course cards ── */
+
+    .sw-c-vac { --cat: #a16207; --cat-bg: #fdf3d7 }
+    .sw-c-ai { --cat: #1d4ed8; --cat-bg: #e8efff }
+    .sw-c-bb { --cat: #be185d; --cat-bg: #fce7f1 }
+    .sw-c-ent { --cat: #c2410c; --cat-bg: #ffedd5 }
+    .sw-c-iks { --cat: #7c3aed; --cat-bg: #f1e9ff }
+    .sw-c-sus { --cat: #047857; --cat-bg: #dcf5ea }
+
+    [data-theme="dark"] .sw-c-vac { --cat: #f5c451; --cat-bg: rgba(245, 196, 81, .12) }
+    [data-theme="dark"] .sw-c-ai { --cat: #8fb0ff; --cat-bg: rgba(143, 176, 255, .12) }
+    [data-theme="dark"] .sw-c-bb { --cat: #f59cc4; --cat-bg: rgba(245, 156, 196, .12) }
+    [data-theme="dark"] .sw-c-ent { --cat: #fdae7b; --cat-bg: rgba(253, 174, 123, .12) }
+    [data-theme="dark"] .sw-c-iks { --cat: #c4a7ff; --cat-bg: rgba(196, 167, 255, .12) }
+    [data-theme="dark"] .sw-c-sus { --cat: #6ee7b7; --cat-bg: rgba(110, 231, 183, .12) }
+
+    .sw-codes {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: auto
+    }
+
+    .sw-codes>div {
+      padding: 9px 12px;
+      border-radius: var(--sw-radius-sm);
+      background: var(--off-white);
+      border: 1px solid var(--sw-line)
+    }
+
+    .sw-codes dt {
+      font: .64rem var(--sw-mono);
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      color: var(--sw-soft)
+    }
+
+    .sw-codes dd {
+      font: 500 .86rem var(--sw-mono);
+      color: var(--sw-ink);
+      margin-top: 2px;
+      word-break: break-all
+    }
+
+    .sw-empty {
+      text-align: center;
+      padding: 28px;
+      color: var(--sw-soft);
+      font-size: .9rem
+    }
+
+    .sw-empty code {
+      font-family: var(--sw-mono)
+    }
+
+    .sw-note {
+      margin-top: 22px
+    }
+
+    .sw-note .sw-card-head>i {
+      color: #d97706
+    }
+
+    .sw-numbered {
+      list-style: none;
+      counter-reset: n;
+      display: grid;
+      gap: 12px
+    }
+
+    .sw-numbered li {
+      counter-increment: n;
+      display: grid;
+      grid-template-columns: 34px 1fr;
+      gap: 12px;
+      font-size: .9rem;
+      line-height: 1.6;
+      color: var(--text)
+    }
+
+    .sw-numbered li::before {
+      content: "0" counter(n);
+      font: .8rem/1.9 var(--sw-mono);
+      color: var(--sw-gold)
+    }
+
+    /* ── guidelines ── */
+    .sw-guide-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px
+    }
+
+    .sw-span-2 {
+      grid-column: span 2
+    }
+
+    .sw-guide-grid>.sw-accent {
+      grid-column: 1 / -1
+    }
+
+    .sw-accent {
+      position: relative
+    }
+
+    .sw-accent::before,
+    .sw-stat::before {
+      content: "";
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 4px;
+      background: linear-gradient(#eebd1b, #9c7a09);
+      border-radius: 0 4px 4px 0
+    }
+
+    .sw-rule {
+      display: flex;
+      gap: 12px;
+      font-size: .9rem;
+      line-height: 1.6;
+      color: var(--text)
+    }
+
+    .sw-rule+.sw-rule {
+      margin-top: 14px
+    }
+
+    .sw-rule>i {
+      width: 32px;
+      height: 32px;
+      flex: none;
+      border-radius: 10px;
+      display: grid;
+      place-items: center;
+      background: var(--sw-tint);
+      color: var(--sw-gold);
+      font-size: .82rem
+    }
+
+    .sw-rule strong {
+      color: var(--sw-ink)
+    }
+
+    .sw-field {
+      display: grid;
+      grid-template-columns: minmax(150px, 38%) 1fr;
+      gap: 6px 16px;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--sw-line)
+    }
+
+    .sw-field:last-child {
+      border-bottom: 0
+    }
+
+    .sw-field dt {
+      font-size: .82rem;
+      color: var(--sw-soft)
+    }
+
+    .sw-field dd {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      font-weight: 600;
+      font-size: .92rem;
+      color: var(--sw-ink)
+    }
+
+    .sw-copy {
+      flex: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 11px;
+      border-radius: 999px;
+      border: 1px solid var(--sw-line);
+      color: var(--sw-soft);
+      font: 500 .7rem var(--sw-mono);
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      transition: .18s ease
+    }
+
+    .sw-copy:hover {
+      color: var(--sw-ink);
+      border-color: var(--sw-soft)
+    }
+
+    .sw-copy.done {
+      background: #16a34a;
+      border-color: #16a34a;
+      color: #fff
+    }
+
+    .sw-select+.sw-select {
+      margin-top: 16px
+    }
+
+    .sw-select-label {
+      display: block;
+      font: .7rem var(--sw-mono);
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      color: var(--sw-soft);
+      margin-bottom: 6px
+    }
+
+    .sw-select-choice {
+      display: flex;
+      gap: 9px;
+      align-items: flex-start;
+      padding: 10px 12px;
+      border-radius: var(--sw-radius-sm);
+      background: var(--sw-tint);
+      color: var(--sw-ink);
+      font-weight: 600;
+      font-size: .88rem;
+      line-height: 1.45
+    }
+
+    .sw-select-choice i {
+      color: #16a34a;
+      margin-top: 3px
+    }
+
+    .sw-select small {
+      display: block;
+      margin-top: 6px;
+      font-size: .78rem;
+      color: var(--sw-soft)
+    }
+
+    .sw-issued {
+      margin-top: 20px;
+      text-align: center;
+      font: .76rem var(--sw-mono);
+      letter-spacing: .02em;
+      color: var(--sw-soft)
+    }
+
+    .sw-issued i {
+      color: var(--sw-gold);
+      margin-right: 6px
+    }
+
+    /* ── workflow steps ── */
+    .sw-flow {
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px
+    }
+
+    .sw-flow-step {
+      display: flex;
+      flex-direction: column
+    }
+
+    .sw-flow-step:hover {
+      box-shadow: var(--shadow-md)
+    }
+
+    .sw-flow-text {
+      padding: 18px 20px 14px
+    }
+
+    .sw-flow-text h4 {
+      font-family: var(--sw-head);
+      font-weight: 600;
+      font-size: 1.05rem;
+      letter-spacing: -.015em;
+      color: var(--sw-ink);
+      margin: 10px 0 4px
+    }
+
+    .sw-flow-text p {
+      font-size: .87rem;
+      line-height: 1.55;
+      color: var(--sw-soft)
+    }
+
+    .sw-flow-step:last-child:nth-child(odd) {
+      grid-column: 1 / -1;
+      flex-direction: row;
+      align-items: center
+    }
+
+    .sw-flow-step:last-child:nth-child(odd) .sw-flow-text {
+      flex: 0 0 34%
+    }
+
+    .sw-flow-step:last-child:nth-child(odd) .sw-shot {
+      flex: 1;
+      margin: 14px
+    }
+
+    .sw-shot {
+      position: relative;
+      display: block;
+      margin: auto 14px 14px;
+      padding: 0;
+      border-radius: var(--sw-radius-sm);
+      border: 1px solid var(--sw-line);
+      overflow: hidden;
+      background: #fff;
+      cursor: zoom-in
+    }
+
+    .sw-shot img {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 2.15 / 1;
+      object-fit: contain;
+      transition: transform .4s ease
+    }
+
+    .sw-shot:hover img {
+      transform: scale(1.025)
+    }
+
+    .sw-shot-zoom {
+      position: absolute;
+      right: 10px;
+      bottom: 10px;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: rgba(4, 4, 58, .78);
+      color: #fff;
+      font-size: .8rem;
+      box-shadow: var(--shadow-sm);
+      transition: transform .2s ease
+    }
+
+    .sw-shot:hover .sw-shot-zoom {
+      transform: scale(1.1)
+    }
+
+    /* ── assessment ── */
+    .sw-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 16px;
+      margin-bottom: 20px
+    }
+
+    .sw-stat {
+      position: relative;
+      overflow: hidden;
+      padding: 18px 18px 18px 22px;
+      background: var(--sw-surface);
+      border: 1px solid var(--sw-line);
+      border-radius: var(--sw-radius);
+      box-shadow: var(--shadow-xs);
+      transition: box-shadow .2s ease, transform .2s ease
+    }
+
+    .sw-stat:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md)
+    }
+
+    .sw-stat .n {
+      font-family: var(--sw-head);
+      font-size: 1.9rem;
+      font-weight: 600;
+      line-height: 1;
+      letter-spacing: -.02em;
+      color: var(--sw-ink)
+    }
+
+    .sw-stat .l {
+      font: .72rem var(--sw-mono);
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      color: var(--sw-soft);
+      margin-top: 9px
+    }
+
+    .sw-stat .sub {
+      font-size: .78rem;
+      color: var(--sw-soft);
+      margin-top: 3px;
+      opacity: .85
+    }
+
+    .sw-split {
+      display: flex;
+      height: 46px;
+      border-radius: var(--sw-radius-sm);
+      overflow: hidden;
+      margin-bottom: 18px;
+      font: 500 .78rem var(--sw-mono);
+      letter-spacing: .02em
+    }
+
+    .sw-split span {
+      display: grid;
+      place-items: center;
+      white-space: nowrap;
+      padding: 0 8px
+    }
+
+    .sw-split .ia {
+      background: linear-gradient(135deg, #f5d266, var(--gold-deep));
+      color: var(--navy)
+    }
+
+    .sw-split .ese {
+      background: linear-gradient(135deg, var(--navy), var(--navy-light));
+      color: #fff
+    }
+
+    .sw-list {
+      list-style: none;
+      display: grid;
+      gap: 10px
+    }
+
+    .sw-list li {
+      position: relative;
+      padding-left: 20px;
+      font-size: .9rem;
+      line-height: 1.6;
+      color: var(--text)
+    }
+
+    .sw-list li::before {
+      content: "";
+      position: absolute;
+      left: 2px;
+      top: .62em;
+      width: 7px;
+      height: 7px;
+      border-radius: 2px;
+      background: var(--gold-deep)
+    }
+
+    .sw-list strong {
+      color: var(--sw-ink)
+    }
+
+    /* ── wobble bento (after Aceternity's WobbleCard): pastel cards that
+       lean toward the pointer while their content drifts the other way ── */
+    .sw-bento {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 28px
+    }
+
+    .sw-wobble {
+      --wb-ink: #23122b;
+      --wb-soft: rgba(35, 18, 43, .72);
+      --wb-accent: #db2777;
+      position: relative;
+      overflow: hidden;
+      isolation: isolate;
+      min-height: 300px;
+      border-radius: 24px;
+      color: var(--wb-ink);
+      box-shadow: 0 10px 32px rgba(34, 42, 53, .12), 0 1px 1px rgba(0, 0, 0, .05), 0 0 0 1px rgba(34, 42, 53, .05),
+        0 4px 6px rgba(34, 42, 53, .08), 0 24px 108px rgba(47, 48, 55, .1);
+      transition: transform .1s ease-out
+    }
+
+    .sw-wobble::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background-image: radial-gradient(88% 100% at top, rgba(255, 255, 255, .55), rgba(255, 255, 255, 0))
+    }
+
+    .sw-wobble-inner {
+      position: relative;
+      height: 100%;
+      padding: 34px 36px;
+      transition: transform .1s ease-out
+    }
+
+    .sw-wb-wide {
+      grid-column: span 2
+    }
+
+    .sw-wb-full {
+      grid-column: 1 / -1
+    }
+
+    .sw-wb-rose {
+      background: linear-gradient(135deg, #ffe1ea 0%, #ffd6c9 55%, #ffe8d2 100%)
+    }
+
+    .sw-wb-butter {
+      --wb-ink: #2c2106;
+      --wb-soft: rgba(44, 33, 6, .7);
+      --wb-accent: #b45309;
+      background: linear-gradient(140deg, #fff7d6 0%, #ffe9b0 100%)
+    }
+
+    .sw-wb-sky {
+      --wb-ink: #111a44;
+      --wb-soft: rgba(17, 26, 68, .7);
+      --wb-accent: #3b5bdb;
+      background: linear-gradient(120deg, #e1efff 0%, #e9e2ff 55%, #dcf6ff 100%)
+    }
+
+    [data-theme="dark"] .sw-wobble {
+      --wb-ink: #fff;
+      --wb-soft: rgba(255, 255, 255, .74);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, .45), inset 0 0 0 1px rgba(255, 255, 255, .08)
+    }
+
+    [data-theme="dark"] .sw-wobble::before {
+      background-image: radial-gradient(88% 100% at top, rgba(255, 255, 255, .1), rgba(255, 255, 255, 0))
+    }
+
+    [data-theme="dark"] .sw-wb-rose { --wb-accent: #f9a8d4; background: linear-gradient(135deg, rgba(190, 24, 93, .55), rgba(234, 88, 12, .32)), #12101a }
+    [data-theme="dark"] .sw-wb-butter { --wb-accent: #fcd34d; background: linear-gradient(140deg, rgba(180, 83, 9, .5), rgba(202, 138, 4, .3)), #13110c }
+    [data-theme="dark"] .sw-wb-sky { --wb-accent: #a5b4fc; background: linear-gradient(120deg, rgba(59, 91, 219, .5), rgba(124, 58, 237, .38)), #0e1020 }
+
+    .sw-noise {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      pointer-events: none;
+      opacity: .1;
+      transform: scale(1.2);
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+      -webkit-mask-image: radial-gradient(#fff, transparent 75%);
+      mask-image: radial-gradient(#fff, transparent 75%)
+    }
+
+    .sw-wobble-copy {
+      position: relative;
+      z-index: 1;
+      max-width: 54%
+    }
+
+    .sw-wb-full .sw-wobble-copy {
+      max-width: 46%
+    }
+
+    .sw-wobble h3 {
+      font-family: var(--sw-head);
+      font-weight: 600;
+      font-size: clamp(1.25rem, 2.3vw, 1.85rem);
+      line-height: 1.12;
+      letter-spacing: -.02em;
+      text-wrap: balance;
+      color: var(--wb-ink);
+      margin: 0 0 12px
+    }
+
+    .sw-wobble p {
+      font-size: .95rem;
+      line-height: 1.6;
+      color: var(--wb-soft);
+      max-width: 42ch
+    }
+
+    .sw-wobble .sw-hero-top {
+      margin-bottom: 18px
+    }
+
+    .sw-wobble .sw-eyebrow {
+      color: var(--wb-soft)
+    }
+
+    .sw-wb-stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 26px;
+      margin: 20px 0 22px
+    }
+
+    .sw-wb-stats b {
+      display: block;
+      font-family: var(--sw-head);
+      font-size: 1.6rem;
+      font-weight: 600;
+      line-height: 1;
+      color: var(--wb-ink)
+    }
+
+    .sw-wb-stats span {
+      font: .66rem var(--sw-mono);
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      color: var(--wb-soft)
+    }
+
+    .sw-wb-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 20px
+    }
+
+    .sw-btn-ink {
+      background: var(--wb-ink, var(--heading));
+      color: #fff
+    }
+
+    [data-theme="dark"] .sw-btn-ink {
+      color: #0b0b14
+    }
+
+    .sw-btn-soft {
+      background: rgba(255, 255, 255, .62);
+      border-color: rgba(255, 255, 255, .9);
+      color: var(--wb-ink, var(--heading))
+    }
+
+    [data-theme="dark"] .sw-btn-soft {
+      background: rgba(255, 255, 255, .08);
+      border-color: rgba(255, 255, 255, .16);
+      color: #fff
+    }
+
+    .sw-wb-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 22px;
+      font-weight: 700;
+      font-size: .9rem;
+      color: var(--wb-accent)
+    }
+
+    .sw-wb-link i {
+      transition: transform .2s ease
+    }
+
+    .sw-wb-link:hover i {
+      transform: translateX(4px)
+    }
+
+    .sw-wobble-img {
+      position: absolute;
+      z-index: 0;
+      width: 440px;
+      height: auto;
+      max-width: none;
+      right: -130px;
+      bottom: -56px;
+      transform: rotate(-3deg);
+      border-radius: 16px;
+      border: 5px solid rgba(255, 255, 255, .7);
+      box-shadow: 0 24px 60px -18px rgba(30, 20, 60, .45);
+      filter: saturate(.85)
+    }
+
+    .sw-wb-full .sw-wobble-img {
+      width: 560px;
+      right: -30px;
+      bottom: -90px;
+      transform: rotate(-2deg)
+    }
+
+    /* a tiny form mock: what SWAYAM accepts and what it rejects */
+    .sw-wb-form {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 8px;
+      margin-top: 22px;
+      transform: rotate(-2deg)
+    }
+
+    .sw-wb-form span {
+      min-width: 0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, .7);
+      border: 1px solid rgba(255, 255, 255, .95);
+      box-shadow: 0 8px 20px -12px rgba(120, 80, 0, .45);
+      font: .78rem var(--sw-mono);
+      color: var(--wb-ink)
+    }
+
+    .sw-wb-form small {
+      flex: none;
+      width: 52px;
+      font: 600 .62rem 'Inter', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      color: var(--wb-soft)
+    }
+
+    .sw-wb-form em {
+      flex: 1;
+      min-width: 0;
+      font-style: normal;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap
+    }
+
+    .sw-wb-form b {
+      flex: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font: 700 .7rem 'Inter', sans-serif;
+      color: #fff;
+      background: #16a34a
+    }
+
+    .sw-wb-form .no {
+      opacity: .75
+    }
+
+    .sw-wb-form .no em {
+      text-decoration: line-through;
+      text-decoration-color: #dc2626
+    }
+
+    .sw-wb-form .no b {
+      background: #dc2626
+    }
+
+    [data-theme="dark"] .sw-wb-form span {
+      background: rgba(255, 255, 255, .08);
+      border-color: rgba(255, 255, 255, .14);
+      box-shadow: none
+    }
+
+    [data-theme="dark"] .sw-wobble-img {
+      border-color: rgba(255, 255, 255, .12);
+      filter: saturate(.85) brightness(.92)
+    }
+
+    /* ── courses as expandable rows (after Aceternity's ExpandableCard) ── */
+
+    .sw-course {
+      --cat: #1d4ed8;
+      --cat-bg: #e8efff
+    }
+
+    .sw-xthumb {
+      width: 58px;
+      height: 58px;
+      flex: none;
+      border-radius: 14px;
+      object-fit: cover
+    }
+
+    .sw-xtitle {
+      font-family: var(--sw-head);
+      font-weight: 600;
+      font-size: 1rem;
+      line-height: 1.25;
+      letter-spacing: -.01em;
+      color: var(--sw-ink)
+    }
+
+    .sw-xtitle[lang="hi"] {
+      font-family: 'Inter', 'Noto Sans Devanagari', 'Nirmala UI', 'Mangal', sans-serif;
+      letter-spacing: 0
+    }
+
+    .sw-xdesc {
+      font-size: .8rem;
+      color: var(--sw-soft)
+    }
+
+    .sw-xdesc code {
+      font: .76rem var(--sw-mono);
+      color: var(--cat)
+    }
+
+    .sw-xcta {
+      flex: none;
+      padding: 8px 16px;
+      border-radius: 999px;
+      font-size: .82rem;
+      font-weight: 700;
+      background: #f1f2f6;
+      color: #111;
+      transition: background .2s ease, color .2s ease
+    }
+
+    [data-theme="dark"] .sw-xcta {
+      background: rgba(255, 255, 255, .08);
+      color: #fff
+    }
+
+    /* ── courses as a catalogue block: intro + search on the left, category
+       pills and image cards on the right, the first six shown with a
+       "Show N more" button ── */
+    .sw-cx {
+      display: grid;
+      grid-template-columns: 250px 1fr;
+      gap: 28px;
+      padding: 28px;
+      border-radius: 20px;
+      background: #f2f5fa;
+      border: 1px solid #e6ebf3
+    }
+
+    [data-theme="dark"] .sw-cx {
+      background: rgba(255, 255, 255, .035);
+      border-color: rgba(255, 255, 255, .07)
+    }
+
+    .sw-cx-intro {
+      align-self: center
+    }
+
+    .sw-cx-intro h3 {
+      font-family: var(--sw-head);
+      font-weight: 600;
+      font-size: 1.45rem;
+      line-height: 1.15;
+      letter-spacing: -.02em;
+      color: var(--sw-ink);
+      text-wrap: balance;
+      margin-bottom: 12px
+    }
+
+    .sw-cx-intro p {
+      font-size: .88rem;
+      line-height: 1.6;
+      color: var(--sw-soft);
+      margin-bottom: 18px
+    }
+
+    .sw-cx-search {
+      position: relative;
+      display: block;
+      margin-bottom: 16px
+    }
+
+    .sw-cx-search input {
+      width: 100%;
+      padding: 11px 48px 11px 16px;
+      border-radius: 999px;
+      border: 1px solid #c9d2e3;
+      background: var(--card);
+      color: var(--text);
+      font: 500 .86rem 'Inter', sans-serif;
+      outline: none;
+      transition: border-color .18s ease, box-shadow .18s ease
+    }
+
+    .sw-cx-search input:focus {
+      border-color: var(--navy-light);
+      box-shadow: 0 0 0 3px rgba(26, 26, 158, .15)
+    }
+
+    [data-theme="dark"] .sw-cx-search input {
+      border-color: var(--border);
+      background: rgba(255, 255, 255, .04)
+    }
+
+    [data-theme="dark"] .sw-cx-search input:focus {
+      border-color: #f5d266;
+      box-shadow: 0 0 0 3px rgba(245, 210, 102, .18)
+    }
+
+    .sw-cx-search-btn {
+      position: absolute;
+      right: 5px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: var(--navy-light);
+      color: #fff;
+      font-size: .78rem;
+      pointer-events: none
+    }
+
+    [data-theme="dark"] .sw-cx-search-btn {
+      background: #f5d266;
+      color: var(--navy)
+    }
+
+    .sw-cx-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-weight: 700;
+      font-size: .86rem;
+      color: var(--navy-light);
+      text-decoration: none
+    }
+
+    .sw-cx-link:hover i {
+      transform: translateX(3px)
+    }
+
+    .sw-cx-link i {
+      transition: transform .2s ease
+    }
+
+    [data-theme="dark"] .sw-cx-link {
+      color: #f5d266
+    }
+
+    .sw-cx-main {
+      min-width: 0
+    }
+
+    .sw-cx .sw-pills {
+      margin-bottom: 16px
+    }
+
+    .sw-cx .sw-pills button {
+      padding: 5px 13px;
+      font-size: .78rem;
+      border-color: #c9d2e3;
+      background: var(--card);
+      color: var(--sw-ink)
+    }
+
+    [data-theme="dark"] .sw-cx .sw-pills button {
+      border-color: var(--border);
+      background: rgba(255, 255, 255, .04)
+    }
+
+    .sw-cx .sw-pills button.is-on {
+      background: #1f1f1f;
+      border-color: #1f1f1f;
+      color: #fff
+    }
+
+    [data-theme="dark"] .sw-cx .sw-pills button.is-on {
+      background: #f5d266;
+      border-color: #f5d266;
+      color: var(--navy)
+    }
+
+    .sw-cx-grid {
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px
+    }
+
+    .sw-cx-card {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      padding: 8px;
+      border-radius: 12px;
+      text-align: left;
+      color: inherit;
+      background: var(--card);
+      border: 1px solid #dae1ed;
+      transition: box-shadow .25s ease, transform .25s ease, border-color .25s ease
+    }
+
+    .sw-cx-card:hover {
+      transform: translateY(-3px);
+      border-color: transparent;
+      box-shadow: 0 16px 36px -14px rgba(15, 30, 80, .3), 0 0 0 1px rgba(15, 30, 80, .06)
+    }
+
+    [data-theme="dark"] .sw-cx-card {
+      background: #11121c;
+      border-color: #25273d
+    }
+
+    [data-theme="dark"] .sw-cx-card:hover {
+      border-color: rgba(245, 210, 102, .35);
+      box-shadow: 0 18px 40px -16px rgba(0, 0, 0, .8)
+    }
+
+    .sw-cx-media {
+      display: block;
+      overflow: hidden;
+      border-radius: 8px
+    }
+
+    .sw-cx-media .sw-xthumb {
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 16 / 10;
+      border-radius: 8px;
+      transition: transform .5s cubic-bezier(.2, .8, .2, 1)
+    }
+
+    .sw-cx-card:hover .sw-xthumb {
+      transform: scale(1.04)
+    }
+
+    .sw-cx-body {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      flex: 1;
+      padding: 10px 6px 4px
+    }
+
+    .sw-cx-prov {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: .76rem;
+      font-weight: 600;
+      color: var(--sw-soft)
+    }
+
+    .sw-cx-prov img {
+      width: 22px;
+      height: 22px;
+      padding: 2px;
+      border-radius: 5px;
+      border: 1px solid #dae1ed;
+      background: #fff;
+      flex: none
+    }
+
+    [data-theme="dark"] .sw-cx-prov img {
+      border-color: #25273d
+    }
+
+    .sw-cx-body .sw-xtitle {
+      font-size: .98rem;
+      line-height: 1.3;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden
+    }
+
+    .sw-cx-body .sw-xdesc {
+      font-size: .76rem
+    }
+
+    .sw-cx-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: auto;
+      padding-top: 6px
+    }
+
+    .sw-cx-tags em {
+      font-style: normal;
+      font-size: .7rem;
+      font-weight: 600;
+      padding: 3px 9px;
+      border-radius: 999px;
+      border: 1px solid #c9d2e3;
+      color: var(--sw-ink);
+      white-space: nowrap
+    }
+
+    .sw-cx-tags .t-free {
+      border-color: transparent;
+      background: #e3edff;
+      color: #0f3d91
+    }
+
+    .sw-cx-tags .t-vac {
+      border-color: transparent;
+      background: #fdeccb;
+      color: #7a4b00
+    }
+
+    [data-theme="dark"] .sw-cx-tags em {
+      border-color: #33364f
+    }
+
+    [data-theme="dark"] .sw-cx-tags .t-free {
+      border-color: transparent;
+      background: rgba(120, 160, 255, .16);
+      color: #b9cdff
+    }
+
+    [data-theme="dark"] .sw-cx-tags .t-vac {
+      border-color: transparent;
+      background: rgba(245, 196, 81, .16);
+      color: #f5d78f
+    }
+
+    .sw-cx-more {
+      margin-top: 16px;
+      padding: 9px 18px;
+      border-radius: 8px;
+      border: 1px solid var(--navy-light);
+      color: var(--navy-light);
+      font: 700 .84rem 'Inter', sans-serif;
+      background: var(--card);
+      transition: background .2s ease, color .2s ease
+    }
+
+    .sw-cx-more:hover {
+      background: var(--navy-light);
+      color: #fff
+    }
+
+    [data-theme="dark"] .sw-cx-more {
+      border-color: #f5d266;
+      color: #f5d266;
+      background: transparent
+    }
+
+    [data-theme="dark"] .sw-cx-more:hover {
+      background: #f5d266;
+      color: var(--navy)
+    }
+
+    .sw-cx .sw-empty {
+      padding: 20px 0 6px
+    }
+
+    @media (max-width: 1100px) {
+      .sw-cx {
+        grid-template-columns: 1fr;
+        gap: 20px
+      }
+
+      .sw-cx-intro p {
+        max-width: 60ch
+      }
+
+      .sw-cx-search {
+        max-width: 420px
+      }
+    }
+
+    @media (max-width: 860px) {
+      .sw-cx-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr))
+      }
+    }
+
+    @media (max-width: 560px) {
+      .sw-cx {
+        padding: 18px 14px;
+        margin: 0 -6px
+      }
+
+      .sw-cx .sw-pills {
+        margin: 0 -14px 14px;
+        padding: 0 14px 2px
+      }
+
+      .sw-cx-grid {
+        grid-template-columns: 1fr
+      }
+    }
+
+    /* the expanded card */
+    .sw-xmodal {
+      position: fixed;
+      inset: 0;
+      z-index: 3500;
+      display: grid;
+      place-items: center;
+      padding: 20px
+    }
+
+    .sw-xmodal[hidden] {
+      display: none
+    }
+
+    .sw-xbackdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(12, 12, 28, .28);
+      backdrop-filter: blur(3px)
+    }
+
+    [data-theme="dark"] .sw-xbackdrop {
+      background: rgba(0, 0, 0, .55)
+    }
+
+    .sw-xcard {
+      position: relative;
+      width: 100%;
+      max-width: 520px;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      border-radius: 28px;
+      background: var(--card);
+      color: var(--text);
+      box-shadow: 0 40px 100px -20px rgba(10, 10, 40, .45), 0 0 0 1px rgba(0, 0, 0, .04)
+    }
+
+    [data-theme="dark"] .sw-xcard {
+      background: #11121c;
+      box-shadow: 0 40px 100px -20px rgba(0, 0, 0, .8), 0 0 0 1px rgba(255, 255, 255, .08)
+    }
+
+    .sw-xmodal.pop .sw-xcard {
+      animation: swPop .32s cubic-bezier(.2, .9, .25, 1)
+    }
+
+    @keyframes swPop {
+      from {
+        opacity: 0;
+        transform: translateY(16px) scale(.96)
+      }
+    }
+
+    .sw-ximg {
+      width: 100%;
+      height: 280px;
+      flex: none;
+      object-fit: cover;
+      object-position: center
+    }
+
+    .sw-xclose {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      z-index: 2;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: rgba(255, 255, 255, .9);
+      color: #111;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, .18);
+      transition: transform .2s ease
+    }
+
+    .sw-xclose:hover {
+      transform: rotate(90deg)
+    }
+
+    .sw-xclose svg {
+      width: 16px;
+      height: 16px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2.4;
+      stroke-linecap: round
+    }
+
+    .sw-xhead {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 20px 22px 6px
+    }
+
+    .sw-xhead .sw-xtitle {
+      display: block;
+      font-size: 1.25rem;
+      margin: 0 0 4px
+    }
+
+    .sw-xhead .sw-xdesc {
+      display: block;
+      font-size: .86rem
+    }
+
+    .sw-xenrol {
+      padding: 11px 20px;
+      background: #22c55e;
+      color: #fff;
+      text-decoration: none;
+      box-shadow: 0 10px 24px -10px rgba(34, 197, 94, .8)
+    }
+
+    .sw-xenrol:hover {
+      background: #16a34a
+    }
+
+    [data-theme="dark"] .sw-xenrol {
+      background: #22c55e;
+      color: #fff
+    }
+
+    .sw-xbody {
+      padding: 12px 22px 34px;
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      scrollbar-width: none;
+      -webkit-mask-image: linear-gradient(to bottom, #000 0, #000 calc(100% - 46px), transparent);
+      mask-image: linear-gradient(to bottom, #000 0, #000 calc(100% - 46px), transparent);
+      font-size: .9rem;
+      line-height: 1.6
+    }
+
+    .sw-xbody::-webkit-scrollbar {
+      display: none
+    }
+
+    .sw-xbody h4 {
+      font-family: var(--sw-head);
+      font-weight: 600;
+      font-size: .98rem;
+      color: var(--heading);
+      margin: 18px 0 6px
+    }
+
+    .sw-xbody p {
+      color: var(--muted)
+    }
+
+    .sw-xbody .sw-codes {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 14px
+    }
+
+    .sw-xbody .sw-list li {
+      color: var(--muted)
+    }
+
+    .sw-xchips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px
+    }
+
+    .sw-xchips span {
+      padding: 4px 10px;
+      border-radius: 999px;
+      font: 500 .7rem var(--sw-mono);
+      letter-spacing: .02em;
+      background: var(--cat-bg);
+      color: var(--cat)
+    }
+
+    .sw-xlinks {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px
+    }
+
+    .sw-xlinks .sw-btn-soft {
+      background: var(--off-white);
+      border-color: var(--border);
+      color: var(--heading);
+      font-size: .8rem;
+      padding: 8px 14px
+    }
+
+    /* shared-element morph timing (row ↔ card) */
+    html.swx-morph::view-transition-group(*) {
+      animation-duration: .45s;
+      animation-timing-function: cubic-bezier(.2, .85, .25, 1)
+    }
+
+    html.swx-morph::view-transition-old(swx-img),
+    html.swx-morph::view-transition-new(swx-img) {
+      height: 100%;
+      object-fit: cover
+    }
+
+    @media (max-width: 1100px) {
+      .sw-wobble-img {
+        width: 360px;
+        right: -140px;
+        bottom: -50px
+      }
+
+      .sw-wb-full .sw-wobble-img {
+        width: 440px;
+        right: -120px;
+        bottom: -110px
+      }
+    }
+
+    @media (max-width: 960px) {
+      .sw-bento {
+        grid-template-columns: 1fr
+      }
+
+      .sw-wb-wide {
+        grid-column: auto
+      }
+
+      .sw-wb-form {
+        max-width: 380px
+      }
+
+    }
+
+    @media (max-width: 760px) {
+      .sw-bento {
+        grid-template-columns: 1fr
+      }
+
+      .sw-wb-wide,
+      .sw-wb-full {
+        grid-column: auto
+      }
+
+      .sw-wobble {
+        min-height: 0
+      }
+
+      .sw-wobble-inner {
+        padding: 26px 22px
+      }
+
+      .sw-wobble-copy,
+      .sw-wb-full .sw-wobble-copy {
+        max-width: none
+      }
+
+      /* the screenshot peeks in under the copy instead of beside it */
+      .sw-wb-wide .sw-wobble-inner,
+      .sw-wb-full .sw-wobble-inner {
+        padding-bottom: 200px
+      }
+
+      .sw-wobble-img,
+      .sw-wb-full .sw-wobble-img {
+        width: 420px;
+        right: -110px;
+        bottom: -40px;
+        transform: rotate(-3deg)
+      }
+
+      .sw-wb-stats {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px
+      }
+
+      /* the expanded card fills the phone screen */
+      .sw-xmodal {
+        padding: 0
+      }
+
+      .sw-xcard {
+        max-width: none;
+        height: 100%;
+        max-height: none;
+        border-radius: 0
+      }
+
+      .sw-ximg {
+        height: 230px
+      }
+    }
+
+    /* ── screenshot lightbox ── */
+    .sw-lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 3000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      padding: 24px;
+      background: rgba(3, 3, 22, .92);
+      backdrop-filter: blur(6px);
+      opacity: 0;
+      transition: opacity .2s ease
+    }
+
+    .sw-lightbox[hidden] {
+      display: none
+    }
+
+    .sw-lightbox.show {
+      opacity: 1
+    }
+
+    .sw-lightbox figure {
+      margin: 0;
+      max-width: min(1240px, 100%);
+      text-align: center
+    }
+
+    .sw-lightbox img {
+      max-width: 100%;
+      max-height: 78vh;
+      margin: 0 auto;
+      border-radius: 12px;
+      background: #fff;
+      box-shadow: 0 30px 80px rgba(0, 0, 0, .5)
+    }
+
+    .sw-lightbox figcaption {
+      margin-top: 14px;
+      font: .8rem 'Fragment Mono', ui-monospace, monospace;
+      color: rgba(255, 255, 255, .85)
+    }
+
+    .sw-lb-close,
+    .sw-lb-nav {
+      width: 46px;
+      height: 46px;
+      flex: none;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      background: rgba(255, 255, 255, .1);
+      border: 1px solid rgba(255, 255, 255, .2);
+      transition: .18s ease
+    }
+
+    .sw-lb-close:hover,
+    .sw-lb-nav:hover {
+      background: var(--gold);
+      color: var(--navy)
+    }
+
+    .sw-lb-close {
+      position: absolute;
+      top: 18px;
+      right: 18px
+    }
+
+    @media (max-width: 960px) {
+      .sw-guide-grid {
+        grid-template-columns: 1fr 1fr
+      }
+
+      .sw-guide-grid>.sw-span-2 {
+        grid-column: 1 / -1
+      }
+    }
+
+    @media (max-width: 760px) {
+
+      /* section tabs and category pills scroll sideways instead of stacking */
+      .sw-tabs-wrap {
+        justify-content: flex-start;
+        margin: 0 -20px 20px;
+        padding: 0 20px;
+        overflow-x: auto;
+        scrollbar-width: none
+      }
+
+      .sw-tabs-wrap::-webkit-scrollbar,
+      .sw-pills::-webkit-scrollbar {
+        display: none
+      }
+
+      .sw-tabs {
+        flex-wrap: nowrap
+      }
+
+      .sw-pills {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        margin: 0 -20px;
+        padding: 0 20px 2px;
+        scrollbar-width: none
+      }
+
+      .sw-guide-grid,
+      .sw-flow {
+        grid-template-columns: 1fr
+      }
+
+      .sw-flow-step:last-child:nth-child(odd) {
+        flex-direction: column;
+        align-items: stretch
+      }
+
+      .sw-flow-step:last-child:nth-child(odd) .sw-flow-text {
+        flex: none
+      }
+
+      .sw-flow-step:last-child:nth-child(odd) .sw-shot {
+        margin: 0 14px 14px
+      }
+
+      .sw-field {
+        grid-template-columns: 1fr;
+        gap: 4px
+      }
+
+      .sw-stats {
+        grid-template-columns: 1fr 1fr
+      }
+
+      .sw-shot-zoom {
+        width: 26px;
+        height: 26px;
+        right: 6px;
+        bottom: 6px;
+        font-size: .65rem;
+        opacity: .85
+      }
+
+      .sw-split {
+        font-size: .7rem
+      }
+
+      .sw-lightbox {
+        flex-wrap: wrap;
+        align-content: center;
+        padding: 70px 12px 20px
+      }
+
+      .sw-lightbox figure {
+        order: -1;
+        flex: 1 1 100%
+      }
+    }
+
+    /* ══════════════════════════════════════════════════════════════
+       MOBILE POLISH (whole page)
+    ══════════════════════════════════════════════════════════════ */
+    @media (max-width: 768px) {
+      .header-inner {
+        gap: 10px
+      }
+
+      .logo-wrap img {
+        height: 40px
+      }
+
+      [data-theme="dark"] .logo-wrap img {
+        height: 38px;
+        padding: 3px 8px
+      }
+
+      .user-btn span {
+        max-width: 92px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap
+      }
+
+      .user-btn {
+        padding: 8px 12px
+      }
+
+      .theme-switch {
+        --w: 46px;
+        --h: 26px;
+        --k: 20px
+      }
+
+      .greeting-section h2 {
+        font-size: 1.7rem !important
+      }
+
+      .greeting-section>div {
+        font-size: .92rem !important;
+        display: block !important;
+        height: auto !important;
+        min-height: 2.9em
+      }
+
+      /* the banners are wide; show them whole instead of a tall crop */
+      .hero-carousel {
+        height: auto;
+        aspect-ratio: 2.3 / 1;
+        border-radius: var(--radius-lg);
+        margin-bottom: 22px
+      }
+
+      .hero-arrow {
+        width: 36px;
+        height: 36px;
+        font-size: 14px
+      }
+
+      .hero-arrow.prev {
+        left: 10px
+      }
+
+      .hero-arrow.next {
+        right: 10px
+      }
+
+      .hero-dots {
+        bottom: 12px;
+        right: 50%;
+        transform: translateX(50%)
+      }
+
+      /* main tabs: one scrollable row of pills, not a tall stacked box */
+      .tab-bar-wrap {
+        justify-content: flex-start;
+        overflow-x: auto;
+        margin: 0 -16px 22px;
+        padding: 4px 16px 8px;
+        scrollbar-width: none
+      }
+
+      .tab-bar-wrap::-webkit-scrollbar {
+        display: none
+      }
+
+      .tab-bar {
+        flex-direction: row;
+        width: auto;
+        border-radius: 999px
+      }
+
+      .tab-pill {
+        padding: 9px 16px;
+        font-size: 13px
+      }
+
+      .dig-inner,
+      .cap-inner {
+        padding: 20px;
+        border-radius: var(--radius-md)
+      }
+
+      .platform-switcher {
+        gap: 8px;
+        margin-bottom: 22px
+      }
+
+      .plat-btn {
+        padding: 9px 16px;
+        font-size: 13px;
+        flex: 1 1 0;
+        justify-content: center;
+        text-align: center
+      }
+
+      .subtabs {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        scrollbar-width: none
+      }
+
+      .manual-card {
+        padding: 20px
+      }
+
+      .quiz-card-wrapper:not(.expanded) {
+        width: 50px;
+        height: 50px;
+        bottom: 16px;
+        left: 16px
+      }
+
+      .stats-bar-inner {
+        grid-template-columns: 1fr 1fr;
+        gap: 28px 12px
+      }
+
+      .stat-num {
+        font-size: 2rem
+      }
+
+      .stats-bar {
+        padding: 40px 16px;
+        margin-top: 40px
+      }
+
+      .toast {
+        left: 16px;
+        right: 16px;
+        top: 76px;
+        min-width: 0;
+        max-width: none
+      }
+    }
+
+    @media (max-width: 420px) {
+      .user-btn span {
+        display: none
+      }
+
+      .cal-view-seg button {
+        padding: 8px 10px;
+        font-size: 12px;
+        min-width: 0
+      }
+
+      .cal-view-seg button i {
+        display: none
+      }
+    }
   </style>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/driver.js@1.0.1/dist/driver.css" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
@@ -3997,11 +5680,12 @@
 </head>
 
 <body class="ac-theme">
+  <canvas id="spaceCanvas" aria-hidden="true"></canvas>
 
   <div id="pageTopLoader"></div>
 
   <!-- HEADER (shared official masthead) -->
-  {% set ac_active = 'home' %}
+  {% set ac_active = 'home' %}{% set ac_theme_switch = True %}
   {% include 'partials/academic_header.html' %}
 
   <!-- TICKER -->
@@ -4034,7 +5718,7 @@
     <div class="greeting-section" style="margin-bottom: 24px; padding-left: 8px;">
       <div style="flex-basis:100%"><div class="ac-breadcrumb"><a href="{{ url_for('home') }}">Home</a><span>/</span>Office of Academics</div></div>
       <h2 id="dynamicGreeting"
-        style="font-family: 'Cormorant Garamond', serif; font-size: 2.2rem; color: var(--navy); margin-bottom: 4px; font-weight: 700;">
+        style="font-family: 'Cormorant Garamond', serif; font-size: 2.2rem; color: var(--heading); margin-bottom: 4px; font-weight: 700;">
         Good Morning, Guest</h2>
       <div
         style="font-family: 'Inter', sans-serif; font-size: 1.05rem; color: var(--muted); height: 1.5rem; display: flex; align-items: center;">
@@ -4046,7 +5730,7 @@
     <!-- HERO -->
     <div class="hero-carousel">
       <div class="hero-track" id="heroTrack">
-        <div class="hero-slide">
+        <div class="hero-slide active">
           <img src="{{ url_for('static', filename='images/ooacr.png') }}" alt="Office of Academics"
             onerror="this.src='https://images.unsplash.com/photo-1562774053-701939374585?w=1400&q=80'">
           <div class="hero-overlay"></div>
@@ -4056,20 +5740,6 @@
             onerror="this.src='https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=1400&q=80'">
           <div class="hero-overlay"></div>
         </div>
-        <div class="hero-slide">
-          <img src="{{ url_for('static', filename='images/1234.png') }}" alt="Coursera Award"
-            onerror="this.src='https://images.unsplash.com/photo-1544531585-9847b68c8c86?w=1400&q=80'">
-          <div class="hero-overlay"></div>
-        </div>
-        <div class="hero-slide">
-          <img src="{{ url_for('static', filename='images/cor12.png') }}" alt="Coursera Award"
-            onerror="this.src='https://images.unsplash.com/photo-1544531585-9847b68c8c86?w=1400&q=80'">
-          <div class="hero-overlay"></div>
-          <div class="hero-content">
-            <h2>Future Leaders</h2>
-            <p>Preparing students for success in a rapidly changing, knowledge-driven world</p>
-          </div>
-        </div>
       </div>
       <button class="hero-arrow prev" onclick="heroSlide(-1)" aria-label="Previous slide"><i
           class="fas fa-chevron-left"></i></button>
@@ -4078,8 +5748,6 @@
       <div class="hero-dots" id="heroDots">
         <span class="hero-dot active" onclick="heroGoto(0)"></span>
         <span class="hero-dot" onclick="heroGoto(1)"></span>
-        <span class="hero-dot" onclick="heroGoto(2)"></span>
-        <span class="hero-dot" onclick="heroGoto(3)"></span>
       </div>
     </div>
 
@@ -4214,7 +5882,7 @@
                   <div class="skeleton-card"><span class="skeleton skeleton-title"></span><span class="skeleton skeleton-text"></span></div>
                 </div>
                 <div class="event-group">
-                  <div class="event-group-title"><i class="fas fa-calendar-week" style="color:var(--navy)"></i> Upcoming Events</div>
+                  <div class="event-group-title"><i class="fas fa-calendar-week" style="color: var(--heading)"></i> Upcoming Events</div>
                   <div class="skeleton-card"><span class="skeleton skeleton-title"></span><span class="skeleton skeleton-text"></span></div>
                   <div class="skeleton-card"><span class="skeleton skeleton-title"></span><span class="skeleton skeleton-text"></span></div>
                 </div>
@@ -4223,9 +5891,9 @@
 
             <!-- Campus Moments (from Campus gallery, added by dept admins) -->
             <div id="campusStripWrap" style="display:none;margin-bottom:26px">
-              <h3 style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;color:var(--navy);margin-bottom:14px;display:flex;align-items:center;gap:10px">
+              <h3 style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;color: var(--heading);margin-bottom:14px;display:flex;align-items:center;gap:10px">
                 <i class="fas fa-camera-retro" style="color:var(--gold-deep)"></i> Campus Moments
-                <a href="{{ url_for('campus') }}" class="nav-loading" style="margin-left:auto;font-family:'Inter',sans-serif;font-size:12.5px;font-weight:600;color:var(--navy);display:inline-flex;align-items:center;gap:6px">
+                <a href="{{ url_for('campus') }}" class="nav-loading" style="margin-left:auto;font-family:'Inter',sans-serif;font-size:12.5px;font-weight:600;color: var(--heading);display:inline-flex;align-items:center;gap:6px">
                   View gallery <i class="fas fa-arrow-right" style="font-size:11px;color:var(--gold-deep)"></i>
                 </a>
               </h3>
@@ -4234,7 +5902,7 @@
 
             <!-- Featured Events -->
             <h3
-              style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;color:var(--navy);margin-bottom:16px;display:flex;align-items:center;gap:10px">
+              style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;color: var(--heading);margin-bottom:16px;display:flex;align-items:center;gap:10px">
               <i class="fas fa-star" style="color:var(--gold-deep)"></i> Featured Events
             </h3>
             <div class="events-featured-grid" id="featuredEventsGrid">
@@ -4261,280 +5929,365 @@
         <div class="content-slide">
           <div class="dig-inner">
             <h2 class="dig-title">Digital Innovation</h2>
-            <p class="dig-sub">SWAYAM &amp; LinkedIn Learning Initiatives</p>
+            <p class="dig-sub">SWAYAM courses {{ swayam.academic_year }} &amp; LinkedIn Learning</p>
             <div class="platform-switcher">
               <button class="plat-btn swayam active" onclick="switchPlat('swayam')"><i
-                  class="fas fa-graduation-cap"></i> SWAYAM Integration</button>
+                  class="fas fa-graduation-cap"></i> SWAYAM {{ swayam.academic_year }}</button>
               <button class="plat-btn linkedin" onclick="switchPlat('linkedin')"><i class="fab fa-linkedin"></i>
                 LinkedIn Learning</button>
             </div>
 
-            <!-- SWAYAM CONTENT -->
-            <div id="swayamContent">
-              <div class="swayam-hero">
-                <h3>SAMUDI – University Wide Open Electives</h3>
-                <p>Implementation of SAMUDI Courses as University Open Electives in Alignment with NEP-2020. The
-                  University has conceptualized SAMUDI (Skills, Attitude, Mindset, Understanding, Digital and
-                  Interdisciplinary) courses as University Open Electives.</p>
-              </div>
+            <!-- SWAYAM CONTENT (data: swayam_data.py) -->
+            <div id="swayamContent" class="sw">
+              {% set enrol_open = today <= swayam.enrolment_ends %}
+              {% set a = swayam.assessment %}
 
-              <!-- ═══ CATEGORY CARDS ═══ -->
-              <p class="category-cards-title"><i class="fas fa-th-large" style="color:var(--gold-deep)"></i>
-                University-Wide
-                Open Electives – Browse by Category</p>
-              <div class="category-cards-grid">
-                <div class="cat-card ai" onclick="showCatDetail('ai')">
-                  <div class="cat-card-icon"><i class="fas fa-robot"></i></div>
-                  <div class="cat-card-badge">AI</div>
-                  <div class="cat-card-title">AI & New Technologies</div>
-                  <div class="cat-card-count">2 courses available</div>
-                  <span class="cat-card-arrow"><i class="fas fa-arrow-right"></i></span>
-                </div>
-                <div class="cat-card ent" onclick="showCatDetail('ent')">
-                  <div class="cat-card-icon"><i class="fas fa-briefcase"></i></div>
-                  <div class="cat-card-badge">ENT</div>
-                  <div class="cat-card-title">Entrepreneurship</div>
-                  <div class="cat-card-count">7 courses available</div>
-                  <span class="cat-card-arrow"><i class="fas fa-arrow-right"></i></span>
-                </div>
-                <div class="cat-card iks" onclick="showCatDetail('iks')">
-                  <div class="cat-card-icon"><i class="fas fa-scroll"></i></div>
-                  <div class="cat-card-badge">IKS</div>
-                  <div class="cat-card-title">Indian Knowledge Systems</div>
-                  <div class="cat-card-count">2 courses available</div>
-                  <span class="cat-card-arrow"><i class="fas fa-arrow-right"></i></span>
-                </div>
-                <div class="cat-card sus" onclick="showCatDetail('sus')">
-                  <div class="cat-card-icon"><i class="fas fa-leaf"></i></div>
-                  <div class="cat-card-badge">SUS</div>
-                  <div class="cat-card-title">Sustainability</div>
-                  <div class="cat-card-count">1 course available</div>
-                  <span class="cat-card-arrow"><i class="fas fa-arrow-right"></i></span>
-                </div>
-              </div>
-
-              <!-- AI Detail -->
-              <div class="cat-detail" id="detail-ai">
-                <div class="cat-detail-header">
-                  <h3><i class="fas fa-robot" style="color:#3b82f6"></i> AI &amp; New Technologies Courses</h3>
-                  <button class="cat-back-btn" onclick="hideCatDetail('ai')"><i class="fas fa-arrow-left"></i>
-                    Back</button>
-                </div>
-                <div class="course-detail-grid">
-                  <div class="course-detail-card">
-                    <div class="cdc-head ai">
-                      <h4><i class="fas fa-microchip"></i> Prompt Engineering</h4>
-                    </div>
-                    <div class="cdc-body">
-                      <div class="cdc-codes">
-                        <div class="cdc-code"><strong>UG Code:</strong> 25SWGAI01</div>
-                        <div class="cdc-code"><strong>PG Code:</strong> 25SWOAI01</div>
+              <div class="sw-bento">
+                <article class="sw-wobble sw-wb-rose sw-wb-wide" data-wobble>
+                  <div class="sw-wobble-inner">
+                    <div class="sw-wobble-copy">
+                      <div class="sw-hero-top">
+                        <span class="sw-chip {{ 'is-open' if enrol_open else 'is-closed' }}"><span class="sw-chip-dot"
+                            aria-hidden="true"></span>{% if enrol_open %}Enrolment open until {{ swayam.enrolment_ends_label }}{% else %}Enrolment closed on {{ swayam.enrolment_ends_label }}{% endif %}</span>
+                        <span class="sw-eyebrow">{{ swayam.cycle }}</span>
                       </div>
-                      <div class="cdc-meta"><span class="cdc-tag"><i class="fas fa-calendar"></i> Even
-                          Semester</span><span class="cdc-tag"><i class="fas fa-star"></i> 3 Credits</span></div>
-                      <a href="https://docs.google.com/document/d/1ir7VL2Rdl5GHLRsdXBlqj-cCVEQ_ovKN9j8TBDpRwqw/edit"
-                        target="_blank" class="cdc-enroll"><i class="fas fa-external-link-alt"></i> View / Enroll</a>
+                      <h3>University-wide open electives, in&#8209;house on SWAYAM</h3>
+                      <p>{{ swayam.courses|length }} courses across the SAMUDI categories, taken on the SWAYAM portal under
+                        JAIN’s Local Chapter for credit.</p>
+                      <div class="sw-wb-stats">
+                        <div><b>{{ swayam.courses|length }}</b><span>Courses</span></div>
+                        <div><b>{{ swayam.categories|length }}</b><span>Categories</span></div>
+                        <div><b>{{ a.credits }}</b><span>Credits each</span></div>
+                        <div><b>{{ swayam.chapter_id }}</b><span>Chapter ID</span></div>
+                      </div>
+                      <div class="sw-wb-actions">
+                        <a class="sw-btn sw-btn-ink" href="https://{{ swayam.portal }}" target="_blank" rel="noopener"><i
+                            class="fas fa-arrow-up-right-from-square"></i> Open SWAYAM portal</a>
+                        <button type="button" class="sw-btn sw-btn-soft" data-sw-go="guide"><i
+                            class="fas fa-list-check"></i> How to enrol</button>
+                      </div>
+                    </div>
+                    <img class="sw-wobble-img" src="{{ url_for('static', filename='images/swayam/mentee-3.webp') }}"
+                      alt="" width="1400" height="683" loading="lazy" decoding="async">
+                  </div>
+                  <span class="sw-noise" aria-hidden="true"></span>
+                </article>
+
+                <article class="sw-wobble sw-wb-butter" data-wobble>
+                  <div class="sw-wobble-inner">
+                    <h3>No ABC ID. No personal email. No enrolment.</h3>
+                    <p>Enter your 12-digit ABC ID and sign up with your official JAIN email — Gmail and other personal
+                      IDs are not accepted.</p>
+                    <button type="button" class="sw-wb-link" data-sw-go="guide">Read the guidelines <i
+                        class="fas fa-arrow-right"></i></button>
+                    <div class="sw-wb-form" aria-hidden="true">
+                      <span><small>ABC ID</small><em>1234 5678 9012</em><b>✓</b></span>
+                      <span><small>Email</small><em>usn@jainuniversity.ac.in</em><b>✓</b></span>
+                      <span class="no"><small>Email</small><em>myname@gmail.com</em><b>✕</b></span>
                     </div>
                   </div>
-                  <div class="course-detail-card">
-                    <div class="cdc-head ai">
-                      <h4><i class="fas fa-hashtag"></i> AI in Digital &amp; Social Media Marketing</h4>
-                    </div>
-                    <div class="cdc-body">
-                      <div class="cdc-codes">
-                        <div class="cdc-code"><strong>UG Code:</strong> 25SWGAI02</div>
-                        <div class="cdc-code"><strong>PG Code:</strong> 25SWOAI02</div>
+                  <span class="sw-noise" aria-hidden="true"></span>
+                </article>
+
+                <article class="sw-wobble sw-wb-sky sw-wb-full" data-wobble>
+                  <div class="sw-wobble-inner">
+                    <div class="sw-wobble-copy">
+                      <h3>Pick your mentor on SWAYAM, then never miss a weekly assignment.</h3>
+                      <p>Students choose their faculty mentor inside the course in {{ swayam.mentee_steps|length }} quick
+                        steps. Mentors see every mentee and download weekly marks as a CSV.</p>
+                      <div class="sw-wb-actions">
+                        <button type="button" class="sw-btn sw-btn-ink" data-sw-go="mentee"><i
+                            class="fas fa-user-graduate"></i> Student guide</button>
+                        <button type="button" class="sw-btn sw-btn-soft" data-sw-go="mentor"><i
+                            class="fas fa-chalkboard-teacher"></i> Mentor guide</button>
                       </div>
-                      <div class="cdc-meta"><span class="cdc-tag"><i class="fas fa-calendar"></i> Even
-                          Semester</span><span class="cdc-tag"><i class="fas fa-star"></i> 3 Credits</span></div>
-                      <a href="https://docs.google.com/document/d/1ir7VL2Rdl5GHLRsdXBlqj-cCVEQ_ovKN9j8TBDpRwqw/edit"
-                        target="_blank" class="cdc-enroll"><i class="fas fa-external-link-alt"></i> View / Enroll</a>
                     </div>
+                    <img class="sw-wobble-img" src="{{ url_for('static', filename='images/swayam/mentee-8.webp') }}"
+                      alt="" width="1400" height="638" loading="lazy" decoding="async">
                   </div>
+                  <span class="sw-noise" aria-hidden="true"></span>
+                </article>
+              </div>
+
+              <div class="sw-tabs-wrap">
+                <div class="sw-tabs" role="tablist" aria-label="SWAYAM sections">
+                  <button type="button" role="tab" class="is-on" aria-selected="true" data-sw-tab="courses"><i
+                      class="fas fa-book-open"></i> Courses</button>
+                  <button type="button" role="tab" aria-selected="false" data-sw-tab="guide"><i
+                      class="fas fa-clipboard-list"></i> Enrolment guidelines</button>
+                  <button type="button" role="tab" aria-selected="false" data-sw-tab="mentee"><i
+                      class="fas fa-user-graduate"></i> Students: select a mentor</button>
+                  <button type="button" role="tab" aria-selected="false" data-sw-tab="mentor"><i
+                      class="fas fa-chalkboard-teacher"></i> Faculty: mentor workflow</button>
+                  <button type="button" role="tab" aria-selected="false" data-sw-tab="assess"><i
+                      class="fas fa-scale-balanced"></i> Assessment</button>
                 </div>
               </div>
 
-              <!-- ENT Detail -->
-              <div class="cat-detail" id="detail-ent">
-                <div class="cat-detail-header">
-                  <h3><i class="fas fa-briefcase" style="color:#f97316"></i> Entrepreneurship Courses</h3>
-                  <button class="cat-back-btn" onclick="hideCatDetail('ent')"><i class="fas fa-arrow-left"></i>
-                    Back</button>
-                </div>
-                <div class="course-detail-grid">
-                  {% set ent_courses = [
-                  ('Money, Mind, and Markets: Financial Literacy','25SWGEN01','25SWOEN01','3 Credits'),
-                  ('Business Skills: A Global Perspective – I','25SWGEN02','25SWOEN02','3 Credits'),
-                  ('Affiliate Marketing','25SWGEN03','25SWOEN03','3 Credits'),
-                  ('E-Commerce','25SWGEN04','25SWOEN04','3 Credits'),
-                  ('Microfinance and Self-Help Groups','25SWGEN05','25SWOEN05','3 Credits'),
-                  ('Advances in Tourism Marketing','25SWGEN06','25SWOEN06','3 Credits'),
-                  ('Social Entrepreneurship and Sustainability','25SWGEN07','25SWOEN07','4 Credits')
-                  ] %}
-                  {% for title, ug, pg, cred in ent_courses %}
-                  <div class="course-detail-card">
-                    <div class="cdc-head ent">
-                      <h4><i class="fas fa-rocket"></i> {{ title }}</h4>
+              <!-- ── COURSES ── -->
+              <div class="sw-panel is-on" id="sw-courses" role="tabpanel">
+                {% set SW_FIRST = 6 %}
+                <div class="sw-cx">
+                  <aside class="sw-cx-intro">
+                    <h3>Earn credits with courses built by JAIN faculty</h3>
+                    <p>{{ swayam.courses|length }} in-house SWAYAM electives across {{ swayam.categories|length }} SAMUDI
+                      categories. Enrol free on SWAYAM with your official JAIN email and ABC ID; the university conducts
+                      the final exam.</p>
+                    <label class="sw-cx-search">
+                      <span class="sr-only">Search courses</span>
+                      <input type="search" id="swSearch" placeholder="Search courses or codes" autocomplete="off">
+                      <span class="sw-cx-search-btn" aria-hidden="true"><i class="fas fa-magnifying-glass"></i></span>
+                    </label>
+                    <a class="sw-cx-link" href="https://{{ swayam.portal }}" target="_blank" rel="noopener">Open SWAYAM
+                      portal <i class="fas fa-arrow-right"></i></a>
+                  </aside>
+
+                  <div class="sw-cx-main">
+                    <div class="sw-pills" role="group" aria-label="Filter by category">
+                      <button type="button" class="is-on" data-sw-cat="all">All <span>{{ swayam.courses|length }}</span></button>
+                      {% for cat in swayam.categories %}
+                      <button type="button" data-sw-cat="{{ cat.key }}">{{ cat.label }} <span>{{ cat.count }}</span></button>
+                      {% endfor %}
                     </div>
-                    <div class="cdc-body">
-                      <div class="cdc-codes">
-                        <div class="cdc-code"><strong>UG Code:</strong> {{ ug }}</div>
-                        <div class="cdc-code"><strong>PG Code:</strong> {{ pg }}</div>
-                      </div>
-                      <div class="cdc-meta"><span class="cdc-tag"><i class="fas fa-calendar"></i> Even
-                          Semester</span><span class="cdc-tag"><i class="fas fa-star"></i> {{ cred }}</span></div>
-                      <a href="https://swayam.gov.in" target="_blank" class="cdc-enroll"><i
-                          class="fas fa-external-link-alt"></i> View / Enroll</a>
-                    </div>
+
+                    <ul class="sw-cx-grid" id="swCourseGrid">
+                      {% for c in swayam.courses %}
+                      <li class="sw-course sw-c-{{ c.cat }}" data-cat="{{ c.cat }}" {% if loop.index > SW_FIRST %}hidden{% endif %}
+                        data-search="{{ (c.title ~ ' ' ~ (c.subtitle or '') ~ ' ' ~ c.ug ~ ' ' ~ (c.pg or '') ~ ' ' ~ c.cat_label ~ ' ' ~ c.type)|lower }}">
+                        <button type="button" class="sw-cx-card" data-sw-open="{{ loop.index0 }}" aria-haspopup="dialog">
+                          <span class="sw-cx-media">
+                            <img class="sw-xthumb" src="{{ url_for('static', filename='images/swayam/courses/' ~ c.ug|lower ~ '.webp') }}"
+                              alt="" width="960" height="600" loading="lazy" decoding="async">
+                          </span>
+                          <span class="sw-cx-body">
+                            <span class="sw-cx-prov">
+                              <img src="{{ url_for('static', filename='images/swayam/jgi.webp') }}" alt="" width="22" height="22">
+                              JAIN (Deemed-to-be University)
+                            </span>
+                            <span class="sw-xtitle" {% if c.lang %}lang="{{ c.lang }}" {% endif %}>{{ c.title }}</span>
+                            <span class="sw-xdesc">{% if c.subtitle %}{{ c.subtitle }} · {% endif %}{{ a.credits }} credits ·
+                              {{ c.type }} · {{ 'Rerun' if c.offered == 'Rerun' else 'Odd semester' }}</span>
+                            <span class="sw-cx-tags">
+                              <em class="t-free">Free on SWAYAM</em>
+                              <em {% if c.type == 'VAC' %}class="t-vac"{% endif %}>{{ c.cat_short }}</em>
+                            </span>
+                          </span>
+                        </button>
+                      </li>
+                      {% endfor %}
+                    </ul>
+                    <p class="sw-empty" id="swEmpty" hidden><i class="fas fa-circle-info"></i> No course matches that
+                      search. Try a course code such as <code>25SWGAI01</code>.</p>
+                    {% if swayam.courses|length > SW_FIRST %}
+                    <button type="button" class="sw-cx-more" id="swMore" aria-expanded="false"
+                      aria-controls="swCourseGrid">Show {{ swayam.courses|length - SW_FIRST }} more</button>
+                    {% endif %}
+                    <script type="application/json" id="swCourseData">{{ {
+                      'courses': swayam.courses, 'assessment': a, 'open': enrol_open, 'first': SW_FIRST,
+                      'img': url_for('static', filename='images/swayam/courses/'),
+                      'chapter': swayam.chapter_id, 'college': swayam.form_fields[2][1]
+                    }|tojson }}</script>
                   </div>
+                </div>
+
+                <div class="sw-card sw-note">
+                  <div class="sw-card-head"><i class="fas fa-triangle-exclamation"></i>
+                    <h4>Please note</h4></div>
+                  <ol class="sw-card-body sw-numbered">
+                    {% for n in swayam.please_note %}<li>{{ n }}</li>{% endfor %}
+                  </ol>
+                </div>
+              </div>
+
+              <!-- ── ENROLMENT GUIDELINES ── -->
+              <div class="sw-panel" id="sw-guide" role="tabpanel" hidden>
+                <div class="sw-section-head">
+                  <span class="sw-eyebrow">Guidelines for SWAYAM course enrolment — {{ swayam.academic_year }}</span>
+                  <h3>Fill the SWAYAM form exactly as below</h3>
+                  <p>Applicable to all students enrolling in SWAYAM courses under the SAMUDI basket.</p>
+                </div>
+
+                <div class="sw-guide-grid">
+                  <article class="sw-card sw-step-card">
+                    <div class="sw-card-head"><span class="sw-num">01</span>
+                      <h4>Enrolment on the SWAYAM portal</h4></div>
+                    <div class="sw-card-body">
+                      <div class="sw-rule"><i class="fas fa-id-card"></i>
+                        <div><strong>ABC ID</strong> — enter your 12-digit ABC (Academic Bank of Credits) ID under
+                          Personal Details. Enrolment without a valid ABC ID is not acceptable.</div>
+                      </div>
+                      <div class="sw-rule"><i class="fas fa-envelope"></i>
+                        <div><strong>Email ID</strong> — enrol with your official JAIN University email ID only.
+                          Personal email IDs (including Gmail) are strictly prohibited.</div>
+                      </div>
+                    </div>
+                  </article>
+
+                  <article class="sw-card sw-step-card sw-span-2">
+                    <div class="sw-card-head"><span class="sw-num">02</span>
+                      <h4>Educational details — to be filled exactly as below</h4></div>
+                    <div class="sw-card-body sw-tight">
+                      <dl class="sw-fields">
+                        {% for label, value in swayam.form_fields %}
+                        <div class="sw-field">
+                          <dt>{{ label }}</dt>
+                          <dd><span>{{ value }}</span>
+                            {% if label != 'College / School Roll Number' %}<button type="button" class="sw-copy"
+                              data-copy="{{ value }}" aria-label="Copy {{ label }}"><i class="far fa-copy"></i><span>Copy</span></button>{% endif %}
+                          </dd>
+                        </div>
+                        {% endfor %}
+                      </dl>
+                    </div>
+                  </article>
+
+                  <article class="sw-card sw-step-card">
+                    <div class="sw-card-head"><span class="sw-num">03</span>
+                      <h4>Other mandatory form selections</h4></div>
+                    <div class="sw-card-body">
+                      {% for label, choice, hint in swayam.form_selections %}
+                      <div class="sw-select">
+                        <span class="sw-select-label">{{ label }}</span>
+                        <span class="sw-select-choice"><i class="fas fa-circle-check"></i> “{{ choice }}”</span>
+                        {% if hint %}<small>{{ hint }}</small>{% endif %}
+                      </div>
+                      {% endfor %}
+                    </div>
+                  </article>
+
+                  <article class="sw-card sw-step-card">
+                    <div class="sw-card-head"><span class="sw-num">04</span>
+                      <h4>Eligibility</h4></div>
+                    <div class="sw-card-body">
+                      <div class="sw-rule"><i class="fas fa-user-clock"></i>
+                        <div>Students in their final semester are not encouraged to enrol in SWAYAM courses.</div>
+                      </div>
+                    </div>
+                  </article>
+
+                  <article class="sw-card sw-step-card">
+                    <div class="sw-card-head"><span class="sw-num">05</span>
+                      <h4>Assessment &amp; academic responsibility</h4></div>
+                    <div class="sw-card-body">
+                      <div class="sw-rule"><i class="fas fa-calendar-week"></i>
+                        <div>Appearing in <strong>all weekly assignments is mandatory</strong>. Skipping assignments may
+                          result in poor marks, failure, or a backlog in the course.</div>
+                      </div>
+                      <div class="sw-rule"><i class="fas fa-calculator"></i>
+                        <div>Final calculation of marks is carried out strictly as per SWAYAM/NPTEL guidelines.</div>
+                      </div>
+                    </div>
+                  </article>
+
+                  <article class="sw-card sw-step-card sw-span-2 sw-accent">
+                    <div class="sw-card-head"><span class="sw-num">06</span>
+                      <h4>Compliance &amp; responsibility — for Course In-charges</h4></div>
+                    <div class="sw-card-body">
+                      <div class="sw-rule"><i class="fas fa-user-shield"></i>
+                        <div>Course In-charges at the respective department level must ensure strict compliance with
+                          all guidelines above by every learner enrolled in the course.</div>
+                      </div>
+                      <div class="sw-rule"><i class="fas fa-scale-balanced"></i>
+                        <div>If any student loses marks due to non-compliance or a lapse at the department level, the
+                          concerned faculty/department will be held responsible. The SWAYAM Nodal Office will follow
+                          UGC-defined guidelines to update marks on the designated GOI portal.</div>
+                      </div>
+                    </div>
+                  </article>
+                </div>
+                <p class="sw-issued"><i class="fas fa-stamp"></i> Issued by the SWAYAM Nodal Office, JAIN
+                  (Deemed-to-be University)</p>
+              </div>
+
+              <!-- ── MENTEE WORKFLOW ── -->
+              <div class="sw-panel" id="sw-mentee" role="tabpanel" hidden>
+                <div class="sw-section-head">
+                  <span class="sw-eyebrow">Step-by-step guide for mentees · {{ swayam.mentee_steps|length }} steps</span>
+                  <h3>Selecting a mentor on SWAYAM</h3>
+                  <p>Every student picks their faculty mentor inside the course. Click any screenshot to enlarge it.</p>
+                </div>
+                <ol class="sw-flow">
+                  {% for title, text in swayam.mentee_steps %}
+                  <li class="sw-card sw-flow-step">
+                    <div class="sw-flow-text">
+                      <span class="sw-num">{{ '%02d' % loop.index }}</span>
+                      <h4>{{ title }}</h4>
+                      <p>{{ text }}</p>
+                    </div>
+                    <button type="button" class="sw-shot" data-sw-zoom="mentee"
+                      aria-label="Enlarge screenshot for step {{ loop.index }}: {{ title }}">
+                      <img src="{{ url_for('static', filename='images/swayam/mentee-' ~ loop.index ~ '.webp') }}"
+                        alt="SWAYAM screenshot — step {{ loop.index }}: {{ title }}" loading="lazy" decoding="async"
+                        width="1400" height="650">
+                      <span class="sw-shot-zoom" aria-hidden="true"><i class="fas fa-expand"></i></span>
+                    </button>
+                  </li>
                   {% endfor %}
-                </div>
+                </ol>
               </div>
 
-              <!-- IKS Detail -->
-              <div class="cat-detail" id="detail-iks">
-                <div class="cat-detail-header">
-                  <h3><i class="fas fa-om" style="color:#a855f7"></i> Indian Knowledge Systems Courses</h3>
-                  <button class="cat-back-btn" onclick="hideCatDetail('iks')"><i class="fas fa-arrow-left"></i>
-                    Back</button>
+              <!-- ── MENTOR WORKFLOW ── -->
+              <div class="sw-panel" id="sw-mentor" role="tabpanel" hidden>
+                <div class="sw-section-head">
+                  <span class="sw-eyebrow">Step-by-step guide for faculty mentors · {{ swayam.mentor_steps|length }} steps</span>
+                  <h3>Mentor workflow on the SWAYAM platform</h3>
+                  <p>See who has chosen you as mentor and download their weekly assessment marks.</p>
                 </div>
-                <div class="course-detail-grid">
-                  <div class="course-detail-card">
-                    <div class="cdc-head iks">
-                      <h4><i class="fas fa-balance-scale"></i> IKS and HRM: Work, Wisdom and Wellbeing</h4>
+                <ol class="sw-flow">
+                  {% for title, text in swayam.mentor_steps %}
+                  <li class="sw-card sw-flow-step">
+                    <div class="sw-flow-text">
+                      <span class="sw-num">{{ '%02d' % loop.index }}</span>
+                      <h4>{{ title }}</h4>
+                      <p>{{ text }}</p>
                     </div>
-                    <div class="cdc-body">
-                      <div class="cdc-codes">
-                        <div class="cdc-code"><strong>UG Code:</strong> 25SWGIK01</div>
-                        <div class="cdc-code"><strong>PG Code:</strong> 25SWOIK01</div>
-                      </div>
-                      <div class="cdc-meta"><span class="cdc-tag"><i class="fas fa-calendar"></i> Even
-                          Semester</span><span class="cdc-tag"><i class="fas fa-star"></i> 3 Credits</span></div>
-                      <a href="https://swayam.gov.in" target="_blank" class="cdc-enroll"><i
-                          class="fas fa-external-link-alt"></i> View / Enroll</a>
-                    </div>
-                  </div>
-                  <div class="course-detail-card">
-                    <div class="cdc-head iks">
-                      <h4><i class="fas fa-scroll"></i> IKS: Concepts &amp; Applications in Management &amp; Governance
-                      </h4>
-                    </div>
-                    <div class="cdc-body">
-                      <div class="cdc-codes">
-                        <div class="cdc-code"><strong>UG Code:</strong> 25SWGIK02</div>
-                        <div class="cdc-code"><strong>PG Code:</strong> 25SWOIK02</div>
-                      </div>
-                      <div class="cdc-meta"><span class="cdc-tag"><i class="fas fa-calendar"></i> Even
-                          Semester</span><span class="cdc-tag"><i class="fas fa-star"></i> 3 Credits</span></div>
-                      <a href="https://swayam.gov.in" target="_blank" class="cdc-enroll"><i
-                          class="fas fa-external-link-alt"></i> View / Enroll</a>
-                    </div>
-                  </div>
-                </div>
+                    <button type="button" class="sw-shot" data-sw-zoom="mentor"
+                      aria-label="Enlarge screenshot for step {{ loop.index }}: {{ title }}">
+                      <img src="{{ url_for('static', filename='images/swayam/mentor-' ~ loop.index ~ '.webp') }}"
+                        alt="SWAYAM screenshot — step {{ loop.index }}: {{ title }}" loading="lazy" decoding="async"
+                        width="1400" height="600">
+                      <span class="sw-shot-zoom" aria-hidden="true"><i class="fas fa-expand"></i></span>
+                    </button>
+                  </li>
+                  {% endfor %}
+                </ol>
+                <p class="sw-issued"><i class="fas fa-user-lock"></i> Learner details in the step 5 screenshot are
+                  blurred for privacy.</p>
               </div>
 
-              <!-- SUS Detail -->
-              <div class="cat-detail" id="detail-sus">
-                <div class="cat-detail-header">
-                  <h3><i class="fas fa-leaf" style="color:#10b981"></i> Sustainability Courses</h3>
-                  <button class="cat-back-btn" onclick="hideCatDetail('sus')"><i class="fas fa-arrow-left"></i>
-                    Back</button>
+              <!-- ── ASSESSMENT ── -->
+              <div class="sw-panel" id="sw-assess" role="tabpanel" hidden>
+                <div class="sw-section-head">
+                  <span class="sw-eyebrow">In-house SWAYAM courses · LTPE structure &amp; assessment pattern</span>
+                  <h3>One pattern for every course in the list</h3>
+                  <p>All {{ swayam.courses|length }} courses are {{ a.type|lower }} courses of {{ a.credits }} credits
+                    with an LTPE of {{ a.ltpe }}.</p>
                 </div>
-                <div class="course-detail-grid">
-                  <div class="course-detail-card">
-                    <div class="cdc-head sus">
-                      <h4><i class="fas fa-venus-mars"></i> Gender Studies</h4>
+                <div class="sw-stats">
+                  <div class="sw-stat"><div class="n">{{ a.credits }}</div><div class="l">Credits</div>
+                    <div class="sub">{{ a.type }} (T)</div></div>
+                  <div class="sw-stat"><div class="n">{{ a.ltpe }}</div><div class="l">LTPE</div>
+                    <div class="sub">L · T · P · E</div></div>
+                  <div class="sw-stat"><div class="n">{{ a.ia_max }}</div><div class="l">Internal assessment</div>
+                    <div class="sub">Minimum {{ a.ia_min }} to pass</div></div>
+                  <div class="sw-stat"><div class="n">{{ a.ese_max }}</div><div class="l">End-semester theory</div>
+                    <div class="sub">Minimum {{ a.ese_min }} to pass</div></div>
+                  <div class="sw-stat"><div class="n">{{ a.pass_marks }}</div><div class="l">Passing marks</div>
+                    <div class="sub">Out of {{ a.ia_max + a.ese_max }}</div></div>
+                </div>
+                <div class="sw-card sw-split-card">
+                  <div class="sw-card-head"><i class="fas fa-chart-simple"></i>
+                    <h4>How the {{ a.ia_max + a.ese_max }} marks split</h4></div>
+                  <div class="sw-card-body">
+                    <div class="sw-split" role="img"
+                      aria-label="Internal assessment {{ a.ia_max }} marks, end-semester theory {{ a.ese_max }} marks">
+                      <span class="ia" style="flex:{{ a.ia_max }}">IA · {{ a.ia_max }}</span>
+                      <span class="ese" style="flex:{{ a.ese_max }}">ESE theory · {{ a.ese_max }}</span>
                     </div>
-                    <div class="cdc-body">
-                      <div class="cdc-codes">
-                        <div class="cdc-code"><strong>UG Code:</strong> 25SWGST01</div>
-                        <div class="cdc-code"><strong>PG Code:</strong> 25SWOST01</div>
-                      </div>
-                      <div class="cdc-meta"><span class="cdc-tag"><i class="fas fa-calendar"></i> Even
-                          Semester</span><span class="cdc-tag"><i class="fas fa-star"></i> 4 Credits</span></div>
-                      <a href="https://swayam.gov.in" target="_blank" class="cdc-enroll"><i
-                          class="fas fa-external-link-alt"></i> View / Enroll</a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Guidelines, Steps, Roles -->
-              <div class="guidelines-card">
-                <h3><i class="fas fa-info-circle" style="color:var(--navy)"></i> Understanding the SWAYAM Platform</h3>
-                <p>SWAYAM (Study Webs of Active-Learning for Young Aspiring Minds) is the national online learning
-                  platform of the Government of India, offering credit-bearing courses aligned with NEP 2020.</p>
-                <div class="guide-grid">
-                  <div class="guide-item">
-                    <h4><i class="fas fa-check-circle" style="color:#16a34a"></i> Eligibility</h4>
-                    <ul>
-                      <li><i class="fas fa-angle-right"></i>All UG and PG students eligible</li>
-                      <li><i class="fas fa-angle-right"></i>Use official university email ID</li>
-                      <li><i class="fas fa-angle-right"></i>Local Chapter ID: 7730</li>
-                    </ul>
-                  </div>
-                  <div class="guide-item">
-                    <h4><i class="fas fa-pencil-alt"></i> Registration</h4>
-                    <ul>
-                      <li><i class="fas fa-angle-right"></i>Visit www.swayam.gov.in</li>
-                      <li><i class="fas fa-angle-right"></i>Sign in with university email</li>
-                      <li><i class="fas fa-angle-right"></i>Select JAIN – Chapter 7730</li>
-                    </ul>
-                  </div>
-                  <div class="guide-item">
-                    <h4><i class="fas fa-star"></i> Evaluation</h4>
-                    <ul>
-                      <li><i class="fas fa-angle-right"></i>70% End-term examination</li>
-                      <li><i class="fas fa-angle-right"></i>30% Internal assessment</li>
-                      <li><i class="fas fa-angle-right"></i>Min 40% in each for credits</li>
-                    </ul>
-                  </div>
-                  <div class="guide-item">
-                    <h4><i class="fas fa-credit-card"></i> Credit Transfer</h4>
-                    <ul>
-                      <li><i class="fas fa-angle-right"></i>Recorded in Academic Bank of Credits</li>
-                      <li><i class="fas fa-angle-right"></i>Reflected in mark sheet</li>
-                      <li><i class="fas fa-angle-right"></i>NEP 2020 aligned</li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-
-              <div class="section-card">
-                <h3><i class="fas fa-route" style="color:var(--gold-deep)"></i> Course Identification &amp; Approval
-                  Process
-                </h3>
-                <div class="step-row">
-                  <div class="step-circle">1</div><span class="step-text">Departments identify relevant credit-bearing
-                    SWAYAM courses aligned with SAMUDI categories</span>
-                </div>
-                <div class="step-row">
-                  <div class="step-circle">2</div><span class="step-text">Proposed courses scrutinized and recommended
-                    by Department Board of Studies (BoS)</span>
-                </div>
-                <div class="step-row">
-                  <div class="step-circle">3</div><span class="step-text">Forwarded to Office of Academics for
-                    compliance review and Academic Council approval</span>
-                </div>
-              </div>
-
-              <div class="section-card">
-                <h3><i class="fas fa-users" style="color:var(--gold-deep)"></i> Roles &amp; Responsibilities</h3>
-                <div class="roles-grid">
-                  <div class="role-card">
-                    <h4><i class="fas fa-user-tie"></i> SWAYAM Coordinator</h4>
-                    <ul>
-                      <li><i class="fas fa-angle-right"></i>Coordinate student registration</li>
-                      <li><i class="fas fa-angle-right"></i>Monitor student participation</li>
-                      <li><i class="fas fa-angle-right"></i>Track progress reports</li>
-                    </ul>
-                  </div>
-                  <div class="role-card">
-                    <h4><i class="fas fa-university"></i> Office of Academics</h4>
-                    <ul>
-                      <li><i class="fas fa-angle-right"></i>Policy formulation</li>
-                      <li><i class="fas fa-angle-right"></i>Academic Council coordination</li>
-                      <li><i class="fas fa-angle-right"></i>Quality assurance</li>
+                    <ul class="sw-list">
+                      <li>Course categories: <strong>VAC</strong> (Value Added Course — Introduction to Indian
+                        Constitution) and <strong>MDC</strong> (Multidisciplinary Course — all others).</li>
+                      <li>Weekly SWAYAM assignments are mandatory; marks are finalised as per SWAYAM/NPTEL guidelines.</li>
                     </ul>
                   </div>
                 </div>
@@ -4544,7 +6297,7 @@
             <!-- LINKEDIN CONTENT -->
             <div id="linkedinContent" style="display:none">
               <h3
-                style="font-family:'Cormorant Garamond',serif;font-size:1.6rem;color:var(--navy);text-align:center;margin-bottom:20px">
+                style="font-family:'Cormorant Garamond',serif;font-size:1.6rem;color: var(--heading);text-align:center;margin-bottom:20px">
                 LinkedIn Learning Engagement Dashboard</h3>
               <div class="stats-row">
                 <div class="stat-card">
@@ -4650,126 +6403,13 @@
               framework</p>
 
             <div class="subtabs">
-              <button class="stab active-moocs" data-panel="moocs"><i class="fas fa-laptop-code"></i> MOOCs</button>
-              <button class="stab" data-panel="mentoring"><i class="fas fa-chalkboard-teacher"></i> Mentoring</button>
+              <button class="stab active-mentoring" data-panel="mentoring"><i class="fas fa-chalkboard-teacher"></i> Mentoring</button>
               <button class="stab" data-panel="nep"><i class="fas fa-hand-holding-heart"></i> NEP Saarthi</button>
               <button class="stab" data-panel="aedp"><i class="fas fa-bolt"></i> AEDP</button>
             </div>
 
-            <!-- ── MOOCS PANEL ── -->
-            <div class="cap-panel active" id="panel-moocs">
-              <div class="mooc-hero">
-                <h3><i class="fas fa-play-circle"></i> In-House SWAYAM Courses by Our Faculty</h3>
-                <p>These courses reflect our internal academic expertise and support curriculum enrichment, pedagogical
-                  enhancement, and learner-centric education under NEP 2020.</p>
-                <div class="schedule-bar">
-                  <div class="sch-pill"><i class="fas fa-calendar-check"></i> <strong>Start:</strong> 12 January 2026
-                  </div>
-                  <div class="sch-pill"><i class="fas fa-calendar-times"></i> <strong>End:</strong> 30 April 2026</div>
-                  <div class="sch-pill"><i class="fas fa-clock"></i> <strong>Last Enrollment:</strong> 28 February 2026
-                  </div>
-                </div>
-              </div>
-
-              <div class="moocs-section-title">
-                <h3>Featured SWAYAM Courses</h3>
-                <span class="moocs-count-badge">15 Courses</span>
-              </div>
-
-              <div class="moocs-grid">
-                <div class="mooc-card">
-                  <div class="mooc-card-hd">
-                    <h4><i class="fas fa-coins"></i>&nbsp; Money, Mind &amp; Markets: The Science of Financial Literacy
-                    </h4>
-                  </div>
-                  <div class="mooc-card-bd">
-                    <p><i class="fas fa-tag"></i>&nbsp;Entrepreneurship &nbsp;|&nbsp; <i class="fas fa-star"
-                        style="color:var(--gold-deep)"></i>&nbsp;3 Credits</p><a href="https://swayam.gov.in"
-                      target="_blank" class="mooc-enroll"><i class="fas fa-external-link-alt"></i>&nbsp;Enroll</a>
-                  </div>
-                </div>
-                <div class="mooc-card">
-                  <div class="mooc-card-hd">
-                    <h4><i class="fas fa-bullhorn"></i>&nbsp; Advanced Marketing: Marketing 5.0</h4>
-                  </div>
-                  <div class="mooc-card-bd">
-                    <p><i class="fas fa-tag"></i>&nbsp;Entrepreneurship &nbsp;|&nbsp; <i class="fas fa-star"
-                        style="color:var(--gold-deep)"></i>&nbsp;3 Credits</p><a href="https://swayam.gov.in"
-                      target="_blank" class="mooc-enroll"><i class="fas fa-external-link-alt"></i>&nbsp;Enroll</a>
-                  </div>
-                </div>
-                <div class="mooc-card">
-                  <div class="mooc-card-hd">
-                    <h4><i class="fas fa-seedling"></i>&nbsp; Social Entrepreneurship and Sustainability</h4>
-                  </div>
-                  <div class="mooc-card-bd">
-                    <p><i class="fas fa-tag"></i>&nbsp;Entrepreneurship &nbsp;|&nbsp; <i class="fas fa-star"
-                        style="color:var(--gold-deep)"></i>&nbsp;4 Credits</p><a href="https://swayam.gov.in"
-                      target="_blank" class="mooc-enroll"><i class="fas fa-external-link-alt"></i>&nbsp;Enroll</a>
-                  </div>
-                </div>
-                <div class="mooc-card">
-                  <div class="mooc-card-hd">
-                    <h4><i class="fas fa-robot"></i>&nbsp; Prompt Engineering</h4>
-                  </div>
-                  <div class="mooc-card-bd">
-                    <p><i class="fas fa-tag"></i>&nbsp;AI &amp; New Technologies &nbsp;|&nbsp; <i class="fas fa-star"
-                        style="color:var(--gold-deep)"></i>&nbsp;3 Credits</p><a href="https://swayam.gov.in"
-                      target="_blank" class="mooc-enroll"><i class="fas fa-external-link-alt"></i>&nbsp;Enroll</a>
-                  </div>
-                </div>
-                <div class="mooc-card">
-                  <div class="mooc-card-hd">
-                    <h4><i class="fas fa-hashtag"></i>&nbsp; AI in Digital &amp; Social Media Marketing</h4>
-                  </div>
-                  <div class="mooc-card-bd">
-                    <p><i class="fas fa-tag"></i>&nbsp;AI &amp; New Technologies &nbsp;|&nbsp; <i class="fas fa-star"
-                        style="color:var(--gold-deep)"></i>&nbsp;3 Credits</p><a href="https://swayam.gov.in"
-                      target="_blank" class="mooc-enroll"><i class="fas fa-external-link-alt"></i>&nbsp;Enroll</a>
-                  </div>
-                </div>
-                <div class="mooc-card">
-                  <div class="mooc-card-hd">
-                    <h4><i class="fas fa-chart-pie"></i>&nbsp; Business Intelligence with PowerBI</h4>
-                  </div>
-                  <div class="mooc-card-bd">
-                    <p><i class="fas fa-tag"></i>&nbsp;AI &amp; Technology &nbsp;|&nbsp; <i class="fas fa-star"
-                        style="color:var(--gold-deep)"></i>&nbsp;3 Credits</p><a href="https://swayam.gov.in"
-                      target="_blank" class="mooc-enroll"><i class="fas fa-external-link-alt"></i>&nbsp;Enroll</a>
-                  </div>
-                </div>
-                <div class="mooc-card">
-                  <div class="mooc-card-hd">
-                    <h4><i class="fas fa-code"></i>&nbsp; Basic Python Programming &amp; Its Application in Finance</h4>
-                  </div>
-                  <div class="mooc-card-bd">
-                    <p><i class="fas fa-tag"></i>&nbsp;AI &amp; Technology &nbsp;|&nbsp; <i class="fas fa-star"
-                        style="color:var(--gold-deep)"></i>&nbsp;3 Credits</p><a href="https://swayam.gov.in"
-                      target="_blank" class="mooc-enroll"><i class="fas fa-external-link-alt"></i>&nbsp;Enroll</a>
-                  </div>
-                </div>
-                <div class="mooc-card">
-                  <div class="mooc-card-hd">
-                    <h4><i class="fas fa-venus-mars"></i>&nbsp; Gender Studies</h4>
-                  </div>
-                  <div class="mooc-card-bd">
-                    <p><i class="fas fa-tag"></i>&nbsp;Sustainability &nbsp;|&nbsp; <i class="fas fa-star"
-                        style="color:var(--gold-deep)"></i>&nbsp;4 Credits</p><a href="https://swayam.gov.in"
-                      target="_blank" class="mooc-enroll"><i class="fas fa-external-link-alt"></i>&nbsp;Enroll</a>
-                  </div>
-                </div>
-              </div>
-
-              <div class="mooc-footer-bar">
-                <i class="fas fa-info-circle" style="font-size:1.3rem;color:var(--gold)"></i>
-                <span><strong>Portal:</strong> swayam.gov.in &nbsp;&nbsp;|&nbsp;&nbsp; <strong>Chapter ID:</strong> 7730
-                  &nbsp;&nbsp;|&nbsp;&nbsp; <strong>Support:</strong> <a
-                    href="mailto:academics@jainuniversity.ac.in">academics@jainuniversity.ac.in</a></span>
-              </div>
-            </div>
-
             <!-- ── MENTORING PANEL ── -->
-            <div class="cap-panel" id="panel-mentoring">
+            <div class="cap-panel active" id="panel-mentoring">
               <div class="mentoring-hero">
                 <h2><i class="fas fa-user-graduate"></i>&nbsp; Mentoring – Navigating Outcome Based Education</h2>
                 <p>JAIN (Deemed-to-be University) – Implementation Handbook (Aug 2024). A cornerstone of JAIN 2.0
@@ -5367,6 +7007,36 @@
     </div>
   </div>
 
+  <!-- SWAYAM COURSE — expanded card -->
+  <div class="sw sw-xmodal" id="swCourseModal" hidden>
+    <div class="sw-xbackdrop" data-sw-close></div>
+    <div class="sw-xcard" role="dialog" aria-modal="true" aria-labelledby="swxTitle">
+      <button type="button" class="sw-xclose" data-sw-close aria-label="Close course details">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+      <img class="sw-ximg" id="swxImg" alt="" width="960" height="600">
+      <div class="sw-xhead">
+        <div>
+          <h3 class="sw-xtitle" id="swxTitle"></h3>
+          <p class="sw-xdesc" id="swxDesc"></p>
+        </div>
+        <a class="sw-xcta sw-xenrol" id="swxCta" href="#" target="_blank" rel="noopener"></a>
+      </div>
+      <div class="sw-xbody" id="swxBody"></div>
+    </div>
+  </div>
+
+  <!-- SWAYAM SCREENSHOT LIGHTBOX -->
+  <div class="sw-lightbox" id="swLightbox" role="dialog" aria-modal="true" aria-label="Screenshot viewer" hidden>
+    <button type="button" class="sw-lb-close" aria-label="Close screenshot"><i class="fas fa-times"></i></button>
+    <button type="button" class="sw-lb-nav prev" aria-label="Previous screenshot"><i class="fas fa-chevron-left"></i></button>
+    <figure>
+      <img id="swLbImg" alt="">
+      <figcaption id="swLbCap"></figcaption>
+    </figure>
+    <button type="button" class="sw-lb-nav next" aria-label="Next screenshot"><i class="fas fa-chevron-right"></i></button>
+  </div>
+
   <!-- TOAST -->
   <div class="toast" id="toast" role="status"><i class="fas fa-check-circle" id="toastIcon"></i><span
       id="toastMsg"></span></div>
@@ -5401,7 +7071,7 @@
     /* ═══════════════════════════════════
        HERO CAROUSEL (fixed: active class for Ken Burns)
     ═══════════════════════════════════ */
-    let heroIdx = 0; const HERO_COUNT = 4;
+    let heroIdx = 0; const HERO_COUNT = document.querySelectorAll('.hero-slide').length;
     function heroGoto(i) {
       heroIdx = i;
       const track = document.getElementById('heroTrack');
@@ -5422,7 +7092,7 @@
     function syncCarouselHeight() {
       const carousel = document.querySelector('.content-carousel');
       const active = document.querySelectorAll('.content-slide')[_activeTab];
-      if (carousel && active) carousel.style.height = active.scrollHeight + 'px';
+      if (carousel && active) carousel.style.height = active.offsetHeight + 'px';   // layout height: rising blocks don't count
     }
     function initTabs() {
       const pills = document.querySelectorAll('.tab-pill');
@@ -5585,14 +7255,449 @@
     }
 
     /* ═══════════════════════════════════
-       SWAYAM CATEGORY CARDS
+       SWAYAM — sections, course filter, copy, screenshots
     ═══════════════════════════════════ */
-    function showCatDetail(cat) {
-      document.querySelectorAll('.cat-detail').forEach(d => d.classList.remove('open'));
-      const detail = document.getElementById('detail-' + cat);
-      if (detail) { detail.classList.add('open'); syncCarouselHeight(); detail.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+    function swTab(name) {
+      document.querySelectorAll('.sw-tabs [data-sw-tab]').forEach(b => {
+        const on = b.dataset.swTab === name;
+        b.classList.toggle('is-on', on);
+        b.setAttribute('aria-selected', on ? 'true' : 'false');
+      });
+      document.querySelectorAll('.sw-panel').forEach(p => {
+        const on = p.id === 'sw-' + name;
+        p.classList.toggle('is-on', on);
+        p.hidden = !on;
+      });
+      requestAnimationFrame(syncCarouselHeight);
+      setTimeout(syncCarouselHeight, 300);
     }
-    function hideCatDetail(cat) { const detail = document.getElementById('detail-' + cat); if (detail) detail.classList.remove('open'); syncCarouselHeight(); }
+
+    // the unfiltered list starts with the first few courses and a "Show N more" button
+    let _swAll = false;
+    function swFilter() {
+      const cat = document.querySelector('.sw-pills .is-on')?.dataset.swCat || 'all';
+      const q = (document.getElementById('swSearch')?.value || '').trim().toLowerCase();
+      const grid = document.getElementById('swCourseGrid');
+      const first = +(JSON.parse(document.getElementById('swCourseData')?.textContent || '{}').first || 6);
+      const browsing = cat === 'all' && !q;
+      let match = 0;
+      grid?.querySelectorAll('.sw-course').forEach(c => {
+        const ok = (cat === 'all' || c.dataset.cat === cat) && (!q || c.dataset.search.includes(q));
+        if (ok) match++;
+        c.hidden = !ok || (browsing && !_swAll && match > first);
+      });
+      const empty = document.getElementById('swEmpty');
+      if (empty) empty.hidden = match > 0;
+      const more = document.getElementById('swMore');
+      if (more) {
+        more.hidden = !browsing || match <= first;
+        more.textContent = _swAll ? 'Show fewer' : `Show ${match - first} more`;
+        more.setAttribute('aria-expanded', _swAll ? 'true' : 'false');
+      }
+      requestAnimationFrame(syncCarouselHeight);
+    }
+
+    function swCopy(text) {
+      if (navigator.clipboard && window.isSecureContext) return navigator.clipboard.writeText(text);
+      return new Promise((resolve, reject) => {   // http:// fallback
+        const ta = document.createElement('textarea');
+        ta.value = text; ta.setAttribute('readonly', ''); ta.style.position = 'fixed'; ta.style.opacity = '0';
+        document.body.appendChild(ta); ta.select();
+        try { document.execCommand('copy') ? resolve() : reject(); } catch (e) { reject(e); }
+        ta.remove();
+      });
+    }
+
+    let _swShots = [], _swShotIdx = 0, _swLastFocus = null;
+    function swShowShot(i) {
+      if (!_swShots.length) return;
+      _swShotIdx = (i + _swShots.length) % _swShots.length;
+      const img = _swShots[_swShotIdx];
+      document.getElementById('swLbImg').src = img.currentSrc || img.src;
+      document.getElementById('swLbImg').alt = img.alt;
+      document.getElementById('swLbCap').textContent = `${img.alt.replace('SWAYAM screenshot — ', '')}  (${_swShotIdx + 1}/${_swShots.length})`;
+    }
+    function swOpenShot(btn) {
+      _swShots = [...document.querySelectorAll(`[data-sw-zoom="${btn.dataset.swZoom}"] img`)];
+      _swLastFocus = btn;
+      swShowShot(_swShots.indexOf(btn.querySelector('img')));
+      const lb = document.getElementById('swLightbox');
+      lb.hidden = false;
+      requestAnimationFrame(() => lb.classList.add('show'));
+      document.body.style.overflow = 'hidden';
+      lb.querySelector('.sw-lb-close').focus();
+    }
+    function swCloseShot() {
+      const lb = document.getElementById('swLightbox');
+      if (!lb || lb.hidden) return;
+      lb.classList.remove('show');
+      document.body.style.overflow = '';
+      setTimeout(() => { lb.hidden = true; }, 200);
+      _swLastFocus?.focus();
+    }
+
+    function goTab(e, i) {
+      e?.preventDefault();
+      document.querySelector(`.tab-pill[data-tab="${i}"]`)?.click();
+      document.querySelector('.tab-bar-wrap')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    /* expanded course card — the row's image, title and button morph into
+       the card (View Transitions); without them the card simply pops in */
+    let _swData = null, _swRow = null;
+    const _swEsc = v => String(v ?? '').replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
+    function swParts(scope) {
+      return { card: scope, img: scope.querySelector('.sw-xthumb, .sw-ximg'), title: scope.querySelector('.sw-xtitle'),
+               desc: scope.querySelector('.sw-xdesc'), cta: scope.querySelector('.sw-xcta') };
+    }
+    function swName(parts, on) {
+      for (const [k, el] of Object.entries(parts)) if (el) el.style.viewTransitionName = on ? 'swx-' + k : '';
+    }
+    function swMorph(update) {
+      const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+      if (!document.startViewTransition || reduce) { update(); return null; }
+      document.documentElement.classList.add('swx-morph');
+      const vt = document.startViewTransition(update);
+      vt.finished.finally(() => document.documentElement.classList.remove('swx-morph'));
+      return vt;
+    }
+    function swFillCourse(i) {
+      _swData = _swData || JSON.parse(document.getElementById('swCourseData').textContent);
+      const c = _swData.courses[i], a = _swData.assessment;
+      const img = document.getElementById('swxImg');
+      img.src = _swData.img + c.ug.toLowerCase() + '.webp';
+      const title = document.getElementById('swxTitle');
+      title.textContent = c.title;
+      c.lang ? title.setAttribute('lang', c.lang) : title.removeAttribute('lang');
+      document.getElementById('swxDesc').textContent = (c.subtitle ? c.subtitle + ' · ' : '') + c.cat_label;
+      const cta = document.getElementById('swxCta');
+      cta.href = c.link;
+      cta.textContent = _swData.open ? 'Enrol' : 'View';
+      cta.setAttribute('aria-label', (_swData.open ? 'Enrol in ' : 'View ') + c.title + ' on SWAYAM (opens in a new tab)');
+      document.getElementById('swCourseModal').className = 'sw sw-xmodal sw-c-' + c.cat;
+      document.getElementById('swxBody').innerHTML = `
+        <div class="sw-xchips">
+          <span>${_swEsc(c.type === 'VAC' ? 'VAC · Value Added Course' : 'MDC · Multidisciplinary Course')}</span>
+          <span>${a.credits} credits</span>
+          <span>${c.offered === 'Rerun' ? 'Rerun' : 'Odd semester'}</span>
+          <span>LTPE ${_swEsc(a.ltpe)}</span>
+        </div>
+        <dl class="sw-codes">
+          <div><dt>UG code</dt><dd>${_swEsc(c.ug)}</dd></div>
+          <div><dt>PG code</dt><dd>${_swEsc(c.pg || 'UG only')}</dd></div>
+        </dl>
+        <h4>Assessment</h4>
+        <p>${_swEsc(a.type)} course. Internal assessment ${a.ia_max} marks (minimum ${a.ia_min}), end-semester theory
+          ${a.ese_max} marks (minimum ${a.ese_min}); you pass with ${a.pass_marks} out of ${a.ia_max + a.ese_max}.
+          Every weekly SWAYAM assignment counts — skipping one can cost marks or lead to a backlog.</p>
+        <h4>Before you enrol</h4>
+        <ul class="sw-list">
+          <li>Enter your <strong>12-digit ABC ID</strong> under Personal Details.</li>
+          <li>Sign up with your <strong>official JAIN email</strong> — personal IDs and Gmail are not accepted.</li>
+          <li>Local Chapter: <strong>YES</strong>, College: <strong>${_swEsc(_swData.college)}</strong>, roll number: your USN.</li>
+          <li>Reason: “Earn mandatory SWAYAM Credits”. Final exam registration: “No, my college is conducting an exam”.</li>
+        </ul>
+        <h4>After you enrol</h4>
+        <p>Open the course’s <strong>My Mentor</strong> tab and select your faculty mentor by email.</p>
+        <div class="sw-xlinks">
+          <button type="button" class="sw-btn sw-btn-soft" data-sw-guide="mentee"><i class="fas fa-user-graduate"></i> How to select a mentor</button>
+          <button type="button" class="sw-btn sw-btn-soft" data-sw-guide="guide"><i class="fas fa-clipboard-list"></i> Full guidelines</button>
+        </div>`;
+      document.getElementById('swxBody').scrollTop = 0;
+    }
+    function swOpenCourse(i, row) {
+      const modal = document.getElementById('swCourseModal');
+      if (!modal) return;
+      _swRow = row;
+      swName(swParts(row), true);
+      const vt = swMorph(() => {
+        swName(swParts(row), false);
+        swFillCourse(i);
+        modal.hidden = false;
+        document.body.style.overflow = 'hidden';
+        swName(swParts(modal.querySelector('.sw-xcard')), true);
+      });
+      if (!vt) { swName(swParts(row), false); modal.classList.add('pop'); }
+      const done = () => { swName(swParts(modal.querySelector('.sw-xcard')), false); modal.querySelector('.sw-xclose').focus(); };
+      vt ? vt.finished.finally(done) : done();
+    }
+    function swCloseCourse() {
+      const modal = document.getElementById('swCourseModal');
+      if (!modal || modal.hidden) return;
+      const row = _swRow, card = modal.querySelector('.sw-xcard');
+      const rowVisible = row && row.offsetParent !== null;
+      swName(swParts(card), true);
+      const vt = swMorph(() => {
+        swName(swParts(card), false);
+        modal.hidden = true;
+        document.body.style.overflow = '';
+        if (rowVisible) { swName(swParts(row), true); row.focus({ preventScroll: true }); }
+      });
+      if (!vt) swName(swParts(card), false);
+      const done = () => { if (row) swName(swParts(row), false); };
+      vt ? vt.finished.finally(done) : done();
+    }
+
+    /* wobble cards — the card leans toward the pointer and its content
+       drifts the other way (mouse only, motion allowed) */
+    function initWobble(root) {
+      const fine = window.matchMedia?.('(hover: hover) and (pointer: fine)');
+      const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)');
+      root.querySelectorAll('[data-wobble]').forEach(card => {
+        const inner = card.querySelector('.sw-wobble-inner');
+        let raf = 0;
+        card.addEventListener('pointermove', e => {
+          if (!fine?.matches || reduce?.matches || raf) return;
+          raf = requestAnimationFrame(() => {
+            raf = 0;
+            const r = card.getBoundingClientRect();
+            const x = (e.clientX - (r.left + r.width / 2)) / 20;
+            const y = (e.clientY - (r.top + r.height / 2)) / 20;
+            card.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+            inner.style.transform = `translate3d(${-x}px, ${-y}px, 0) scale3d(1.03, 1.03, 1)`;
+          });
+        });
+        card.addEventListener('pointerleave', () => {
+          cancelAnimationFrame(raf); raf = 0;
+          card.style.transform = inner.style.transform = '';
+        });
+      });
+    }
+
+    function openSwayam(e, section) {
+      e?.preventDefault();
+      document.querySelector('.tab-pill[data-tab="2"]')?.click();
+      switchPlat('swayam');
+      swTab(section || 'courses');
+      setTimeout(() => document.querySelector('.dig-inner')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 350);
+    }
+
+    function initSwayam() {
+      const root = document.getElementById('swayamContent');
+      if (!root) return;
+      root.addEventListener('click', e => {
+        const tab = e.target.closest('[data-sw-tab]');
+        if (tab) { swTab(tab.dataset.swTab); return; }
+        const go = e.target.closest('[data-sw-go]');
+        if (go) { swTab(go.dataset.swGo); root.querySelector('.sw-tabs-wrap').scrollIntoView({ behavior: 'smooth', block: 'start' }); return; }
+        if (e.target.closest('#swMore')) {
+          _swAll = !_swAll; swFilter();
+          if (!_swAll) document.getElementById('swCourseGrid').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          return;
+        }
+        const pill = e.target.closest('[data-sw-cat]');
+        if (pill) { root.querySelectorAll('[data-sw-cat]').forEach(p => p.classList.toggle('is-on', p === pill)); swFilter(); return; }
+        const copy = e.target.closest('[data-copy]');
+        if (copy) {
+          swCopy(copy.dataset.copy)
+            .then(() => {
+              copy.classList.add('done');
+              copy.querySelector('span').textContent = 'Copied';
+              setTimeout(() => { copy.classList.remove('done'); copy.querySelector('span').textContent = 'Copy'; }, 1800);
+            })
+            .catch(() => showToast('Could not copy — please select the text instead', 'error'));
+          return;
+        }
+        const shot = e.target.closest('[data-sw-zoom]');
+        if (shot) { swOpenShot(shot); return; }
+        const row = e.target.closest('[data-sw-open]');
+        if (row) swOpenCourse(+row.dataset.swOpen, row);
+      });
+      // arrow keys move between the SWAYAM section tabs
+      root.querySelector('.sw-tabs')?.addEventListener('keydown', e => {
+        if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+        const tabs = [...root.querySelectorAll('[data-sw-tab]')];
+        const i = tabs.indexOf(document.activeElement);
+        if (i < 0) return;
+        const next = tabs[(i + (e.key === 'ArrowRight' ? 1 : -1) + tabs.length) % tabs.length];
+        next.focus(); swTab(next.dataset.swTab);
+      });
+      document.getElementById('swSearch')?.addEventListener('input', swFilter);
+      root.querySelectorAll('.sw-shot img, .sw-wobble-img').forEach(img => img.addEventListener('load', syncCarouselHeight));
+
+      const modal = document.getElementById('swCourseModal');
+      modal?.addEventListener('click', e => {
+        if (e.target.closest('[data-sw-close]')) { swCloseCourse(); return; }
+        const go = e.target.closest('[data-sw-guide]');
+        if (go) { swCloseCourse(); openSwayam(null, go.dataset.swGuide); }
+      });
+      document.addEventListener('keydown', e => {
+        if (!modal || modal.hidden) return;
+        if (e.key === 'Escape') { e.preventDefault(); swCloseCourse(); }
+        else if (e.key === 'Tab') {   // keep focus inside the open card
+          const f = [...modal.querySelectorAll('button, a[href]')].filter(x => x.offsetParent !== null);
+          if (!f.length) return;
+          const first = f[0], last = f[f.length - 1];
+          if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+          else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+        }
+      });
+      initWobble(root);
+
+      const lb = document.getElementById('swLightbox');
+      lb?.addEventListener('click', e => {
+        if (e.target.closest('.sw-lb-close') || e.target === lb) swCloseShot();
+        else if (e.target.closest('.sw-lb-nav.prev')) swShowShot(_swShotIdx - 1);
+        else if (e.target.closest('.sw-lb-nav.next')) swShowShot(_swShotIdx + 1);
+      });
+      document.addEventListener('keydown', e => {
+        if (!lb || lb.hidden) return;
+        if (e.key === 'Escape') swCloseShot();
+        else if (e.key === 'ArrowLeft') swShowShot(_swShotIdx - 1);
+        else if (e.key === 'ArrowRight') swShowShot(_swShotIdx + 1);
+      });
+    }
+
+    /* ═══════════════════════════════════
+       SPACE BACKDROP (dark mode only) — twinkling stars that drift slowly,
+       shift with scroll for depth, and the odd shooting star
+    ═══════════════════════════════════ */
+    const Space = (() => {
+      const TINTS = ['255,255,255', '255,255,255', '255,255,255', '207,224,255', '255,236,190'];
+      const reduce = window.matchMedia ? matchMedia('(prefers-reduced-motion: reduce)') : null;
+      let cv = null, ctx = null, stars = [], shoot = null, nextShoot = 0;
+      let w = 0, h = 0, field = 0, raf = 0, on = false, scrollQueued = false;
+
+      function build() {
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        const regen = innerWidth !== w || !stars.length;
+        w = innerWidth; h = innerHeight; field = h * 1.6;   // taller than the screen so scroll parallax never runs out
+        cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr);
+        cv.style.width = w + 'px'; cv.style.height = h + 'px';
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        if (!regen) return;   // mobile URL-bar resizes keep the same sky
+        const n = Math.round(Math.min(420, (w * h) / 5200));
+        stars = Array.from({ length: n }, () => {
+          const z = Math.random();   // depth: 0 far, 1 near
+          return {
+            x: Math.random() * w, y: Math.random() * field, z,
+            r: z > .96 ? 1.3 + Math.random() * .9 : .35 + z * .9,
+            a: .35 + Math.random() * .65, tw: .6 + Math.random() * 2.2, ph: Math.random() * 6.283,
+            c: TINTS[(Math.random() * TINTS.length) | 0]
+          };
+        });
+      }
+
+      function draw(t) {
+        const still = reduce && reduce.matches;
+        const sy = window.scrollY || 0;
+        ctx.clearRect(0, 0, w, h);
+        for (const s of stars) {
+          if (!still) { s.x -= .012 * (s.z + .15); if (s.x < -4) s.x += w + 8; }
+          let y = (s.y - sy * (.03 + s.z * .08)) % field;
+          if (y < 0) y += field;
+          if (y > h + 4) continue;
+          const a = still ? s.a : s.a * (.55 + .45 * Math.sin(t * .001 * s.tw + s.ph));
+          ctx.fillStyle = `rgba(${s.c},${a.toFixed(3)})`;
+          ctx.beginPath(); ctx.arc(s.x, y, s.r, 0, 6.283); ctx.fill();
+          if (s.r > 1.2) {   // soft halo on the few bright ones
+            ctx.fillStyle = `rgba(${s.c},${(a * .12).toFixed(3)})`;
+            ctx.beginPath(); ctx.arc(s.x, y, s.r * 3.2, 0, 6.283); ctx.fill();
+          }
+        }
+        if (!still) shootingStar(t);
+      }
+
+      function shootingStar(t) {
+        if (!shoot && t > nextShoot) {
+          const ltr = Math.random() < .5;
+          shoot = { x: ltr ? Math.random() * w * .5 : w * (.5 + Math.random() * .5), y: Math.random() * h * .35,
+                    vx: (ltr ? 1 : -1) * (7 + Math.random() * 4), vy: 2.2 + Math.random() * 1.6, life: 0 };
+        }
+        if (!shoot) return;
+        shoot.life++; shoot.x += shoot.vx; shoot.y += shoot.vy;
+        const fade = Math.max(0, 1 - shoot.life / 70);
+        const tx = shoot.x - shoot.vx * 14, ty = shoot.y - shoot.vy * 14;
+        const g = ctx.createLinearGradient(shoot.x, shoot.y, tx, ty);
+        g.addColorStop(0, `rgba(255,255,255,${(.9 * fade).toFixed(3)})`);
+        g.addColorStop(1, 'rgba(255,255,255,0)');
+        ctx.strokeStyle = g; ctx.lineWidth = 1.4; ctx.lineCap = 'round';
+        ctx.beginPath(); ctx.moveTo(shoot.x, shoot.y); ctx.lineTo(tx, ty); ctx.stroke();
+        if (fade <= 0 || shoot.y > h || shoot.x < -200 || shoot.x > w + 200) {
+          shoot = null; nextShoot = t + 6000 + Math.random() * 9000;
+        }
+      }
+
+      function loop(t) {
+        draw(t);
+        raf = on && !document.hidden && !(reduce && reduce.matches) ? requestAnimationFrame(loop) : 0;
+      }
+      function resume() {
+        cancelAnimationFrame(raf); raf = 0;
+        if (!on) return;
+        draw(performance.now());
+        if (!document.hidden && !(reduce && reduce.matches)) raf = requestAnimationFrame(loop);
+      }
+
+      window.addEventListener('resize', () => { if (on) { build(); resume(); } });
+      document.addEventListener('visibilitychange', resume);
+      reduce?.addEventListener?.('change', resume);
+      // with motion reduced there is no loop, so redraw on scroll for the parallax
+      window.addEventListener('scroll', () => {
+        if (!on || raf || scrollQueued) return;
+        scrollQueued = true;
+        requestAnimationFrame(() => { scrollQueued = false; draw(performance.now()); });
+      }, { passive: true });
+
+      return {
+        start() {
+          cv = cv || document.getElementById('spaceCanvas');
+          if (!cv || !cv.getContext) return;
+          ctx = ctx || cv.getContext('2d');
+          if (!on) nextShoot = performance.now() + 2500;
+          on = true; build(); resume();
+        },
+        stop() {
+          on = false; cancelAnimationFrame(raf); raf = 0; shoot = null;
+          if (ctx) ctx.clearRect(0, 0, w, h);
+        }
+      };
+    })();
+
+    /* ═══════════════════════════════════
+       THEME (light / dark)
+    ═══════════════════════════════════ */
+    function setTheme(t, persist) {
+      document.documentElement.setAttribute('data-theme', t);
+      if (persist) { try { localStorage.setItem('ooa-theme', t); } catch (e) { } }
+      const btn = document.getElementById('themeToggle');
+      if (btn) {
+        btn.setAttribute('aria-checked', t === 'dark' ? 'true' : 'false');
+        btn.title = t === 'dark' ? 'Switch to light mode' : 'Switch to dark mode';
+      }
+      if (window._liChart) initLinkedInChart();
+      t === 'dark' ? Space.start() : Space.stop();
+    }
+    function toggleTheme() {
+      const root = document.documentElement;
+      const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      const btn = document.getElementById('themeToggle');
+      const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+      root.classList.add('theme-switching');
+      const done = () => requestAnimationFrame(() => root.classList.remove('theme-switching'));
+      if (!document.startViewTransition || reduce || !btn) { setTheme(next, true); done(); return; }
+      // grow the new theme as a circle from the switch until it reaches the farthest corner
+      const r = btn.getBoundingClientRect();
+      const x = r.left + r.width / 2, y = r.top + r.height / 2;
+      const radius = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
+      const vt = document.startViewTransition(() => setTheme(next, true));
+      vt.ready.then(() => {
+        root.animate(
+          { clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${radius}px at ${x}px ${y}px)`] },
+          { duration: 750, easing: 'cubic-bezier(.65, 0, .35, 1)', pseudoElement: '::view-transition-new(root)' }
+        );
+      }).catch(() => { });
+      vt.finished.finally(done);
+    }
+    function initTheme() {
+      setTheme(document.documentElement.getAttribute('data-theme') || 'light', false);
+      // follow the OS setting until the user picks a theme themselves
+      window.matchMedia?.('(prefers-color-scheme: dark)').addEventListener?.('change', e => {
+        let saved = null;
+        try { saved = localStorage.getItem('ooa-theme'); } catch (err) { }
+        if (!saved) setTheme(e.matches ? 'dark' : 'light', false);
+      });
+    }
 
     /* ═══════════════════════════════════
        PLATFORM SWITCHER
@@ -5614,10 +7719,12 @@
       const ctx = document.getElementById('liChart');
       if (!ctx || typeof Chart === 'undefined') return;
       if (window._liChart) window._liChart.destroy();
+      const dark = document.documentElement.getAttribute('data-theme') === 'dark';
+      const tick = dark ? '#a1a1aa' : '#6b6d8a';
       window._liChart = new Chart(ctx.getContext('2d'), {
         type: 'bar',
-        data: { labels: ['Management', 'CS & IT', 'Commerce', 'Humanities', 'Animation', 'Journalism', 'Art/Design', 'Healthcare', 'Others'], datasets: [{ label: 'Completions', data: [39020, 8169, 7736, 652, 568, 93, 84, 81, 202], backgroundColor: 'rgba(4,4,58,0.8)', borderColor: 'rgba(4,4,58,1)', borderWidth: 1, borderRadius: 7 }] },
-        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { backgroundColor: 'rgba(4,4,58,.9)', titleColor: '#a8894f', bodyColor: '#fff', padding: 12, cornerRadius: 8 } }, scales: { y: { beginAtZero: true, grid: { color: 'rgba(0,0,0,.05)' }, ticks: { callback: v => v >= 1000 ? (v / 1000).toFixed(0) + 'k' : v } }, x: { grid: { display: false } } } }
+        data: { labels: ['Management', 'CS & IT', 'Commerce', 'Humanities', 'Animation', 'Journalism', 'Art/Design', 'Healthcare', 'Others'], datasets: [{ label: 'Completions', data: [39020, 8169, 7736, 652, 568, 93, 84, 81, 202], backgroundColor: dark ? 'rgba(245,210,102,0.85)' : 'rgba(4,4,58,0.8)', borderColor: dark ? '#f5d266' : 'rgba(4,4,58,1)', borderWidth: 1, borderRadius: 7 }] },
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { backgroundColor: 'rgba(4,4,58,.9)', titleColor: '#a8894f', bodyColor: '#fff', padding: 12, cornerRadius: 8 } }, scales: { y: { beginAtZero: true, grid: { color: dark ? 'rgba(255,255,255,.07)' : 'rgba(0,0,0,.05)' }, ticks: { color: tick, callback: v => v >= 1000 ? (v / 1000).toFixed(0) + 'k' : v } }, x: { grid: { display: false }, ticks: { color: tick } } } }
       });
     }
 
@@ -5737,15 +7844,47 @@
     }
 
     /* ═══════════════════════════════════
-       SCROLL REVEAL
+       ANIMATED CONTENT — after React Bits' <AnimatedContent distance={100}
+       direction="vertical" duration={0.8} ease="power3.out" stagger={0.08}
+       threshold={0.1}>: each block rises 100px into place the first time 10%
+       of it is on screen, and blocks that arrive together follow each other
+       0.08s apart. Blocks inside another animated block move with it.
     ═══════════════════════════════════ */
-    function initReveal() {
-      if (!('IntersectionObserver' in window)) return;
-      const targets = document.querySelectorAll('.manual-card, .notice-card-panel, .section-card, .mooc-card, .key-card, .featured-event-card, .guidelines-card, .hub-card, .stat-item, .mini-card');
-      const io = new IntersectionObserver(entries => {
-        entries.forEach(en => { if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } });
-      }, { threshold: .08 });
-      targets.forEach(t => { t.classList.add('reveal'); io.observe(t); });
+    const AC = { distance: 100, duration: 800, ease: 'cubic-bezier(.215, .61, .355, 1)', stagger: 80, threshold: .1 };
+    const AC_ITEMS = [
+      '.greeting-section > *', '.hero-carousel', '.know-uni-wrap', '.tab-bar',
+      '.notice-card-panel', '.cal-header', '.mini-cal', '.events-column', '#campusStripWrap', '.events-featured-grid > *',
+      '.dig-title', '.dig-sub', '.platform-switcher', '.sw-wobble', '.sw-tabs-wrap', '.sw-cx-intro', '.sw-pills', '.sw-course',
+      '.sw-cx-more', '.sw-note', '.sw-section-head', '.sw-guide-grid > *', '.sw-issued', '.sw-flow-step', '.sw-stat', '.sw-split-card',
+      '#linkedinContent > h3', '#linkedinContent .stat-card', '.chart-card', '.section-card',
+      '.cap-title-row', '.cap-subtitle', '.subtabs', '.mentoring-hero', '.aedp-hero', '.manual-card',
+      '.stat-item', '.fc', '.footer-bottom'
+    ].join(',');
+    let _acIO = null;
+    function animateContent(scope) {   // call again after inserting new blocks
+      if (!_acIO) return;
+      (scope || document).querySelectorAll(AC_ITEMS).forEach(el => {
+        if (el._ac || el.parentElement.closest(AC_ITEMS)) return;
+        el._ac = true;
+        el.classList.add('ac-pending');
+        _acIO.observe(el);
+      });
+    }
+    function initAnimatedContent() {
+      if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return;
+      if (!('IntersectionObserver' in window) || !Element.prototype.animate) return;
+      _acIO = new IntersectionObserver(entries => {
+        let n = 0;
+        entries.forEach(e => {
+          if (!e.isIntersecting) return;
+          const el = e.target;
+          _acIO.unobserve(el);
+          el.classList.remove('ac-pending');
+          el.animate([{ opacity: 0, translate: `0 ${AC.distance}px` }, { opacity: 1, translate: '0 0' }],
+            { duration: AC.duration, easing: AC.ease, delay: n++ * AC.stagger, fill: 'backwards' });
+        });
+      }, { threshold: AC.threshold });
+      animateContent();
     }
 
     /* ═══════════════════════════════════
@@ -6060,7 +8199,7 @@
           html += `<div class="no-events-msg"><i class="fas fa-calendar-check"></i>No events today${noEventsHint}</div>`;
         }
         html += `</div><div class="event-group">
-          <div class="event-group-title"><i class="fas fa-calendar-week" style="color:var(--navy)"></i> Upcoming Events</div>`;
+          <div class="event-group-title"><i class="fas fa-calendar-week" style="color: var(--heading)"></i> Upcoming Events</div>`;
         if (upcomingEvents.length > 0) {
           upcomingEvents.slice(0, 5).forEach(ev => {
             CURRENT_EVENTS[ev._id] = ev;
@@ -6199,8 +8338,8 @@
                 </div>`).join('');
             }
 
-            // Trigger scroll reveal sync
-            initReveal();
+            // animate the cards that just arrived
+            animateContent();
           }
         })
         .catch(err => console.error("Error loading dashboard data:", err));
@@ -6248,10 +8387,12 @@
 
     document.addEventListener('DOMContentLoaded', () => {
       heroGoto(0);
+      initTheme();
       initTabs();
       initSubtabs();
+      initSwayam();
       initGreetingAndTextType();
-      initReveal();
+      initAnimatedContent();
       fetchDashboardData();
 
       const urlParams = new URLSearchParams(window.location.search);

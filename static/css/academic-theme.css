@@ -265,7 +265,7 @@ body.ac-theme .stat-lbl { color: var(--ac-muted) !important; text-transform: upp
 
 /* ── 10. Footer ─────────────────────────────────────────────────── */
 footer.ac-footer { background: var(--ac-navy-900); color: rgba(255, 255, 255, .78); padding: 0; border-top: 4px solid var(--ac-maroon); font-family: var(--ac-sans); }
-.ac-footer-grid { display: grid; grid-template-columns: 1.6fr repeat(4, 1fr); gap: 36px; padding-top: 48px; padding-bottom: 40px; }
+.ac-footer-grid { display: grid; grid-template-columns: 1.5fr repeat(5, 1fr); gap: 36px; padding-top: 48px; padding-bottom: 40px; }
 .ac-footer h3 { font-family: var(--ac-serif); color: #fff; font-size: 16px; font-weight: 600; margin: 0 0 14px; padding-bottom: 10px; border-bottom: 1px solid rgba(255, 255, 255, .14); }
 .ac-footer ul { list-style: none; margin: 0; padding: 0; }
 .ac-footer li { margin-bottom: 9px; }
@@ -348,3 +348,6 @@ body.ac-theme .lb-close:hover { background: var(--ac-maroon); color: #fff; }
 body.ac-theme .dropzone:hover, body.ac-theme .dropzone.drag { border-color: var(--ac-maroon); background: var(--ac-maroon-50); }
 body.ac-theme #topLoader { background: var(--ac-maroon); box-shadow: none; }
 body.ac-theme section.hero .hero-inner { padding: 0 8px; }
+
+/* ── 15. Sign-in button baseline (pages without home.html's CSS) ── */
+header.ac-header .btn-login { display: inline-flex; align-items: center; gap: 8px; padding: 9px 18px; color: #fff; font-weight: 700; font-size: 14px; text-decoration: none; font-family: var(--ac-sans); white-space: nowrap; }

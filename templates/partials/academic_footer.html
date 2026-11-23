@@ -8,10 +8,16 @@
     <div class="ac-fcol">
       <h3>The Office</h3>
       <ul>
-        <li><a href="{{ url_for('home') }}">Home</a></li>
+        <li><a href="{{ url_for('index') }}">Home</a></li>
         <li><a href="{{ url_for('about_jain') }}">About the University</a></li>
-        <li><a href="{{ url_for('campus') }}">Campus Life</a></li>
-        <li><a href="{{ url_for('usernewsletters') }}">Newsletters</a></li>
+        <li><a href="{{ url_for('ai_newsletter_archive') }}">AI Innovation Newsletter</a></li>
+        <li><a href="{{ url_for('signin') }}">Portal sign in</a></li>
+      </ul>
+    </div>
+    <div class="ac-fcol">
+      <h3>Our Platforms</h3>
+      <ul>
+        {% for p in ooa_platforms %}<li><a href="{{ p.url }}" target="_blank" rel="noopener">{{ p.name }}</a></li>{% endfor %}
       </ul>
     </div>
     <div class="ac-fcol">
@@ -20,7 +26,6 @@
         <li><a href="{{ academic_calendar_url }}">Academic Calendar 2026–27</a></li>
         <li><a href="{{ erp_readiness_url }}">Semester Readiness</a></li>
         <li><a href="{{ erp_closure_url }}">Semester Closure</a></li>
-        <li><a href="{{ url_for('dept_repo') }}">Department Repository</a></li>
       </ul>
     </div>
     <div class="ac-fcol">

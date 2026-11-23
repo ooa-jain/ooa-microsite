@@ -14,18 +14,15 @@
       <a href="mailto:academics@jainuniversity.ac.in"><i class="fas fa-envelope"></i> academics@jainuniversity.ac.in</a>
     </div>
     <div class="ac-utility-right">
+      {% for p in ooa_platforms %}<a href="{{ p.url }}" target="_blank" rel="noopener">{{ p.name }}</a>{% endfor %}
       <a href="https://www.jainuniversity.ac.in" target="_blank" rel="noopener">University Website</a>
-      <a href="https://www.ugc.gov.in" target="_blank" rel="noopener">UGC</a>
-      <a href="https://www.abc.gov.in" target="_blank" rel="noopener">ABC</a>
-      <a href="https://swayam.gov.in" target="_blank" rel="noopener">SWAYAM</a>
-      <a href="{{ url_for('usernewsletters') }}">Newsletters</a>
     </div>
   </div>
 </div>
 
 <header class="ac-header">
   <div class="ac-wrap ac-masthead">
-    <a href="{{ url_for('home') }}" class="ac-brand" aria-label="Office of Academics home">
+    <a href="{{ url_for('index') }}" class="ac-brand" aria-label="Office of Academics home">
       <img src="{{ url_for('static', filename='images/jainu.png') }}" alt="JAIN (Deemed-to-be University)" class="ac-crest"
         onerror="this.src='{{ url_for('static', filename='images/L23.png') }}'">
       <span class="ac-brand-text">
@@ -80,7 +77,7 @@
           </div>
         </div>
         {% else %}
-        <a href="{{ url_for('login') }}" class="btn-login"><i class="fas fa-sign-in-alt"></i> Login</a>
+        <a href="{{ url_for('signin') }}" class="btn-login"><i class="fas fa-sign-in-alt"></i> Sign in</a>
         {% endif %}
       </div>
       <button class="nav-toggle" onclick="toggleMobileNav()" aria-label="Toggle navigation"><i class="fas fa-bars"></i></button>
@@ -90,31 +87,30 @@
   <div class="ac-navbar">
     <div class="ac-wrap">
       <nav class="main-nav" id="mainNav" aria-label="Main">
-        <a href="{{ url_for('home') }}" class="nav-link nav-loading {% if ac_active == 'home' %}active{% endif %}">Home</a>
-        <a href="{{ url_for('about_jain') }}" class="nav-link nav-loading {% if ac_active == 'about' %}active{% endif %}">About the University</a>
+        <a href="{{ url_for('index') }}" class="nav-link nav-loading {% if ac_active == 'index' %}active{% endif %}">Home</a>
+        {% if user_logged_in %}<a href="{{ url_for('home') }}" class="nav-link nav-loading {% if ac_active == 'home' %}active{% endif %}">Jain Hub</a>{% endif %}
+        <a href="{{ url_for('about_jain') }}" class="nav-link nav-loading {% if ac_active == 'about' %}active{% endif %}">About</a>
+        <a href="{{ url_for('ai_newsletter_archive') }}" class="nav-link nav-loading {% if ac_active == 'newsletter' %}active{% endif %}">AI Newsletter</a>
         <a href="{{ academic_calendar_url }}" class="nav-link nav-loading {% if ac_active == 'calendar' %}active{% endif %}">Academic Calendar</a>
-        <a href="{{ url_for('campus') }}" class="nav-link nav-loading {% if ac_active == 'campus' %}active{% endif %}">Campus Life</a>
+        {% if user_logged_in %}<a href="{{ url_for('campus') }}" class="nav-link nav-loading {% if ac_active == 'campus' %}active{% endif %}">Campus Life</a>{% endif %}
         <div class="nav-dd" id="erpDD">
-          <a href="#" class="nav-link" onclick="toggleErpDD(event)">ERP &amp; Reports <i class="fas fa-chevron-down dd-caret"></i></a>
+          <a href="#" class="nav-link" onclick="toggleErpDD(event)">Our Platforms <i class="fas fa-chevron-down dd-caret"></i></a>
           <div class="nav-dd-panel">
-            <a href="{{ academic_calendar_url }}" class="nav-dd-item nav-loading">
-              <span class="dd-ico"><i class="fas fa-calendar-days"></i></span>
-              <span><strong>Academic Calendar</strong><small>2026–27 master calendar</small></span>
+            {% for p in ooa_platforms %}
+            <a href="{{ p.url }}" class="nav-dd-item" target="_blank" rel="noopener">
+              <span class="dd-ico"><i class="fas {{ p.icon }}"></i></span>
+              <span><strong>{{ p.name }}</strong><small>{{ p.desc }}</small></span>
             </a>
+            {% endfor %}
             <a href="{{ erp_readiness_url }}" class="nav-dd-item nav-loading">
-              <span class="dd-ico"><i class="fas fa-clipboard-check"></i></span>
-              <span><strong>Semester Readiness</strong><small>Pre-semester readiness report</small></span>
-            </a>
-            <a href="{{ erp_closure_url }}" class="nav-dd-item nav-loading">
               <span class="dd-ico"><i class="fas fa-flag-checkered"></i></span>
-              <span><strong>Semester Closure</strong><small>End-of-semester closure report</small></span>
+              <span><strong>Semester Readiness &amp; Closure</strong><small>In-app ERP reports</small></span>
             </a>
           </div>
         </div>
-        <a href="{{ url_for('usernewsletters') }}" class="nav-link nav-loading">Newsletters</a>
         <span class="ac-nav-spacer"></span>
-        <a href="#" class="nav-link ac-nav-minor" onclick="startTour();return false;"><i class="fas fa-route"></i>Guided Tour</a>
         {% if ac_active == 'home' %}
+        <a href="#" class="nav-link ac-nav-minor" onclick="startTour();return false;"><i class="fas fa-route"></i>Guided Tour</a>
         <a href="#quizSection" class="nav-link ac-nav-minor" onclick="event.preventDefault();const q=document.getElementById('quizSection');if(q){q.scrollIntoView({behavior:'smooth',block:'center'});expandQuiz();}"><i class="fas fa-clock"></i>15-Min Course</a>
         {% endif %}
       </nav>

@@ -1,8 +1,8 @@
 {#
   Shared site header (Jain Hub, About, Campus, AI Newsletter).
   Two tiers, kept deliberately clean:
-    1. a royal-blue top bar with contact details and quick links
-    2. one white row: logo · uppercase navigation · one bold action button
+    1. a navy top bar with contact details and quick links
+    2. one white row: logo and institution name · navigation · one action button
   Set `ac_active` before including: 'home' | 'about' | 'campus' | 'newsletter'.
   Set `ac_theme_switch = True` to show Jain Hub's dark-mode switch.
   Keeps the ids/handlers page scripts rely on:
@@ -32,14 +32,14 @@
     <a href="{{ url_for('home') if user_logged_in else url_for('index') }}" class="fx-brand" aria-label="Office of Academics home">
       <img src="{{ url_for('static', filename='images/jainu.png') }}" alt="JAIN (Deemed-to-be University)" class="fx-logo"
         onerror="this.src='{{ url_for('static', filename='images/L23.png') }}'">
-      <span class="fx-brand-text"><b>Office of</b><b>Academics</b></span>
+      <span class="fx-brand-text"><b>Office of Academics</b><small>JAIN (Deemed-to-be University)</small></span>
     </a>
 
     <nav class="fx-nav main-nav" id="mainNav" aria-label="Main">
       <a href="{{ url_for('home') if user_logged_in else url_for('index') }}" class="fx-link nav-loading {% if ac_active == 'home' %}active{% endif %}">Home</a>
       <a href="{{ url_for('about_jain') }}" class="fx-link nav-loading {% if ac_active == 'about' %}active{% endif %}">About</a>
       <a href="{{ url_for('ai_newsletter_archive') }}" class="fx-link nav-loading {% if ac_active == 'newsletter' %}active{% endif %}">AI Newsletter</a>
-      <a href="{{ academic_calendar_url }}" class="fx-link nav-loading {% if ac_active == 'calendar' %}active{% endif %}">Calendar</a>
+      <a href="{{ academic_calendar_url }}" class="fx-link nav-loading {% if ac_active == 'calendar' %}active{% endif %}" title="Academic Calendar 2026–27">Calendar</a>
       {% if user_logged_in %}<a href="{{ url_for('campus') }}" class="fx-link nav-loading {% if ac_active == 'campus' %}active{% endif %}">Campus Life</a>{% endif %}
       <div class="nav-dd fx-dd" id="erpDD">
         <a href="#" class="fx-link" onclick="toggleErpDD(event)" aria-haspopup="true">Platforms <i class="fas fa-chevron-down dd-caret"></i></a>

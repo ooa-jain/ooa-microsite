@@ -10,7 +10,7 @@
   <style>
     :root {
       --navy: #04043a; --navy-mid: #0d0d6b; --navy-light: #1a1a9e;
-      --gold: #FFD700; --gold-deep: #e6b800; --gold-light: #ffe566;
+      --gold: #a8894f; --gold-deep: #8d7140; --gold-light: #cdb88e;
       --white: #fff; --off-white: #f5f6fc; --surface: #fff;
       --border: #e3e5f2; --text: #1c1c3a; --muted: #6b6d8a;
       --shadow-sm: 0 2px 10px rgba(4,4,58,.09);
@@ -26,7 +26,7 @@
 
     /* ── top progress bar ── */
     #topLoader { position:fixed; top:0; left:0; height:3px; width:0; z-index:9999;
-      background:linear-gradient(90deg,var(--gold),var(--gold-deep)); box-shadow:0 0 12px rgba(255,215,0,.6);
+      background:linear-gradient(90deg,var(--gold),var(--gold-deep)); box-shadow:0 0 12px rgba(168, 137, 79,.6);
       transition:width .35s ease, opacity .4s ease; opacity:0 }
     #topLoader.active { opacity:1 }
 
@@ -44,7 +44,7 @@
       transition:var(--transition) }
     .btn:hover { transform:translateY(-1px); box-shadow:var(--shadow-md) }
     .btn.gold { background:linear-gradient(135deg,var(--gold),var(--gold-deep)); border:none; color:var(--navy);
-      box-shadow:0 6px 24px rgba(255,215,0,.28) }
+      box-shadow:0 6px 24px rgba(168, 137, 79,.28) }
     .btn.navy { background:linear-gradient(135deg,var(--navy),var(--navy-mid)); border:none; color:#fff }
     .btn[disabled] { opacity:.65; pointer-events:none }
     .btn .spin { display:none }
@@ -56,7 +56,7 @@
     .hero { background:linear-gradient(135deg,var(--navy) 0%,var(--navy-mid) 60%,#151580 100%); color:#fff;
       padding:64px 24px 88px; position:relative; overflow:hidden }
     .hero::after { content:''; position:absolute; right:-120px; top:-120px; width:420px; height:420px; border-radius:50%;
-      background:radial-gradient(circle, rgba(255,215,0,.16), transparent 65%) }
+      background:radial-gradient(circle, rgba(168, 137, 79,.16), transparent 65%) }
     .hero::before { content:''; position:absolute; left:-80px; bottom:-140px; width:360px; height:360px; border-radius:50%;
       background:radial-gradient(circle, rgba(255,255,255,.06), transparent 65%) }
     .hero-inner { max-width:1280px; margin:0 auto; position:relative; z-index:1 }
@@ -88,7 +88,7 @@
       box-shadow:var(--shadow-sm); transition:var(--transition); display:flex; flex-direction:column; position:relative;
       opacity:0; transform:translateY(18px); animation:tileIn .55s cubic-bezier(.4,0,.2,1) forwards }
     @keyframes tileIn { to { opacity:1; transform:none } }
-    .tile:hover { transform:translateY(-6px); box-shadow:var(--shadow-lg); border-color:rgba(255,215,0,.55) }
+    .tile:hover { transform:translateY(-6px); box-shadow:var(--shadow-lg); border-color:rgba(168, 137, 79,.55) }
     .tile-img { position:relative; height:215px; overflow:hidden; cursor:zoom-in; background:linear-gradient(135deg,#eceefb,#f6f7ff) }
     .tile-img img { width:100%; height:100%; object-fit:cover; transition:transform .6s cubic-bezier(.4,0,.2,1) }
     .tile:hover .tile-img img { transform:scale(1.07) }
@@ -102,7 +102,7 @@
     .tile-body { padding:16px 18px 18px; display:flex; flex-direction:column; gap:8px; flex:1 }
     .tile-chips { display:flex; gap:6px; flex-wrap:wrap }
     .chip { font-size:10.5px; font-weight:700; letter-spacing:.6px; text-transform:uppercase; padding:4px 10px;
-      border-radius:999px; background:rgba(255,215,0,.16); color:var(--gold-deep); border:1px solid rgba(230,184,0,.3) }
+      border-radius:999px; background:rgba(168, 137, 79,.16); color:var(--gold-deep); border:1px solid rgba(141, 113, 64,.3) }
     .chip.navy { background:rgba(4,4,58,.07); color:var(--navy); border-color:rgba(4,4,58,.14) }
     .tile h3 { font-size:16.5px; font-weight:700; color:var(--navy); line-height:1.35 }
     .tile p { font-size:13.2px; color:var(--muted); line-height:1.6; display:-webkit-box; -webkit-line-clamp:3;
@@ -161,12 +161,12 @@
     .fg label .req { color:#e74c3c }
     .fc { width:100%; padding:11px 15px; border:1.5px solid var(--border); border-radius:var(--radius-sm);
       font-family:inherit; font-size:14px; color:var(--text); outline:none; transition:var(--transition); background:var(--off-white) }
-    .fc:focus { border-color:var(--gold-deep); background:#fff; box-shadow:0 0 0 4px rgba(255,215,0,.14) }
+    .fc:focus { border-color:var(--gold-deep); background:#fff; box-shadow:0 0 0 4px rgba(168, 137, 79,.14) }
     textarea.fc { resize:vertical; min-height:86px }
     .row2 { display:grid; grid-template-columns:1fr 1fr; gap:13px }
     .dropzone { border:2px dashed var(--border); border-radius:var(--radius-md); padding:22px; text-align:center;
       color:var(--muted); cursor:pointer; transition:var(--transition); background:var(--off-white); position:relative; overflow:hidden }
-    .dropzone:hover, .dropzone.drag { border-color:var(--gold-deep); background:rgba(255,215,0,.06) }
+    .dropzone:hover, .dropzone.drag { border-color:var(--gold-deep); background:rgba(168, 137, 79,.06) }
     .dropzone i { font-size:26px; color:var(--gold-deep); display:block; margin-bottom:8px }
     .dropzone .hint { font-size:12px }
     .dropzone img.preview { position:absolute; inset:0; width:100%; height:100%; object-fit:cover }
@@ -175,14 +175,14 @@
     .dropzone.has-img { min-height:170px } .dropzone.has-img .change-tag { display:block }
     .dropzone.has-img .dz-inner { display:none }
     .modal-foot { padding:16px 24px 22px; display:flex; gap:10px; justify-content:flex-end; border-top:1px solid var(--border) }
-    .email-note { font-size:12px; color:var(--muted); background:rgba(255,215,0,.1); border:1px solid rgba(230,184,0,.25);
+    .email-note { font-size:12px; color:var(--muted); background:rgba(168, 137, 79,.1); border:1px solid rgba(141, 113, 64,.25);
       border-radius:var(--radius-sm); padding:10px 14px; margin-top:4px }
     .email-note i { color:var(--gold-deep); margin-right:6px }
 
     /* fab for admins */
     .fab { position:fixed; bottom:28px; right:28px; z-index:90; display:inline-flex; align-items:center; gap:10px;
       padding:15px 24px; border-radius:999px; border:none; background:linear-gradient(135deg,var(--gold),var(--gold-deep));
-      color:var(--navy); font-weight:800; font-size:14px; box-shadow:0 10px 34px rgba(255,215,0,.45); transition:var(--transition) }
+      color:var(--navy); font-weight:800; font-size:14px; box-shadow:0 10px 34px rgba(168, 137, 79,.45); transition:var(--transition) }
     .fab:hover { transform:translateY(-3px) scale(1.03) }
 
     /* toast */
@@ -198,31 +198,17 @@
       .fab { bottom:20px; right:16px; padding:13px 19px }
     }
   </style>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/academic-theme.css') }}">
 </head>
-<body>
+<body class="ac-theme">
   <div id="topLoader"></div>
 
-  <header>
-    <div class="header-inner">
-      <div class="logo-wrap">
-        <img src="{{ url_for('static', filename='images/L23.png') }}" alt="Jain University"
-             onerror="this.src='https://via.placeholder.com/46x46/04043a/FFD700?text=JU'">
-      </div>
-      <div class="page-brand">
-        <span class="kicker">Office of Academics</span>
-        <span class="title">Campus Life</span>
-      </div>
-      <div class="head-actions">
-        <a href="{{ url_for('home') }}" class="btn nav-loading"><i class="fas fa-arrow-left idle"></i><i class="fas fa-circle-notch spin"></i> Jain Hub</a>
-        {% if can_manage %}
-        <button class="btn gold" onclick="openAddModal()"><i class="fas fa-plus"></i> Add Moment</button>
-        {% endif %}
-      </div>
-    </div>
-  </header>
-
+  {% set ac_active = 'campus' %}
+  {% include 'partials/academic_header.html' %}
   <section class="hero">
     <div class="hero-inner">
+      <div class="ac-breadcrumb"><a href="{{ url_for('home') }}">Home</a><span>/</span>Campus Life</div>
       <span class="kicker">Moments · Memories · Milestones</span>
       <h1>Life at <em>JAIN</em>, captured.</h1>
       <p>A living gallery of campus moments shared by departments across the university — convocations, fests,
@@ -252,6 +238,8 @@
   <main class="wrap">
     <div class="grid" id="galleryGrid"></div>
   </main>
+
+  {% include 'partials/academic_footer.html' %}
 
   {% if can_manage %}
   <button class="fab" onclick="openAddModal()"><i class="fas fa-camera-retro"></i> Add Campus Moment</button>

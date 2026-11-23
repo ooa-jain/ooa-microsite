@@ -1,0 +1,51 @@
+{# Official academic footer shared by Jain Hub, About JAIN and Campus. #}
+<footer class="ac-footer">
+  <div class="ac-wrap ac-footer-grid">
+    <div class="ac-fcol ac-fcol-about">
+      <img src="{{ url_for('static', filename='images/jainu.png') }}" alt="JAIN (Deemed-to-be University)" class="ac-footer-logo">
+      <p>The Office of Academics coordinates academic planning, quality assurance and faculty development across the schools and campuses of JAIN (Deemed-to-be University).</p>
+    </div>
+    <div class="ac-fcol">
+      <h3>The Office</h3>
+      <ul>
+        <li><a href="{{ url_for('home') }}">Home</a></li>
+        <li><a href="{{ url_for('about_jain') }}">About the University</a></li>
+        <li><a href="{{ url_for('campus') }}">Campus Life</a></li>
+        <li><a href="{{ url_for('usernewsletters') }}">Newsletters</a></li>
+      </ul>
+    </div>
+    <div class="ac-fcol">
+      <h3>Academics</h3>
+      <ul>
+        <li><a href="{{ academic_calendar_url }}">Academic Calendar 2026–27</a></li>
+        <li><a href="{{ erp_readiness_url }}">Semester Readiness</a></li>
+        <li><a href="{{ erp_closure_url }}">Semester Closure</a></li>
+        <li><a href="{{ url_for('dept_repo') }}">Department Repository</a></li>
+      </ul>
+    </div>
+    <div class="ac-fcol">
+      <h3>Regulatory Bodies</h3>
+      <ul>
+        <li><a href="https://www.ugc.gov.in" target="_blank" rel="noopener">University Grants Commission</a></li>
+        <li><a href="https://www.naac.gov.in" target="_blank" rel="noopener">NAAC</a></li>
+        <li><a href="https://www.abc.gov.in" target="_blank" rel="noopener">Academic Bank of Credits</a></li>
+        <li><a href="https://swayam.gov.in" target="_blank" rel="noopener">SWAYAM</a></li>
+      </ul>
+    </div>
+    <div class="ac-fcol">
+      <h3>Contact</h3>
+      <address>
+        Office of Academics<br>
+        JAIN (Deemed-to-be University)<br>
+        JC Road, Bengaluru – 560 002<br>
+        <a href="mailto:academics@jainuniversity.ac.in">academics@jainuniversity.ac.in</a>
+      </address>
+    </div>
+  </div>
+  <div class="ac-footer-bottom">
+    <div class="ac-wrap">
+      <span>&copy; {{ now.year if now else 2026 }} JAIN (Deemed-to-be University). All rights reserved.</span>
+      <span>Office of Academics</span>
+    </div>
+  </div>
+</footer>

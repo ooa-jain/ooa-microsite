@@ -1,0 +1,140 @@
+{#
+  Official academic masthead shared by Jain Hub, About JAIN and Campus.
+  Three tiers: utility bar · crest + institution name · navy navigation bar.
+  Set `ac_active` before including: 'home' | 'about' | 'campus'.
+  Keeps the element ids/handlers the page scripts rely on:
+  #mainNav, #erpDD, #userBtn, #userDropdown, toggleMobileNav(), toggleErpDD(),
+  toggleDropdown(), startTour().
+#}
+{% set ac_active = ac_active|default('home') %}
+<div class="ac-utility" role="navigation" aria-label="Utility links">
+  <div class="ac-wrap ac-utility-inner">
+    <div class="ac-utility-left">
+      <span><i class="fas fa-location-dot"></i> JC Road, Bengaluru – 560 002</span>
+      <a href="mailto:academics@jainuniversity.ac.in"><i class="fas fa-envelope"></i> academics@jainuniversity.ac.in</a>
+    </div>
+    <div class="ac-utility-right">
+      <a href="https://www.jainuniversity.ac.in" target="_blank" rel="noopener">University Website</a>
+      <a href="https://www.ugc.gov.in" target="_blank" rel="noopener">UGC</a>
+      <a href="https://www.abc.gov.in" target="_blank" rel="noopener">ABC</a>
+      <a href="https://swayam.gov.in" target="_blank" rel="noopener">SWAYAM</a>
+      <a href="{{ url_for('usernewsletters') }}">Newsletters</a>
+    </div>
+  </div>
+</div>
+
+<header class="ac-header">
+  <div class="ac-wrap ac-masthead">
+    <a href="{{ url_for('home') }}" class="ac-brand" aria-label="Office of Academics home">
+      <img src="{{ url_for('static', filename='images/jainu.png') }}" alt="JAIN (Deemed-to-be University)" class="ac-crest"
+        onerror="this.src='{{ url_for('static', filename='images/L23.png') }}'">
+      <span class="ac-brand-text">
+        <span class="ac-brand-title">Office of Academics</span>
+        <span class="ac-brand-sub">Academic Governance Portal · Bengaluru</span>
+      </span>
+    </a>
+    <div class="ac-masthead-right">
+      <div class="ac-accred">
+        <span><strong>NAAC</strong> Accredited</span>
+        <span><strong>UGC</strong> Recognised · Sec. 3</span>
+      </div>
+      <div class="user-area">
+        {% if user_logged_in %}
+        <div class="user-dropdown">
+          <div class="user-btn" id="userBtn" onclick="toggleDropdown(event)">
+            <i class="fas fa-user-circle"></i>
+            <span>{{ user_email.split('@')[0] }}</span>
+            <i class="fas fa-chevron-down chevron"></i>
+          </div>
+          <div class="dropdown-panel" id="userDropdown">
+            <div class="dp-head">
+              <div class="name">{{ user_email.split('@')[0] }}</div>
+              <div class="email">{{ user_email }}</div>
+              {% if user_department %}
+              <div class="dp-meta"><i class="fas fa-building"></i><span>{{ user_department }}</span></div>
+              {% endif %}
+              {% if user_location %}
+              <div class="dp-meta"><i class="fas fa-map-marker-alt"></i><span>{{ user_location }}</span></div>
+              {% endif %}
+              {% if not approved %}
+              <span class="dp-status pending"><i class="fas fa-clock"></i> Pending Approval</span>
+              {% else %}
+              <span class="dp-status approved"><i class="fas fa-check-circle"></i> Approved</span>
+              {% endif %}
+            </div>
+            <a href="/profile" class="dp-item"><i class="fas fa-user-circle"></i> My Profile</a>
+            {% if approved %}
+            {% if user_role == 'user' %}
+            <a href="{{ url_for('dept_repo') }}" class="dp-item"><i class="fas fa-folder-open"></i> My Files &amp; Dept Repository</a>
+            {% endif %}
+            {% if user_role == 'user' and (user_type == 'core' or special_role == 'office_barrier') %}
+            <a href="{{ url_for('core_repo') }}" class="dp-item"><i class="fas fa-cloud-upload-alt"></i> Upload to Departments</a>
+            <a href="{{ url_for('core_dashboard') }}" class="dp-item"><i class="fas fa-tachometer-alt"></i> Core Dashboard</a>
+            {% endif %}
+            {% if user_role == 'user' and special_role == 'leader' %}<a href="{{ url_for('leader_dashboard') }}" class="dp-item"><i class="fas fa-crown"></i> Admin Dashboard</a>{% endif %}
+            {% if user_role == 'admin' %}<a href="{{ url_for('admin_dashboard') }}" class="dp-item"><i class="fas fa-tachometer-alt"></i> Admin Dashboard</a>{% endif %}
+            {% else %}
+            <div class="dp-pending"><i class="fas fa-info-circle"></i>Awaiting admin approval</div>
+            {% endif %}
+            <a href="{{ url_for('logout') }}" class="dp-item" onclick="return confirm('Logout?')"><i class="fas fa-sign-out-alt"></i> Logout</a>
+          </div>
+        </div>
+        {% else %}
+        <a href="{{ url_for('login') }}" class="btn-login"><i class="fas fa-sign-in-alt"></i> Login</a>
+        {% endif %}
+      </div>
+      <button class="nav-toggle" onclick="toggleMobileNav()" aria-label="Toggle navigation"><i class="fas fa-bars"></i></button>
+    </div>
+  </div>
+
+  <div class="ac-navbar">
+    <div class="ac-wrap">
+      <nav class="main-nav" id="mainNav" aria-label="Main">
+        <a href="{{ url_for('home') }}" class="nav-link nav-loading {% if ac_active == 'home' %}active{% endif %}">Home</a>
+        <a href="{{ url_for('about_jain') }}" class="nav-link nav-loading {% if ac_active == 'about' %}active{% endif %}">About the University</a>
+        <a href="{{ academic_calendar_url }}" class="nav-link nav-loading {% if ac_active == 'calendar' %}active{% endif %}">Academic Calendar</a>
+        <a href="{{ url_for('campus') }}" class="nav-link nav-loading {% if ac_active == 'campus' %}active{% endif %}">Campus Life</a>
+        <div class="nav-dd" id="erpDD">
+          <a href="#" class="nav-link" onclick="toggleErpDD(event)">ERP &amp; Reports <i class="fas fa-chevron-down dd-caret"></i></a>
+          <div class="nav-dd-panel">
+            <a href="{{ academic_calendar_url }}" class="nav-dd-item nav-loading">
+              <span class="dd-ico"><i class="fas fa-calendar-days"></i></span>
+              <span><strong>Academic Calendar</strong><small>2026–27 master calendar</small></span>
+            </a>
+            <a href="{{ erp_readiness_url }}" class="nav-dd-item nav-loading">
+              <span class="dd-ico"><i class="fas fa-clipboard-check"></i></span>
+              <span><strong>Semester Readiness</strong><small>Pre-semester readiness report</small></span>
+            </a>
+            <a href="{{ erp_closure_url }}" class="nav-dd-item nav-loading">
+              <span class="dd-ico"><i class="fas fa-flag-checkered"></i></span>
+              <span><strong>Semester Closure</strong><small>End-of-semester closure report</small></span>
+            </a>
+          </div>
+        </div>
+        <a href="{{ url_for('usernewsletters') }}" class="nav-link nav-loading">Newsletters</a>
+        <span class="ac-nav-spacer"></span>
+        <a href="#" class="nav-link ac-nav-minor" onclick="startTour();return false;"><i class="fas fa-route"></i>Guided Tour</a>
+        {% if ac_active == 'home' %}
+        <a href="#quizSection" class="nav-link ac-nav-minor" onclick="event.preventDefault();const q=document.getElementById('quizSection');if(q){q.scrollIntoView({behavior:'smooth',block:'center'});expandQuiz();}"><i class="fas fa-clock"></i>15-Min Course</a>
+        {% endif %}
+      </nav>
+    </div>
+  </div>
+</header>
+
+<script>
+  /* Fallbacks so the shared masthead works on pages that don't define these. */
+  window.toggleMobileNav = window.toggleMobileNav || function () { document.getElementById('mainNav').classList.toggle('show'); };
+  window.toggleDropdown = window.toggleDropdown || function (e) {
+    e.stopPropagation(); document.getElementById('userDropdown').classList.toggle('show');
+  };
+  window.toggleErpDD = window.toggleErpDD || function (e) {
+    e.preventDefault(); e.stopPropagation(); document.getElementById('erpDD').classList.toggle('open');
+  };
+  window.startTour = window.startTour || function () { window.location.href = "{{ url_for('home') }}?startTour=true"; };
+  document.addEventListener('click', function (e) {
+    var dd = document.getElementById('userDropdown'), erp = document.getElementById('erpDD');
+    if (dd && !e.target.closest('.user-dropdown')) dd.classList.remove('show');
+    if (erp && !e.target.closest('#erpDD')) erp.classList.remove('open');
+  });
+</script>

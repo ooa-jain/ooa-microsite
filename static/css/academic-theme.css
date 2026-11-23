@@ -1,0 +1,350 @@
+/* ════════════════════════════════════════════════════════════════════
+   Office of Academics · official academic theme
+   Loaded AFTER each page's own <style>, so token re-maps and the rules
+   below take precedence. Palette: deep navy + university maroon, with a
+   muted brass used only for thin rules — no bright yellow / orange.
+   ════════════════════════════════════════════════════════════════════ */
+:root {
+  --ac-navy-900: #0b1f3a;
+  --ac-navy-800: #112a4d;
+  --ac-navy-700: #173761;
+  --ac-navy-500: #2a5288;
+  --ac-maroon: #8a1c2b;
+  --ac-maroon-700: #6f1522;
+  --ac-maroon-50: #f7eced;
+  --ac-brass: #a8894f;
+  --ac-brass-soft: #efe7d8;
+  --ac-bg: #f4f5f7;
+  --ac-surface: #ffffff;
+  --ac-line: #d9dee6;
+  --ac-line-soft: #e8ebf0;
+  --ac-ink: #1a2230;
+  --ac-muted: #586273;
+  --ac-serif: 'Source Serif 4', 'Georgia', 'Times New Roman', serif;
+  --ac-sans: 'Source Sans 3', 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --ac-radius: 4px;
+  --ac-shadow: 0 1px 2px rgba(11, 31, 58, .06), 0 2px 8px rgba(11, 31, 58, .05);
+
+  /* ── re-map the page tokens (home.html / campus.html) ── */
+  --navy: var(--ac-navy-900);
+  --navy-mid: var(--ac-navy-800);
+  --navy-light: var(--ac-navy-700);
+  --gold: var(--ac-brass);
+  --gold-deep: #8d7140;
+  --gold-light: #cdb88e;
+  --off-white: var(--ac-bg);
+  --border: var(--ac-line);
+  --text: var(--ac-ink);
+  --muted: var(--ac-muted);
+  --glow-gold: none;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 6px;
+  --radius-xl: 8px;
+  --shadow-xs: 0 1px 2px rgba(11, 31, 58, .05);
+  --shadow-sm: var(--ac-shadow);
+  --shadow-md: var(--ac-shadow);
+  --shadow-lg: 0 4px 16px rgba(11, 31, 58, .08);
+  --shadow-xl: 0 8px 24px rgba(11, 31, 58, .10);
+}
+
+/* about_jain.html tokens: orange → maroon, amber → brass */
+body.ac-about {
+  --navy: var(--ac-navy-900);
+  --navy-2: var(--ac-navy-700);
+  --gold: var(--ac-maroon);
+  --gold-2: var(--ac-brass);
+  --gold-tint: var(--ac-maroon-50);
+  --bg: var(--ac-bg);
+  --border: var(--ac-line);
+  --r: 6px; --r-lg: 6px; --r-xl: 8px; --r-sm: 4px; --r-xs: 3px;
+}
+
+body.ac-theme {
+  background: var(--ac-bg);
+  color: var(--ac-ink);
+  font-family: var(--ac-sans);
+}
+body.ac-theme h1, body.ac-theme h2, body.ac-theme h3,
+body.ac-theme .cal-title, body.ac-theme .section-title {
+  font-family: var(--ac-serif);
+  letter-spacing: 0;
+}
+
+.ac-wrap { max-width: 1280px; margin: 0 auto; padding: 0 32px; }
+
+/* ── 1. Utility bar ─────────────────────────────────────────────── */
+.ac-utility {
+  background: var(--ac-navy-900);
+  color: rgba(255, 255, 255, .78);
+  font-size: 12.5px;
+  border-bottom: 1px solid rgba(255, 255, 255, .08);
+}
+.ac-utility-inner { display: flex; justify-content: space-between; align-items: center; height: 34px; gap: 16px; }
+.ac-utility-left, .ac-utility-right { display: flex; align-items: center; gap: 20px; }
+.ac-utility i { margin-right: 6px; opacity: .7; }
+.ac-utility a { color: rgba(255, 255, 255, .82); text-decoration: none; }
+.ac-utility a:hover { color: #fff; text-decoration: underline; }
+.ac-utility-right a + a { position: relative; }
+.ac-utility-right a + a::before {
+  content: ''; position: absolute; left: -10px; top: 50%; height: 11px; width: 1px;
+  background: rgba(255, 255, 255, .25); transform: translateY(-50%);
+}
+
+/* ── 2. Masthead ────────────────────────────────────────────────── */
+header.ac-header {
+  position: sticky; top: 0; z-index: 200;
+  background: var(--ac-surface);
+  backdrop-filter: none; -webkit-backdrop-filter: none;
+  border-bottom: 0; box-shadow: 0 1px 0 var(--ac-line), 0 2px 10px rgba(11, 31, 58, .06);
+}
+.ac-masthead { display: flex; align-items: center; justify-content: space-between; height: 84px; gap: 24px; }
+.ac-brand { display: flex; align-items: center; gap: 18px; text-decoration: none; min-width: 0; }
+.ac-crest { height: 50px; width: auto; display: block; }
+.ac-brand-text { display: flex; flex-direction: column; padding-left: 18px; border-left: 2px solid var(--ac-maroon); }
+.ac-brand-title { font-family: var(--ac-serif); font-weight: 600; font-size: 22px; color: var(--ac-navy-900); line-height: 1.15; }
+.ac-brand-sub { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--ac-muted); margin-top: 3px; }
+.ac-masthead-right { display: flex; align-items: center; gap: 22px; }
+.ac-accred { display: flex; flex-direction: column; align-items: flex-end; font-size: 12px; color: var(--ac-muted); line-height: 1.5; }
+.ac-accred strong { color: var(--ac-navy-900); font-weight: 700; }
+
+/* baseline so the masthead is self-contained on pages without home.html's CSS */
+header.ac-header *, .ac-utility *, footer.ac-footer * { box-sizing: border-box; }
+header.ac-header .user-area { display: flex; align-items: center; }
+header.ac-header .user-dropdown { position: relative; }
+header.ac-header .user-btn { display: flex; align-items: center; gap: 8px; cursor: pointer; font-weight: 600; font-family: var(--ac-sans); }
+header.ac-header .user-btn .chevron { font-size: 11px; transition: transform .25s; }
+header.ac-header .user-btn.open .chevron { transform: rotate(180deg); }
+header.ac-header .dropdown-panel { display: none; position: absolute; right: 0; top: calc(100% + 8px); min-width: 270px; background: #fff; overflow: hidden; z-index: 400; }
+header.ac-header .dropdown-panel.show { display: block; }
+header.ac-header .dp-head { padding: 16px 18px; color: #fff; }
+header.ac-header .dp-head .name { font-weight: 700; font-size: 15px; }
+header.ac-header .dp-head .email { font-size: 12px; opacity: .8; margin-top: 2px; }
+header.ac-header .dp-status { display: inline-flex; align-items: center; gap: 5px; padding: 3px 8px; border-radius: 3px; font-size: 11px; font-weight: 600; margin-top: 8px; }
+header.ac-header .dp-status.approved { background: rgba(39, 174, 96, .25); color: #c9f5db; }
+header.ac-header .dp-status.pending { background: rgba(231, 76, 60, .25); color: #ffd6d0; }
+header.ac-header .dp-item { display: flex; align-items: center; gap: 10px; padding: 11px 18px; font-size: 14px; color: var(--ac-ink); text-decoration: none; border-bottom: 1px solid var(--ac-line-soft); }
+header.ac-header .dp-item:last-child { border-bottom: 0; }
+header.ac-header .dp-item:hover { background: var(--ac-bg); color: var(--ac-navy-900); padding-left: 18px; }
+header.ac-header .dp-item i { width: 18px; color: var(--ac-navy-700); font-size: 13px; }
+.ac-navbar .nav-link { position: relative; cursor: pointer; }
+.ac-navbar .nav-link::after { content: ''; position: absolute; transform: scaleX(0); transform-origin: left; transition: transform .25s ease; }
+.ac-navbar .nav-link:hover::after, .ac-navbar .nav-link.active::after { transform: scaleX(1); }
+.ac-navbar .nav-dd { position: relative; }
+.ac-navbar .nav-dd .dd-caret { font-size: 9px; transition: transform .25s ease; }
+.ac-navbar .nav-dd.open .dd-caret { transform: rotate(180deg); }
+.ac-navbar .nav-dd-panel { position: absolute; left: 0; min-width: 290px; background: #fff; border: 1px solid var(--ac-line); box-shadow: 0 10px 30px rgba(11, 31, 58, .14); padding: 8px; z-index: 300; opacity: 0; transform: translateY(-6px); pointer-events: none; transition: opacity .2s ease, transform .2s ease; }
+.ac-navbar .nav-dd:hover .nav-dd-panel, .ac-navbar .nav-dd.open .nav-dd-panel { opacity: 1; transform: none; pointer-events: auto; }
+.ac-navbar .nav-dd-item { display: flex; align-items: center; gap: 13px; padding: 10px 12px; }
+.ac-navbar .nav-dd-item .dd-ico { width: 36px; height: 36px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 14px; }
+.ac-navbar .nav-dd-item strong { display: block; font-size: 13.5px; color: var(--ac-navy-900); font-weight: 700; }
+.ac-navbar .nav-dd-item small { display: block; font-size: 11.5px; color: var(--ac-muted); margin-top: 1px; }
+
+header.ac-header .user-btn {
+  background: var(--ac-surface); color: var(--ac-navy-900);
+  border: 1px solid var(--ac-line); border-radius: var(--ac-radius);
+  padding: 8px 14px; font-size: 14px; box-shadow: none;
+}
+header.ac-header .user-btn:hover { border-color: var(--ac-navy-700); background: var(--ac-bg); transform: none; box-shadow: none; }
+header.ac-header .user-btn i.fa-user-circle { color: var(--ac-maroon); }
+header.ac-header .btn-login { background: var(--ac-maroon); border-radius: var(--ac-radius); box-shadow: none; }
+header.ac-header .btn-login:hover { background: var(--ac-maroon-700); }
+header.ac-header .dropdown-panel { border-radius: var(--ac-radius); border: 1px solid var(--ac-line); box-shadow: 0 10px 30px rgba(11, 31, 58, .14); }
+header.ac-header .dp-head { background: var(--ac-navy-900); border-bottom: 3px solid var(--ac-maroon); }
+header.ac-header .dp-meta { display: flex; align-items: center; gap: 6px; margin-top: 6px; font-size: 11px; color: rgba(255, 255, 255, .8); }
+header.ac-header .dp-meta i { color: var(--ac-brass); font-size: 10px; }
+header.ac-header .dp-pending { padding: 16px; text-align: center; font-size: 13px; color: var(--ac-muted); }
+header.ac-header .dp-pending i { display: block; font-size: 1.8rem; color: var(--ac-maroon); margin-bottom: 8px; }
+header.ac-header .nav-toggle { display: none; background: none; border: 1px solid var(--ac-line); border-radius: var(--ac-radius); color: var(--ac-navy-900); font-size: 18px; padding: 6px 10px; cursor: pointer; }
+
+/* ── 3. Navigation bar ─────────────────────────────────────────── */
+.ac-navbar { background: var(--ac-navy-800); border-top: 1px solid var(--ac-navy-900); }
+.ac-navbar nav#mainNav, .ac-navbar .main-nav { display: flex; align-items: stretch; gap: 0; height: 46px; }
+.ac-navbar .nav-link {
+  display: flex; align-items: center; height: 100%;
+  padding: 0 18px; border-radius: 0;
+  font-family: var(--ac-sans); font-size: 14px; font-weight: 600; letter-spacing: .02em;
+  color: rgba(255, 255, 255, .88); text-decoration: none; background: none;
+}
+.ac-navbar .nav-link::after {
+  left: 0; right: 0; bottom: 0; height: 3px; border-radius: 0; background: var(--ac-maroon);
+}
+.ac-navbar .nav-link:hover, .ac-navbar .nav-link.active { color: #fff; background: rgba(255, 255, 255, .06); }
+.ac-navbar .nav-link.active { background: var(--ac-navy-700); }
+.ac-navbar .nav-link.active::after { background: #c9474f; }
+.ac-navbar .nav-link i { margin-right: 7px; font-size: 12px; opacity: .8; }
+.ac-navbar .nav-link .dd-caret { margin-left: 6px; margin-right: 0; }
+.ac-nav-spacer { flex: 1; }
+.ac-navbar .ac-nav-minor { font-weight: 500; font-size: 13px; color: rgba(255, 255, 255, .7); }
+.ac-navbar .nav-dd { display: flex; align-items: stretch; }
+.ac-navbar .nav-dd-panel { top: 100%; border-radius: 0 0 var(--ac-radius) var(--ac-radius); border-top: 3px solid var(--ac-maroon); }
+.ac-navbar .nav-dd-item { border-radius: var(--ac-radius); text-decoration: none; }
+.ac-navbar .nav-dd-item:hover { background: var(--ac-bg); }
+.ac-navbar .nav-dd-item .dd-ico { background: var(--ac-navy-900); border-radius: var(--ac-radius); box-shadow: none; }
+.ac-navbar .nav-dd-item:hover .dd-ico { background: var(--ac-maroon); }
+
+/* ── 4. Ticker → “Today at the University” strip ───────────────── */
+body.ac-theme .ticker { background: var(--ac-surface); border-bottom: 1px solid var(--ac-line); padding: 0; }
+body.ac-theme .ticker-inner { max-width: 1280px; height: 42px; padding: 0 32px; }
+body.ac-theme .ticker-badge {
+  background: var(--ac-maroon); color: #fff; border-radius: 0; box-shadow: none;
+  padding: 0 16px; height: 42px; display: flex; align-items: center; gap: 8px;
+  font-size: 12px; letter-spacing: .08em; text-transform: uppercase; font-weight: 700;
+}
+body.ac-theme .ticker-item { color: var(--ac-ink); border-right-color: var(--ac-line); font-size: 13.5px; }
+body.ac-theme .ticker-item:hover, body.ac-theme .ticker-item a:hover { color: var(--ac-maroon); }
+
+/* ── 5. Page structure: welcome band + hero ─────────────────────── */
+body.ac-theme .page-wrapper { max-width: 1280px; padding: 28px 32px 40px; }
+body.ac-theme .greeting-section {
+  margin: 0 0 22px !important; padding: 0 0 16px !important;
+  border-bottom: 1px solid var(--ac-line);
+  display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 6px 24px;
+}
+body.ac-theme #dynamicGreeting { font-family: var(--ac-serif) !important; font-size: 1.85rem !important; font-weight: 600 !important; color: var(--ac-navy-900) !important; }
+body.ac-theme #textTypeCursor { color: var(--ac-maroon) !important; }
+.ac-breadcrumb { font-size: 12.5px; color: var(--ac-muted); margin-bottom: 6px; letter-spacing: .02em; }
+.ac-breadcrumb a { color: var(--ac-navy-700); text-decoration: none; }
+.ac-breadcrumb a:hover { text-decoration: underline; }
+.ac-breadcrumb span { margin: 0 6px; color: #9aa3b0; }
+
+body.ac-theme .hero-carousel { height: 340px; border-radius: var(--ac-radius); box-shadow: none; border: 1px solid var(--ac-line); margin-bottom: 28px; }
+body.ac-theme .hero-slide img { transform: none; }
+body.ac-theme .hero-arrow { border-radius: var(--ac-radius); width: 40px; height: 40px; background: rgba(11, 31, 58, .55); border-color: rgba(255, 255, 255, .2); }
+body.ac-theme .hero-dot { border-radius: 0; height: 4px; width: 22px; background: rgba(255, 255, 255, .55); }
+body.ac-theme .hero-dot.active { background: #fff; width: 34px; border-radius: 0; box-shadow: none; }
+body.ac-theme .hero-content h2 { font-family: var(--ac-serif); }
+
+body.ac-theme .know-uni-btn {
+  background: var(--ac-surface); border: 1px solid var(--ac-line); border-radius: var(--ac-radius);
+  color: var(--ac-navy-900); font-size: .85rem; padding: 8px 16px; letter-spacing: .01em;
+}
+body.ac-theme .know-uni-btn:hover { border-color: var(--ac-navy-700); background: var(--ac-bg); }
+body.ac-theme .know-uni-btn i { color: var(--ac-maroon); }
+
+/* ── 6. Section tabs → flat, underlined section navigation ──────── */
+body.ac-theme .tab-bar-wrap { justify-content: flex-start; top: 130px; background: var(--ac-bg); border-bottom: 1px solid var(--ac-line); margin-bottom: 26px; }
+body.ac-theme .tab-bar { background: transparent; backdrop-filter: none; box-shadow: none; border: 0; border-radius: 0; padding: 0; gap: 0; }
+body.ac-theme .tab-pill {
+  border-radius: 0; padding: 14px 22px; font-size: 15px; font-weight: 600; color: var(--ac-muted);
+  border-bottom: 3px solid transparent; margin-bottom: -1px; font-family: var(--ac-sans);
+}
+body.ac-theme .tab-pill.active { background: none; color: var(--ac-navy-900) !important; box-shadow: none; border-bottom-color: var(--ac-maroon); }
+body.ac-theme .tab-pill:not(.active):hover { background: none; color: var(--ac-navy-900); border-bottom-color: var(--ac-line); }
+body.ac-theme .tab-pill i { color: inherit; opacity: .75; }
+
+/* ── 7. Notice boards ──────────────────────────────────────────── */
+body.ac-theme .notice-card-panel { border-radius: var(--ac-radius); box-shadow: var(--ac-shadow); border: 1px solid var(--ac-line); }
+body.ac-theme .notice-card-panel:hover { transform: none; box-shadow: 0 4px 16px rgba(11, 31, 58, .08); }
+body.ac-theme .ncp-header {
+  background: var(--ac-surface) !important; color: var(--ac-navy-900);
+  font-family: var(--ac-serif); font-size: 17px; font-weight: 600; letter-spacing: 0;
+  border-bottom: 1px solid var(--ac-line); border-top: 4px solid var(--ac-navy-800); padding: 14px 20px;
+}
+body.ac-theme .ncp-header.uni { border-top-color: var(--ac-maroon); }
+body.ac-theme .ncp-header i { color: var(--ac-maroon); }
+body.ac-theme .ncp-header .badge { background: var(--ac-bg); color: var(--ac-muted); border: 1px solid var(--ac-line); border-radius: 3px; font-family: var(--ac-sans); font-size: 11px; text-transform: uppercase; letter-spacing: .06em; }
+
+/* generic cards / sections inside the content tabs */
+body.ac-theme .cal-section { border-radius: var(--ac-radius); box-shadow: var(--ac-shadow); }
+body.ac-theme .cal-title { font-size: 1.6rem; font-weight: 600; }
+body.ac-theme .cal-title i { color: var(--ac-maroon); }
+body.ac-theme .cal-btn.acad-cal-btn, body.ac-theme .cal-view-seg button.on { background: var(--ac-navy-900); box-shadow: none; }
+body.ac-theme .cal-view-seg, body.ac-theme .cal-view-seg button, body.ac-theme .cal-dept-filter { border-radius: var(--ac-radius); }
+body.ac-theme .acad-cal-shell { border-radius: var(--ac-radius); box-shadow: none; }
+
+/* ── 8. Floating micro-course launcher: navy square, no gold glow ── */
+body.ac-theme .quiz-card-wrapper { background: var(--ac-navy-900); border: 1px solid var(--ac-navy-700); box-shadow: 0 6px 18px rgba(11, 31, 58, .3); }
+body.ac-theme #quizEmojiView, body.ac-theme #courseHeader { color: #fff !important; }
+
+/* ── 9. Facts band ──────────────────────────────────────────────── */
+body.ac-theme .stats-bar { background: var(--ac-surface); border-top: 1px solid var(--ac-line); border-bottom: 1px solid var(--ac-line); padding: 40px 20px; margin-top: 48px; }
+body.ac-theme .stat-item { border-left: 3px solid var(--ac-maroon); padding-left: 18px; text-align: left; }
+body.ac-theme .stat-num { font-family: var(--ac-serif); color: var(--ac-navy-900) !important; -webkit-text-fill-color: var(--ac-navy-900); background: none; font-weight: 600; }
+body.ac-theme .stat-lbl { color: var(--ac-muted) !important; text-transform: uppercase; letter-spacing: .08em; font-size: 12px; }
+
+/* ── 10. Footer ─────────────────────────────────────────────────── */
+footer.ac-footer { background: var(--ac-navy-900); color: rgba(255, 255, 255, .78); padding: 0; border-top: 4px solid var(--ac-maroon); font-family: var(--ac-sans); }
+.ac-footer-grid { display: grid; grid-template-columns: 1.6fr repeat(4, 1fr); gap: 36px; padding-top: 48px; padding-bottom: 40px; }
+.ac-footer h3 { font-family: var(--ac-serif); color: #fff; font-size: 16px; font-weight: 600; margin: 0 0 14px; padding-bottom: 10px; border-bottom: 1px solid rgba(255, 255, 255, .14); }
+.ac-footer ul { list-style: none; margin: 0; padding: 0; }
+.ac-footer li { margin-bottom: 9px; }
+.ac-footer a { color: rgba(255, 255, 255, .78); text-decoration: none; font-size: 14px; }
+.ac-footer a:hover { color: #fff; text-decoration: underline; }
+.ac-footer p, .ac-footer address { font-size: 14px; line-height: 1.65; font-style: normal; margin: 0; }
+.ac-footer-logo { height: 42px; width: auto; background: #fff; padding: 6px 10px; border-radius: 3px; margin-bottom: 16px; }
+.ac-footer-bottom { background: #071528; font-size: 12.5px; color: rgba(255, 255, 255, .6); }
+.ac-footer-bottom .ac-wrap { display: flex; justify-content: space-between; gap: 12px; padding-top: 14px; padding-bottom: 14px; flex-wrap: wrap; }
+
+/* ── 11. Misc: loaders, flashes, skeletons ──────────────────────── */
+body.ac-theme #pageTopLoader { background: var(--ac-maroon); box-shadow: none; }
+body.ac-theme .flash { border-radius: var(--ac-radius); }
+
+/* ── 12. Responsive ─────────────────────────────────────────────── */
+@media (max-width: 1100px) {
+  .ac-accred { display: none; }
+  .ac-footer-grid { grid-template-columns: 1fr 1fr 1fr; }
+  .ac-fcol-about { grid-column: 1 / -1; }
+}
+@media (max-width: 900px) {
+  .ac-wrap { padding: 0 16px; }
+  .ac-utility-left span { display: none; }
+  .ac-masthead { height: 68px; }
+  .ac-crest { height: 38px; }
+  .ac-brand { gap: 12px; }
+  .ac-brand-text { padding-left: 12px; }
+  .ac-brand-title { font-size: 17px; }
+  .ac-brand-sub { display: none; }
+  header.ac-header .nav-toggle { display: inline-flex; }
+  header.ac-header .user-btn span { display: none; }
+  .ac-navbar nav#mainNav, .ac-navbar .main-nav { display: none; height: auto; flex-direction: column; padding: 6px 0; }
+  .ac-navbar nav#mainNav.show, .ac-navbar .main-nav.show { display: flex; }
+  /* neutralise home.html's old white drop-down mobile menu */
+  .ac-navbar nav#mainNav { position: static; background: transparent; box-shadow: none; padding: 6px 0; top: auto; }
+  .ac-navbar .nav-link { height: 44px; padding: 0 4px; }
+  .ac-navbar .nav-link::after { display: none; }
+  .ac-nav-spacer { display: none; }
+  .ac-navbar .nav-dd { flex-direction: column; }
+  .ac-navbar .nav-dd-panel { position: static; display: none; opacity: 1; transform: none; pointer-events: auto; box-shadow: none; border: 0; background: transparent; padding: 0 0 6px 8px; }
+  .ac-navbar .nav-dd.open .nav-dd-panel { display: block; }
+  .ac-navbar .nav-dd-item strong { color: #fff; }
+  .ac-navbar .nav-dd-item small { color: rgba(255, 255, 255, .65); }
+  .ac-navbar .nav-dd-item:hover { background: rgba(255, 255, 255, .06); }
+  body.ac-theme .tab-bar-wrap { top: 68px; overflow-x: auto; }
+  body.ac-theme .page-wrapper, body.ac-theme .ticker-inner { padding-left: 16px; padding-right: 16px; }
+  body.ac-theme .hero-carousel { height: 210px; }
+}
+@media (max-width: 560px) {
+  .ac-utility { display: none; }
+  .ac-brand-text { display: none; }
+  .ac-footer-grid { grid-template-columns: 1fr 1fr; gap: 24px; }
+  body.ac-theme .tab-pill { padding: 12px 14px; font-size: 14px; }
+}
+
+/* ── 13. Campus page: flat title band instead of glowing hero ────── */
+body.ac-theme section.hero { background: var(--ac-navy-800); padding: 34px 24px 70px; }
+body.ac-theme section.hero::after, body.ac-theme section.hero::before { display: none; }
+body.ac-theme section.hero .ac-breadcrumb, body.ac-theme section.hero .ac-breadcrumb a { color: rgba(255, 255, 255, .7); }
+body.ac-theme section.hero .ac-breadcrumb span { color: rgba(255, 255, 255, .4); }
+body.ac-theme section.hero .kicker { color: #d9c9a8; letter-spacing: .18em; }
+body.ac-theme section.hero .kicker::before { background: var(--ac-maroon); height: 3px; border-radius: 0; }
+body.ac-theme section.hero h1 { font-family: var(--ac-serif); font-weight: 600; }
+body.ac-theme section.hero h1 em { color: #fff; font-style: italic; }
+body.ac-theme .hstat { border-left: 3px solid var(--ac-maroon); padding-left: 14px; }
+body.ac-theme .hstat .num { color: #fff; font-family: var(--ac-serif); font-weight: 600; }
+body.ac-theme .toolbar-card { border-radius: var(--ac-radius); box-shadow: var(--ac-shadow); }
+body.ac-theme .search-box, body.ac-theme select.filter { border-radius: var(--ac-radius); }
+body.ac-theme .fab { background: var(--ac-maroon) !important; color: #fff !important; border-radius: var(--ac-radius) !important; box-shadow: 0 6px 18px rgba(138, 28, 43, .3) !important; }
+body.ac-theme .btn.gold { background: var(--ac-maroon); color: #fff; box-shadow: none; }
+
+/* ── 14. Remove leftover yellow glows / chips ──────────────────── */
+body.ac-about .about-hero::after, body.ac-about .num-card::before, body.ac-about .closing-band::after { display: none; }
+body.ac-theme .ticker-badge { position: relative; z-index: 2; margin-right: 18px; }
+body.ac-theme .chip:not(.navy) { background: var(--ac-maroon-50); color: var(--ac-maroon); border-color: rgba(138, 28, 43, .2); border-radius: 3px; }
+body.ac-theme .chip.navy { border-radius: 3px; }
+body.ac-theme .tile { border-radius: var(--ac-radius); }
+body.ac-theme .tile-date i, body.ac-theme .remind-btn i, body.ac-theme .lb-meta i, body.ac-theme .modal-head h3 i, body.ac-theme .dropzone i, body.ac-theme .email-note i { color: var(--ac-maroon); }
+body.ac-theme .lb-close:hover { background: var(--ac-maroon); color: #fff; }
+body.ac-theme .dropzone:hover, body.ac-theme .dropzone.drag { border-color: var(--ac-maroon); background: var(--ac-maroon-50); }
+body.ac-theme #topLoader { background: var(--ac-maroon); box-shadow: none; }
+body.ac-theme section.hero .hero-inner { padding: 0 8px; }

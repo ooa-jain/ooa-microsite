@@ -5274,13 +5274,14 @@ def newsletter_page():
         for article in records:
             article['_id'] = str(article['_id'])
             article['formatted_date'] = article['uploaded_at'].strftime('%B %d, %Y') if isinstance(article.get('uploaded_at'), datetime) else str(article.get('uploaded_at',''))
-        return render_template('newsletter_page.html', records=records,
+        # newsletter_page.html was never committed; user_newsletters.html is the live newsletter listing
+        return render_template('user_newsletters.html', records=records,
                                user_logged_in='email' in session,
                                user_email=session.get('email'),
                                user_navbar=get_user_navbar(session.get('email','')) if session.get('email') else [])
     except Exception as e:
         logger.error(f"newsletter_page error: {e}", exc_info=True)
-        return render_template('newsletter_page.html', records=[], user_logged_in='email' in session, user_email=session.get('email'))
+        return render_template('user_newsletters.html', records=[], user_logged_in='email' in session, user_email=session.get('email'))
 
 # ══════════════════════════════════════════════════════════════════════
 #  API ENDPOINTS — EVENTS

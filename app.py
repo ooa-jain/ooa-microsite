@@ -40,6 +40,9 @@ from apscheduler.schedulers.background import BackgroundScheduler
 # ── Groq (Jain AI) ────────────────────────────────────────────────────
 from groq import Groq
 
+# ── OOA monthly newsletter feed (Gmail → homepage) ────────────────────
+import newsletter_feed as nf
+
 # ── PDF extraction ─────────────────────────────────────────────────────
 try:
     import fitz  # PyMuPDF
@@ -1507,16 +1510,16 @@ def ai_dashboard_summary():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'GET':
-        return redirect(url_for('index'))
+        return redirect(url_for('signin'))
     if request.method == 'POST':
         email    = request.form.get('email', '').strip()
         password = request.form.get('password', '')
         if not email or not password:
             flash('Email and password are required.', 'error')
-            return redirect(url_for('index'))
+            return redirect(url_for('signin'))
         if not email.endswith('@jainuniversity.ac.in'):
             flash('Only @jainuniversity.ac.in emails allowed', 'error')
-            return redirect(url_for('index'))
+            return redirect(url_for('signin'))
         user = db.users.find_one({'email': email})
         stored_hash = user.get('password') if user else None
         if user and stored_hash and check_password_hash(stored_hash, password):
@@ -1560,8 +1563,8 @@ def login():
                 return redirect(url_for('home'))
         else:
             flash('Invalid credentials', 'error')
-            return redirect(url_for('index'))
-    return redirect(url_for('index'))
+            return redirect(url_for('signin'))
+    return redirect(url_for('signin'))
 
 @app.route('/login/google', methods=['POST'])
 def login_google():
@@ -1766,6 +1769,38 @@ def logout():
 
 @app.route('/')
 def index():
+    """Public homepage of the Office of Academics."""
+    today_str = get_today_ist_string()
+    try:
+        nf.ensure_seeded(db)
+        editions = nf.list_editions(db, limit=7)
+    except Exception as e:
+        logger.error(f"newsletter feed error: {e}")
+        editions = []
+    upcoming, seen = [], set()
+    try:
+        for ev in get_cached_dashboard_data('all_events', fetch_formatted_events, ttl=60):
+            d = ev.get('event_date', '')
+            key = (ev.get('event_name', '').strip().lower(), d)
+            if d >= today_str and key not in seen and ev.get('event_name'):
+                seen.add(key); upcoming.append(ev)
+            if len(upcoming) >= 5: break
+    except Exception as e:
+        logger.error(f"homepage events error: {e}")
+    try:
+        notices = [serialize_doc(r) for r in db.ugc_data.find().sort('uploaded_at', -1).limit(4)]
+    except Exception:
+        notices = []
+    try:
+        edition_count = db.ooa_newsletters.count_documents({'hidden': {'$ne': True}})
+    except Exception:
+        edition_count = len(editions)
+    return render_template('ooa_home.html', editions=editions, upcoming=upcoming,
+                           notices=notices, edition_count=edition_count, **_get_user_info())
+
+@app.route('/signin')
+def signin():
+    """Portal sign-in page (the former landing page)."""
     if 'email' in session:
         return redirect(url_for('home'))
     firebase_config = {
@@ -3275,6 +3310,9 @@ def gmail_callback():
             'client_secret': creds.client_secret, 'scopes': GMAIL_SCOPES
         }
         session.pop('gmail_state', None)
+        if session.get('role') == 'admin' or session.get('special_role') == 'office_barrier':
+            if nf.save_creds(db, session['gmail_creds'], session.get('email')):
+                logger.info("Gmail token saved for the monthly newsletter sync")
         flash('✅ Gmail connected!', 'success')
         return redirect(url_for('home'))
     except Exception as e:
@@ -4801,6 +4839,80 @@ def inject_erp_links():
     )
 
 # ══════════════════════════════════════════════════════════════════════
+#  OOA PLATFORMS  (sister sites shown in the header, homepage and footer)
+#  Override any URL with an environment variable of the same name.
+# ══════════════════════════════════════════════════════════════════════
+OOA_PLATFORMS = [
+    {'key': 'BOS_PORTAL_URL', 'name': 'BoS Portal', 'icon': 'fa-book-open',
+     'url': os.getenv('BOS_PORTAL_URL', 'https://the-board-of-studies.juooa.cloud/login'),
+     'desc': 'Board of Studies submissions: DIAC, DPAC and BoS documents, course matrix and syllabi.'},
+    {'key': 'OOA_PORTAL_URL', 'name': 'OOA Portal', 'icon': 'fa-clipboard-check',
+     'url': os.getenv('OOA_PORTAL_URL', 'https://ooa-portal.juooa.cloud/'),
+     'desc': 'Semester Readiness and Closure reporting for HoDs and faculty.'},
+    {'key': 'UNIVERSITY_CALENDAR_URL', 'name': 'University Calendar', 'icon': 'fa-calendar-days',
+     'url': os.getenv('UNIVERSITY_CALENDAR_URL', 'https://university-master-calendar.juooa.cloud/calendar'),
+     'desc': 'University Master Calendar 2026–27: key academic dates and events.'},
+    {'key': 'IDP_URL', 'name': 'IDP', 'icon': 'fa-compass-drafting',
+     'url': os.getenv('IDP_URL', 'https://drive.google.com/file/d/1iktRYOQLap8VaWmAM_3Ck9YB9plgUfNh/view?usp=sharing'),
+     'desc': 'Institutional Development Plan: UGC guidelines and the enabler roadmap.'},
+]
+
+@app.context_processor
+def inject_ooa_platforms():
+    return dict(ooa_platforms=OOA_PLATFORMS)
+
+# ══════════════════════════════════════════════════════════════════════
+#  AI INNOVATION NEWSLETTER  (monthly editions, newest on top)
+# ══════════════════════════════════════════════════════════════════════
+@app.route('/ai-newsletter')
+def ai_newsletter_archive():
+    nf.ensure_seeded(db)
+    return render_template('ai_newsletter.html', editions=nf.list_editions(db), edition=None,
+                           **_get_user_info())
+
+@app.route('/ai-newsletter/<slug>')
+def ai_newsletter_edition(slug):
+    nf.ensure_seeded(db)
+    ed = nf.get_edition(db, slug)
+    if not ed:
+        flash('That newsletter edition was not found.', 'error')
+        return redirect(url_for('ai_newsletter_archive'))
+    others = [e for e in nf.list_editions(db, limit=6) if e['slug'] != slug][:4]
+    return render_template('ai_newsletter.html', edition=ed, editions=others, **_get_user_info())
+
+@app.route('/admin/newsletters/sync', methods=['POST'])
+@login_required
+def admin_sync_newsletters():
+    """Admin: pull new editions from Gmail now (uses this session's Gmail link, else the saved one)."""
+    if session.get('role') != 'admin' and session.get('special_role') != 'office_barrier':
+        return jsonify({'success': False, 'error': 'Admins only'}), 403
+    try:
+        res = nf.sync_from_gmail(db, session.get('gmail_creds'))
+    except Exception as e:
+        logger.error(f"newsletter sync error: {e}", exc_info=True)
+        res = {'success': False, 'error': str(e)}
+    if request.is_json or request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        return jsonify(res)
+    if res.get('success'):
+        flash(f"Newsletter sync: {len(res['added'])} new edition(s) added.", 'success')
+    else:
+        flash(f"Newsletter sync failed: {res.get('error')}", 'error')
+    return redirect(url_for('ai_newsletter_archive'))
+
+@app.route('/cron/sync-newsletters')
+def cron_sync_newsletters():
+    """Monthly job (e.g. Render cron on the 5th): add any new edition found in Gmail."""
+    expected = os.environ.get('CRON_API_KEY')
+    if not expected or request.args.get('key') != expected:
+        return jsonify({'error': 'Unauthorized'}), 401
+    try:
+        nf.ensure_seeded(db)
+        return jsonify(nf.sync_from_gmail(db))
+    except Exception as e:
+        logger.error(f"cron newsletter sync error: {e}", exc_info=True)
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+# ══════════════════════════════════════════════════════════════════════
 #  CAMPUS GALLERY  (image tiles: title · description · date happened)
 #  Admins & department leaders can add moments; each moment is mirrored
 #  into db.events so it appears in the events feed and supports the
@@ -5274,13 +5386,14 @@ def newsletter_page():
         for article in records:
             article['_id'] = str(article['_id'])
             article['formatted_date'] = article['uploaded_at'].strftime('%B %d, %Y') if isinstance(article.get('uploaded_at'), datetime) else str(article.get('uploaded_at',''))
-        return render_template('newsletter_page.html', records=records,
+        # newsletter_page.html was never committed; user_newsletters.html is the live newsletter listing
+        return render_template('user_newsletters.html', records=records,
                                user_logged_in='email' in session,
                                user_email=session.get('email'),
                                user_navbar=get_user_navbar(session.get('email','')) if session.get('email') else [])
     except Exception as e:
         logger.error(f"newsletter_page error: {e}", exc_info=True)
-        return render_template('newsletter_page.html', records=[], user_logged_in='email' in session, user_email=session.get('email'))
+        return render_template('user_newsletters.html', records=[], user_logged_in='email' in session, user_email=session.get('email'))
 
 # ══════════════════════════════════════════════════════════════════════
 #  API ENDPOINTS — EVENTS

@@ -1,0 +1,205 @@
+[
+  {
+    "gmail_id": "1a19ac2affb671b3",
+    "slug": "2026-11-ai-comes-of-age",
+    "edition": "November 2026",
+    "sent_at": "2026-11-02T05:36:51Z",
+    "title": "AI Comes of Age: From Generalisation to Specialisation",
+    "theme": "The battle is no longer just about better AI",
+    "summary": "AI is moving beyond a race to build the most capable model. This edition looks at how platforms, personal agents and universities are each choosing what AI should do, whom it should serve and how it should reach users.",
+    "sections": [
+      {"heading": "The Gatekeepers: Amazon blocks, Walmart opens the door", "body": "Walmart's Agent Gateway lets approved AI agents connect to its inventory and transact for customers, while Amazon blocks third-party shopping agents. The strategic question is not open versus closed, but how much control a company is willing to share and what it expects in return."},
+      {"heading": "The Agent Builders: Meta Muse and OpenAI Dots", "body": "Persistent personal agents retain context, use connected tools and keep working after the user leaves. Meta positions Muse for everyday life; OpenAI positions Dots for carrying work forward. The contest is shifting to who can make an agent indispensable in part of a user's life or work."},
+      {"heading": "Personalise or Authorise: AI in education", "body": "Universities face a parallel choice between AI chosen by each learner and AI integrated and governed by the institution. The opportunity is to combine the flexibility of personal AI with the accountability of institution-led systems, while protecting academic standards and learner development."},
+      {"heading": "Looking ahead: many specialised markets", "body": "General-purpose models may become the foundation while specialised agents create value by addressing particular needs and workflows. AI's maturation may be marked by distinct products and business models rather than one winner."}
+    ],
+    "links": [
+      {"label": "While Amazon blocks AI agents, Walmart rolls out the welcome mat", "url": "https://techcrunch.com/2026/10/21/while-amazon-blocks-ai-agents-walmart-rolls-out-the-welcome-mat/"},
+      {"label": "A hands-on comparison of Muse and Dots", "url": "https://www.axios.com/2026/10/20/battle-of-bots-openai-meta-ai-agents-test"},
+      {"label": "Introducing Dots", "url": "https://openai.com/index/introducing-dots/"},
+      {"label": "The Current State of Play: AI in Higher Education", "url": "https://er.educause.edu/articles/2026/6/the-current-state-of-play-ai-in-higher-education-and-the-road-ahead"}
+    ]
+  },
+  {
+    "gmail_id": "1a10a37eec5f1327",
+    "slug": "2026-10-when-ai-gets-a-body-part-2",
+    "edition": "October 2026",
+    "sent_at": "2026-10-05T04:00:00Z",
+    "title": "When AI Gets a Body, Part II",
+    "theme": "Robots, laboratories and wearables",
+    "summary": "AI is acquiring the ability to take part in physical feedback loops: observe, decide, act, observe the consequence and adjust. This edition follows that shift from robots to research laboratories, wearables and new Physical AI labs in India.",
+    "sections": [
+      {"heading": "From the Robotic Olympics to physical intelligence", "body": "The most demanding events at the World Humanoid Robot Games were not sprints but tennis, football and firefighting, which require a continuous loop between perception and action. Physical intelligence is the ability to perceive, act, observe the consequences and adapt."},
+      {"heading": "When AI enters the laboratory", "body": "AI agents are being used alongside scientists to search biological datasets, propose hypotheses and, through emerging hardware standards, coordinate instruments. Human researchers remain essential for setting objectives, interpreting evidence and validating results."},
+      {"heading": "AI leaves the browser", "body": "Wearable devices and AI glasses bring agents into the user's everyday environment. Instead of going to AI, AI increasingly accompanies us."},
+      {"heading": "Physical AI comes to India", "body": "IIT Roorkee and Avathon announced a Physical AI Lab for industrial applications, with doctoral fellowships and internships, a sign that Physical AI is moving from demonstrations into research infrastructure and curricula."}
+    ],
+    "links": [
+      {"label": "Anthropic: AI in biological discovery", "url": "https://www.anthropic.com/news/claude-discovers-novel-enzyme-system"},
+      {"label": "Anthropic: AI meets laboratory hardware", "url": "https://www.anthropic.com/news/model-hardware-standard-research-preview"},
+      {"label": "World Humanoid Robot Games, Beijing", "url": "https://english.beijing.gov.cn/beijinginfo/sci/latesttrends/202608/t20260825_4836357.html"}
+    ]
+  },
+  {
+    "gmail_id": "1a060461395e20c5",
+    "slug": "2026-09-when-ai-gets-a-body",
+    "edition": "September 2026",
+    "sent_at": "2026-09-02T04:00:00Z",
+    "title": "When AI Gets a Body",
+    "theme": "From artificial intelligence to embodied intelligence",
+    "summary": "A new frontier is emerging: AI that can perceive and interact with the physical world. Using the World Humanoid Robot Games as a lens, this edition asks what embodied AI means for interdisciplinary research and for the graduates universities prepare.",
+    "sections": [
+      {"heading": "Beyond the race", "body": "A humanoid ran 100 metres in 9.39 seconds, yet the more revealing tests were unpredictable ones such as tennis and scenario-based tasks. Progress should be measured by how well a robot can perceive, reason, act and adapt."},
+      {"heading": "The university becomes the laboratory", "body": "Embodied robotics brings together AI, computer science, mechanical engineering, electronics and human-machine interaction. It creates problems complex enough that no single discipline can solve them alone."},
+      {"heading": "India's robotics ecosystem, and a JAIN connection", "body": "World Robot Olympiad India 2026 challenged students to build autonomous robots. JAIN (Deemed-to-be University), Kochi was a venue partner for the WRO India Kochi Regional Event on 1 August."},
+      {"heading": "What should universities prepare for?", "body": "Preparing for embodied AI is not only about producing robotics engineers. Professionals across disciplines will need to work where humans and intelligent machines share tasks, decisions and responsibilities."}
+    ],
+    "links": [
+      {"label": "World Humanoid Robot Games – RoboCup", "url": "https://www.robocup.org/events/89"},
+      {"label": "World Robot Olympiad India – 2026", "url": "https://wroindia.org/season-2026/"},
+      {"label": "JAIN Kochi – WRO India Kochi Regional", "url": "https://jainuniversitykochi.in/events/world_robot_olympiad_india_kochi_regional"},
+      {"label": "Humanoid robot sit-to-stand research", "url": "https://www.mdpi.com/2313-7673/10/11/783"}
+    ]
+  },
+  {
+    "gmail_id": "19fc5c74b7522eeb",
+    "slug": "2026-08-the-ai-ready-university",
+    "edition": "August 2026",
+    "sent_at": "2026-08-03T04:00:00Z",
+    "title": "The AI-Ready University",
+    "theme": "From UNESCO's blueprint to real-world implementation",
+    "summary": "AI adoption is no longer enough. UNESCO's practical guide treats AI readiness as an institutional capability spanning governance, curriculum, teaching, assessment, faculty development and ethics, not a software purchase.",
+    "sections": [
+      {"heading": "UNESCO's blueprint for an AI-ready institution", "body": "Rather than asking which AI tool to buy, institutions should ask whether faculty are equipped to teach with AI, whether assessment is still meaningful and whether governance supports responsible use."},
+      {"heading": "How leading universities put AI into practice", "body": "Arizona State, NUS and Minerva have adopted different technologies but share a philosophy: AI is most valuable when it strengthens learning, empowers educators and improves student outcomes."},
+      {"heading": "The changing role of the educator", "body": "As AI generates content and feedback, faculty become mentors, facilitators and designers of learning experiences. AI literacy, assessment redesign and responsible use are becoming core professional skills."},
+      {"heading": "From insight to action", "body": "Develop an institution-wide AI strategy, build AI literacy, redesign assessment, establish governance and ethical guidelines, strengthen industry partnerships and measure educational impact."}
+    ],
+    "links": [
+      {"label": "UNESCO – Integrating AI in TVET: A Practical Guide for Institutions", "url": "https://www.unesco.org/en/articles/integrating-ai-tvet-practical-guide-institutions"},
+      {"label": "UNESCO launch event", "url": "https://www.unesco.org/en/articles/integrating-ai-tvet-launch-practical-guide-institutions"}
+    ]
+  },
+  {
+    "gmail_id": "19f5f867ae0cd7e5",
+    "slug": "2026-07-the-age-of-co-creation",
+    "edition": "July 2026",
+    "sent_at": "2026-07-14T07:27:56Z",
+    "title": "The Age of Co-Creation",
+    "theme": "How humans and AI collaborate in research",
+    "summary": "Artificial intelligence is becoming a collaborative research partner, not by replacing scientists but by removing the friction around literature, data and code so researchers can focus on discovery.",
+    "sections": [
+      {"heading": "Science has a data problem, not an intelligence problem", "body": "Researchers spend much of their time reviewing literature, preparing data and switching tools. AI helps search, summarise, analyse and visualise, solving information overload rather than replacing thinking."},
+      {"heading": "From decision support to co-creation", "body": "Human–AI collaboration has moved through three generations: AI advises and humans decide; AI acts and humans supervise; and now AI co-creates while humans collaborate."},
+      {"heading": "Can AI have ideas?", "body": "AI excels at patterns and hypotheses but still struggles to produce truly original insight. Discoveries must be transparent, reproducible and verifiable, so auditable workflows matter."},
+      {"heading": "The future laboratory", "body": "Every research project begins as a seed of curiosity planted by a scientist. AI cannot plant that seed, but it can cultivate the soil."}
+    ],
+    "links": [
+      {"label": "Three Generations of Human–AI Collaboration (Sustainability, 2026)", "url": "https://www.mdpi.com/2071-1050/18/11/5313"},
+      {"label": "Google DeepMind – Science", "url": "https://deepmind.google/science/"},
+      {"label": "AlphaFold Protein Structure Database", "url": "https://alphafold.ebi.ac.uk/"}
+    ]
+  },
+  {
+    "gmail_id": "19e910741cfac3de",
+    "slug": "2026-06-introduction-to-vibe-coding",
+    "edition": "June 2026",
+    "sent_at": "2026-06-04T05:07:11Z",
+    "title": "Introduction to Vibe Coding",
+    "theme": "Moving from idea to prototype with AI",
+    "summary": "Vibe coding changes the question from \"Can I code?\" to \"Can I describe what I want clearly enough for AI to help me build it?\" This edition explains the approach and launched the OOA Vibe Coding Hackathon.",
+    "sections": [
+      {"heading": "What is vibe coding?", "body": "An AI-assisted way of building software that starts with a prompt, not a blank page of code. The AI generates a first version and the human guides it through feedback, testing and refinement."},
+      {"heading": "Why it matters for learners", "body": "Learners can focus on logic, structure and purpose instead of syntax, experiment more freely and learn through iteration, which makes creating software less intimidating."},
+      {"heading": "How to start", "body": "Begin with a small, clear project such as a quiz app, homework planner or study tracker. Write specific prompts, test carefully and keep learning the basics alongside AI support."},
+      {"heading": "OOA Vibe Coding Challenge", "body": "Faculty were invited to build a Marks Card Generator, a Random Cohort Generator or a Flash Card Generator using any LLM, with winners announced in the July edition."}
+    ],
+    "links": [
+      {"label": "Build with Andrew – 30-minute vibe coding course", "url": "https://www.deeplearning.ai/courses/build-with-andrew"}
+    ]
+  },
+  {
+    "gmail_id": "19e2a20387b9ea70",
+    "slug": "2026-05-multimodal-open-efficient-ai",
+    "edition": "May 2026",
+    "sent_at": "2026-05-15T05:33:35Z",
+    "title": "Multimodal Intelligence, Open Systems and Efficient AI",
+    "theme": "Your monthly AI newsletter",
+    "summary": "Advances in multimodal capability, open-weight architectures and computational efficiency are making AI more usable in education, from intelligent tutoring and multilingual learning to research assistance.",
+    "sections": [
+      {"heading": "Unified multimodal models", "body": "New models work across text, images, audio and video in one system, with long context windows that can analyse lecture recordings, summarise papers and generate explanatory visuals in one workflow."},
+      {"heading": "Human–AI communication", "body": "Multilingual transcription and voice synthesis improve accessibility in education, while raising concerns about misuse that call for watermarking and regulation."},
+      {"heading": "Open-weight and lightweight models", "body": "Open models with long context and efficient architectures let institutions customise and deploy AI on their own infrastructure, including on-premise for privacy-sensitive settings."},
+      {"heading": "Structured reasoning and safety", "body": "Safety-focused design emphasises reliability, interpretability and controllability, which matter most in academic, legal and enterprise settings where accuracy and trust are critical."}
+    ],
+    "links": []
+  },
+  {
+    "gmail_id": "19d85b3dfe805e27",
+    "slug": "2026-04-indias-ai-revolution-in-schools",
+    "edition": "April 2026",
+    "sent_at": "2026-04-13T07:17:27Z",
+    "title": "India's AI Revolution in Schools",
+    "theme": "Future students will arrive AI-ready",
+    "summary": "From a mandatory AI curriculum starting at Grade 3 to major partnerships in Indian education, students will arrive at university already fluent in AI. Universities must build ahead, not start over.",
+    "sections": [
+      {"heading": "AI to enter every Indian school from Grade 3", "body": "From 2026–27, a mandatory AI curriculum aligned with NEP 2020 and NCF-SE 2023 will be introduced from Grade 3, with teacher training through NISHTHA."},
+      {"heading": "A major India education partnership", "body": "New partnerships support adaptive learning at national scale, AI in Atal Tinkering Labs, research access through ANRF, and an Indic Language Technologies Research Hub at IIT Bombay."},
+      {"heading": "EDNXT Bengaluru Summit", "body": "Faculty readiness, interdisciplinary AI research and clear institutional strategy were identified as the factors that will define universities leading the next era."},
+      {"heading": "AI-powered exam preparation", "body": "Students already use AI mock tests and interactive textbooks outside class. Departments should update assessment design, pedagogy and academic-integrity policies accordingly."}
+    ],
+    "links": [
+      {"label": "Press Information Bureau release", "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2234853&reg=3&lang=1"},
+      {"label": "EDNXT Bengaluru Summit 2026", "url": "https://www.isbr.in/blogs/ai-in-higher-education-ednxt-bengaluru-summit-2026/"}
+    ]
+  },
+  {
+    "gmail_id": "19cd11d449291057",
+    "slug": "2026-03-future-of-learning",
+    "edition": "March 2026",
+    "sent_at": "2026-03-09T05:41:22Z",
+    "title": "Future of Learning: From Chalkboards to Chips",
+    "theme": "AI reshapes Indian classrooms",
+    "summary": "The India AI Impact Summit made it clear that AI is becoming the foundation of how India learns and teaches. This edition also looks at AI misuse in exams, the shrinking shelf life of technical skills and the ethics of disruption.",
+    "sections": [
+      {"heading": "How the Delhi AI Summit is reimagining the classroom", "body": "AI literacy from Grade 3, Bhashini translation of learning content into 35+ languages, AI assistants for teachers through NISHTHA, and the MANAV framework for trustworthy AI in schools."},
+      {"heading": "When AI walked into an exam hall", "body": "An alleged exam-cheating scheme using ChatGPT shows that AI is a force multiplier: it accelerates whatever intention sits behind it."},
+      {"heading": "The speed of disruption", "body": "AI that can read and modernise legacy code shows how quickly niche expertise can be replicated. Adaptability is becoming the real long-term skill."},
+      {"heading": "AI hack: skill stacking", "body": "Ask an AI which adjacent skills to learn given your background, then ask it for a 30-day roadmap. Your advantage comes from combining skills, not depth alone."}
+    ],
+    "links": []
+  },
+  {
+    "gmail_id": "19c2c588c93f3229",
+    "slug": "2026-02-ancient-wisdom-meets-ai",
+    "edition": "February 2026",
+    "sent_at": "2026-02-05T05:48:29Z",
+    "title": "When 3,000-Year-Old Grammar Meets Modern AI",
+    "theme": "Ancient wisdom meets an AI breakthrough",
+    "summary": "Researchers in Chennai, working with IIT Madras, are training AI on Sanskrit as a computational framework, showing that well-structured data can matter more than sheer quantity.",
+    "sections": [
+      {"heading": "The Mylapore initiative", "body": "Over 110,000 rare manuscripts are being used to encode linguistic rules such as sandhi directly into an AI model, turning digital heritage into a research asset."},
+      {"heading": "Open-source breakthroughs", "body": "A 7-billion-parameter Sanskrit model on Hugging Face shows that rule-based languages can be mastered without massive models. Practical takeaway: clean and structure your educational content before applying AI."},
+      {"heading": "AI glitch of the month", "body": "A tribunal held an airline responsible for a refund policy its chatbot invented. The lesson: you are responsible for what your AI says."}
+    ],
+    "links": []
+  },
+  {
+    "gmail_id": "19b9cf3087eea2c7",
+    "slug": "2026-01-welcome-to-a-world-of-ai",
+    "edition": "January 2026",
+    "sent_at": "2026-01-08T09:32:00Z",
+    "title": "Welcome to a World of AI",
+    "theme": "Inaugural edition",
+    "summary": "The Office of Academics launched its AI-focused newsletter to share key developments in artificial intelligence, practical applications in teaching and research, and the trends shaping higher education.",
+    "sections": [
+      {"heading": "AI as intellectual infrastructure", "body": "AI is evolving from a collection of tools into a foundational layer for how knowledge is created and shared, with conversational platforms bringing research, design and data resources into one place."},
+      {"heading": "AI beyond Earth", "body": "An AI model running aboard a satellite processes imagery in real time, opening interdisciplinary questions across environmental studies, astrophysics, data science and ethics."},
+      {"heading": "From imagination to agency", "body": "Precise image editing and creative tools inside AI assistants lower technical barriers in digital humanities, media studies, architecture and design."},
+      {"heading": "AI hack of the week", "body": "Use AI agents to automate routine tasks across Gmail, Sheets and other apps with plain-English instructions."}
+    ],
+    "links": [
+      {"label": "Zapier Agents", "url": "https://zapier.com/agents"}
+    ]
+  }
+]

@@ -53,9 +53,9 @@
       --navy: #04043a;
       --navy-mid: #0d0d6b;
       --navy-light: #1a1a9e;
-      --gold: #FFD700;
-      --gold-deep: #e6b800;
-      --gold-light: #ffe566;
+      --gold: #a8894f;
+      --gold-deep: #8d7140;
+      --gold-light: #cdb88e;
       --white: #ffffff;
       --off-white: #f5f6fc;
       --surface: #ffffff;
@@ -67,7 +67,7 @@
       --shadow-md: 0 8px 24px rgba(4, 4, 58, .11);
       --shadow-lg: 0 14px 44px rgba(4, 4, 58, .15);
       --shadow-xl: 0 26px 70px rgba(4, 4, 58, .22);
-      --glow-gold: 0 6px 24px rgba(255, 215, 0, .28);
+      --glow-gold: 0 6px 24px rgba(168, 137, 79, .28);
       --radius-sm: 10px;
       --radius-md: 14px;
       --radius-lg: 22px;
@@ -91,7 +91,7 @@
       font-family: 'Inter', sans-serif;
       background:
         radial-gradient(1200px 500px at 85% -100px, rgba(13, 13, 107, .05), transparent 60%),
-        radial-gradient(900px 420px at -10% 30%, rgba(255, 215, 0, .06), transparent 55%),
+        radial-gradient(900px 420px at -10% 30%, rgba(168, 137, 79, .06), transparent 55%),
         var(--off-white);
       color: var(--text);
       overflow-x: hidden;
@@ -121,7 +121,7 @@
     }
 
     :focus-visible {
-      outline: 3px solid rgba(255, 215, 0, .65);
+      outline: 3px solid rgba(168, 137, 79, .65);
       outline-offset: 2px;
       border-radius: 6px
     }
@@ -362,7 +362,7 @@
       display: flex; align-items: center; gap: 13px; padding: 11px 13px; border-radius: var(--radius-sm);
       transition: var(--transition)
     }
-    .nav-dd-item:hover { background: rgba(255, 215, 0, .12) }
+    .nav-dd-item:hover { background: rgba(168, 137, 79, .12) }
     .nav-dd-item .dd-ico {
       width: 38px; height: 38px; flex-shrink: 0; border-radius: 10px; display: flex; align-items: center;
       justify-content: center; background: linear-gradient(135deg, var(--navy), var(--navy-mid));
@@ -381,7 +381,7 @@
     #pageTopLoader {
       position: fixed; top: 0; left: 0; height: 3px; width: 0; z-index: 99999;
       background: linear-gradient(90deg, var(--gold), var(--gold-deep));
-      box-shadow: 0 0 12px rgba(255, 215, 0, .65);
+      box-shadow: 0 0 12px rgba(168, 137, 79, .65);
       transition: width .4s ease, opacity .5s ease; opacity: 0
     }
     #pageTopLoader.active { opacity: 1 }
@@ -436,7 +436,7 @@
     .cm-card { flex: 0 0 240px; scroll-snap-align: start; background: var(--surface); border: 1px solid var(--border);
       border-radius: var(--radius-md); overflow: hidden; box-shadow: var(--shadow-xs); cursor: pointer;
       transition: var(--transition) }
-    .cm-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); border-color: rgba(255,215,0,.55) }
+    .cm-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); border-color: rgba(168, 137, 79,.55) }
     .cm-card .cm-img { height: 130px; overflow: hidden; position: relative; background: var(--off-white) }
     .cm-card .cm-img img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s ease }
     .cm-card:hover .cm-img img { transform: scale(1.06) }
@@ -613,7 +613,7 @@
       background: linear-gradient(90deg, var(--navy) 0%, var(--navy-mid) 60%, var(--navy) 100%);
       padding: 10px 0;
       overflow: hidden;
-      border-bottom: 1px solid rgba(255, 215, 0, .25)
+      border-bottom: 1px solid rgba(168, 137, 79, .25)
     }
 
     .ticker-inner {
@@ -2055,7 +2055,7 @@
       width: 220px;
       height: 220px;
       border-radius: 50%;
-      background: radial-gradient(circle, rgba(255, 215, 0, .18), transparent 70%);
+      background: radial-gradient(circle, rgba(168, 137, 79, .18), transparent 70%);
       pointer-events: none
     }
 
@@ -2998,7 +2998,7 @@
       width: 200px;
       height: 200px;
       border-radius: 50%;
-      background: radial-gradient(circle, rgba(255, 215, 0, .14), transparent 70%);
+      background: radial-gradient(circle, rgba(168, 137, 79, .14), transparent 70%);
       pointer-events: none
     }
 
@@ -3408,7 +3408,7 @@
       font-size: 18px;
       font-weight: 700;
       flex-shrink: 0;
-      border: 2px solid rgba(255, 215, 0, .55)
+      border: 2px solid rgba(168, 137, 79, .55)
     }
 
     .mentor-info h5 {
@@ -3428,11 +3428,11 @@
     /* ── STATS BAR ── */
     .stats-bar {
       background:
-        radial-gradient(600px 240px at 15% 0%, rgba(255, 215, 0, .08), transparent 60%),
+        radial-gradient(600px 240px at 15% 0%, rgba(168, 137, 79, .08), transparent 60%),
         linear-gradient(135deg, var(--navy), var(--navy-mid));
       padding: 56px 20px;
       margin-top: 60px;
-      border-top: 1px solid rgba(255, 215, 0, .25)
+      border-top: 1px solid rgba(168, 137, 79, .25)
     }
 
     .stats-bar-inner {
@@ -3620,7 +3620,7 @@
       height: 60px;
       text-align: center;
       background: rgba(4, 4, 58, .92);
-      border: 1px solid rgba(255, 215, 0, .5);
+      border: 1px solid rgba(168, 137, 79, .5);
       border-radius: 50%;
       backdrop-filter: blur(15px);
       box-shadow: 0 10px 30px rgba(0, 0, 0, .45), var(--glow-gold);
@@ -3647,11 +3647,11 @@
 
       0%,
       100% {
-        box-shadow: 0 10px 30px rgba(0, 0, 0, .45), 0 0 0 0 rgba(255, 215, 0, .45)
+        box-shadow: 0 10px 30px rgba(0, 0, 0, .45), 0 0 0 0 rgba(168, 137, 79, .45)
       }
 
       50% {
-        box-shadow: 0 10px 30px rgba(0, 0, 0, .45), 0 0 0 12px rgba(255, 215, 0, 0)
+        box-shadow: 0 10px 30px rgba(0, 0, 0, .45), 0 0 0 12px rgba(168, 137, 79, 0)
       }
     }
 
@@ -3706,8 +3706,8 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      background: linear-gradient(135deg, rgba(4, 4, 58, .04), rgba(255, 215, 0, .1));
-      border: 1px solid rgba(230, 184, 0, .45);
+      background: linear-gradient(135deg, rgba(4, 4, 58, .04), rgba(168, 137, 79, .1));
+      border: 1px solid rgba(141, 113, 64, .45);
       color: var(--navy);
       border-radius: 30px;
       padding: 7px 18px;
@@ -3719,7 +3719,7 @@
     }
 
     .know-uni-btn:hover {
-      background: rgba(255, 215, 0, .22);
+      background: rgba(168, 137, 79, .22);
       border-color: var(--gold-deep);
       transform: translateY(-1px);
       box-shadow: var(--glow-gold)
@@ -3736,7 +3736,7 @@
       left: 50%;
       transform: translateX(-50%) translateY(6px);
       background: rgba(4, 4, 58, .98);
-      border: 1px solid rgba(255, 215, 0, .25);
+      border: 1px solid rgba(168, 137, 79, .25);
       border-radius: 12px;
       padding: 12px 18px;
       width: 340px;
@@ -3918,16 +3918,16 @@
     /* ── DRIVER.JS CUSTOM PREMIUM POPUP STYLING ── */
     .driver-popover {
       background: rgba(4, 4, 58, 0.96) !important;
-      border: 1px solid rgba(255, 215, 0, 0.45) !important;
+      border: 1px solid rgba(168, 137, 79, 0.45) !important;
       border-radius: 16px !important;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.55), 0 0 15px rgba(255, 215, 0, 0.2) !important;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.55), 0 0 15px rgba(168, 137, 79, 0.2) !important;
       color: #ffffff !important;
       padding: 20px !important;
       font-family: 'Inter', sans-serif !important;
       max-width: 350px !important;
     }
     .driver-popover-title {
-      color: #ffd700 !important;
+      color: #a8894f !important;
       font-size: 17px !important;
       font-weight: 700 !important;
       margin-bottom: 8px !important;
@@ -3946,7 +3946,7 @@
       gap: 10px;
     }
     .driver-popover-footer button {
-      background: #ffd700 !important;
+      background: #a8894f !important;
       color: #04043a !important;
       border: none !important;
       border-radius: 20px !important;
@@ -3984,120 +3984,30 @@
     .driver-popover-arrow {
       border-color: rgba(4, 4, 58, 0.96) !important;
     }
-    .driver-popover-arrow-side-left { border-right-color: rgba(255, 215, 0, 0.45) !important; }
-    .driver-popover-arrow-side-right { border-left-color: rgba(255, 215, 0, 0.45) !important; }
-    .driver-popover-arrow-side-top { border-bottom-color: rgba(255, 215, 0, 0.45) !important; }
-    .driver-popover-arrow-side-bottom { border-top-color: rgba(255, 215, 0, 0.45) !important; }
+    .driver-popover-arrow-side-left { border-right-color: rgba(168, 137, 79, 0.45) !important; }
+    .driver-popover-arrow-side-right { border-left-color: rgba(168, 137, 79, 0.45) !important; }
+    .driver-popover-arrow-side-top { border-bottom-color: rgba(168, 137, 79, 0.45) !important; }
+    .driver-popover-arrow-side-bottom { border-top-color: rgba(168, 137, 79, 0.45) !important; }
   </style>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/driver.js@1.0.1/dist/driver.css" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/driver.js@1.0.1/dist/driver.js.iife.js"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/academic-theme.css') }}">
 </head>
 
-<body>
+<body class="ac-theme">
 
   <div id="pageTopLoader"></div>
 
-  <!-- HEADER -->
-  <header>
-    <div class="header-inner">
-      <div class="logo-wrap">
-        <img src="{{ url_for('static', filename='images/L23.png') }}" alt="Jain University"
-          onerror="this.src='https://via.placeholder.com/52x52/04043a/FFD700?text=JU'">
-      </div>
-      <button class="nav-toggle" onclick="toggleMobileNav()" aria-label="Toggle navigation"><i
-          class="fas fa-bars"></i></button>
-      <nav class="main-nav" id="mainNav">
-        <a href="{{ url_for('home') }}" class="nav-link nav-loading active"><i class="fas fa-home"></i>Jain Hub</a>
-        <a href="{{ url_for('about_jain') }}" class="nav-link nav-loading"><i class="fas fa-circle-info"></i>About JAIN</a>
-        <a href="{{ url_for('campus') }}" class="nav-link nav-loading"><i class="fas fa-university"></i>Campus</a>
-        <div class="nav-dd" id="erpDD">
-          <a href="#" class="nav-link" onclick="toggleErpDD(event)"><i class="fas fa-layer-group"></i>ERP <i class="fas fa-chevron-down dd-caret"></i></a>
-          <div class="nav-dd-panel">
-            <a href="{{ academic_calendar_url }}" class="nav-dd-item nav-loading">
-              <span class="dd-ico"><i class="fas fa-calendar-days"></i></span>
-              <span><strong>Academic Calendar</strong><small>2026–27 master calendar · in-app</small></span>
-            </a>
-            <a href="{{ erp_readiness_url }}" class="nav-dd-item nav-loading">
-              <span class="dd-ico"><i class="fas fa-clipboard-check"></i></span>
-              <span><strong>Semester Readiness</strong><small>Pre-semester readiness report</small></span>
-            </a>
-            <a href="{{ erp_closure_url }}" class="nav-dd-item nav-loading">
-              <span class="dd-ico"><i class="fas fa-flag-checkered"></i></span>
-              <span><strong>Semester Closure</strong><small>End-of-semester closure report</small></span>
-            </a>
-          </div>
-        </div>
-        <a href="#" class="nav-link" onclick="startTour();return false;"><i class="fas fa-route"></i>Tour</a>
-        <a href="#quizSection" class="nav-link" onclick="event.preventDefault();const q=document.getElementById('quizSection');if(q){q.scrollIntoView({behavior:'smooth',block:'center'});expandQuiz();}"><i class="fas fa-clock"></i>Take 15 Mins</a>
-      </nav>
-      <div class="user-area">
-        {% if user_logged_in %}
-        <div class="user-dropdown">
-          <div class="user-btn" id="userBtn" onclick="toggleDropdown(event)">
-            <i class="fas fa-user-circle"></i>
-            <span>{{ user_email.split('@')[0] }}</span>
-            <i class="fas fa-chevron-down chevron"></i>
-          </div>
-          <div class="dropdown-panel" id="userDropdown">
-            <div class="dp-head">
-              <div class="name">{{ user_email.split('@')[0] }}</div>
-              <div class="email">{{ user_email }}</div>
-              {% if user_department %}
-              <div
-                style="display:flex;align-items:center;gap:5px;margin-top:6px;font-size:11px;color:rgba(255,255,255,.8)">
-                <i class="fas fa-building" style="color:var(--gold);font-size:10px"></i>
-                <span>{{ user_department }}</span>
-              </div>
-              {% endif %}
-              {% if user_location %}
-              <div
-                style="display:flex;align-items:center;gap:5px;margin-top:3px;font-size:11px;color:rgba(255,255,255,.7)">
-                <i class="fas fa-map-marker-alt" style="color:var(--gold);font-size:10px"></i>
-                <span>{{ user_location }}</span>
-              </div>
-              {% endif %}
-              {% if not approved %}
-              <span class="dp-status pending"><i class="fas fa-clock"></i> Pending Approval</span>
-              {% else %}
-              <span class="dp-status approved"><i class="fas fa-check-circle"></i> Approved</span>
-              {% endif %}
-            </div>
-            {% if approved %}
-            <a href="/profile" class="dp-item"><i class="fas fa-user-circle"></i> My Profile</a>
-            {% if user_role == 'user' %}
-            <a href="{{ url_for('dept_repo') }}" class="dp-item"><i class="fas fa-folder-open"></i> My Files &amp; Dept
-              Repository</a>
-            {% endif %}
-            {% if user_role == 'user' and (user_type == 'core' or special_role == 'office_barrier') %}
-            <a href="{{ url_for('core_repo') }}" class="dp-item"><i class="fas fa-cloud-upload-alt"></i> Upload to
-              Departments</a>
-            <a href="{{ url_for('core_dashboard') }}" class="dp-item"><i class="fas fa-tachometer-alt"></i> Core
-              Dashboard</a>
-            {% endif %}
-            {% if user_role == 'user' and special_role == 'leader' %}<a href="{{ url_for('leader_dashboard') }}"
-              class="dp-item"><i class="fas fa-crown"></i> Admin Dashboard</a>{% endif %}
-            {% if user_role == 'admin' %}<a href="{{ url_for('admin_dashboard') }}" class="dp-item"><i
-                class="fas fa-tachometer-alt"></i> Admin Dashboard</a>{% endif %}
-            {% else %}
-            <div style="padding:16px;text-align:center;font-size:13px;color:var(--muted)"><i class="fas fa-info-circle"
-                style="font-size:2rem;color:#e74c3c;margin-bottom:8px;display:block"></i>Awaiting admin approval</div>
-            {% endif %}
-            <a href="{{ url_for('logout') }}" class="dp-item" onclick="return confirm('Logout?')"><i
-                class="fas fa-sign-out-alt"></i> Logout</a>
-          </div>
-        </div>
-        {% else %}
-        <a href="{{ url_for('login') }}" class="btn-login"><i class="fas fa-sign-in-alt"></i> Login</a>
-        {% endif %}
-      </div>
-    </div>
-  </header>
+  <!-- HEADER (shared official masthead) -->
+  {% set ac_active = 'home' %}
+  {% include 'partials/academic_header.html' %}
 
   <!-- TICKER -->
   <div class="ticker">
     <div class="ticker-inner">
-      <div class="ticker-badge"><i class="fas fa-calendar-day"></i> Today's Events</div>
+      <div class="ticker-badge"><i class="fas fa-calendar-day"></i> Today at JAIN</div>
       <div class="ticker-track">
         <div class="ticker-text" id="tickerText">
           <span class="ticker-item"><span class="skeleton" style="width:120px;height:12px;vertical-align:middle"></span></span>
@@ -4122,6 +4032,7 @@
 
     <!-- DYNAMIC GREETING & TEXT TYPE -->
     <div class="greeting-section" style="margin-bottom: 24px; padding-left: 8px;">
+      <div style="flex-basis:100%"><div class="ac-breadcrumb"><a href="{{ url_for('home') }}">Home</a><span>/</span>Office of Academics</div></div>
       <h2 id="dynamicGreeting"
         style="font-family: 'Cormorant Garamond', serif; font-size: 2.2rem; color: var(--navy); margin-bottom: 4px; font-weight: 700;">
         Good Morning, Guest</h2>
@@ -5482,40 +5393,8 @@
     </div>
   </div>
 
-  <!-- FOOTER -->
-  <footer>
-    <div class="footer-inner">
-      <div class="fc">
-        <h3>Office of Academics</h3>
-        <p>Jain (Deemed-to-be University), Bangalore<br>Building tomorrow's leaders today.</p>
-        <div class="socials"><a href="#" class="social-icon" aria-label="Facebook"><i
-              class="fab fa-facebook-f"></i></a><a href="#" class="social-icon" aria-label="Twitter"><i
-              class="fab fa-twitter"></i></a><a href="#" class="social-icon" aria-label="LinkedIn"><i
-              class="fab fa-linkedin-in"></i></a><a href="#" class="social-icon" aria-label="Instagram"><i
-              class="fab fa-instagram"></i></a>
-        </div>
-      </div>
-      <div class="fc">
-        <h3>Quick Links</h3>
-        <ul>
-          <li><a href="#"><i class="fas fa-angle-right"></i> Home</a></li>
-          <li><a href="#"><i class="fas fa-angle-right"></i> Events</a></li>
-          <li><a href="#"><i class="fas fa-angle-right"></i> Notices</a></li>
-          <li><a href="#"><i class="fas fa-angle-right"></i> SWAYAM</a></li>
-        </ul>
-      </div>
-      <div class="fc">
-        <h3>Contact</h3>
-        <ul>
-          <li><a href="#"><i class="fas fa-envelope"></i> academics@jainuniversity.ac.in</a></li>
-          <li><a href="#"><i class="fas fa-phone"></i> +91-80-XXXX-XXXX</a></li>
-          <li><a href="#"><i class="fas fa-map-marker-alt"></i> JC Road, Bangalore – 560 002</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="footer-bottom">&copy; 2025 Jain (Deemed-to-be University). All Rights Reserved. | Office of Academics
-    </div>
-  </footer>
+  <!-- FOOTER (shared) -->
+  {% include 'partials/academic_footer.html' %}
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
   <script>
@@ -5738,7 +5617,7 @@
       window._liChart = new Chart(ctx.getContext('2d'), {
         type: 'bar',
         data: { labels: ['Management', 'CS & IT', 'Commerce', 'Humanities', 'Animation', 'Journalism', 'Art/Design', 'Healthcare', 'Others'], datasets: [{ label: 'Completions', data: [39020, 8169, 7736, 652, 568, 93, 84, 81, 202], backgroundColor: 'rgba(4,4,58,0.8)', borderColor: 'rgba(4,4,58,1)', borderWidth: 1, borderRadius: 7 }] },
-        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { backgroundColor: 'rgba(4,4,58,.9)', titleColor: '#FFD700', bodyColor: '#fff', padding: 12, cornerRadius: 8 } }, scales: { y: { beginAtZero: true, grid: { color: 'rgba(0,0,0,.05)' }, ticks: { callback: v => v >= 1000 ? (v / 1000).toFixed(0) + 'k' : v } }, x: { grid: { display: false } } } }
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { backgroundColor: 'rgba(4,4,58,.9)', titleColor: '#a8894f', bodyColor: '#fff', padding: 12, cornerRadius: 8 } }, scales: { y: { beginAtZero: true, grid: { color: 'rgba(0,0,0,.05)' }, ticks: { callback: v => v >= 1000 ? (v / 1000).toFixed(0) + 'k' : v } }, x: { grid: { display: false } } } }
       });
     }
 

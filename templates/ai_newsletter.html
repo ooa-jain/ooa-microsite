@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% if edition %}{{ edition.title }} · {{ edition.edition }}{% else %}AI Innovation Newsletter{% endif %} | Office of Academics, JAIN</title>
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/jain.png') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&display=swap">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/academic-theme.css') }}">
+  <style>
+    * { box-sizing: border-box; } body { margin: 0; } a { color: inherit; }
+    .eyebrow { font-size: 12.5px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--ac-maroon); }
+    .band { background: var(--ac-navy-900); color: #fff; padding: 40px 0 44px; }
+    .band .ac-breadcrumb, .band .ac-breadcrumb a { color: rgba(255,255,255,.7); }
+    .band .eyebrow { color: #e5b9be; margin-top: 18px; }
+    .band h1 { font-family: var(--ac-serif); font-weight: 600; font-size: clamp(32px, 4.4vw, 52px); line-height: 1.08; margin: 10px 0 12px; max-width: 900px; }
+    .band .theme { font-family: var(--ac-serif); font-style: italic; font-size: 20px; color: rgba(255,255,255,.78); margin: 0; }
+    .band .meta { margin-top: 18px; font-size: 14px; color: rgba(255,255,255,.7); display: flex; gap: 18px; flex-wrap: wrap; }
+    .band .meta i { margin-right: 6px; }
+    .wrap-body { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 56px; padding: 48px 32px 72px; }
+    .lede { font-family: var(--ac-serif); font-size: 21px; line-height: 1.6; color: var(--ac-navy-900); margin: 0 0 32px; padding-bottom: 28px; border-bottom: 1px solid var(--ac-line); }
+    article section { margin-bottom: 30px; }
+    article h2 { font-family: var(--ac-serif); font-size: 24px; font-weight: 600; color: var(--ac-navy-900); margin: 0 0 10px; display: flex; gap: 12px; }
+    article h2 span { color: var(--ac-maroon); font-size: 16px; padding-top: 6px; }
+    article p { font-size: 17px; line-height: 1.75; color: #333d4c; margin: 0; }
+    .further { background: #fff; border: 1px solid var(--ac-line); border-top: 4px solid var(--ac-maroon); border-radius: 6px; padding: 22px 24px; margin-top: 36px; }
+    .further h3 { font-family: var(--ac-serif); margin: 0 0 12px; font-size: 19px; color: var(--ac-navy-900); }
+    .further ul { margin: 0; padding: 0; list-style: none; }
+    .further li { padding: 9px 0; border-bottom: 1px solid var(--ac-line-soft); }
+    .further li:last-child { border-bottom: 0; }
+    .further a { color: var(--ac-navy-700); font-weight: 600; text-decoration: none; font-size: 15.5px; }
+    .further a:hover { color: var(--ac-maroon); text-decoration: underline; }
+    .further i { font-size: 11px; margin-left: 6px; }
+    .side h3 { font-family: var(--ac-serif); font-size: 19px; color: var(--ac-navy-900); margin: 0 0 6px; padding-bottom: 10px; border-bottom: 2px solid var(--ac-navy-900); }
+    .side-item { display: block; padding: 14px 0; border-bottom: 1px solid var(--ac-line); text-decoration: none; }
+    .side-item small { color: var(--ac-maroon); font-weight: 700; font-size: 12px; letter-spacing: .06em; text-transform: uppercase; }
+    .side-item b { display: block; color: var(--ac-navy-900); font-weight: 600; margin-top: 3px; line-height: 1.35; }
+    .side-item:hover b { color: var(--ac-maroon); }
+    .side-box { background: var(--ac-bg); border: 1px solid var(--ac-line); border-radius: 6px; padding: 20px; margin-top: 28px; font-size: 14.5px; color: var(--ac-muted); line-height: 1.6; }
+    .side-box b { color: var(--ac-navy-900); }
+    .back { display: inline-flex; gap: 8px; align-items: center; margin-top: 28px; color: var(--ac-navy-700); font-weight: 700; text-decoration: none; }
+    /* archive */
+    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; padding: 44px 32px 72px; }
+    .card { display: flex; flex-direction: column; background: #fff; border: 1px solid var(--ac-line); border-radius: 6px; overflow: hidden; text-decoration: none; transition: transform .2s, box-shadow .2s; }
+    .card:hover { transform: translateY(-3px); box-shadow: 0 14px 30px rgba(11, 31, 58, .12); }
+    .card:hover h2 { color: var(--ac-maroon); }
+    .cover { background: var(--ac-navy-900); color: #fff; padding: 20px 22px; position: relative; overflow: hidden; }
+    .cover::after { content: ''; position: absolute; right: -30px; bottom: -40px; width: 120px; height: 120px; border: 18px solid rgba(255,255,255,.07); border-radius: 50%; }
+    .cover b { font-family: var(--ac-serif); font-size: 28px; font-weight: 600; display: block; }
+    .cover small { font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: #e5b9be; }
+    .card.latest .cover { background: var(--ac-maroon); }
+    .card.latest .cover small { color: #fff; }
+    .card-body { padding: 20px 22px 22px; flex: 1; display: flex; flex-direction: column; }
+    .card h2 { font-family: var(--ac-serif); font-size: 21px; font-weight: 600; color: var(--ac-navy-900); margin: 0 0 8px; line-height: 1.25; transition: color .2s; }
+    .card p { margin: 0 0 16px; font-size: 15px; color: var(--ac-muted); line-height: 1.6; flex: 1; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
+    .card .go { font-weight: 700; font-size: 14px; color: var(--ac-navy-700); }
+    .sync { display: inline-flex; gap: 8px; align-items: center; margin-top: 18px; background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.25); color: #fff; padding: 9px 14px; border-radius: 4px; font-weight: 600; cursor: pointer; font-family: inherit; font-size: 14px; }
+    .flashes { padding-top: 16px; }
+    .flash { padding: 12px 16px; border-radius: 4px; margin-bottom: 8px; background: #eef4fb; border-left: 4px solid var(--ac-navy-500); }
+    .flash.error { background: var(--ac-maroon-50); border-left-color: var(--ac-maroon); }
+    .flash.success { background: #edf7f0; border-left-color: #2f7d4a; }
+    @media (max-width: 980px) { .wrap-body { grid-template-columns: 1fr; } .grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 620px) { .grid { grid-template-columns: 1fr; padding: 28px 16px 48px; } .wrap-body { padding: 32px 16px 48px; } }
+  </style>
+</head>
+<body class="ac-theme">
+  {% set ac_active = 'newsletter' %}
+  {% include 'partials/academic_header.html' %}
+  {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}<div class="ac-wrap flashes">{% for c, m in messages %}<div class="flash {{ c }}">{{ m }}</div>{% endfor %}</div>{% endif %}
+  {% endwith %}
+
+  {% if edition %}
+  <header class="band">
+    <div class="ac-wrap">
+      <div class="ac-breadcrumb"><a href="{{ url_for('index') }}">Home</a><span>/</span><a href="{{ url_for('ai_newsletter_archive') }}">AI Innovation Newsletter</a><span>/</span>{{ edition.edition }}</div>
+      <div class="eyebrow">AI Innovation Newsletter · {{ edition.edition }}</div>
+      <h1>{{ edition.title }}</h1>
+      {% if edition.theme %}<p class="theme">{{ edition.theme }}</p>{% endif %}
+      <div class="meta"><span><i class="far fa-calendar"></i>Sent {{ edition.sent_label }}</span><span><i class="fas fa-building-columns"></i>Office of Academic Affairs</span></div>
+    </div>
+  </header>
+  <div class="ac-wrap wrap-body" style="padding-left:32px;padding-right:32px">
+    <article>
+      <p class="lede">{{ edition.summary }}</p>
+      {% for s in edition.sections %}
+      <section><h2><span>{{ '%02d'|format(loop.index) }}</span>{{ s.heading }}</h2><p>{{ s.body }}</p></section>
+      {% endfor %}
+      {% if edition.links %}
+      <div class="further"><h3>Explore further</h3><ul>
+        {% for l in edition.links %}<li><a href="{{ l.url }}" target="_blank" rel="noopener">{{ l.label }}<i class="fas fa-arrow-up-right-from-square"></i></a></li>{% endfor %}
+      </ul></div>
+      {% endif %}
+      <a class="back" href="{{ url_for('ai_newsletter_archive') }}"><i class="fas fa-arrow-left"></i> All editions</a>
+    </article>
+    <aside class="side">
+      <h3>More editions</h3>
+      {% for e in editions %}
+      <a class="side-item" href="{{ url_for('ai_newsletter_edition', slug=e.slug) }}"><small>{{ e.edition }}</small><b>{{ e.title }}</b></a>
+      {% endfor %}
+      <div class="side-box"><b>About this newsletter.</b> Each month the Office of Academic Affairs sends Heads of Department a digest of AI developments that matter for teaching, learning and research. This page is a summary of that edition.</div>
+    </aside>
+  </div>
+  {% else %}
+  <header class="band">
+    <div class="ac-wrap">
+      <div class="ac-breadcrumb"><a href="{{ url_for('index') }}">Home</a><span>/</span>AI Innovation Newsletter</div>
+      <div class="eyebrow">Published monthly</div>
+      <h1>AI Innovation Newsletter</h1>
+      <p class="theme">What's changing in AI, and what it means for teaching, learning and research at JAIN.</p>
+      {% if user_role == 'admin' or special_role == 'office_barrier' %}
+      <form method="post" action="{{ url_for('admin_sync_newsletters') }}" style="display:inline">
+        <button class="sync" type="submit"><i class="fas fa-rotate"></i> Check Gmail for a new edition</button>
+      </form>
+      {% endif %}
+    </div>
+  </header>
+  <div class="ac-wrap grid">
+    {% for e in editions %}
+    <a class="card {% if loop.first %}latest{% endif %}" href="{{ url_for('ai_newsletter_edition', slug=e.slug) }}">
+      <div class="cover"><small>{% if loop.first %}Latest edition{% else %}Edition{% endif %}</small><b>{{ e.edition }}</b></div>
+      <div class="card-body"><h2>{{ e.title }}</h2><p>{{ e.summary }}</p><span class="go">Read edition <i class="fas fa-arrow-right"></i></span></div>
+    </a>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  {% include 'partials/academic_footer.html' %}
+</body>
+</html>

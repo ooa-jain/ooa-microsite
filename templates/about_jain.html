@@ -104,7 +104,7 @@
 
     /* HERO */
     .about-hero { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-xl); box-shadow: var(--sh-2); padding: 54px 56px; margin-bottom: 40px; position: relative; overflow: hidden }
-    .about-hero::after { content: ''; position: absolute; top: -120px; right: -90px; width: 360px; height: 360px; border-radius: 50%; background: radial-gradient(circle at 30% 30%, rgba(247,181,0,0.14), transparent 70%); pointer-events: none }
+    .about-hero::after { content: ''; position: absolute; top: -120px; right: -90px; width: 360px; height: 360px; border-radius: 50%; background: radial-gradient(circle at 30% 30%, rgba(168, 137, 79,0.14), transparent 70%); pointer-events: none }
     .about-hero .eyebrow { margin-bottom: 16px; display: block }
     .about-hero h1 { font-family: 'Outfit', sans-serif; font-size: clamp(1.9rem, 3.8vw, 2.8rem); font-weight: 800; color: var(--navy); letter-spacing: -0.025em; line-height: 1.12; max-width: 24ch; margin-bottom: 22px }
     .about-hero h1 .accent { color: var(--gold) }
@@ -132,10 +132,10 @@
     .deck-dot.active { background: var(--gold-2); width: 28px; border-radius: 10px }
     .deck-stage { position: relative; height: 400px; display: flex; align-items: center; justify-content: center }
     .deck { position: relative; width: 420px; height: 340px }
-    .num-card { position: absolute; inset: 0; border-radius: var(--r-lg); background: linear-gradient(155deg, #1c3f7a 0%, var(--navy) 58%, #0b1f44 100%); border: 1px solid rgba(247,181,0,0.22); box-shadow: 0 24px 50px rgba(11,23,53,0.34); padding: 38px 38px 34px; color: #fff; overflow: hidden; display: flex; flex-direction: column; cursor: pointer; transition: transform 0.62s cubic-bezier(0.22,0.61,0.36,1), opacity 0.45s var(--ease); will-change: transform, opacity }
-    .num-card::before { content: ''; position: absolute; top: -90px; right: -70px; width: 240px; height: 240px; border-radius: 50%; background: radial-gradient(circle at 35% 35%, rgba(247,181,0,0.18), transparent 68%); pointer-events: none }
+    .num-card { position: absolute; inset: 0; border-radius: var(--r-lg); background: linear-gradient(155deg, #1c3f7a 0%, var(--navy) 58%, #0b1f44 100%); border: 1px solid rgba(168, 137, 79,0.22); box-shadow: 0 24px 50px rgba(11,23,53,0.34); padding: 38px 38px 34px; color: #fff; overflow: hidden; display: flex; flex-direction: column; cursor: pointer; transition: transform 0.62s cubic-bezier(0.22,0.61,0.36,1), opacity 0.45s var(--ease); will-change: transform, opacity }
+    .num-card::before { content: ''; position: absolute; top: -90px; right: -70px; width: 240px; height: 240px; border-radius: 50%; background: radial-gradient(circle at 35% 35%, rgba(168, 137, 79,0.18), transparent 68%); pointer-events: none }
     .nc-index { position: absolute; top: 26px; right: 32px; font-family: 'Outfit', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 0.18em; color: rgba(255,255,255,0.45) }
-    .nc-ic { width: 56px; height: 56px; border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 22px; background: rgba(247,181,0,0.14); color: var(--gold-2); border: 1px solid rgba(247,181,0,0.28); margin-bottom: auto }
+    .nc-ic { width: 56px; height: 56px; border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 22px; background: rgba(168, 137, 79,0.14); color: var(--gold-2); border: 1px solid rgba(168, 137, 79,0.28); margin-bottom: auto }
     .nc-num { font-family: 'Outfit', sans-serif; font-size: 3.6rem; font-weight: 800; color: var(--gold-2); line-height: 1; letter-spacing: -0.03em; margin-top: 18px }
     .nc-num .unit { font-size: 1.5rem; font-weight: 700; color: #fff; margin-left: 6px; letter-spacing: 0 }
     .nc-label { font-family: 'Outfit', sans-serif; font-size: 1.25rem; font-weight: 700; color: #fff; margin-top: 10px; letter-spacing: -0.01em }
@@ -145,7 +145,7 @@
 
     /* CLOSING BAND */
     .closing-band { margin-top: 48px; background: var(--navy); border-radius: var(--r-xl); padding: 44px 48px; display: flex; align-items: center; justify-content: space-between; gap: 28px; flex-wrap: wrap; position: relative; overflow: hidden }
-    .closing-band::after { content: ''; position: absolute; bottom: -100px; left: 30%; width: 320px; height: 320px; border-radius: 50%; background: radial-gradient(circle, rgba(247,181,0,0.1), transparent 70%); pointer-events: none }
+    .closing-band::after { content: ''; position: absolute; bottom: -100px; left: 30%; width: 320px; height: 320px; border-radius: 50%; background: radial-gradient(circle, rgba(168, 137, 79,0.1), transparent 70%); pointer-events: none }
     .closing-band .cb-text h3 { font-family: 'Outfit', sans-serif; font-size: 1.6rem; font-weight: 800; color: #fff; letter-spacing: -0.02em }
     .closing-band .cb-text p { color: rgba(255,255,255,0.72); font-size: 14.5px; margin-top: 6px; max-width: 52ch }
     .cb-btn { display: inline-flex; align-items: center; gap: 9px; padding: 14px 28px; border-radius: 100px; background: var(--gold-2); color: var(--navy); font-weight: 700; font-size: 14.5px; transition: var(--t); position: relative; z-index: 1; white-space: nowrap }
@@ -194,83 +194,20 @@
       .num-card { transition: none }
     }
   </style>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/academic-theme.css') }}">
 </head>
 
-<body>
+<body class="ac-theme ac-about">
 
   <!-- HEADER -->
-  <header>
-    <div class="header-inner">
-      <div class="logo-wrap">
-        <img src="{{ url_for('static', filename='images/L23.png') }}" alt="Jain University"
-          onerror="this.src='https://via.placeholder.com/52x52/04043a/FFD700?text=JU'">
-      </div>
-      <button class="nav-toggle" onclick="toggleMobileNav()" aria-label="Menu"><i class="fas fa-bars"></i></button>
-      <nav class="main-nav" id="mainNav">
-        <a href="{{ url_for('home') }}" class="nav-link"><i class="fas fa-home"></i>Jain Hub</a>
-        <a href="{{ url_for('about_jain') }}" class="nav-link active"><i class="fas fa-circle-info"></i>About JAIN</a>
-        <a href="{{ url_for('campus') }}" class="nav-link"><i class="fas fa-university"></i>Campus</a>
-        <a href="#" class="nav-link" onclick="startTour();return false;"><i class="fas fa-route"></i>Tour</a>
-        <a href="{{ url_for('home') }}#course-section" class="nav-link"><i class="fas fa-clock"></i>Take 15 Mins</a>
-      </nav>
-      <div class="user-area">
-        {% if user_logged_in %}
-        <div class="user-dropdown">
-          <div class="user-btn" id="userBtn" onclick="toggleDropdown(event)">
-            <i class="fas fa-user-circle"></i>
-            <span>{{ user_email.split('@')[0] }}</span>
-            <i class="fas fa-chevron-down chevron"></i>
-          </div>
-          <div class="dropdown-panel" id="userDropdown">
-            <div class="dp-head">
-              <div class="name">{{ user_email.split('@')[0] }}</div>
-              <div class="email">{{ user_email }}</div>
-              {% if user_department %}
-              <div style="display:flex;align-items:center;gap:5px;margin-top:6px;font-size:11px;color:rgba(255,255,255,.8)">
-                <i class="fas fa-building" style="color:var(--gold-2);font-size:10px"></i>
-                <span>{{ user_department }}</span>
-              </div>
-              {% endif %}
-              {% if user_location %}
-              <div style="display:flex;align-items:center;gap:5px;margin-top:3px;font-size:11px;color:rgba(255,255,255,.7)">
-                <i class="fas fa-map-marker-alt" style="color:var(--gold-2);font-size:10px"></i>
-                <span>{{ user_location }}</span>
-              </div>
-              {% endif %}
-              {% if not approved %}
-              <span class="dp-status pending"><i class="fas fa-clock"></i> Pending Approval</span>
-              {% else %}
-              <span class="dp-status approved"><i class="fas fa-check-circle"></i> Approved</span>
-              {% endif %}
-            </div>
-            <a href="/profile" class="dp-item"><i class="fas fa-user-circle"></i> My Profile</a>
-            {% if approved %}
-            {% if user_role == 'user' %}
-            <a href="{{ url_for('dept_repo') }}" class="dp-item"><i class="fas fa-folder-open"></i> My Files &amp; Dept Repository</a>
-            {% endif %}
-            {% if user_role == 'user' and (user_type == 'core' or special_role == 'office_barrier') %}
-            <a href="{{ url_for('core_repo') }}" class="dp-item"><i class="fas fa-cloud-upload-alt"></i> Upload to Departments</a>
-            <a href="{{ url_for('core_dashboard') }}" class="dp-item"><i class="fas fa-tachometer-alt"></i> Core Dashboard</a>
-            {% endif %}
-            {% if user_role == 'user' and special_role == 'leader' %}<a href="{{ url_for('leader_dashboard') }}" class="dp-item"><i class="fas fa-crown"></i> Admin Dashboard</a>{% endif %}
-            {% if user_role == 'admin' %}<a href="{{ url_for('admin_dashboard') }}" class="dp-item"><i class="fas fa-tachometer-alt"></i> Admin Dashboard</a>{% endif %}
-            {% else %}
-            <div style="padding:16px;text-align:center;font-size:13px;color:var(--muted)"><i class="fas fa-info-circle" style="font-size:2rem;color:#e74c3c;margin-bottom:8px;display:block"></i>Awaiting admin approval</div>
-            {% endif %}
-            <a href="{{ url_for('logout') }}" class="dp-item" onclick="return confirm('Logout?')"><i class="fas fa-sign-out-alt"></i> Logout</a>
-          </div>
-        </div>
-        {% else %}
-        <a href="{{ url_for('login') }}" class="btn-login"><i class="fas fa-sign-in-alt"></i> Login</a>
-        {% endif %}
-      </div>
-    </div>
-  </header>
+  {% set ac_active = 'about' %}
+  {% include 'partials/academic_header.html' %}
 
   <!-- TICKER -->
   <div class="ticker">
     <div class="ticker-inner">
-      <div class="ticker-badge"><i class="fas fa-calendar-day"></i> Today's Events</div>
+      <div class="ticker-badge"><i class="fas fa-calendar-day"></i> Today at JAIN</div>
       <div class="ticker-track">
         <div class="ticker-text" id="tickerText">
           {% if today_events and today_events|length > 0 %}
@@ -416,38 +353,7 @@
   </div>
 
   <!-- ============ FOOTER ============ -->
-  <footer>
-    <div class="footer-inner">
-      <div class="fc">
-        <h3>Office of Academics</h3>
-        <p>Jain (Deemed-to-be University), Bengaluru.<br>Building tomorrow's leaders today through academic excellence and innovation.</p>
-        <div class="socials">
-          <a href="#" class="social-icon" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-          <a href="#" class="social-icon" aria-label="X"><i class="fab fa-x-twitter"></i></a>
-          <a href="#" class="social-icon" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-          <a href="#" class="social-icon" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-        </div>
-      </div>
-      <div class="fc">
-        <h3>Quick Links</h3>
-        <ul>
-          <li><a href="{{ url_for('home') }}"><i class="fas fa-angle-right"></i> Academics Hub</a></li>
-          <li><a href="{{ url_for('jainevents') }}"><i class="fas fa-angle-right"></i> Events Calendar</a></li>
-          <li><a href="{{ url_for('home') }}"><i class="fas fa-angle-right"></i> Announcements</a></li>
-          <li><a href="{{ url_for('home') }}"><i class="fas fa-angle-right"></i> SWAYAM</a></li>
-        </ul>
-      </div>
-      <div class="fc">
-        <h3>Contact</h3>
-        <ul>
-          <li><a href="mailto:academics@jainuniversity.ac.in"><i class="fas fa-envelope"></i> academics@jainuniversity.ac.in</a></li>
-          <li><a href="#"><i class="fas fa-phone"></i> +91-80-4343-XXXX</a></li>
-          <li><a href="#"><i class="fas fa-map-marker-alt"></i> JC Road, Bengaluru – 560 002</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="footer-bottom">© 2026 Jain (Deemed-to-be University). All Rights Reserved · Office of Academics</div>
-  </footer>
+  {% include 'partials/academic_footer.html' %}
 
   <script>
     /* card deck */

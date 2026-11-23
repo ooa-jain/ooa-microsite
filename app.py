@@ -1773,40 +1773,10 @@ def logout():
     flash('You have been logged out.', 'info')
     return redirect(url_for('index'))
 
-@app.route('/')
-def index():
-    """Public homepage of the Office of Academics."""
-    today_str = get_today_ist_string()
-    try:
-        nf.ensure_seeded(db)
-        editions = nf.list_editions(db, limit=7)
-    except Exception as e:
-        logger.error(f"newsletter feed error: {e}")
-        editions = []
-    upcoming, seen = [], set()
-    try:
-        for ev in get_cached_dashboard_data('all_events', fetch_formatted_events, ttl=60):
-            d = ev.get('event_date', '')
-            key = (ev.get('event_name', '').strip().lower(), d)
-            if d >= today_str and key not in seen and ev.get('event_name'):
-                seen.add(key); upcoming.append(ev)
-            if len(upcoming) >= 5: break
-    except Exception as e:
-        logger.error(f"homepage events error: {e}")
-    try:
-        notices = [serialize_doc(r) for r in db.ugc_data.find().sort('uploaded_at', -1).limit(4)]
-    except Exception:
-        notices = []
-    try:
-        edition_count = db.ooa_newsletters.count_documents({'hidden': {'$ne': True}})
-    except Exception:
-        edition_count = len(editions)
-    return render_template('ooa_home.html', editions=editions, upcoming=upcoming,
-                           notices=notices, edition_count=edition_count, **_get_user_info())
-
+@app.route('/', endpoint='index')
 @app.route('/signin')
 def signin():
-    """Portal sign-in page (the former landing page)."""
+    """Portal sign-in page: the site's front page."""
     if 'email' in session:
         return redirect(url_for('home'))
     firebase_config = {

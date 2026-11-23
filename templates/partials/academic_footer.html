@@ -8,10 +8,9 @@
     <div class="ac-fcol">
       <h3>The Office</h3>
       <ul>
-        <li><a href="{{ url_for('index') }}">Home</a></li>
+        <li><a href="{{ url_for('home') if user_logged_in else url_for('index') }}">Home</a></li>
         <li><a href="{{ url_for('about_jain') }}">About the University</a></li>
         <li><a href="{{ url_for('ai_newsletter_archive') }}">AI Innovation Newsletter</a></li>
-        <li><a href="{{ url_for('signin') }}">Portal sign in</a></li>
       </ul>
     </div>
     <div class="ac-fcol">

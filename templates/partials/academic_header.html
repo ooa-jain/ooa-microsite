@@ -1,137 +1,124 @@
 {#
-  Official academic masthead shared by Jain Hub, About JAIN and Campus.
-  Three tiers: utility bar · crest + institution name · navy navigation bar.
-  Set `ac_active` before including: 'home' | 'about' | 'campus'.
-  Keeps the element ids/handlers the page scripts rely on:
-  #mainNav, #erpDD, #userBtn, #userDropdown, toggleMobileNav(), toggleErpDD(),
-  toggleDropdown(), startTour().
+  Shared site header (Jain Hub, About, Campus, AI Newsletter).
+  Two tiers, kept deliberately clean:
+    1. a royal-blue top bar with contact details and quick links
+    2. one white row: logo · uppercase navigation · one bold action button
+  Set `ac_active` before including: 'home' | 'about' | 'campus' | 'newsletter'.
+  Set `ac_theme_switch = True` to show Jain Hub's dark-mode switch.
+  Keeps the ids/handlers page scripts rely on:
+  #mainNav, #erpDD, #userBtn, #userDropdown, #themeToggle,
+  toggleMobileNav(), toggleErpDD(), toggleDropdown(), toggleTheme(), startTour().
 #}
 {% set ac_active = ac_active|default('home') %}
-<div class="ac-utility" role="navigation" aria-label="Utility links">
-  <div class="ac-wrap ac-utility-inner">
-    <div class="ac-utility-left">
-      <a href="https://www.google.com/maps/search/?api=1&amp;query=JAIN+University+Head+Office+423+9th+Main+Rd+Banashankari+2nd+Stage+Bengaluru+560070" target="_blank" rel="noopener" class="ac-util-addr"><i class="fas fa-location-dot"></i> 423, 9th Main Rd, Banashankari 2nd Stage, Bengaluru 560070</a>
-      <a href="tel:+918043432500"><i class="fas fa-phone"></i> 080 4343 2500</a>
-      <a href="mailto:officeofacademicaffairs@jainuniversity.ac.in"><i class="fas fa-envelope"></i> officeofacademicaffairs@jainuniversity.ac.in</a>
+<div class="fx-topbar" role="navigation" aria-label="Contact and quick links">
+  <div class="ac-wrap fx-topbar-inner">
+    <div class="fx-topbar-left">
+      <a href="https://www.google.com/maps/search/?api=1&amp;query=JAIN+University+Head+Office+423+9th+Main+Rd+Banashankari+2nd+Stage+Bengaluru+560070" target="_blank" rel="noopener" class="fx-addr"><i class="fas fa-location-dot"></i>423, 9th Main Rd, Banashankari 2nd Stage, Bengaluru 560070</a>
+      <a href="tel:+918043432500"><i class="fas fa-phone"></i>080 4343 2500</a>
+      <a href="mailto:officeofacademicaffairs@jainuniversity.ac.in" class="fx-mail"><i class="fas fa-envelope"></i>officeofacademicaffairs@jainuniversity.ac.in</a>
     </div>
-    <div class="ac-utility-right">
-      {% for p in ooa_platforms %}<a href="{{ p.url }}" target="_blank" rel="noopener">{{ p.name }}</a>{% endfor %}
+    <div class="fx-topbar-right">
+      {% if ac_active == 'home' %}
+      <a href="#" onclick="startTour();return false;">Guided Tour</a>
+      <a href="#quizSection" onclick="event.preventDefault();const q=document.getElementById('quizSection');if(q){q.scrollIntoView({behavior:'smooth',block:'center'});expandQuiz();}">15-Min Course</a>
+      {% endif %}
       <a href="https://www.jainuniversity.ac.in" target="_blank" rel="noopener">University Website</a>
     </div>
   </div>
 </div>
 
-<header class="ac-header">
-  <div class="ac-wrap ac-masthead">
-    <a href="{{ url_for('home') if user_logged_in else url_for('index') }}" class="ac-brand" aria-label="Office of Academics home">
-      <img src="{{ url_for('static', filename='images/jainu.png') }}" alt="JAIN (Deemed-to-be University)" class="ac-crest"
+<header class="fx-header">
+  <div class="ac-wrap fx-row">
+    <a href="{{ url_for('home') if user_logged_in else url_for('index') }}" class="fx-brand" aria-label="Office of Academics home">
+      <img src="{{ url_for('static', filename='images/jainu.png') }}" alt="JAIN (Deemed-to-be University)" class="fx-logo"
         onerror="this.src='{{ url_for('static', filename='images/L23.png') }}'">
-      <span class="ac-brand-text">
-        <span class="ac-brand-title">Office of Academics</span>
-        <span class="ac-brand-sub">Academic Governance Portal · Bengaluru</span>
-      </span>
+      <span class="fx-brand-text"><b>Office of</b><b>Academics</b></span>
     </a>
-    <div class="ac-masthead-right">
-      <div class="ac-accred">
-        <span><strong>NAAC</strong> Accredited</span>
-        <span><strong>UGC</strong> Recognised · Sec. 3</span>
-      </div>
-      <div class="user-area">
-        {% if ac_theme_switch %}
-        <button type="button" class="theme-switch" id="themeToggle" role="switch" aria-checked="false"
-          aria-label="Dark mode" title="Switch to dark mode" onclick="toggleTheme()">
-          <span class="theme-switch-knob" aria-hidden="true">
-            <svg class="ico-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.2M12 19.8V22M4.9 4.9l1.6 1.6M17.5 17.5l1.6 1.6M2 12h2.2M19.8 12H22M4.9 19.1l1.6-1.6M17.5 6.5l1.6-1.6"/></svg>
-            <svg class="ico-moon" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
-          </span>
-        </button>
-        {% endif %}
-        {% if user_logged_in %}
-        <div class="user-dropdown">
-          <div class="user-btn" id="userBtn" onclick="toggleDropdown(event)">
-            <i class="fas fa-user-circle"></i>
-            <span>{{ user_email.split('@')[0] }}</span>
-            <i class="fas fa-chevron-down chevron"></i>
-          </div>
-          <div class="dropdown-panel" id="userDropdown">
-            <div class="dp-head">
-              <div class="name">{{ user_email.split('@')[0] }}</div>
-              <div class="email">{{ user_email }}</div>
-              {% if user_department %}
-              <div class="dp-meta"><i class="fas fa-building"></i><span>{{ user_department }}</span></div>
-              {% endif %}
-              {% if user_location %}
-              <div class="dp-meta"><i class="fas fa-map-marker-alt"></i><span>{{ user_location }}</span></div>
-              {% endif %}
-              {% if not approved %}
-              <span class="dp-status pending"><i class="fas fa-clock"></i> Pending Approval</span>
-              {% else %}
-              <span class="dp-status approved"><i class="fas fa-check-circle"></i> Approved</span>
-              {% endif %}
-            </div>
-            <a href="/profile" class="dp-item"><i class="fas fa-user-circle"></i> My Profile</a>
-            {% if approved %}
-            {% if user_role == 'user' %}
-            <a href="{{ url_for('dept_repo') }}" class="dp-item"><i class="fas fa-folder-open"></i> My Files &amp; Dept Repository</a>
-            {% endif %}
-            {% if user_role == 'user' and (user_type == 'core' or special_role == 'office_barrier') %}
-            <a href="{{ url_for('core_repo') }}" class="dp-item"><i class="fas fa-cloud-upload-alt"></i> Upload to Departments</a>
-            <a href="{{ url_for('core_dashboard') }}" class="dp-item"><i class="fas fa-tachometer-alt"></i> Core Dashboard</a>
-            {% endif %}
-            {% if user_role == 'user' and special_role == 'leader' %}<a href="{{ url_for('leader_dashboard') }}" class="dp-item"><i class="fas fa-crown"></i> Admin Dashboard</a>{% endif %}
-            {% if user_role == 'admin' %}<a href="{{ url_for('admin_dashboard') }}" class="dp-item"><i class="fas fa-tachometer-alt"></i> Admin Dashboard</a>{% endif %}
-            {% else %}
-            <div class="dp-pending"><i class="fas fa-info-circle"></i>Awaiting admin approval</div>
-            {% endif %}
-            <a href="{{ url_for('logout') }}" class="dp-item" onclick="return confirm('Logout?')"><i class="fas fa-sign-out-alt"></i> Logout</a>
-          </div>
-        </div>
-        {% else %}
-        <a href="{{ url_for('signin') }}" class="btn-login"><i class="fas fa-sign-in-alt"></i> Sign in</a>
-        {% endif %}
-      </div>
-      <button class="nav-toggle" onclick="toggleMobileNav()" aria-label="Toggle navigation"><i class="fas fa-bars"></i></button>
-    </div>
-  </div>
 
-  <div class="ac-navbar">
-    <div class="ac-wrap">
-      <nav class="main-nav" id="mainNav" aria-label="Main">
-        <a href="{{ url_for('home') if user_logged_in else url_for('index') }}" class="nav-link nav-loading {% if ac_active == 'home' %}active{% endif %}">Home</a>
-        <a href="{{ url_for('about_jain') }}" class="nav-link nav-loading {% if ac_active == 'about' %}active{% endif %}">About</a>
-        <a href="{{ url_for('ai_newsletter_archive') }}" class="nav-link nav-loading {% if ac_active == 'newsletter' %}active{% endif %}">AI Newsletter</a>
-        <a href="{{ academic_calendar_url }}" class="nav-link nav-loading {% if ac_active == 'calendar' %}active{% endif %}">Academic Calendar</a>
-        {% if user_logged_in %}<a href="{{ url_for('campus') }}" class="nav-link nav-loading {% if ac_active == 'campus' %}active{% endif %}">Campus Life</a>{% endif %}
-        <div class="nav-dd" id="erpDD">
-          <a href="#" class="nav-link" onclick="toggleErpDD(event)">Our Platforms <i class="fas fa-chevron-down dd-caret"></i></a>
-          <div class="nav-dd-panel">
-            {% for p in ooa_platforms %}
-            <a href="{{ p.url }}" class="nav-dd-item" target="_blank" rel="noopener">
-              <span class="dd-ico"><i class="fas {{ p.icon }}"></i></span>
-              <span><strong>{{ p.name }}</strong><small>{{ p.desc }}</small></span>
-            </a>
-            {% endfor %}
-            <a href="{{ erp_readiness_url }}" class="nav-dd-item nav-loading">
-              <span class="dd-ico"><i class="fas fa-flag-checkered"></i></span>
-              <span><strong>Semester Readiness &amp; Closure</strong><small>In-app ERP reports</small></span>
-            </a>
-          </div>
+    <nav class="fx-nav main-nav" id="mainNav" aria-label="Main">
+      <a href="{{ url_for('home') if user_logged_in else url_for('index') }}" class="fx-link nav-loading {% if ac_active == 'home' %}active{% endif %}">Home</a>
+      <a href="{{ url_for('about_jain') }}" class="fx-link nav-loading {% if ac_active == 'about' %}active{% endif %}">About</a>
+      <a href="{{ url_for('ai_newsletter_archive') }}" class="fx-link nav-loading {% if ac_active == 'newsletter' %}active{% endif %}">AI Newsletter</a>
+      <a href="{{ academic_calendar_url }}" class="fx-link nav-loading {% if ac_active == 'calendar' %}active{% endif %}">Calendar</a>
+      {% if user_logged_in %}<a href="{{ url_for('campus') }}" class="fx-link nav-loading {% if ac_active == 'campus' %}active{% endif %}">Campus Life</a>{% endif %}
+      <div class="nav-dd fx-dd" id="erpDD">
+        <a href="#" class="fx-link" onclick="toggleErpDD(event)" aria-haspopup="true">Platforms <i class="fas fa-chevron-down dd-caret"></i></a>
+        <div class="nav-dd-panel fx-dd-panel">
+          {% for p in ooa_platforms %}
+          <a href="{{ p.url }}" class="nav-dd-item" target="_blank" rel="noopener">
+            <span class="dd-ico"><i class="fas {{ p.icon }}"></i></span>
+            <span><strong>{{ p.name }}</strong><small>{{ p.desc }}</small></span>
+          </a>
+          {% endfor %}
+          <a href="{{ erp_readiness_url }}" class="nav-dd-item nav-loading">
+            <span class="dd-ico"><i class="fas fa-flag-checkered"></i></span>
+            <span><strong>Semester Readiness &amp; Closure</strong><small>In-app ERP reports</small></span>
+          </a>
         </div>
-        <span class="ac-nav-spacer"></span>
-        {% if ac_active == 'home' %}
-        <a href="#" class="nav-link ac-nav-minor" onclick="startTour();return false;"><i class="fas fa-route"></i>Guided Tour</a>
-        <a href="#quizSection" class="nav-link ac-nav-minor" onclick="event.preventDefault();const q=document.getElementById('quizSection');if(q){q.scrollIntoView({behavior:'smooth',block:'center'});expandQuiz();}"><i class="fas fa-clock"></i>15-Min Course</a>
-        {% endif %}
-      </nav>
+      </div>
+    </nav>
+
+    <div class="fx-actions user-area">
+      {% if ac_theme_switch %}
+      <button type="button" class="theme-switch" id="themeToggle" role="switch" aria-checked="false"
+        aria-label="Dark mode" title="Switch to dark mode" onclick="toggleTheme()">
+        <span class="theme-switch-knob" aria-hidden="true">
+          <svg class="ico-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.2M12 19.8V22M4.9 4.9l1.6 1.6M17.5 17.5l1.6 1.6M2 12h2.2M19.8 12H22M4.9 19.1l1.6-1.6M17.5 6.5l1.6-1.6"/></svg>
+          <svg class="ico-moon" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+        </span>
+      </button>
+      {% endif %}
+      {% if user_logged_in %}
+      <div class="user-dropdown">
+        <div class="user-btn fx-cta" id="userBtn" onclick="toggleDropdown(event)" role="button" tabindex="0">
+          <i class="fas fa-user-circle"></i>
+          <span>{{ user_email.split('@')[0] }}</span>
+          <i class="fas fa-chevron-down chevron"></i>
+        </div>
+        <div class="dropdown-panel" id="userDropdown">
+          <div class="dp-head">
+            <div class="name">{{ user_email.split('@')[0] }}</div>
+            <div class="email">{{ user_email }}</div>
+            {% if user_department %}<div class="dp-meta"><i class="fas fa-building"></i><span>{{ user_department }}</span></div>{% endif %}
+            {% if user_location %}<div class="dp-meta"><i class="fas fa-map-marker-alt"></i><span>{{ user_location }}</span></div>{% endif %}
+            {% if not approved %}
+            <span class="dp-status pending"><i class="fas fa-clock"></i> Pending Approval</span>
+            {% else %}
+            <span class="dp-status approved"><i class="fas fa-check-circle"></i> Approved</span>
+            {% endif %}
+          </div>
+          <a href="/profile" class="dp-item"><i class="fas fa-user-circle"></i> My Profile</a>
+          {% if approved %}
+          {% if user_role == 'user' %}
+          <a href="{{ url_for('dept_repo') }}" class="dp-item"><i class="fas fa-folder-open"></i> My Files &amp; Dept Repository</a>
+          {% endif %}
+          {% if user_role == 'user' and (user_type == 'core' or special_role == 'office_barrier') %}
+          <a href="{{ url_for('core_repo') }}" class="dp-item"><i class="fas fa-cloud-upload-alt"></i> Upload to Departments</a>
+          <a href="{{ url_for('core_dashboard') }}" class="dp-item"><i class="fas fa-tachometer-alt"></i> Core Dashboard</a>
+          {% endif %}
+          {% if user_role == 'user' and special_role == 'leader' %}<a href="{{ url_for('leader_dashboard') }}" class="dp-item"><i class="fas fa-crown"></i> Admin Dashboard</a>{% endif %}
+          {% if user_role == 'admin' %}<a href="{{ url_for('admin_dashboard') }}" class="dp-item"><i class="fas fa-tachometer-alt"></i> Admin Dashboard</a>{% endif %}
+          {% else %}
+          <div class="dp-pending"><i class="fas fa-info-circle"></i>Awaiting admin approval</div>
+          {% endif %}
+          <a href="{{ url_for('logout') }}" class="dp-item" onclick="return confirm('Logout?')"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </div>
+      </div>
+      {% else %}
+      <a href="{{ url_for('signin') }}" class="fx-cta fx-cta-yellow btn-login">Sign in</a>
+      {% endif %}
+      <button class="nav-toggle fx-burger" onclick="toggleMobileNav()" aria-label="Open menu" aria-controls="mainNav"><i class="fas fa-bars"></i></button>
     </div>
   </div>
 </header>
 
 <script>
-  /* Fallbacks so the shared masthead works on pages that don't define these. */
+  /* Fallbacks so the shared header works on pages that don't define these. */
   window.toggleMobileNav = window.toggleMobileNav || function () { document.getElementById('mainNav').classList.toggle('show'); };
   window.toggleDropdown = window.toggleDropdown || function (e) {
-    e.stopPropagation(); document.getElementById('userDropdown').classList.toggle('show');
+    e.stopPropagation();
+    document.getElementById('userBtn').classList.toggle('open');
+    document.getElementById('userDropdown').classList.toggle('show');
   };
   window.toggleErpDD = window.toggleErpDD || function (e) {
     e.preventDefault(); e.stopPropagation(); document.getElementById('erpDD').classList.toggle('open');
@@ -142,4 +129,10 @@
     if (dd && !e.target.closest('.user-dropdown')) dd.classList.remove('show');
     if (erp && !e.target.closest('#erpDD')) erp.classList.remove('open');
   });
+  /* add a soft shadow once the page scrolls under the sticky header */
+  (function () {
+    var h = document.querySelector('.fx-header'); if (!h) return;
+    var on = function () { h.classList.toggle('scrolled', window.scrollY > 8); };
+    window.addEventListener('scroll', on, { passive: true }); on();
+  })();
 </script>

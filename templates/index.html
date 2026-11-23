@@ -576,6 +576,7 @@
 
     </style>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,600;0,700;1,700;1,800&family=Montserrat:wght@400;500;600;700&display=swap">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/academic-theme.css') }}">
     <style>
         /* Official academic re-skin of the landing page (overrides the inline styles above) */
@@ -599,6 +600,49 @@
         body.ac-landing .input-field { border-radius: 4px; }
         body.ac-landing .input-field:focus { border-color: #c9474f; box-shadow: 0 0 0 3px rgba(201,71,79,.18); }
         body.ac-landing .register-link a, body.ac-landing .forgot-password a:hover { color: #e6b7bb; }
+        /* ── Fresh look (matches the shared header): royal blue, flat buttons, bold italic display type ── */
+        body.ac-landing { font-family: 'Montserrat', system-ui, sans-serif; }
+        body.ac-landing .ac-landing-utility { background: #0047ab; }
+        body.ac-landing .ac-landing-utility i { color: #f2e327; }
+        body.ac-landing .ac-landing-utility .ac-utility-right a { text-transform: uppercase; font-weight: 600; font-size: 11.5px; letter-spacing: .04em; }
+        body.ac-landing header { border-bottom: 1px solid #e6eaf0; box-shadow: 0 6px 24px rgba(10,35,84,.08); }
+        body.ac-landing .nav-container { padding: 16px 32px; }
+        body.ac-landing .ac-brand-text { border-left: 3px solid #f2e327; padding-left: 12px; }
+        body.ac-landing .ac-brand-title { font-family: 'Kanit', sans-serif; font-style: italic; font-weight: 800; text-transform: uppercase; color: #0047ab; font-size: 18px; line-height: 1.05; }
+        body.ac-landing .ac-brand-sub { font-size: 11px; letter-spacing: .1em; color: #5b6475; }
+        body.ac-landing .nav-links { gap: 26px; }
+        body.ac-landing .nav-links a { text-transform: uppercase; font-size: 13.5px; font-weight: 600; letter-spacing: .03em; color: #111827; position: relative; }
+        body.ac-landing .nav-links a:not(.btn-access):hover { color: #0047ab; }
+        body.ac-landing .nav-links a:not(.btn-access)::after { content: ''; position: absolute; left: 0; right: 0; bottom: -6px; height: 3px; background: #0047ab; transform: scaleX(0); transform-origin: left; transition: transform .25s ease; }
+        body.ac-landing .nav-links a:not(.btn-access):hover::after { transform: scaleX(1); }
+        body.ac-landing .btn-access { background: #f2e327; color: #111827 !important; border-radius: 0; height: 52px; padding: 0 28px; text-transform: uppercase; font-weight: 700; letter-spacing: .04em; font-size: 14px; }
+        body.ac-landing .btn-access:hover { background: #0047ab; color: #fff !important; }
+        body.ac-landing .hero-video-overlay { background: linear-gradient(115deg, rgba(0,47,120,.95) 0%, rgba(0,71,171,.82) 55%, rgba(10,35,84,.9) 100%); }
+        body.ac-landing .hero-title { font-family: 'Kanit', sans-serif; font-style: italic; font-weight: 800; text-transform: uppercase; letter-spacing: 0; line-height: 1; }
+        body.ac-landing .hero-title::after { background: #f2e327; height: 5px; width: 90px; }
+        body.ac-landing .stat-card { border-radius: 0; border-left: 4px solid #f2e327; background: rgba(255,255,255,.08); }
+        body.ac-landing .stat-num { font-family: 'Kanit', sans-serif; font-style: italic; font-weight: 800; }
+        body.ac-landing .login-card { border-radius: 0; border-top: 5px solid #f2e327; background: rgba(6, 22, 60, .78); }
+        body.ac-landing .login-card h2 { font-family: 'Kanit', sans-serif; font-style: italic; font-weight: 800; text-transform: uppercase; }
+        body.ac-landing .yellow-line { background: #f2e327; }
+        body.ac-landing .input-field { border-radius: 0; }
+        body.ac-landing .input-field:focus { border-color: #f2e327; box-shadow: 0 0 0 3px rgba(242,227,39,.22); }
+        body.ac-landing .login-btn { background: #f2e327; color: #111827; border-radius: 0; text-transform: uppercase; letter-spacing: .05em; font-weight: 700; }
+        body.ac-landing .login-btn:hover { background: #fff; color: #0047ab; }
+        body.ac-landing .register-link a, body.ac-landing .forgot-password a:hover { color: #f2e327; }
+        body.ac-landing .section-title { font-family: 'Kanit', sans-serif; font-style: italic; font-weight: 800; text-transform: uppercase; color: #0047ab; }
+        body.ac-landing .feature-card { border-radius: 0; border: 0; border-top: 5px solid #0047ab; box-shadow: 0 10px 30px rgba(10,35,84,.08); }
+        body.ac-landing .feature-card:hover { border-top-color: #f2e327; }
+        body.ac-landing .feature-card h3 { font-family: 'Kanit', sans-serif; font-weight: 600; color: #0a2354; }
+        body.ac-landing .feature-card i { color: #0047ab !important; }
+        body.ac-landing footer { background: #0a2354; border-top: 6px solid #0047ab; }
+        body.ac-landing footer h3 { font-family: 'Kanit', sans-serif; font-style: italic; font-weight: 700; text-transform: uppercase; }
+        body.ac-landing footer h3::after { content: ''; display: block; width: 34px; height: 3px; background: #f2e327; margin-top: 10px; }
+        body.ac-landing footer .footer-column p[style*="accent-gold"] { color: #f2e327 !important; }
+        body.ac-landing footer i[style] { color: #f2e327 !important; }
+        body.ac-landing .ac-brand-sub { display: none; }
+        body.ac-landing .nav-links a, body.ac-landing .btn-access { white-space: nowrap; }
+        @media (max-width: 1200px) { body.ac-landing .nav-links { gap: 18px; } body.ac-landing .nav-links a { font-size: 12.5px; } body.ac-landing .ac-brand-text { display: none; } }
         @media (max-width: 1180px) { body.ac-landing .ac-util-addr { display: none; } }
         @media (max-width: 900px) {
             body.ac-landing .ac-landing-utility { display: none; }

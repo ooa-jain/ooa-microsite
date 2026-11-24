@@ -179,7 +179,8 @@
       <header class="post-head">
         <span class="chip"><i class="fas fa-newspaper"></i> AI Innovation Newsletter · {{ edition.edition }}</span>
         <h1>{{ edition.title }}</h1>
-        {% if edition.theme %}<p class="deck">{{ edition.theme }}</p>{% endif %}
+        {% set deck = edition.theme or (art.deck if art else '') %}
+        {% if deck %}<p class="deck">{{ deck }}</p>{% endif %}
         <div class="meta">
           <span class="byline"><span class="av">OA</span>Office of Academic Affairs</span><span class="dot"></span>
           <span><i class="far fa-calendar"></i>{{ edition.sent_label }}</span><span class="dot"></span>
@@ -210,10 +211,14 @@
             {% if user_role == 'admin' or special_role == 'office_barrier' %}
             <p class="note"><i class="fas fa-circle-info"></i> This is the short digest. Use <b>Refresh articles &amp; photos</b> on the newsletter page to load the full article with its photos from Gmail.</p>
             {% endif %}
+            {% set pics = edition.images or [] %}
             <p class="lede">{{ edition.summary }}</p>
             {% for s in edition.sections %}
-            <section id="s{{ loop.index }}"><h2>{{ s.heading }}</h2><p>{{ s.body }}</p></section>
+            <section id="s{{ loop.index }}"><h2>{{ s.heading }}</h2><p>{{ s.body }}</p>
+              {% if pics[loop.index0] %}<figure><img src="{{ pics[loop.index0] }}" alt="" loading="lazy" onerror="nbImgFail(this)"></figure>{% endif %}
+            </section>
             {% endfor %}
+            {% for src in pics[edition.sections|length:] %}<figure><img src="{{ src }}" alt="" loading="lazy" onerror="nbImgFail(this)"></figure>{% endfor %}
           {% endif %}
 
           {% if links %}

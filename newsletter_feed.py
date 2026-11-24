@@ -57,9 +57,11 @@ def ensure_seeded(db):
         doc['source'] = 'seed'
         res = db.ooa_newsletters.update_one({'gmail_id': ed['gmail_id']}, {'$setOnInsert': doc}, upsert=True)
         added += 1 if res.upserted_id else 0
-        if ed.get('cover_image') and not res.upserted_id:
-            db.ooa_newsletters.update_one({'gmail_id': ed['gmail_id'], 'cover_image': {'$in': [None, '']}},
-                                          {'$set': {'cover_image': ed['cover_image']}})
+        # photos added to the seed later reach editions that are already stored
+        for key in ('cover_image', 'images'):
+            if ed.get(key) and not res.upserted_id:
+                db.ooa_newsletters.update_one({'gmail_id': ed['gmail_id'], key: {'$in': [None, '', []]}},
+                                              {'$set': {key: ed[key]}})
     return added
 
 
@@ -278,7 +280,7 @@ def article_fields(service, db, msg):
         return None
     article = _store_inline_images(service, db, msg, article)
     fields = {
-        'article': {'sections': article['sections'], 'words': article['words']},
+        'article': {'sections': article['sections'], 'words': article['words'], 'deck': article.get('deck', '')},
         'cover_image': (article['cover'] or {}).get('src', ''),
         'read_minutes': max(1, round(article['words'] / 200)),
     }

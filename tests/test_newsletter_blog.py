@@ -51,3 +51,14 @@ def test_drive_urls():
     assert nb.drive_image('https://drive.google.com/uc?export=view&id=1SIhZcP8SdGmYZylGGFbjdbqm12cgfWTe') == \
         'https://drive.google.com/thumbnail?id=1SIhZcP8SdGmYZylGGFbjdbqm12cgfWTe&sz=w1600'
     assert nb.drive_image('https://example.com/a.png') == 'https://example.com/a.png'
+
+
+def test_drive_layout_october():
+    a = load('newsletter_drive_layout_oct.html')
+    assert a['cover']['src'].endswith('1JL939ptH1CkR66gQxQT6ODUBVMATf45x&sz=w1600')
+    heads = [s['heading'] for s in a['sections']]
+    assert heads == ['', 'From the Robotic Olympics to Physical Intelligence', 'AI Leaves the Browser']
+    intro = [b['type'] for b in a['sections'][0]['blocks']]
+    assert intro == ['p', 'p', 'highlight']                  # "💡 What can AI do…?" is a call-out
+    olymp = [b['type'] for b in a['sections'][1]['blocks']]
+    assert olymp == ['img', 'p', 'p', 'highlight']           # the "Search → …" flow stays in the text

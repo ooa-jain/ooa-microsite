@@ -166,13 +166,16 @@ def _runs_html(runs):
 
 def _is_heading(ln):
     t = ln['text']
-    if len(t) > 120 or HIGHLIGHT.match(t):
+    if len(t) > 120 or HIGHLIGHT.match(t) or t.startswith('💡'):
         return False
     if ln['htag'] in ('h2', 'h3', 'h4'):
         return True
-    if ln['big'] and len(t) <= 110:
+    if ln['big'] and len(t) <= 110 and '→' not in t:
         return True
-    if ln['bold'] and not ln['only_link'] and len(t) <= 100 and not t.endswith(('.', ',', ';')):
+    # a bold line on its own is a heading, unless it is emphasis inside the text:
+    # a flow ("Search → Hypothesize"), a question, or a sentence
+    if (ln['bold'] and not ln['only_link'] and len(t) <= 100 and '→' not in t
+            and not t.endswith(('.', ',', ';', '?', '!'))):
         return True
     return t.isupper() and ln['center'] and 3 < len(t) <= 60
 
@@ -183,7 +186,7 @@ def parse_email_html(html):
     w.close()
     w.flush()
 
-    title, sections, links, words = '', [], [], 0
+    title, deck, sections, links, words = '', '', [], [], 0
     mode = None                                     # 'highlight' | 'explore'
     cur = {'kicker': '', 'heading': '', 'blocks': []}
 
@@ -213,8 +216,16 @@ def parse_email_html(html):
             continue
         if NOISE.match(t) or (title and t == title):
             continue
+        # the short line under the title, before any photo or text, is the edition's subtitle
+        if title and not deck and not sections and not cur['blocks'] and not cur['heading'] and len(t) <= 120 and not ln['bold']:
+            deck = t
+            continue
         if HIGHLIGHT.match(t):
             mode = 'highlight'
+            continue
+        if t.startswith('💡'):                                 # "💡 What can AI do…?" call-out
+            cur['blocks'].append({'type': 'highlight', 'html': escape(t.lstrip('💡 ').strip())})
+            words += len(t.split())
             continue
         if EXPLORE.match(t) and len(t) < 40:
             mode = 'explore'
@@ -265,12 +276,14 @@ def parse_email_html(html):
 
     push()
     cover = next((b for s in sections for b in s['blocks'] if b['type'] == 'img'), None)
-    # an opening banner photo with no heading or text becomes the cover only
-    if sections and not sections[0]['heading'] and all(b['type'] == 'img' for b in sections[0]['blocks']):
-        sections.pop(0)
+    # an opening banner photo becomes the cover only
+    if sections and not sections[0]['heading'] and sections[0]['blocks'] and sections[0]['blocks'][0] is cover:
+        sections[0]['blocks'].pop(0)
+        if not sections[0]['blocks']:
+            sections.pop(0)
     # drop empty shells (a heading with nothing under it, other than a lone sub-heading)
     sections = [s for s in sections if s['blocks'] or s['kicker']]
-    return {'title': title, 'cover': cover, 'sections': sections, 'links': links[:8], 'words': words}
+    return {'title': title, 'deck': deck, 'cover': cover, 'sections': sections, 'links': links[:8], 'words': words}
 
 
 def summary_of(article, n=2):

@@ -3,8 +3,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build:js": "esbuild src/login-hero.tsx --bundle --minify --format=iife --target=es2019 --jsx=automatic --define:process.env.NODE_ENV='\"production\"' --outfile=../static/js/login-hero.js",
-    "build:css": "tailwindcss -i src/hero.css -o ../static/css/login-hero.css --minify",
+    "build:js": "esbuild src/brusha-hero.tsx --bundle --minify --format=iife --target=es2019 --jsx=automatic --define:process.env.NODE_ENV='\"production\"' --outfile=../static/js/brusha-hero.js",
+    "build:css": "tailwindcss -i src/hero.css -o ../static/css/brusha-hero.css --minify",
     "build": "npm run build:js && npm run build:css",
     "typecheck": "tsc --noEmit"
   },

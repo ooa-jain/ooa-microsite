@@ -7,6 +7,11 @@ Editions live in db.ooa_newsletters, newest first. They come from two places:
   2. Gmail — sync_from_gmail() reads the Office of Academics mailbox for new
      editions sent to the HoD lists and adds them automatically. It runs from
      the monthly /cron/sync-newsletters endpoint and from the admin button.
+
+Each edition is shown as a blog article. refresh_articles() re-reads the original
+email (HTML), keeps every section with its photos, and stores photos that were
+attached to the email (cid: images) in db.ooa_newsletter_images, served by the
+/ai-newsletter/img/<id> route. Photos linked from Google Drive are used directly.
 """
 import base64
 import json
@@ -15,6 +20,8 @@ import os
 import re
 from datetime import datetime, timezone
 from email.utils import parsedate_to_datetime
+
+import newsletter_blog as nb
 
 logger = logging.getLogger(__name__)
 
@@ -50,6 +57,11 @@ def ensure_seeded(db):
         doc['source'] = 'seed'
         res = db.ooa_newsletters.update_one({'gmail_id': ed['gmail_id']}, {'$setOnInsert': doc}, upsert=True)
         added += 1 if res.upserted_id else 0
+        # photos added to the seed later reach editions that are already stored
+        for key in ('cover_image', 'images'):
+            if ed.get(key) and not res.upserted_id:
+                db.ooa_newsletters.update_one({'gmail_id': ed['gmail_id'], key: {'$in': [None, '', []]}},
+                                              {'$set': {key: ed[key]}})
     return added
 
 
@@ -71,6 +83,11 @@ def _public(d):
     sent = d.get('sent_at')
     if isinstance(sent, datetime):
         d['sent_label'] = sent.strftime('%d %b %Y')
+    art = d.get('article') or {}
+    if not d.get('read_minutes'):
+        words = art.get('words') or sum(len((s.get('heading', '') + ' ' + s.get('body', '')).split())
+                                         for s in d.get('sections') or []) + len((d.get('summary') or '').split())
+        d['read_minutes'] = max(1, round(words / 200))
     return d
 
 
@@ -197,6 +214,105 @@ def _plain_body(payload):
     return ''
 
 
+def _html_body(payload):
+    if payload.get('mimeType') == 'text/html' and payload.get('body', {}).get('data'):
+        return base64.urlsafe_b64decode(payload['body']['data']).decode('utf-8', 'replace')
+    for part in payload.get('parts', []) or []:
+        t = _html_body(part)
+        if t:
+            return t
+    return ''
+
+
+def _inline_parts(payload, out=None):
+    """Content-ID → MIME part, for photos attached inside the email."""
+    out = {} if out is None else out
+    headers = {h['name'].lower(): h['value'] for h in payload.get('headers', []) or []}
+    cid = (headers.get('content-id') or headers.get('x-attachment-id') or '').strip('<> ')
+    if cid and (payload.get('mimeType') or '').startswith('image/'):
+        out[cid] = payload
+    for part in payload.get('parts', []) or []:
+        _inline_parts(part, out)
+    return out
+
+
+def _store_inline_images(service, db, msg, article):
+    """Download the email's attached photos once and point the article at the stored copies."""
+    parts = _inline_parts(msg['payload'])
+    n = 0
+    for sec in article['sections']:
+        for b in sec['blocks']:
+            if b['type'] != 'img' or 'cid' not in b:
+                continue
+            part = parts.get(b.pop('cid'))
+            if not part:
+                b['type'] = 'skip'
+                continue
+            n += 1
+            img_id = f"{msg['id']}-{n}"
+            if not db.ooa_newsletter_images.find_one({'_id': img_id}, {'_id': 1}):
+                body = part.get('body', {})
+                data = body.get('data')
+                if not data and body.get('attachmentId'):
+                    data = service.users().messages().attachments().get(
+                        userId='me', messageId=msg['id'], id=body['attachmentId']).execute().get('data')
+                if not data:
+                    b['type'] = 'skip'
+                    continue
+                db.ooa_newsletter_images.replace_one({'_id': img_id}, {
+                    '_id': img_id, 'mime': part.get('mimeType', 'image/jpeg'),
+                    'data': base64.urlsafe_b64decode(data), 'gmail_id': msg['id']}, upsert=True)
+            b['src'] = f'/ai-newsletter/img/{img_id}'
+        sec['blocks'] = [b for b in sec['blocks'] if b['type'] != 'skip']
+    # the email's opening banner is the cover; otherwise use the first photo in the article
+    if not (article['cover'] and article['cover'].get('src')):
+        article['cover'] = next((b for s in article['sections'] for b in s['blocks'] if b['type'] == 'img'), None)
+    return article
+
+
+def article_fields(service, db, msg):
+    """Blog fields for one message: full sections with photos, cover, links and reading time."""
+    html = _html_body(msg['payload'])
+    if not html:
+        return None
+    article = nb.parse_email_html(html)
+    if sum(1 for s in article['sections'] if any(b['type'] == 'p' for b in s['blocks'])) < 1:
+        return None
+    article = _store_inline_images(service, db, msg, article)
+    fields = {
+        'article': {'sections': article['sections'], 'words': article['words'], 'deck': article.get('deck', '')},
+        'cover_image': (article['cover'] or {}).get('src', ''),
+        'read_minutes': max(1, round(article['words'] / 200)),
+    }
+    if article['links']:
+        fields['article']['links'] = article['links']
+    return fields
+
+
+def refresh_articles(db, creds_dict=None, only_missing=False):
+    """Re-read each stored edition's email and save the full article with its photos."""
+    service = _gmail_service(db, creds_dict)
+    if service is None:
+        return {'success': False, 'error': 'Gmail is not connected for the newsletter sync.'}
+    q = {'gmail_id': {'$exists': True}}
+    if only_missing:
+        q['article'] = {'$exists': False}
+    updated, failed = [], []
+    for ed in db.ooa_newsletters.find(q, {'gmail_id': 1, 'edition': 1, 'summary': 1}):
+        try:
+            msg = service.users().messages().get(userId='me', id=ed['gmail_id'], format='full').execute()
+            fields = article_fields(service, db, msg)
+            if not fields:
+                failed.append(ed.get('edition', ed['gmail_id']))
+                continue
+            db.ooa_newsletters.update_one({'_id': ed['_id']}, {'$set': fields})
+            updated.append(ed.get('edition', ed['gmail_id']))
+        except Exception as e:
+            logger.warning(f"newsletter refresh failed for {ed.get('gmail_id')}: {e}")
+            failed.append(ed.get('edition', ed['gmail_id']))
+    return {'success': True, 'updated': updated, 'failed': failed}
+
+
 def sync_from_gmail(db, creds_dict=None, max_results=25):
     """Fetch newsletter emails not yet stored and add them. Returns a result dict."""
     service = _gmail_service(db, creds_dict)
@@ -223,6 +339,10 @@ def sync_from_gmail(db, creds_dict=None, max_results=25):
         if db.ooa_newsletters.find_one({'edition': doc['edition']}):
             skipped += 1
             continue
+        try:
+            doc.update(article_fields(service, db, msg) or {})
+        except Exception as e:
+            logger.warning(f"newsletter article parse failed for {ref['id']}: {e}")
         db.ooa_newsletters.insert_one(doc)
         added.append(doc['edition'] + ' — ' + doc['title'])
     return {'success': True, 'added': added, 'skipped': skipped}

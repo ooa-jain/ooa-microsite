@@ -49,7 +49,7 @@
       {% if ac_active == 'home' %}
       <a href="#" class="pb-icon" onclick="startTour();return false;" title="Guided tour" aria-label="Guided tour"><i class="fas fa-route"></i></a>
       <a href="#quizSection" class="pb-icon" title="15-minute course" aria-label="15-minute course"
-        onclick="event.preventDefault();const q=document.getElementById('quizSection');if(q){q.scrollIntoView({behavior:'smooth',block:'center'});expandQuiz();}"><i class="far fa-clock"></i></a>
+        onclick="event.preventDefault();if(window.expandQuiz)expandQuiz();"><i class="far fa-clock"></i></a>
       {% endif %}
       {% if ac_theme_switch %}
       <button type="button" class="theme-switch" id="themeToggle" role="switch" aria-checked="false"

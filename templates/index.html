@@ -663,9 +663,21 @@
         }
         @media (max-width: 560px) { body.ac-landing .logo-section .ac-brand-text { display: none; } }
     </style>
+    <!-- Brusha hero (React, built from /frontend): fonts and its Tailwind stylesheet -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,800&family=Figtree:wght@400..700&display=swap">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login-hero.css') }}">
+    <style>
+        /* The Brusha hero carries the navbar now: the old fixed header is retired,
+           and the address strip sits above the hero and scrolls away with the page */
+        body.ac-landing header#header { display: none; }
+        body.ac-landing .ac-landing-utility { position: relative; }
+        body.ac-landing .hero { padding-top: 72px; }
+        #brusha-root { min-height: 100svh; background: #f8f6f1; }
+        @media (max-width: 968px) { body.ac-landing .hero { padding-top: 48px; } }
+    </style>
 </head>
 <body class="ac-landing">
-    {% set intro_key = 'out' %}{% include 'partials/logo_intro.html' %}
 
     <!-- Loading -->
     <div id="loading">
@@ -685,11 +697,38 @@
             </div>
         </div>
     </div>
+    <!-- Brusha hero: logo draws itself in the centre, then flies into the navbar -->
+    <div id="brusha-root"></div>
+    <script type="application/json" id="brusha-props">{{ {
+        "brand": "JAIN (Deemed-to-be University)",
+        "logo": {"src": url_for('static', filename='images/jainu.png'), "alt": "JAIN (Deemed-to-be University)", "width": 1103, "height": 319},
+        "logoEdges": [0, 365, 560, 794, 890, 1103],
+        "navLinks": [
+            {"label": "About", "href": url_for('about_jain')},
+            {"label": "Framework", "href": "#overview"},
+            {"label": "Capabilities", "href": "#features"},
+            {"label": "Newsletter", "href": url_for('ai_newsletter_archive')},
+            {"label": "University", "href": "https://www.jainuniversity.ac.in"}
+        ],
+        "copy": {
+            "headline": ["Office of", "Academics"],
+            "description": [
+                "One portal for academic governance at JAIN (Deemed-to-be University):",
+                "calendars, notices, platforms, capacity building and quality assurance,",
+                "with structured oversight, transparency and strategic innovation."
+            ],
+            "navCta": {"label": "Sign in", "href": "#login"},
+            "primaryCta": {"label": "Sign in to the portal", "href": "#login"},
+            "secondaryCta": {"label": "About the University", "href": url_for('about_jain')}
+        }
+    } | tojson }}</script>
+    <script src="{{ url_for('static', filename='js/login-hero.js') }}" defer></script>
+
     <!-- Full Width Header -->
     <header id="header">
         <div class="nav-container">
             <div class="logo-section">
-                <img src="{{ url_for('static', filename='images/jainu.png') }}" alt="JAIN (Deemed-to-be University)" class="logo-img" data-intro-target style="height: 46px; width: auto;">
+                <img src="{{ url_for('static', filename='images/jainu.png') }}" alt="JAIN (Deemed-to-be University)" class="logo-img" style="height: 46px; width: auto;">
                 <span class="ac-brand-text">
                     <span class="ac-brand-title">Office of Academics</span>
                     <span class="ac-brand-sub">Academic Governance Portal · Bengaluru</span>
@@ -706,7 +745,7 @@
     </header>
 
     <!-- Hero Section -->
-    <main class="hero">
+    <main class="hero" id="login">
         <div class="hero-video-container">
             <video autoplay muted loop playsinline class="hero-video-bg" id="mainVideo">
                 <source src="static/videos/sam.mp4" type="video/mp4">
@@ -754,7 +793,7 @@
 
                         <div class="input-group">
                             <label class="input-label">Email address</label>
-                            <input type="email" name="email" id="email-input" class="input-field" placeholder="yourname@jainuniversity.ac.in" required autofocus>
+                            <input type="email" name="email" id="email-input" class="input-field" placeholder="yourname@jainuniversity.ac.in" required>
                         </div>
 
                         <div class="input-group">
@@ -879,13 +918,25 @@
         }
 
         // Scroll to login card and focus input
+        // The hero's "Sign in" links point at #login: glide to the card and focus the email field.
+        // After a failed sign-in (a message is shown), go straight to the card.
+        document.addEventListener('click', function (e) {
+            const a = e.target.closest && e.target.closest('a[href="#login"]');
+            if (a) { e.preventDefault(); scrollToLogin(); }
+        });
+        document.addEventListener('DOMContentLoaded', function () {
+            if (document.querySelector('#login-card .msg-box') || location.hash === '#login') {
+                setTimeout(scrollToLogin, 300);
+            }
+        });
+
         function scrollToLogin() {
             const card = document.getElementById("login-card");
             if (card) {
                 card.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 setTimeout(() => {
                     const emailInput = document.getElementById("email-input");
-                    if (emailInput) emailInput.focus();
+                    if (emailInput) emailInput.focus({ preventScroll: true });
                 }, 800);
             }
         }

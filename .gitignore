@@ -38,3 +38,6 @@ Thumbs.db
 
 # Logs
 *.log
+
+# Frontend build tooling
+frontend/node_modules/

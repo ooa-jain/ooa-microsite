@@ -1,0 +1,25 @@
+{
+  "name": "ooa-frontend",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build:js": "esbuild src/login-hero.tsx --bundle --minify --format=iife --target=es2019 --jsx=automatic --define:process.env.NODE_ENV='\"production\"' --outfile=../static/js/login-hero.js",
+    "build:css": "tailwindcss -i src/hero.css -o ../static/css/login-hero.css --minify",
+    "build": "npm run build:js && npm run build:css",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "lucide-react": "^0.468.0",
+    "motion": "^12.23.12",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.1.11",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "esbuild": "^0.24.2",
+    "tailwindcss": "^4.1.11",
+    "typescript": "^5.6.3"
+  }
+}

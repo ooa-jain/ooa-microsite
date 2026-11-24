@@ -13,10 +13,11 @@
   {% set _parts = _nm.replace('_', '.').replace('-', '.').split('.') %}
   {% set _initials = ((_parts[0][:1] ~ (_parts[1][:1] if _parts|length > 1 and _parts[1] else _parts[0][1:2])))|upper %}
 {% endif %}
+{% include 'partials/logo_intro.html' %}
 <header class="pb-header">
   <div class="ac-wrap pb-row">
     <a href="{{ url_for('home') if user_logged_in else url_for('index') }}" class="pb-brand" aria-label="Office of Academics, JAIN (Deemed-to-be University)">
-      <img src="{{ url_for('static', filename='images/jainu.png') }}" alt="JAIN (Deemed-to-be University)" class="pb-logo"
+      <img src="{{ url_for('static', filename='images/jainu.png') }}" alt="JAIN (Deemed-to-be University)" class="pb-logo" data-intro-target
         onerror="this.src='{{ url_for('static', filename='images/L23.png') }}'">
     </a>
 

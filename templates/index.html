@@ -665,6 +665,7 @@
     </style>
 </head>
 <body class="ac-landing">
+    {% set intro_key = 'out' %}{% include 'partials/logo_intro.html' %}
 
     <!-- Loading -->
     <div id="loading">
@@ -688,7 +689,7 @@
     <header id="header">
         <div class="nav-container">
             <div class="logo-section">
-                <img src="{{ url_for('static', filename='images/jainu.png') }}" alt="JAIN (Deemed-to-be University)" class="logo-img" style="height: 46px; width: auto;">
+                <img src="{{ url_for('static', filename='images/jainu.png') }}" alt="JAIN (Deemed-to-be University)" class="logo-img" data-intro-target style="height: 46px; width: auto;">
                 <span class="ac-brand-text">
                     <span class="ac-brand-title">Office of Academics</span>
                     <span class="ac-brand-sub">Academic Governance Portal · Bengaluru</span>

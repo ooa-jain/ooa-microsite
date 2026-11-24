@@ -674,6 +674,8 @@
         body.ac-landing .ac-landing-utility { position: relative; }
         body.ac-landing .hero { padding-top: 72px; }
         #brusha-root { min-height: 100svh; background: #f8f6f1; }
+        .resource-card { display: block; text-decoration: none; color: inherit; }
+        .resource-card:hover h3 { color: #1d4e89; }
         @media (max-width: 968px) { body.ac-landing .hero { padding-top: 48px; } }
     </style>
 </head>
@@ -871,6 +873,32 @@
                 <h3>Analytics Dashboard</h3>
                 <p>Live insights into process status, compliance levels & Academics readiness.</p>
             </div>
+        </div>
+    </section>
+
+    <!-- Academic resources (open to everyone, no sign-in needed) -->
+    <section id="resources" class="section">
+        <div class="section-header">
+            <h2 class="section-title">Academic resources</h2>
+            <p class="section-subtitle">Academic calendars, learning resources and departmental services</p>
+            <div class="yellow-line-sub"></div>
+        </div>
+        <div class="features-grid">
+            <a class="feature-card resource-card" href="{{ academic_calendar_url }}" target="_blank" rel="noopener">
+                <i class="fas fa-calendar-days feature-icon"></i>
+                <h3>Academic calendar</h3>
+                <p>Teaching periods and university dates.</p>
+            </a>
+            <a class="feature-card resource-card" href="{{ url_for('ai_newsletter_archive') }}">
+                <i class="fas fa-newspaper feature-icon"></i>
+                <h3>AI Innovation Newsletter</h3>
+                <p>Browse editions on teaching, learning and research.</p>
+            </a>
+            <a class="feature-card resource-card" href="{{ url_for('about_jain') }}">
+                <i class="fas fa-building-columns feature-icon"></i>
+                <h3>About the university</h3>
+                <p>Explore JAIN and its academic community.</p>
+            </a>
         </div>
     </section>
 

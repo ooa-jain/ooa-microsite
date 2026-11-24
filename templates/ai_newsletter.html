@@ -122,6 +122,8 @@
       <div class="cover"><small>{% if loop.first %}Latest edition{% else %}Edition{% endif %}</small><b>{{ e.edition }}</b></div>
       <div class="card-body"><h2>{{ e.title }}</h2><p>{{ e.summary }}</p><span class="go">Read edition <i class="fas fa-arrow-right"></i></span></div>
     </a>
+    {% else %}
+    <p style="grid-column:1/-1;color:var(--ac-muted,#6b7390)">No newsletter editions are available yet.</p>
     {% endfor %}
   </div>
   {% endif %}

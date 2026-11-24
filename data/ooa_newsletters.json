@@ -201,5 +201,23 @@
     "links": [
       {"label": "Zapier Agents", "url": "https://zapier.com/agents"}
     ]
+  },
+  {
+    "gmail_id": "19a71a15940cf15b",
+    "slug": "2025-11-jain-ai-weekly-01",
+    "edition": "November 2025",
+    "sent_at": "2025-11-11T06:36:18Z",
+    "title": "Introducing the JAIN AI Weekly Newsletter",
+    "theme": "Your guide to understanding AI in education",
+    "summary": "The first edition of the JAIN AI newsletter, part of building an AI-first education institute: how artificial intelligence is changing teaching, learning and student life, with tools and real-world applications for learners and educators.",
+    "sections": [
+      {"heading": "AI adaptive learning platforms", "body": "Adaptive platforms analyse each learner's progress and build personalised learning paths that change in real time. Through videos, simulations and interactive modules they track performance, recognise learning styles and adjust the difficulty of lessons, simplifying a topic step by step for students who need help and going deeper for those ready for a challenge."},
+      {"heading": "What it means for educators", "body": "Instead of tracking progress or tailoring lessons by hand, teachers get real-time insight into each student's learning. The tools show who needs support and who is ready to move on, so time goes to meaningful interaction rather than routine assessment. AI does not replace teachers; it makes teaching more personal, inclusive and data-informed."},
+      {"heading": "ChatGPT Atlas: an AI learning browser", "body": "Released on 21 October 2025, Atlas brings browsing, research and writing into one workspace. Students can summarise articles or clarify ideas without switching tabs, Browser Memories keeps track of what was explored and why, and Cursor Chat rewrites, refines or explains any highlighted text. Quick quizzes and reflective prompts encourage active learning. It launched on macOS, with Windows to follow."}
+    ],
+    "links": [
+      {"label": "Share feedback on the newsletter", "url": "https://docs.google.com/forms/d/e/1FAIpQLSdRvlhxhdPlXZfdKQupI0qO8pIWZCUKsrz6Hodozz0E9RaPDg/viewform"},
+      {"label": "ChatGPT Atlas", "url": "https://chatgpt.com/atlas"}
+    ]
   }
 ]

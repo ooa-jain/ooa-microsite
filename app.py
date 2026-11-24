@@ -4832,6 +4832,9 @@ OOA_PLATFORMS = [
     {'key': 'IDP_URL', 'name': 'IDP', 'icon': 'fa-compass-drafting',
      'url': os.getenv('IDP_URL', 'https://drive.google.com/file/d/1iktRYOQLap8VaWmAM_3Ck9YB9plgUfNh/view?usp=sharing'),
      'desc': 'Institutional Development Plan: UGC guidelines and the enabler roadmap.'},
+    {'key': 'NEP_NEWSLETTER_URL', 'name': 'NEP Newsletter', 'icon': 'fa-newspaper',
+     'url': os.getenv('NEP_NEWSLETTER_URL', 'https://drive.google.com/file/d/10mjKLD2pEG6Q_rzwQjHSd-zxlkloLNpL/view'),
+     'desc': 'National Education Policy newsletter, Volume 1 (2025), on Google Drive.'},
 ]
 
 @app.context_processor

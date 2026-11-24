@@ -1,0 +1,93 @@
+{#
+  Logo intro: the JAIN University logo appears in the centre of the screen,
+  then flies up into the navbar logo (any element with [data-intro-target]).
+  Shown once per browser session for signed-out (login) and once for signed-in.
+  Skipped for prefers-reduced-motion, ?nointro=1, or a click / key press.
+  Include right after <body> (login page) or at the top of the shared header.
+  Optional: set `intro_key` ('out' | 'in') before including.
+#}
+{% set _intro_key = intro_key|default('in' if user_logged_in else 'out') %}
+<script>
+(function () {
+  var k = 'ooa-intro-{{ _intro_key }}';
+  var skip = /[?&]nointro=1/.test(location.search) ||
+             (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
+  try { if (sessionStorage.getItem(k)) skip = true; } catch (e) {}
+  if (!skip) document.documentElement.classList.add('ooa-intro-on');
+  window.__ooaIntroKey = k;
+})();
+</script>
+<style>
+  #ooaIntro { display: none; }
+  html.ooa-intro-on { overflow: hidden; }
+  html.ooa-intro-on #ooaIntro {
+    display: grid; place-items: center; position: fixed; inset: 0; z-index: 2147483000;
+    background: radial-gradient(1200px 600px at 50% 45%, #ffffff 0%, #f3f5fb 60%, #e9edf7 100%);
+    cursor: pointer; transition: opacity .55s ease .25s;
+  }
+  html.ooa-intro-on [data-intro-target] { visibility: hidden; }
+  #ooaIntro .oi-stage { display: flex; flex-direction: column; align-items: center; gap: 22px; }
+  #ooaIntro .oi-logo {
+    width: min(460px, 74vw); height: auto; display: block; transform-origin: 0 0;
+    opacity: 0; transform: translateY(18px) scale(.96); filter: blur(6px);
+    animation: oiIn .9s cubic-bezier(.22,1,.36,1) .1s forwards;
+  }
+  #ooaIntro .oi-line { width: 0; height: 2px; border-radius: 2px; background: #1d4e89; animation: oiLine .8s cubic-bezier(.22,1,.36,1) .55s forwards; }
+  #ooaIntro .oi-sub {
+    font: 600 13px/1 'Inter', system-ui, sans-serif; letter-spacing: .32em; text-transform: uppercase; color: #47506a;
+    clip-path: inset(0 100% 0 0); animation: oiReveal .9s cubic-bezier(.22,1,.36,1) .75s forwards;
+  }
+  #ooaIntro .oi-skip { position: absolute; bottom: 26px; font: 500 12px 'Inter', system-ui, sans-serif; color: #9aa1b8; opacity: 0; animation: oiFade .4s ease 1.2s forwards; }
+  #ooaIntro.oi-leave { opacity: 0; pointer-events: none; }
+  #ooaIntro.oi-leave .oi-line, #ooaIntro.oi-leave .oi-sub, #ooaIntro.oi-leave .oi-skip { opacity: 0; transition: opacity .25s ease; }
+  #ooaIntro.oi-leave { background: transparent; transition: background .6s ease, opacity .4s ease .75s; }
+  @keyframes oiIn { to { opacity: 1; transform: none; filter: none; } }
+  @keyframes oiLine { to { width: 120px; } }
+  @keyframes oiReveal { to { clip-path: inset(0 0 0 0); } }
+  @keyframes oiFade { to { opacity: 1; } }
+  /* page content rises in after the logo lands */
+  .ooa-intro-rise { animation: oiRise .6s cubic-bezier(.22,1,.36,1) both; }
+  @keyframes oiRise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+</style>
+<div id="ooaIntro" aria-hidden="true">
+  <div class="oi-stage">
+    <img class="oi-logo" src="{{ url_for('static', filename='images/jainu.png') }}" alt="">
+    <div class="oi-line"></div>
+    <div class="oi-sub">Office of Academics</div>
+  </div>
+  <div class="oi-skip">Click anywhere to skip</div>
+</div>
+<script>
+(function () {
+  var root = document.documentElement;
+  if (!root.classList.contains('ooa-intro-on')) return;
+  var box = document.getElementById('ooaIntro'), logo = box.querySelector('.oi-logo'), done = false, timer;
+
+  function finish() {
+    if (done) return; done = true; clearTimeout(timer);
+    try { sessionStorage.setItem(window.__ooaIntroKey, '1'); } catch (e) {}
+    var target = document.querySelector('[data-intro-target]');
+    box.classList.add('oi-leave');
+    if (target && target.getBoundingClientRect().width) {
+      // FLIP: move the big centred logo onto the navbar logo's exact box
+      var a = logo.getBoundingClientRect(), b = target.getBoundingClientRect();
+      logo.style.animation = 'none'; logo.style.opacity = 1; logo.style.filter = 'none';
+      logo.style.transition = 'transform 1s cubic-bezier(.22,1,.36,1)';
+      logo.getBoundingClientRect();
+      logo.style.transform = 'translate(' + (b.left - a.left) + 'px,' + (b.top - a.top) + 'px) scale(' + (b.width / a.width) + ')';
+    }
+    var nav = document.querySelectorAll('.pb-nav, .pb-actions, .nav-links, .btn-access, .ac-landing-utility');
+    setTimeout(function () {
+      root.classList.remove('ooa-intro-on');
+      nav.forEach(function (el) { el.classList.add('ooa-intro-rise'); });
+      box.remove();
+    }, 1050);
+  }
+
+  box.addEventListener('click', finish);
+  document.addEventListener('keydown', finish, { once: true });
+  // hold the centred logo, then fly it up once the page (and target) exists
+  var start = function () { timer = setTimeout(finish, 1700); };
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start); else start();
+})();
+</script>

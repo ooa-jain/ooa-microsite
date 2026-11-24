@@ -15,7 +15,8 @@ load_dotenv()
 
 # ── Flask & extensions ─────────────────────────────────────────────────
 from flask import (Flask, render_template, request, redirect, url_for,
-                   flash, session, send_from_directory, jsonify, json as flask_json)
+                   flash, session, send_from_directory, jsonify, json as flask_json,
+                   abort, make_response)
 from flask_pymongo import PyMongo
 from flask_mail import Mail, Message
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -4857,8 +4858,47 @@ def ai_newsletter_edition(slug):
     if not ed:
         flash('That newsletter edition was not found.', 'error')
         return redirect(url_for('ai_newsletter_archive'))
-    others = [e for e in nf.list_editions(db, limit=6) if e['slug'] != slug][:4]
-    return render_template('ai_newsletter.html', edition=ed, editions=others, **_get_user_info())
+    all_eds = nf.list_editions(db)
+    idx = next((i for i, e in enumerate(all_eds) if e['slug'] == slug), None)
+    newer = all_eds[idx - 1] if idx else None
+    older = all_eds[idx + 1] if idx is not None and idx + 1 < len(all_eds) else None
+    others = [e for e in all_eds if e['slug'] != slug][:4]
+    return render_template('ai_newsletter.html', edition=ed, editions=others,
+                           newer=newer, older=older, **_get_user_info())
+
+@app.route('/ai-newsletter/img/<img_id>')
+def ai_newsletter_image(img_id):
+    """A photo that was attached inside a newsletter email (stored by the Gmail refresh)."""
+    if not re.fullmatch(r'[\w-]{6,80}', img_id):
+        abort(404)
+    doc = db.ooa_newsletter_images.find_one({'_id': img_id})
+    if not doc:
+        abort(404)
+    resp = make_response(bytes(doc['data']))
+    resp.headers['Content-Type'] = doc.get('mime', 'image/jpeg')
+    resp.headers['Cache-Control'] = 'public, max-age=2592000, immutable'
+    return resp
+
+@app.route('/admin/newsletters/refresh', methods=['POST'])
+@login_required
+def admin_refresh_newsletters():
+    """Admin: re-read every edition's email and save the full article with its photos."""
+    if session.get('role') != 'admin' and session.get('special_role') != 'office_barrier':
+        return jsonify({'success': False, 'error': 'Admins only'}), 403
+    try:
+        nf.ensure_seeded(db)
+        res = nf.refresh_articles(db, session.get('gmail_creds'))
+    except Exception as e:
+        logger.error(f"newsletter refresh error: {e}", exc_info=True)
+        res = {'success': False, 'error': str(e)}
+    if res.get('success'):
+        msg = f"Updated {len(res['updated'])} edition(s) with full articles and photos."
+        if res['failed']:
+            msg += f" Could not read: {', '.join(res['failed'])}."
+        flash(msg, 'success')
+    else:
+        flash(f"Refresh failed: {res.get('error')}", 'error')
+    return redirect(url_for('ai_newsletter_archive'))
 
 @app.route('/admin/newsletters/sync', methods=['POST'])
 @login_required
@@ -4887,7 +4927,10 @@ def cron_sync_newsletters():
         return jsonify({'error': 'Unauthorized'}), 401
     try:
         nf.ensure_seeded(db)
-        return jsonify(nf.sync_from_gmail(db))
+        res = nf.sync_from_gmail(db)
+        if res.get('success'):
+            res['articles'] = nf.refresh_articles(db, only_missing=True)
+        return jsonify(res)
     except Exception as e:
         logger.error(f"cron newsletter sync error: {e}", exc_info=True)
         return jsonify({'success': False, 'error': str(e)}), 500

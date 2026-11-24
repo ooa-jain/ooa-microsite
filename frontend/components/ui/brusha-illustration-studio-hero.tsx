@@ -52,6 +52,8 @@ export interface BrushaProps {
     secondaryCta: BrushaCta
   }
   reducedMotion?: boolean
+  /** Show the hero's own navbar and logo intro. Off when the page already has a header (e.g. Jain Hub). Default: true */
+  showNav?: boolean
   className?: string
 }
 
@@ -125,6 +127,8 @@ const ILLUSTRATION_LAYOUT = {
 } satisfies Record<string, IllustrationSlotType>
 
 interface BrushaContextValue {
+  /** Seconds added to every entrance: 0 with the logo intro, earlier without it */
+  SHIFT: number
   BRAND: string
   GIRL: BrushaImage & { hoverSrc: string }
   LOGO: BrushaImage
@@ -1227,21 +1231,21 @@ const HeroNavbar = () => {
 /* ----------------------------- Copy ----------------------------- */
 
 const HeroContent = () => {
-  const { COPY } = useBrusha()
+  const { COPY, SHIFT } = useBrusha()
 
   return (
     <div className='lm-copy lm-pad-x relative z-10 pt-[max(40px,calc(3*var(--u)))]'>
       <h1 className='lm-headline flex flex-col'>
         {COPY.headline.map((line, i) => (
           <span key={line} className='-my-[0.06em] block overflow-hidden py-[0.06em] md:whitespace-nowrap'>
-            <HeroReveal as='span' delay={INTRO.headline[i] ?? 0} y='100%' className='block'>
+            <HeroReveal as='span' delay={(INTRO.headline[i] ?? 0) + SHIFT} y='100%' className='block'>
               {line}
             </HeroReveal>
           </span>
         ))}
       </h1>
 
-      <HeroReveal delay={INTRO.description}>
+      <HeroReveal delay={INTRO.description + SHIFT}>
         <p className='lm-description text-lm-body mt-[max(16px,calc(1.1*var(--u)))] max-w-[550px] md:w-fit md:max-w-none md:pl-[calc(0.15*var(--u))]'>
           {COPY.description.map(line => (
             <span key={line} className='md:block'>
@@ -1251,7 +1255,7 @@ const HeroContent = () => {
         </p>
       </HeroReveal>
 
-      <HeroReveal delay={INTRO.cta}>
+      <HeroReveal delay={INTRO.cta + SHIFT}>
         <div className='mt-[max(20px,calc(1.4*var(--u)))] flex flex-wrap items-center gap-x-[max(24px,calc(2.3*var(--u)))] gap-y-4'>
           <a
             href={COPY.primaryCta.href}
@@ -1317,16 +1321,16 @@ const PIECES: PieceType[] = [
 
 const pct = (value: number, of: number) => `${(value / of) * 100}%`
 
-const entrance = (piece: PieceType, artworkIndex: number, detailIndex: number) => {
-  if (piece.enter === 'sun') return { delay: INTRO.sun.delay, y: INTRO.sun.from, scale: 1, duration: INTRO.sun.duration }
-  if (piece.enter === 'figure') return { delay: INTRO.figure, y: 35, scale: 0.97 }
-  if (piece.enter === 'detail') return { delay: INTRO.detailStart + detailIndex * INTRO.detailStagger, y: 18, scale: 1 }
+const entrance = (piece: PieceType, artworkIndex: number, detailIndex: number, shift: number) => {
+  if (piece.enter === 'sun') return { delay: INTRO.sun.delay + shift, y: INTRO.sun.from, scale: 1, duration: INTRO.sun.duration }
+  if (piece.enter === 'figure') return { delay: INTRO.figure + shift, y: 35, scale: 0.97 }
+  if (piece.enter === 'detail') return { delay: INTRO.detailStart + shift + detailIndex * INTRO.detailStagger, y: 18, scale: 1 }
 
-  return { delay: INTRO.artworkStart + artworkIndex * INTRO.artworkStagger, y: 40, scale: 1 }
+  return { delay: INTRO.artworkStart + shift + artworkIndex * INTRO.artworkStagger, y: 40, scale: 1 }
 }
 
 const HeroIllustration = () => {
-  const { GIRL, REDUCED } = useBrusha()
+  const { GIRL, REDUCED, SHIFT } = useBrusha()
   const [loopsRun, setLoopsRun] = useState(true)
   const ref = useRef<HTMLDivElement>(null)
   const { sunEyesStyle } = useCursorGaze(ref)
@@ -1372,7 +1376,7 @@ const HeroIllustration = () => {
         {PIECES.map(piece => {
           const { name, Svg, minor } = piece
           const slot: IllustrationSlotType = ILLUSTRATION_LAYOUT[name]
-          const enter = entrance(piece, artworkIndex, detailIndex)
+          const enter = entrance(piece, artworkIndex, detailIndex, SHIFT)
 
           if (piece.enter === 'detail') detailIndex++
           else if (piece.enter !== 'figure' && piece.enter !== 'sun') artworkIndex++
@@ -1422,9 +1426,9 @@ const HeroIllustration = () => {
   )
 }
 
-const HeroSection = () => (
+const HeroSection = ({ showNav }: { showNav: boolean }) => (
   <section className='lm-card lm-grain bg-lm-card font-lm-sans text-lm-ink relative isolate flex w-full flex-col overflow-hidden antialiased'>
-    <HeroNavbar />
+    {showNav && <HeroNavbar />}
     <HeroContent />
     <HeroIllustration />
   </section>
@@ -1448,10 +1452,13 @@ const Brusha = ({
     secondaryCta: { label: '', href: '#' }
   },
   reducedMotion,
+  showNav = true,
   className
 }: BrushaProps) => {
   const LOGO = logo ?? EMPTY_IMAGE
   const value: BrushaContextValue = {
+    // without the navbar's logo intro, the copy starts at once instead of waiting for the logo to land
+    SHIFT: showNav ? 0 : 0.15 - INTRO_START,
     BRAND: brand,
     GIRL: girl ?? { ...EMPTY_IMAGE, hoverSrc: '' },
     LOGO,
@@ -1465,7 +1472,7 @@ const Brusha = ({
     <BrushaContext.Provider value={value}>
       <LazyMotion features={domAnimation}>
         <div data-slot='brusha' className={className} style={{ width: '100%' }}>
-          <HeroSection />
+          <HeroSection showNav={showNav} />
         </div>
       </LazyMotion>
     </BrushaContext.Provider>

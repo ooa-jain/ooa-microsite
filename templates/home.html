@@ -5611,6 +5611,7 @@
     body.ac-theme .page-wrapper > .greeting-section,
     body.ac-theme .page-wrapper > .hero-carousel { display: none !important; }
     #brusha-root { background: #f8f6f1; min-height: calc(100svh - 118px); }
+    html[data-theme="dark"] #brusha-root { background: #0f1629; }
     /* fills the screen under the header and the "Today at JAIN" bar */
     body.ac-theme #brusha-root .lm-card { min-height: calc(100svh - 118px); }
     @media (min-width: 1024px) {
@@ -5692,6 +5693,18 @@
     html[data-theme="dark"] .oc-ic, html[data-theme="dark"] .oc-hero { background: #17233d; color: #8db4ec; }
     html[data-theme="dark"] .oc-ring { background: radial-gradient(closest-side, #141c30 78%, transparent 79%), conic-gradient(#c0392b calc(var(--p) * 1%), #26304a 0); }
     html[data-theme="dark"] .oc-result.pass .oc-ring { background: radial-gradient(closest-side, #141c30 78%, transparent 79%), conic-gradient(#2f8f5a calc(var(--p) * 1%), #26304a 0); }
+
+    /* ── SWAYAM: latest updates list ── */
+    .sw-updates { list-style: none; margin: 18px 0 0; padding: 0; display: grid; gap: 10px; }
+    .sw-updates a { position: relative; display: block; padding: 14px 44px 14px 18px; border-radius: 14px; background: #fff; text-decoration: none;
+      border: 1px solid #e6e8ef; transition: border-color .15s, transform .15s; }
+    .sw-updates a:hover { border-color: #1d4e89; transform: translateY(-1px); }
+    .sw-updates .sw-up-src { display: block; font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: #1d4e89; margin-bottom: 4px; }
+    .sw-updates b { display: block; font-size: 15px; font-weight: 600; color: #111a3a; line-height: 1.45; }
+    .sw-updates i { position: absolute; right: 18px; top: 50%; transform: translateY(-50%); color: #9aa1b8; font-size: 13px; }
+    html[data-theme="dark"] .sw-updates a { background: #141c30; border-color: #26304a; }
+    html[data-theme="dark"] .sw-updates b { color: #eef1f8; }
+    html[data-theme="dark"] .sw-updates .sw-up-src { color: #8db4ec; }
 
     /* ── Guided tour (driver.js) in the portal style ── */
     .driver-popover.ooa-tour { font-family: 'Inter', system-ui, sans-serif; background: #fff; color: #2b3350; border-radius: 18px; padding: 18px 20px 16px;
@@ -6076,6 +6089,8 @@
                 <div class="sw-tabs" role="tablist" aria-label="SWAYAM sections">
                   <button type="button" role="tab" class="is-on" aria-selected="true" data-sw-tab="courses"><i
                       class="fas fa-book-open"></i> Courses</button>
+                  <button type="button" role="tab" aria-selected="false" data-sw-tab="updates"><i
+                      class="fas fa-bullhorn"></i> Latest updates</button>
                   <button type="button" role="tab" aria-selected="false" data-sw-tab="guide"><i
                       class="fas fa-clipboard-list"></i> Enrolment guidelines</button>
                   <button type="button" role="tab" aria-selected="false" data-sw-tab="mentee"><i
@@ -6085,6 +6100,23 @@
                   <button type="button" role="tab" aria-selected="false" data-sw-tab="assess"><i
                       class="fas fa-scale-balanced"></i> Assessment</button>
                 </div>
+              </div>
+
+              <!-- ── LATEST UPDATES (swayam_updates.py: official SWAYAM / UGC pages, re-read daily) ── -->
+              <div class="sw-panel" id="sw-updates" role="tabpanel">
+                <div class="sw-section-head">
+                  <span class="sw-eyebrow">From swayam.gov.in and ugc.gov.in</span>
+                  <h3>Latest SWAYAM and UGC online-learning updates</h3>
+                  <p>Notices on SWAYAM semesters, examinations and online / ODL programmes, linked to the official source.</p>
+                </div>
+                <ol class="sw-updates">
+                  {% for u in swayam_updates %}
+                  <li><a href="{{ u.url }}" target="_blank" rel="noopener">
+                    <span class="sw-up-src">{{ u.source }}{% if u.date %} · {{ u.date }}{% endif %}</span>
+                    <b>{{ u.title }}</b>
+                    <i class="fas fa-arrow-up-right-from-square"></i></a></li>
+                  {% endfor %}
+                </ol>
               </div>
 
               <!-- ── COURSES ── -->

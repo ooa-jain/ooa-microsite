@@ -763,3 +763,22 @@ body.ac-theme .mentoring-hero span, body.ac-theme .mentoring-hero i, body.ac-the
 body.ac-theme .mentoring-hero p { color: rgba(255,255,255,.85) !important; }
 /* the slideshow keeps its banner shape; never force a fixed height (it widened the phone layout) */
 @media (max-width: 900px) { body.ac-theme .hero-carousel { height: auto !important; width: 100%; } }
+
+/* ═══ 20. DARK MODE FIXES — cards that stayed white while their text turned light ═══ */
+html[data-theme="dark"] body.ac-theme .sw-wobble,
+html[data-theme="dark"] body.ac-theme .sw-wobble-inner,
+html[data-theme="dark"] body.ac-theme .sw-wobble-copy { background: #141c30 !important; border-color: #26304a !important; }
+html[data-theme="dark"] body.ac-theme .sw-wobble-img { background: transparent !important; }
+html[data-theme="dark"] body.ac-theme .sw-wobble-copy h3,
+html[data-theme="dark"] body.ac-theme .sw-wobble-copy h4 { color: #eef1f8 !important; }
+html[data-theme="dark"] body.ac-theme .sw-wobble-copy p,
+html[data-theme="dark"] body.ac-theme .sw-wobble-copy small { color: #aab2c6 !important; }
+html[data-theme="dark"] body.ac-theme .manual-card,
+html[data-theme="dark"] body.ac-theme .mentor-coord-card { background: #141c30 !important; border-color: #26304a !important; color: #c9cfdf; }
+html[data-theme="dark"] body.ac-theme .manual-card h3, html[data-theme="dark"] body.ac-theme .manual-card h4,
+html[data-theme="dark"] body.ac-theme .mentor-coord-card h3, html[data-theme="dark"] body.ac-theme .mentor-coord-card h4 { color: #eef1f8 !important; }
+html[data-theme="dark"] body.ac-theme .cal-view-seg,
+html[data-theme="dark"] body.ac-theme .subtabs { background: #1d2740 !important; }
+html[data-theme="dark"] body.ac-theme .cal-view-seg button:not(.on),
+html[data-theme="dark"] body.ac-theme .subtabs .stab:not(.active) { color: #aab2c6 !important; }
+html[data-theme="dark"] body.ac-theme th { background: #1d2740 !important; color: #eef1f8 !important; }

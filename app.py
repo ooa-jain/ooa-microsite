@@ -43,6 +43,7 @@ from groq import Groq
 
 # ── OOA monthly newsletter feed (Gmail → homepage) ────────────────────
 import newsletter_feed as nf
+import hod_announcements as hodann
 
 # ── PDF extraction ─────────────────────────────────────────────────────
 try:
@@ -64,6 +65,7 @@ logger = logging.getLogger(__name__)
 app = Flask(__name__)
 from config import Config
 from swayam_data import SWAYAM
+import swayam_updates
 app.config.from_object(Config)
 
 app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_host=1)
@@ -607,6 +609,10 @@ def api_home_data():
             elif event_date > today_str:
                 upcoming_events.append(ev_copy); all_upcoming.append(ev_copy)
                 
+        try:
+            hodann.ensure_seeded(db)     # circulars sent to the HoD lists (once per process)
+        except Exception as e:
+            logger.warning(f"HoD announcements seed: {e}")
         ugc_records_raw = get_cached_dashboard_data('ugc_records', lambda: list(db.ugc_data.find().sort("uploaded_at",-1).limit(50)), ttl=15)
         
         serialized_records = [serialize_doc(r) for r in ugc_records_raw]
@@ -2197,7 +2203,7 @@ def home():
             user_type=user_type, is_faculty=is_fac, can_upload=can_upload,
             approved=approved, special_role=special_role,
             user_department=user_department, user_location=user_location,
-            swayam=SWAYAM)
+            swayam=SWAYAM, swayam_updates=_swayam_updates())
     except Exception as e:
         logger.error(f"Home route error: {e}", exc_info=True)
         flash("Error loading home page", "error")
@@ -4845,6 +4851,14 @@ def inject_ooa_platforms():
 # ══════════════════════════════════════════════════════════════════════
 #  AI INNOVATION NEWSLETTER  (monthly editions, newest on top)
 # ══════════════════════════════════════════════════════════════════════
+def _swayam_updates():
+    """Latest SWAYAM / UGC online-learning notices (re-read from the official sites once a day)."""
+    try:
+        return swayam_updates.latest(db)
+    except Exception as e:
+        logger.warning(f"swayam updates: {e}")
+        return swayam_updates.FALLBACK
+
 @app.route('/ai-newsletter')
 def ai_newsletter_archive():
     nf.ensure_seeded(db)
@@ -4908,6 +4922,12 @@ def admin_sync_newsletters():
         return jsonify({'success': False, 'error': 'Admins only'}), 403
     try:
         res = nf.sync_from_gmail(db, session.get('gmail_creds'))
+        try:
+            hres = hodann.sync_from_gmail(db, session.get('gmail_creds'))
+            if hres.get('success') and hres['added']:
+                flash(f"{len(hres['added'])} new HoD circular(s) added to Office of Academics Announcements.", 'success')
+        except Exception as e:
+            logger.warning(f"HoD announcements sync: {e}")
     except Exception as e:
         logger.error(f"newsletter sync error: {e}", exc_info=True)
         res = {'success': False, 'error': str(e)}
@@ -4930,6 +4950,10 @@ def cron_sync_newsletters():
         res = nf.sync_from_gmail(db)
         if res.get('success'):
             res['articles'] = nf.refresh_articles(db, only_missing=True)
+        try:
+            res['hod_announcements'] = hodann.sync_from_gmail(db)
+        except Exception as e:
+            res['hod_announcements'] = {'success': False, 'error': str(e)}
         return jsonify(res)
     except Exception as e:
         logger.error(f"cron newsletter sync error: {e}", exc_info=True)

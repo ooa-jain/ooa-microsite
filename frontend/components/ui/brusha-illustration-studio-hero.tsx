@@ -113,6 +113,10 @@ const ILLUSTRATION_LAYOUT = {
   birdTrail: { x: 982, y: 110, w: 206 },
   rightPlants: { x: 1000, y: 146, w: 300, flip: true },
   girl: { x: 520, y: 34, w: 260 },
+  // Education pieces resting on the stone: a laptop, a stack of books with a graduation cap, a pencil in the grass
+  laptop: { x: 548, y: 196, w: 150 },
+  books: { x: 690, y: 150, w: 130 },
+  pencil: { x: 935, y: 330, w: 34, rotate: 18 },
   grass: { x: 430, y: 310, w: 1710 },
   pinkFlowerStone: { x: 653, y: 318, w: 142 },
   whiteFlowersStone: { x: 766, y: 316, w: 164 },
@@ -967,6 +971,78 @@ const LumoraYellowCircle = (props: SVGProps<SVGSVGElement>) => (
   </svg>
 )
 
+/* ----------------------------- Education ----------------------------- */
+
+// The laptop's cursor blinks; hovering lifts the screen a little
+const LAPTOP_POP: TargetAndTransition = { y: -4, transition: { duration: 0.35, ease: EASE_OUT } }
+
+const LumoraLaptop = (props: SVGProps<SVGSVGElement>) => (
+  <svg viewBox='0 0 180 120' aria-hidden {...props}>
+    <m.g whileHover={LAPTOP_POP} transition={SETTLE}>
+      <rect x='24' y='4' width='132' height='88' rx='7' fill='#1f3a68' />
+      <rect x='32' y='12' width='116' height='72' rx='3' fill='#57acfa' />
+      <path d='M32 12 H148 V40 C 120 34, 70 30, 32 44 Z' fill='#8cc4fb' opacity='0.55' />
+      <g stroke='#ffffff' strokeWidth='3.4' strokeLinecap='round'>
+        <path d='M44 30 H78' /><path d='M52 42 H104' opacity='0.85' /><path d='M52 54 H92' opacity='0.85' />
+        <path d='M44 66 H70' />
+      </g>
+      <m.rect x='74' y='61' width='3.5' height='10' rx='1' fill='#fec430' variants={{
+        run: { opacity: [1, 0, 1], transition: { duration: 1.1, repeat: Infinity, ease: 'linear' } },
+        rest: { opacity: 1 }, still: { opacity: 1 } }} />
+      <circle cx='90' cy='8' r='1.6' fill='#8cc4fb' />
+    </m.g>
+    <path d='M4 92 H176 L168 108 C 166 112, 162 114, 158 114 H22 C 18 114, 14 112, 12 108 Z' fill='#c9d3e3' />
+    <path d='M4 92 H176 L174 97 H6 Z' fill='#e4eaf3' />
+    <rect x='74' y='93' width='32' height='5' rx='2.5' fill='#9aa8bf' />
+  </svg>
+)
+
+// Tassel on the graduation cap swings gently
+const TASSEL_SWAY = mirrorLoop('rotate(-8deg)', 'rotate(10deg)', { duration: 1.6 })
+const BOOKS_POP: TargetAndTransition = { y: -5, rotate: -2, transition: { duration: 0.4, ease: EASE_OUT } }
+
+const LumoraBooks = (props: SVGProps<SVGSVGElement>) => (
+  <svg viewBox='0 0 160 150' aria-hidden {...props}>
+    <m.g whileHover={BOOKS_POP} transition={SETTLE} style={{ originX: 0.5, originY: 1 }}>
+      {/* bottom book */}
+      <rect x='8' y='112' width='144' height='30' rx='4' fill='#fd8b70' />
+      <rect x='16' y='117' width='130' height='8' rx='2' fill='#f6ecde' />
+      <rect x='8' y='112' width='10' height='30' rx='3' fill='#e06a50' />
+      {/* middle book */}
+      <rect x='22' y='84' width='122' height='28' rx='4' fill='#3a98e8' />
+      <rect x='28' y='89' width='110' height='7' rx='2' fill='#e8f2fd' />
+      <rect x='134' y='84' width='10' height='28' rx='3' fill='#2e86d6' />
+      <rect x='60' y='101' width='40' height='3' rx='1.5' fill='#bfe0fb' />
+      {/* top book */}
+      <rect x='14' y='58' width='126' height='26' rx='4' fill='#fec430' />
+      <rect x='20' y='63' width='114' height='6' rx='2' fill='#fff6d8' />
+      <rect x='14' y='58' width='9' height='26' rx='3' fill='#e9ac12' />
+      {/* graduation cap */}
+      <path d='M77 44 C 58 44, 50 50, 50 50 V 60 C 64 66, 92 66, 106 60 V 50 C 106 50, 98 44, 77 44 Z' fill='#1b1b1b' />
+      <path d='M78 12 L 142 32 L 78 52 L 14 32 Z' fill='#121212' />
+      <path d='M78 12 L 142 32 L 120 39 L 78 26 Z' fill='#2a2a2a' />
+      <circle cx='78' cy='32' r='3.4' fill='#fec430' />
+      <m.g {...TASSEL_SWAY} style={fillBox(0, 0)}>
+        <path d='M78 32 C 100 34, 118 36, 124 40 L 124 62' fill='none' stroke='#fec430' strokeWidth='3' strokeLinecap='round' />
+        <path d='M120 60 h8 l-1 12 h-6 Z' fill='#fec430' />
+      </m.g>
+    </m.g>
+  </svg>
+)
+
+const LumoraPencil = (props: SVGProps<SVGSVGElement>) => (
+  <svg viewBox='0 0 34 170' aria-hidden {...props}>
+    <m.g {...plantSway(3, 31)} style={fillBox(0.5, 1)}>
+      <rect x='5' y='0' width='24' height='14' rx='4' fill='#fd9d82' />
+      <rect x='5' y='12' width='24' height='9' fill='#c9d3e3' />
+      <rect x='5' y='21' width='24' height='112' fill='#fec430' />
+      <rect x='5' y='21' width='8' height='112' fill='#fed659' />
+      <path d='M5 133 H29 L17 162 Z' fill='#f6ecde' />
+      <path d='M12 150 H22 L17 162 Z' fill='#141414' />
+    </m.g>
+  </svg>
+)
+
 /* ----------------------------- Reveal ----------------------------- */
 
 type EntranceType = { delay?: number; y?: number | string; scale?: number; duration?: number }
@@ -1304,6 +1380,9 @@ const PIECES: PieceType[] = [
   { name: 'birdTrail', Svg: LumoraBirdTrail, minor: true, enter: 'detail' },
   { name: 'bird', Svg: LumoraBlueBird, enter: 'detail', hover: true },
   { name: 'girl', Svg: LumoraGrass, enter: 'figure' },
+  { name: 'laptop', Svg: LumoraLaptop, enter: 'figure', hover: true },
+  { name: 'books', Svg: LumoraBooks, enter: 'figure', hover: true },
+  { name: 'pencil', Svg: LumoraPencil, minor: true, enter: 'detail' },
   { name: 'grass', Svg: LumoraGrass, wide: true },
   { name: 'pinkFlowerStone', Svg: LumoraPinkFlower, hover: true },
   { name: 'whiteFlowersStone', Svg: LumoraWhiteFlowers, hover: true },

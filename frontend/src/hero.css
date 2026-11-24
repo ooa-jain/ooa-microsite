@@ -92,7 +92,7 @@ body [data-slot='brusha'] header {
   padding-right: max(20px, calc(2.25 * var(--u)));
 }
 
-.lm-copy { padding-bottom: 28px; pointer-events: none; }
+.lm-copy { padding-bottom: 28px; pointer-events: none; flex: 1; display: flex; flex-direction: column; justify-content: center; }
 .lm-copy h1, .lm-copy p, .lm-copy a { pointer-events: auto; }
 
 /* ---------- Type ---------- */
@@ -221,3 +221,18 @@ body [data-slot='brusha'] header {
   .lm-primary-cta, .lm-primary-arrow { transition: none; }
   .lm-primary-cta:hover, .lm-primary-cta:active { transform: none; }
 }
+
+/* the host page colours every h1; the headline keeps the hero's own ink */
+[data-slot='brusha'] .lm-headline { color: var(--color-lm-ink); }
+[data-slot='brusha'] .lm-description { color: var(--color-lm-body); }
+
+/* ---------- Dark mode (the portal's html[data-theme="dark"]) ---------- */
+html[data-theme='dark'] [data-slot='brusha'] {
+  --color-lm-card: #0f1629;
+  --color-lm-ink: #eef1f8;
+  --color-lm-body: #aab2c6;
+  --color-lm-primary: #2d63a8;
+  --color-lm-primary-deep: #3b78c4;
+}
+html[data-theme='dark'] [data-slot='brusha'] .lm-grain::after { opacity: 0.08; mix-blend-mode: screen; }
+html[data-theme='dark'] [data-slot='brusha'] .lm-illustration { filter: saturate(0.92) brightness(0.92); }

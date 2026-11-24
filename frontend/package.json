@@ -5,10 +5,12 @@
   "scripts": {
     "build:js": "esbuild src/brusha-hero.tsx --bundle --minify --format=iife --target=es2019 --jsx=automatic --define:process.env.NODE_ENV='\"production\"' --outfile=../static/js/brusha-hero.js",
     "build:css": "tailwindcss -i src/hero.css -o ../static/css/brusha-hero.css --minify",
-    "build": "npm run build:js && npm run build:css",
-    "typecheck": "tsc --noEmit"
+    "build": "npm run build:js && npm run build:css && npm run build:nav",
+    "typecheck": "tsc --noEmit",
+    "build:nav": "esbuild src/kinetic-nav.tsx --bundle --minify --format=iife --target=es2019 --jsx=automatic --define:process.env.NODE_ENV='\"production\"' --outfile=../static/js/kinetic-nav.js"
   },
   "dependencies": {
+    "gsap": "^3.12.5",
     "lucide-react": "^0.468.0",
     "motion": "^12.23.12",
     "react": "^18.3.1",

@@ -1,0 +1,49 @@
+#! AI Innovation Newsletter · June 2026 · full text and the three pictures attached to the email of 4 Jun 2026
+cover: /static/images/newsletters/2026-06-introduction-to-vibe-coding/1.jpg
+deck: Moving from idea to prototype with AI
+
+## Welcome to the Vibe ✨
+p: This month’s theme is simple: **Vibing** in the world of coding. Vibing means moving from idea to prototype with the help of AI, using natural language instead of line-by-line programming. It is a shift that makes software creation feel more accessible, more creative, and more immediate.
+p: For learners, educators, and beginners, vibe coding is especially important because it changes the question from “Can I code?” to “Can I describe what I want clearly enough for AI to help me build it?” That shift lowers the barrier to entry while still encouraging problem-solving, experimentation, and iteration.
+
+## What is vibe coding?
+p: **Vibe coding** is an AI-assisted way of building software where the builder starts with a prompt, not a blank page of code. The AI generates a first version, and the human guides the result through feedback, testing, and refinement. It is not about replacing thinking; it is about making the thinking visible faster.
+p: This approach is useful for beginners, students, teachers, and non-technical builders who want to create apps, dashboards, quizzes, simulations, or simple websites without getting stuck on syntax. It also works well for teaching because it lets learners focus on logic, structure, and purpose instead of only memorizing programming rules.
+img: /static/images/newsletters/2026-06-introduction-to-vibe-coding/3.jpg
+q: For a quick, practical introduction, readers can explore this 30-minute vibe coding course: [Build with Andrew](https://www.deeplearning.ai/courses/build-with-andrew). It offers a simple way to understand how to move from an idea to a working app using AI.
+
+## What makes it feel different? ✌️
+p: Traditional coding often asks learners to master syntax before they can create anything meaningful. Vibe coding reverses that order. It lets people start with purpose, then use AI to help with the structure and implementation.
+p: That shift matters because it changes the emotional experience of learning. Instead of feeling blocked by technical details, learners can focus on what they want to make. They can experiment more freely, try ideas faster, and learn through iteration. For many beginners, that makes coding feel less intimidating and more enjoyable.
+
+## Why does it matter for learners?
+img: /static/images/newsletters/2026-06-introduction-to-vibe-coding/2.jpg
+
+## How to start vibing?
+p: The best way to begin is with a small, clear project. Instead of trying to build something large and complicated, learners should start with something simple and useful. For example, a student could ask AI to build a quiz app, a homework planner, a class feedback form, or a personal study tracker.
+p: Good prompts are specific. The more clearly you describe what you want, the easier it is for AI to produce something useful. The process is then about refining the result, identifying what works, and improving the rest. That is what makes vibe coding feel like a collaboration rather than a command.
+
+## How people are “vibing” in real life
+p: Lisa Lin, a stay at home mom who created Nutribabe, a baby nutrition tracker. Without a traditional engineering background, Lisa used AI-powered development tools to design and launch an app that helps parents track their child’s nutrition and food introductions.
+p: Or consider entrepreneur Vitalii Dodonov, who built Stanley, a content-creation tool for creators. By centring the process on user needs and iterating through targeted prompts, his team moved rapidly from concept to paying customers.
+p: These stories show the promise of vibe coding: it empowers more people to build real products, shortens development cycles, and shifts focus from low-level implementation to product vision and user experience.
+
+## Most important | What learners should remember
+p: Vibe coding is not a shortcut that removes the need to learn. It is a bridge that helps more people enter the world of creation, especially students who may not yet feel confident writing code from scratch.
+p: The goal is to combine creativity with responsibility: prompt clearly, test carefully, and keep learning the basics alongside AI support. That balance is what makes vibe coding educationally valuable rather than just trendy.
+
+## Ready to Vibe??? | OOA Vibe Coding Hackathon
+sub: Join the OOA Hackathon challenge and win an Amazon Gift Voucher worth ₹1,000
+p: This month we are introducing an **AI Vibe Coding Challenge**. The objective of this hackathon is not to test programming expertise, but to help participants learn how to effectively collaborate with AI tools to transform ideas into working software solutions. The reader can pick any one of the 3 problems to solve using an LLM of their choice.
+p: **1.** A "Marks Card Generator" that converts the input student marks into a downloadable marks card with percentage and final result.
+p: **2.** A "Random Cohort Generator" that takes a list of students and groups them randomly into individual cohorts of predefined size.
+p: **3.** A "Flash Card Generator" that takes a set of questions and answers and displays them as a reversible flashcard.
+sub: Rules
+p: 1. Participants can use any LLM of their choice.
+p: 2. All submissions should be submitted as a code file and named using the following nomenclature: **"faculty_full_name_department_problemNo"** (e.g. **Virat_Kohli_OOA_01**). Any submission without the prescribed nomenclature will be disqualified.
+p: 3. Participants are free to make assumptions and add extra features, as long as their solution meets the objective of the selected problem statement.
+p: 4. All code files need to be uploaded to the [hackathon Google Drive folder](https://drive.google.com/drive/folders/1FHp3aHbV1tnW-PHmdzjTjGhzL-CKpuZn?usp=drive_link) as a zip file.
+p: 5. Winners of the OOA Vibe Coding Hackathon will be announced in the July AI Newsletter.
+hl: Details of the Amazon gift voucher will be emailed to the winning participant separately.
+
+more: Build with Andrew – 30-minute vibe coding course | https://www.deeplearning.ai/courses/build-with-andrew

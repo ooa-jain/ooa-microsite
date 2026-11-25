@@ -1,0 +1,32 @@
+#! Happy New Year and Welcome to a world of AI! · converted from the email of Thu, 08 Ja
+cover: https://-q0dqnbh2wyyaiz2uvtuxototugfgqf2wzjnuob6yya.canva-cdn.email/f73884ba170b2be49a9102441265c7b6.png
+
+deck: January 2026 · Edition 1
+
+## Warm wishes for a happy and productive New Year.
+p: **The Office Of Academics is pleased to introduce a new AI-focused newsletter for our university community. This periodic newsletter will share key developments in artificial intelligence, practical applications in teaching and research, and relevant trends shaping higher education. The aim is to keep us informed, spark conversation, and support thoughtful engagement with AI across disciplines.**
+p: **This week’s inaugural January edition highlights how AI is steadily becoming an essential infrastructure, much like the internet once did. What follows is a focused overview of this week’s key developments and their growing relevance to academic life**
+
+## AI as Intellectual Infrastructure
+p: Artificial Intelligence is rapidly evolving from a collection of tools into a foundational layer shaping how knowledge is created, accessed, and shared. One of the most significant developments this week is OpenAI’s transformation of ChatGPT into a platform ecosystem, enabling developers to build and distribute applications directly within the interface. Rather than relying on multiple separate tools, students and researchers can increasingly access research, design, and data-driven resources through conversational interaction, pointing toward more integrated and AI-assisted academic learning environments.
+
+## Creative Practice in AI Spaces
+p: AI’s expansion is no longer limited to Earth. In a landmark achievement, Starcloud, supported by NVIDIA, has successfully deployed an AI model aboard a satellite equipped with a radiation-shielded NVIDIA H100 GPU. The system processes satellite imagery in real time without transmitting raw data back to Earth, creating new opportunities for climate monitoring, space research, and sustainable computing, while also encouraging interdisciplinary academic engagement across fields such as environmental studies, astrophysics, data science, and ethics
+img: https://-q0dqnbh2wyyaiz2uvtuxototugfgqf2wzjnuob6yya.canva-cdn.email/628bffa6bb928dfa0d90eae06f5bf7c6.png
+
+## From Imagination to Agency
+p: OpenAI has also significantly enhanced its image-generation capabilities with GPT Image 1.5, which introduces faster and more precise visual editing through an iterative refinement process. Instead of regenerating entire images, the model modifies specific regions based on textual instructions, allowing for detailed control and professional-quality output. This development has clear implications for academic work in digital humanities, media studies, architecture, and design, where visual representation increasingly plays a central role in research, analysis, and presentation.
+img: https://-q0dqnbh2wyyaiz2uvtuxototugfgqf2wzjnuob6yya.canva-cdn.email/6789a43d82bf78f49c73e3659c7a2f12.png
+
+## Visual Language and AI
+p: Further strengthening AI-driven workflows, Adobe has natively integrated its professional tools Photoshop, Acrobat, and Express into ChatGPT. Users can now edit documents, images, and PDFs through natural language commands while interacting directly with Adobe’s interface inside the AI environment. For students and educators, this integration reduces technical barriers, enabling greater focus on critical thinking, content creation, and interpretation rather than software complexity, and supporting more inclusive access to advanced creative tools..
+img: https://-q0dqnbh2wyyaiz2uvtuxototugfgqf2wzjnuob6yya.canva-cdn.email/494e256a72a363eec09ed76627bbf9ef.png
+
+## Imagination Realised through Intelligent Systems
+p: Finally, engineers have demonstrated real-world AI assistants inspired by fictional systems like J.A.R.V.I.S., capable of seeing, hearing, reasoning, and acting across devices. These systems move beyond rule-based automation toward contextual understanding and decision-making, offering valuable insights for academic fields such as artificial intelligence, cognitive science, human-computer interaction, and robotics. Together, these developments illustrate how AI is no longer merely an object of study but an active participant in learning, research, and creative practice.
+img: https://-q0dqnbh2wyyaiz2uvtuxototugfgqf2wzjnuob6yya.canva-cdn.email/dc8c301b0976c736c4c2391a917955a7.png
+p: As AI continues to integrate into academic life, universities play a crucial role in shaping how these technologies are understood, questioned, and responsibly applied. Staying informed allows students and educators alike to engage critically with AI is not just as users, but as thinkers shaping its future.
+
+## AI Hack for the Week:
+p: [Zapier Agents](https://zapier.com/agents) help automate tasks across apps like Gmail Notion Sheets and Slack using simple plain English commands. You can tell the agent what to do instead of building complex workflows. It automatically connects apps and performs actions in the background. This saves time and makes automation easy even for non technical users
+img: https://-q0dqnbh2wyyaiz2uvtuxototugfgqf2wzjnuob6yya.canva-cdn.email/e9a173467d5b50805e64aaed18676d9d.png

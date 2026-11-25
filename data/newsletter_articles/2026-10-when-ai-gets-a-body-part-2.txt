@@ -1,0 +1,64 @@
+#! AI Innovation Newsletter · October 2026 · full text and pictures from the email of 5 Oct 2026
+cover: https://drive.google.com/thumbnail?id=1JL939ptH1CkR66gQxQT6ODUBVMATf45x&sz=w1600
+deck: Robots, Laboratories and Wearables: autonomous systems
+
+## Editorial | From screens to the physical world
+p: For most of its history, artificial intelligence has lived behind a screen. We typed a question; AI produced an answer. We supplied an image; AI interpreted it. We gave it a document, and it summarized it.
+p: That boundary is now beginning to disappear.
+p: Across robotics, scientific research, consumer technology and industry, AI is increasingly being connected to **physical systems**. A robot can perceive its surroundings and act. An AI agent can control laboratory instruments and conduct experiments. A wearable can give us access to an AI without opening a browser or an app. Universities are beginning to establish dedicated laboratories for what is increasingly being called **Physical AI**.
+p: The important development is therefore not that AI is becoming a robot. It is that AI is acquiring the ability to participate in **physical feedback loops**. It can observe something, decide what to do, take an action, observe the consequence and adjust. That is a fundamentally different relationship with the world.
+p: Last month's World Humanoid Robot Games offered an early glimpse of this transition. This month, we can look beyond the robots themselves to see where the same idea is appearing elsewhere: in biology laboratories, in scientific instruments, in consumer devices and increasingly in Indian research institutions.
+p: The question is no longer simply *What can AI generate?* It is becoming:
+hl: What can AI do in the physical world?
+
+## From the Robotic Olympics to Physical Intelligence
+img: https://drive.google.com/thumbnail?id=1_-tUt9XJJHyS0B0miKyVpfHkhcPBv60f&sz=w1600
+p: Last month, we looked at the World Humanoid Robot Games in Beijing as an early demonstration of **embodied intelligence**. More than 2,000 robots from 666 teams across 16 countries competed across sporting and practical challenges. One humanoid completed the 100-metre race in 9.39 seconds, faster than Usain Bolt's 9.58-second human record.
+p: But the most interesting lesson was not the speed. A robot running a predetermined race is fundamentally different from a machine that can understand an unpredictable physical environment. The more demanding competitions tennis, football and firefighting introduced perception, coordination, balance and adaptation into the equation. A tennis-playing robot, for example, has to continuously perceive the ball, estimate its trajectory, position its body, strike it and respond to what happens next. The problem is no longer simply executing instructions. It becomes a **continuous loop between perception and action**.
+p: This is the distinction that matters for Physical AI. Traditional AI operates primarily in an informational environment. Physical AI operates in an environment where actions have consequences. A small error in perception can mean a missed ball, an unstable robot or a failed experiment.
+p: The Beijing games therefore offered more than a glimpse of humanoid robotics. They demonstrated an emerging research challenge: **how do we give machines the ability to understand and respond to the physical world?** And that question is now moving well beyond robots.
+hl: Physical intelligence is not simply the ability to move. It is the ability to perceive, act, observe the consequences and adapt.
+
+## When AI Enters the Laboratory
+img: https://drive.google.com/thumbnail?id=1CD2bXgmjoaUQwQ_11lt-t8PvXLKOJ1Jh&sz=w1600
+p: AI's move into the physical world is not limited to robots. One of the more consequential developments is happening somewhere less visible: **the scientific laboratory**.
+p: In September, Anthropic introduced a new life-sciences research group and wet laboratory where Claude agents are being used alongside human scientists to explore fundamental biology. The agents can search enormous biological datasets, identify unusual patterns, develop hypotheses and help researchers decide which possibilities are worth testing experimentally. In one reported project, Claude agents searched DNA databases and identified a previously uncharacterized enzyme system with features reminiscent of CRISPR-related systems. Human researchers then investigated the finding experimentally.
+p: But the more interesting development may be what happens after the hypothesis is generated. Anthropic has also introduced the **Model Hardware Standard (MHS)**, designed to allow AI agents to interact with laboratory equipment such as microscopes, liquid handlers, robotic arms and other instruments. Instead of simply recommending what a scientist should do, an AI agent can potentially coordinate instruments, observe experimental results and adjust subsequent actions. This creates a new scientific feedback loop:
+p: **Search → Hypothesize → Experiment → Observe → Adapt**
+p: It is remarkably similar to the perception-action loop emerging in robotics. The significance is not that AI has suddenly become an independent scientist. Human researchers remain essential for defining objectives, interpreting evidence, validating results and exercising scientific judgement. Rather, the boundary between digital reasoning and physical experimentation is becoming increasingly permeable.
+p: For universities, this raises an intriguing possibility. Tomorrow's research laboratory may not simply contain computers alongside scientific instruments. The two could become part of the same intelligent system with humans setting the questions and AI helping explore the enormous space of possible answers.
+hl: AI is moving from suggesting experiments to participating in the experimental loop connecting intelligence directly to the instruments that interrogate the physical world.
+
+## AI Leaves the Browser
+img: https://drive.google.com/thumbnail?id=1f8_LLJcIr2wQ8Aot_l5Dx5Jeb_lcrRzS&sz=w1600
+p: There is another, very different way AI is becoming physical. It is becoming something we **carry**. At Meta Connect 2026, Meta introduced **Muse Charm**, a small standalone device designed to provide direct access to its Muse personal AI agent. The device is designed to work without requiring a phone, bringing AI interaction into a physical object that can be carried on a keychain. Meta also announced that Muse is coming to its AI glasses. The significance isn't really the gadget itself.
+p: For years, interacting with AI has meant going somewhere: opening a browser, launching an app or sitting in front of a computer. Wearables reverse that relationship. Instead of **going to AI**, AI can accompany us.
+p: Meta's vision extends beyond simply asking questions. Muse is positioned as a personal agent that can take actions on a user's behalf, while its integration with glasses gives it access to the user's visual context. Meta describes use cases such as asking about objects, information or things in the environment around the wearer. This represents another form of physical AI.
+p: The humanoid robot brings intelligence **into the environment**. The laboratory agent brings intelligence **into scientific equipment**. The wearable brings intelligence **into the user's everyday environment**.
+p: The interface itself begins to disappear.
+p: And that could be one of the more important developments in the transition from generative AI to agentic AI. The question becomes less about where we access an AI model and more about **where that intelligence is available to us**.
+hl: AI may no longer be something we open. It may increasingly be something we carry, wear and interact with throughout the day.
+
+## Physical AI Comes to India
+img: https://drive.google.com/thumbnail?id=1snQwxjKcCsifkEkVa2dnyYKMO2x1t6PA&sz=w1600
+p: Physical AI is also beginning to acquire an academic home in India. In September, **IIT Roorkee and Avathon announced the establishment of the Avathon Physical AI Lab**, a research initiative anchored in IIT Roorkee's Department of Computer Science & Engineering. The lab is intended to work on Physical AI for industrial applications and will collaborate closely with Avathon's AI Centre of Excellence in Bengaluru. The proposed research spans areas including optimization, machine learning, knowledge representation and multi-agent systems, with applications across industrial operations such as manufacturing, logistics, mining, energy and aerospace. The initiative also includes doctoral fellowships, student internships and collaborative research.
+p: This is significant because it demonstrates that Physical AI is moving beyond demonstrations and into **research infrastructure**.
+p: The opportunity for universities is particularly broad. Physical AI sits at the intersection of computer science, robotics, mechanical engineering, electronics, industrial engineering and human–machine interaction. It also creates questions for disciplines beyond engineering:
+q: How should humans collaborate with autonomous systems? How should responsibility be assigned when machines make physical decisions? What new skills will workers need?
+p: The IIT Roorkee initiative therefore represents more than another robotics laboratory. It points towards a future in which Indian universities can contribute to the underlying science of systems that perceive, reason and act in real-world environments.
+p: And there is an important connection to our own academic ecosystem: the Physical AI conversation is moving from **research papers and prototypes toward laboratories, curricula and industry partnerships**.
+hl: Physical AI is emerging as an interdisciplinary research field in India, connecting AI research with the physical systems of industry.
+
+## Looking Ahead | From Artificial Intelligence to Artificial Agency
+p: The first phase of AI was largely about **understanding and generating information**.
+p: The emerging phase is about **taking action**.
+p: A robot perceives its environment. A laboratory agent conducts an experiment. A wearable AI observes the world around its user. An industrial system responds to changing conditions.
+p: Across all of these examples, the same architecture is beginning to appear:
+p: **Perceive → Reason → Act → Observe → Adapt**
+p: That may ultimately be the more important transition than the move from one AI model to another.
+p: AI is no longer confined to the digital world. **It is beginning to touch the physical one.**
+
+more: 🤖 World Humanoid Robot Games – Beijing | https://english.beijing.gov.cn/beijinginfo/sci/latesttrends/202608/t20260825_4836357.html
+more: 🧬 Anthropic – AI in Biological Discovery | https://www.anthropic.com/news/claude-discovers-novel-enzyme-system
+more: 🔬 Anthropic – AI Meets Laboratory Hardware | https://www.anthropic.com/news/model-hardware-standard-research-preview
+more: 🕶️ Meta – AI Beyond the Browser | https://www.theguardian.com/fashion/2026/sep/26/charming-and-disarming-how-metas-technology-packed-muse-harnesses-the-power-of-cuteness

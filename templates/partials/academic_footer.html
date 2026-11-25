@@ -9,7 +9,7 @@
       <h3>The Office</h3>
       <ul>
         <li><a href="{{ url_for('home') if user_logged_in else url_for('index') }}">Home</a></li>
-        <li><a href="{{ url_for('about_jain') }}">About the University</a></li>
+        <li><a href="{{ jain_site_url }}" target="_blank" rel="noopener">About the University</a></li>
         <li><a href="{{ url_for('ai_newsletter_archive') }}">AI Innovation Newsletter</a></li>
       </ul>
     </div>

@@ -1,0 +1,95 @@
+#! When AI Gets a Body - September Edition | From Artificial Intelligence to Embodied Intelligence · converted from the email of Wed, 02 Se
+cover: https://drive.google.com/thumbnail?id=1b-S1E-cTLNMrNsNgF5rjreKQRfAP4j7p&sz=w1600
+deck: September Edition | From Artificial Intelligence to Embodied Intelligence
+
+## The Next Frontier of AI Isn't Digital
+p: For the past few years, much of our interaction with Artificial Intelligence has taken place through a screen. We ask questions, generate content, analyse information and increasingly delegate digital tasks to AI systems.
+p: A new frontier is now emerging: **AI that can perceive and interact with the physical world**.
+p: The second **World Humanoid Robot Games**, taking place in Beijing from August 22–26, brings together more than** 2,000 humanoid robots across 51 events**. The competitions range from athletics and football to table tennis and practical tasks designed to test robots in more realistic environments.
+p: At first glance, this may look like a sporting spectacle. But underneath it lies a more important research question:
+p: **What happens when Artificial Intelligence moves from processing information to interacting with the physical world?**
+p: For universities, that question extends well beyond robotics. It touches AI, engineering, computer science, human machine interaction, interdisciplinary research and the capabilities future graduates will need.
+
+## Beyond the Race: What Do Humanoid Robots Really Tell Us About Intelligence?
+img: https://drive.google.com/thumbnail?id=1v_ti_ouKdC4vTjSxM47qLLSxaPjcMDSe&sz=w1600
+p: The Robot Games provide an unusual but revealing way to observe the progress of **embodied AI**.
+p: The **100-metre sprint** provides an immediate measure of physical capability. One humanoid robot completed the distance in** 9.39 seconds**, faster than Usain Bolt's 9.58-second human record. Another robot recorded 9.47 seconds. Yet some robots struggled to stop or maintain control after completing the race.
+p: The more interesting tests are less predictable.
+p: In **tennis**, for example, a robot must perceive the ball, anticipate its trajectory, position itself, execute a movement and respond to the opponent's return. A demonstration at the Games featured a humanoid robot playing against a human opponent, illustrating the continuous perception–action loop required for physical interaction.
+p: The Games also include scenario-based challenges involving tasks such as **industrial assembly, restaurant service, object handling and emergency situations**. More than 40% of these tests reportedly require full autonomy.
+p: The progression is significant:
+p: **Running → Responding → Reasoning and Acting**
+p: Physical capability is only one component of embodied intelligence. For robots to become genuinely useful in human environments, they must combine perception, decision-making, physical control and adaptation.
+hl: Key Insight
+p: The advancement of embodied AI should not be measured only by what a robot can physically do, but by how effectively it can **perceive, reason, act and adapt**.
+
+## The University Becomes the Laboratory
+img: https://drive.google.com/thumbnail?id=1W93i3rOpEH4hHBFAbVmzqLI6TBDbLwc1&sz=w1600
+p: Perhaps one of the most significant aspects of the Games is not the robots themselves, but **who is building and studying them**.
+p: The Beijing Games include participation from universities and research institutions alongside robotics companies and international teams. The event is part of a much wider research ecosystem in which academic institutions are contributing to the development and testing of humanoid systems.
+p: This reflects the inherently interdisciplinary nature of embodied robotics.
+p: Developing an effective humanoid system requires expertise across:
+p: **Artificial Intelligence -** perception, reasoning and decision-making
+p: **Computer Science** - algorithms, software and simulation
+p: **Mechanical Engineering** - movement, balance and physical design
+p: **Electronics** - sensors, actuators and embedded systems
+p: **Human–Machine Interaction** - understanding how people communicate and work with intelligent machines
+p: The university therefore becomes more than a place where robotics is taught. It becomes a **testbed for interdisciplinary research**.
+p: A single humanoid robot can bring together researchers who would traditionally work in separate academic domains. AI researchers can work with mechanical engineers, designers can work with computer scientists , behavioral researchers can study how humans respond to autonomous systems.
+p: The technology itself creates a problem complex enough that **no single discipline can solve it alone**.
+hl: Key Insight
+p: Embodied AI provides universities with a powerful platform for bringing traditionally separate disciplines together around complex, real-world problems
+
+## India's Robotics Ecosystem: From Students to Research Labs
+img: https://drive.google.com/thumbnail?id=1Zo8fql2zIA-YhPSb61v9QeMFDb0hSPDj&sz=w1600
+p: The World Humanoid Robot Games in Beijing highlight how embodied AI is progressing at the frontier of robotics research. In India, a complementary story is unfolding through education and research institutions that are helping develop the next generation of robotics talent.
+p: The **World Robot Olympiad (WRO) India 2026**, themed *"Robots Meet Culture,"* brings together students from across our country to design and programme robots that solve problems through sensing, decision-making and autonomous action. The finals are scheduled to be held in Hyderabad from Aug 26 – 28. This includes teams from Schools to Colleges across 3 age groups, Elementary, Junior and Senior. Rather than simply assembling robots, participants are challenged to build systems that must respond to changing environments and complete tasks with increasing levels of autonomy. In this sense, the competition introduces students to many of the same principles that underpin embodied intelligence.
+
+## A JAIN Connection
+p: We are pleased to note that **JAIN (Deemed-to-be University), Kochi, was a venue partner for the WRO India Kochi Regional Event**, held on August 1. The event brought together young innovators to explore robotics through creativity, engineering and problem-solving, while providing an early platform for students to engage with autonomous systems and computational thinking.
+p: Beyond student competitions, Indian researchers are also contributing to the science behind embodied intelligence. Recent work on humanoid robots has explored the use of **reinforcement learning** to teach a robot to perform a sit-to-stand movement across different chair heights without relying on pre-recorded demonstrations. While standing up may appear to be a simple action, it requires the robot to coordinate balance, posture and forces while adapting to changing physical conditions.
+p: Together, these developments illustrate a growing continuum in India's robotics ecosystem from students learning to build autonomous machines, to universities investigating how robots can learn increasingly complex physical skills.
+hl: Key Insight
+p: India's contribution to embodied AI is emerging across the entire education and research pipeline from young students experimenting with autonomous robots, to universities developing new methods that help machines learn to act intelligently in the physical world.
+
+## AI Leaves the Screen
+img: https://drive.google.com/thumbnail?id=1iy9Ryy-vxPp7rFZlyZY3m2Q9AxdMjO95&sz=w1600
+p: There is a fundamental difference between conventional AI systems and embodied AI.
+p: A digital AI system can process information and produce a response.
+p: A physical AI system must:
+p: **Perceive → Reason → Act → Observe → Adapt**
+p: Consider a simple instruction such as *"pick up the object."*
+p: The system must identify the object, determine its position, plan a movement, control its interaction with the object and respond if something changes.
+p: The physical world introduces uncertainty and consequences that are largely absent from digital environments. A software system can generate another response when it makes a mistake. A physical system may fall, damage an object or collide with something.
+p: This makes embodied AI an important research frontier. The challenge is no longer simply to make an AI system capable of reasoning **about** the world. It is to connect reasoning** with action in the world**.
+p: This distinction may prove important in the development of the next generation of AI systems.
+hl: Key Insight
+p: Embodied intelligence adds a new dimension to AI: the ability to operate through continuous interaction with the physical environment.
+
+## What Should Universities Prepare For?
+p: The evolution of AI has been remarkably rapid.
+p: **AI learned to understand language.**
+p: ↓
+p: **AI learned to generate.**
+p: ↓
+p: **AI learned to reason and use digital tools.**
+p: ↓
+p: **Now AI is learning to act in the physical world.**
+p: **This shift from Artificial intelligence to embodied intelligence raises a question that extends beyond robotics programs.**
+p: **What capabilities will graduates need when intelligent machines increasingly operate alongside humans?**
+p: The answer is unlikely to be simply *"learn robotics."*
+p: *As AI moves from screens into the physical world, future professionals may need to understand how to collaborate with autonomous systems, design workflows around intelligent machines, interpret machine – generated decisions and recognize when human intervention is necessary.*
+p: The** World Humanoid Robot Games** offer a fascinating snapshot of this transition. The event demonstrates how far physical AI has already progressed, while also highlighting how much work remains before humanoid robots can operate reliably in complex real - world environments. The contrast between the impressive physical capabilities and occasional loss of control is particularly instructive.
+p: As intelligent machines increasingly enter laboratories, hospitals, factories and workplaces, graduates will need more than technical knowledge. They will need to understand **how humans and intelligent machines divide responsibilities, make decisions together and work safely and effectively in the physical world.**
+p: The next generation of AI may therefore not live exclusively inside our screens.
+p: **Embodied Intelligence will walk into our real world very soon!**
+p: And universities may play a central role in determining **how humans and intelligent machines learn to work together.**
+hl: Key Insight
+p: Preparing for embodied AI is not only about producing robotics engineers. It is about preparing professionals across disciplines to work effectively in environments where humans and intelligent machines share tasks, decisions and responsibilities.
+
+more: World Humanoid Robot Games – RoboCup | https://www.robocup.org/events/89
+more: Reuters – Robots can outrun humans, but can they plug in a cable? | https://www.reuters.com/world/asia-pacific/robots-can-outrun-humans-can-they-plug-cable-2026-08-23/
+more: AP – Humanoid robots at the Beijing Games | https://apnews.com/article/china-humanoid-robot-games-us-86cb8e310843151a77057e4cb764b4e2
+more: World Robot Olympiad India – 2026 | https://wroindia.org/season-2026/
+more: JAIN Kochi – WRO India Kochi Regional | https://jainuniversitykochi.in/events/world_robot_olympiad_india_kochi_regional
+more: Humanoid Robot Sit-to-Stand Research | https://www.mdpi.com/2313-7673/10/11/783

@@ -1,0 +1,42 @@
+#! AI Innovation Newsletter · February 2026 · Ancient wisdom meets AI breakthrough · full text and pictures from the email of 5 Feb 2026
+cover: https://images.unsplash.com/photo-1626784214767-1d290c470252?auto=format&fit=crop&w=1280&h=800
+deck: Future of Learning · When 3,000-Year-Old Grammar Meets Modern AI
+
+## Future of Learning | When 3,000-Year-Old Grammar Meets Modern AI
+p: We typically imagine Large Language Models (LLMs) as products of the chaotic modern internet. But a ground breaking initiative in India is flipping the script by training AI on one of the world's most structured languages: Sanskrit.
+
+## The Mylapore Initiative
+p: Based at the historic MDS Sanskrit College in Chennai, researchers are collaborating with IIT Madras to treat Sanskrit as a **computational framework** rather than just text to be translated.
+p: By feeding over 110,000 rare manuscripts into the model, they are encoding linguistic rules—like *sandhi* (phonetic blending)—directly into the AI. This turns Chennai into a vibrant hub where digital heritage meets cutting-edge tech.
+
+## Open Source Breakthroughs
+p: The community isn't waiting around. The release of **Sanskrit-Qwen2.5-7B** on Hugging Face is a game-changer. This 7-billion parameter model can generate coherent Sanskrit passages, proving that we don't always need massive models to master complex, rule-based languages.
+sub: To know more, click here
+link: Research Paper | https://click.mailchannels.net/_IDeE_u9wElzlJz9cCX-XPmSTycw7Ci8hEzfIIPZPjo/IYZ3iN902uYzL-rmeGYPD9QCBHg0eae_PhFDam2x5hY/5bb8e7f2-fac8-4b0d-be34-6b714aad8a25
+link: LLM and Datasets | https://click.mailchannels.net/_IDeE_u9wElzlJz9cCX-XPmSTycw7Ci8hEzfIIPZPjo/IYZ3iN902uYzL-rmeGYPD9QCBHg0eae_PhFDam2x5hY/2190c960-cbb7-4ed3-8351-335aae6b64b6
+
+## Practical Takeaway
+hl: **Structure is key.** The Sanskrit LLM succeeds because it respects the inherent grammatical rules of the data. When applying AI to your own educational content, clean and structure your source material first. Quality rules often beat quantity of data.
+
+## Industry Shift: Ads in ChatGPT?
+p: OpenAI is testing ads with free users in the U.S., marking a major shift from research tool to consumer product. As AI becomes ad-supported, the battle between free access, privacy, and monetization will define 2026.
+img: https://images.unsplash.com/photo-1678995635432-d9e89c7a8fc5?auto=format&fit=crop&w=1280&h=600
+
+## Tool of the Month: GenSpark AI
+p: Need a research partner? **GenSpark AI** is an all-in-one workspace that goes beyond simple chat. Its "Super Agent" can execute end-to-end tasks like generating presentations or conducting deep research, integrating with over 80 professional tools.
+img: https://storage.googleapis.com/hmail-reach-backend-assets/gallery/ee467091764487886c73c75d01a0e705/698065afb174f.png
+link: Try GenSpark | https://click.mailchannels.net/_IDeE_u9wElzlJz9cCX-XPmSTycw7Ci8hEzfIIPZPjo/IYZ3iN902uYzL-rmeGYPD9QCBHg0eae_PhFDam2x5hY/5c77bddc-5b05-4375-acc0-df71e7cf0ada
+
+## 🚨 AI Glitch
+p: **The Scenario:** An Air Canada passenger asked the chatbot about bereavement fares. The bot invented a policy allowing retroactive refunds, contradicting the airline's official rules.
+p: **The Company's Defence:** They argued they weren't liable for the chatbot's hallucinations.
+p: **The Verdict:** The tribunal ruled that Air Canada is responsible for all information on its site, including AI responses.
+hl: **Lesson:** [You are responsible for what your AI says.](https://click.mailchannels.net/_IDeE_u9wElzlJz9cCX-XPmSTycw7Ci8hEzfIIPZPjo/IYZ3iN902uYzL-rmeGYPD9QCBHg0eae_PhFDam2x5hY/b53c35d4-9ec4-403d-bcab-fe49b791fed1)
+
+## 🧠 Unlock Your AI Badge
+p: Curious if you're keeping up with the AI revolution? Test your knowledge with our mini quiz.
+link: Take the Quiz | https://click.mailchannels.net/_IDeE_u9wElzlJz9cCX-XPmSTycw7Ci8hEzfIIPZPjo/IYZ3iN902uYzL-rmeGYPD9QCBHg0eae_PhFDam2x5hY/48f38af4-a307-4c71-8548-6633f43a1a34
+
+more: Research Paper | https://click.mailchannels.net/_IDeE_u9wElzlJz9cCX-XPmSTycw7Ci8hEzfIIPZPjo/IYZ3iN902uYzL-rmeGYPD9QCBHg0eae_PhFDam2x5hY/5bb8e7f2-fac8-4b0d-be34-6b714aad8a25
+more: LLM and Datasets | https://click.mailchannels.net/_IDeE_u9wElzlJz9cCX-XPmSTycw7Ci8hEzfIIPZPjo/IYZ3iN902uYzL-rmeGYPD9QCBHg0eae_PhFDam2x5hY/2190c960-cbb7-4ed3-8351-335aae6b64b6
+more: Thoughts, suggestions, feedback? | https://click.mailchannels.net/_IDeE_u9wElzlJz9cCX-XPmSTycw7Ci8hEzfIIPZPjo/IYZ3iN902uYzL-rmeGYPD9QCBHg0eae_PhFDam2x5hY/42d8c260-77e6-4294-beb1-47ad48f213c0

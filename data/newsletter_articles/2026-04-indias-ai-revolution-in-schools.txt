@@ -1,0 +1,42 @@
+#! India’s AI Revolution in Schools · converted from the email of Mon, 13 Ap
+cover: /static/images/newsletters/2026-04-indias-ai-revolution-in-schools/m-283caeff76.png
+deck: AI to Enter every Indian school from Grade 3
+
+## Introduction
+p: India is taking a decisive step toward embedding AI into mainstream schooling. Starting 2026–27, a mandatory AI curriculum will be introduced from Grade 3 upward, aligned with NEP 2020 and the National Curriculum Framework (NCF-SE) 2023.
+p: The Ministry of Education has already integrated AI into school curricula through CBSE and NCERT from Grade 9, with CBSE offering a 15-hour AI skill module from Class VI and AI as an optional subject in Classes IX–XII. [Press Information Bureau](https://www.pib.gov.in/PressReleasePage.aspx?PRID=2234853&reg=3&lang=1) The new mandate extends this ambition significantly downward in age. Learning materials, teacher guides, and digital content were to be completed by December 2025, with educators undergoing structured, grade-specific training through NISHTHA and other recognised institutions. [CoinGeek](https://coingeek.com/india-to-introduce-ai-curriculum-in-all-schools-by-2026/)
+p: NCERT has also used AI and ML to translate Grade 1–2 textbooks into 22 Indian languages [Press Information Bureau](https://www.pib.gov.in/PressReleasePage.aspx?PRID=2234853&reg=3&lang=1) a practical demonstration of the technology's value for inclusive education at scale.
+q: Future students will arrive AI-ready—universities must build ahead, not start over
+
+## Google DeepMind launches major India education partnership
+img: /static/images/newsletters/2026-04-indias-ai-revolution-in-schools/m-8cddb4073f.png
+p: Google DeepMind announced a new partnership with Indian government bodies and institutions through its National Partnerships for AI initiative, focusing on science, education, and public services. [Google DeepMind](https://deepmind.google/blog/accelerating-discovery-in-india-through-ai-powered-science-and-education/)
+p: The scale is substantial. An ₹85 crore (nearly $10 million) Google.org grant was announced for Wadhwani AI to scale adaptive learning for 75 million students, 1.8 million educators, and 1 million early-career professionals by December 2027. [Google](https://blog.google/intl/en-in/powering-indias-next-generation-with-the-science-of-learning/) Google DeepMind is also working with Atal Tinkering Labs covering over 10,000 schools and 11 million students — to integrate robotics, coding, and Gemini-based AI assistants into learning environments and teacher workflows. [Careers360](https://news.careers360.com/google-deepmind-anrf-ai-research-education-india-impact-challenge-students-teachers/amp)
+p: For research, the partnership with the Anusandhan National Research Foundation (ANRF) will provide Indian researchers and early-career scientists access to frontier AI tools, supporting hackathons, mentorship, and training. [Google](https://blog.google/intl/en-in/company-news/accelerating-discovery-in-india-through-ai-powered-science-and-education/) A $2 million founding contribution has also been made to establish a new Indic Language Technologies Research Hub at IIT Bombay. [Google](https://blog.google/intl/en-in/company-news/accelerating-discovery-in-india-through-ai-powered-science-and-education/)
+p: For departments engaged in language studies, regional research, or applied sciences, these partnerships represent concrete collaboration opportunities. More broadly, they signal that global technology organisations are making long-term structural commitments to Indian academia something institutional strategy should begin to account for.
+q: Global AI leaders are investing at scale in Indian education—universities must position themselves to collaborate, not observe
+
+## EDNXT Bengaluru Summit: AI as the defining force for universities
+img: /static/images/newsletters/2026-04-indias-ai-revolution-in-schools/m-2ab9a004bd.png
+p: At the EDNXT Bengaluru Summit 2026, organised by The Economic Times Education, policymakers, academic leaders, and industry innovators gathered around the theme "The Education Transformation: AI, Access & Acceleration," exploring how AI-driven transformation and global collaboration are reshaping universities worldwide. [ISBR Blog](https://www.isbr.in/blogs/ai-in-higher-education-ednxt-bengaluru-summit-2026/)
+p: Three themes stand out for department heads. First, faculty readiness was identified as a prerequisite for transformation, not an afterthought — when faculty are empowered with AI-driven teaching tools, they deliver more engaging and effective learning experiences. [ISBR Blog](https://www.isbr.in/blogs/ai-in-higher-education-ednxt-bengaluru-summit-2026/) Second, AI-powered interdisciplinary research was highlighted as expanding innovation boundaries, with universities encouraged to build collaborative ecosystems rather than siloed departmental approaches.
+p: Third, and most pressing, was institutional strategy. The summit reinforced that institutions which successfully integrate AI technologies, digital pedagogy, and global collaborations will lead the next era of academic innovation. [ISBR Blog](https://www.isbr.in/blogs/ai-in-higher-education-ednxt-bengaluru-summit-2026/)
+p: The Bengaluru summit serves as a useful benchmark: peer institutions are actively designing AI integration strategies now. Departments that begin mapping AI touchpoints across curricula, research pipelines, and faculty development will be better placed to respond to forthcoming accreditation and regulatory expectations around AI competency.
+q: AI-ready faculty, interdisciplinary research, and clear strategy will define the universities that lead the next era.
+
+## Gemini adds JEE mock tests: 2 million textbooks go AI-powered
+img: /static/images/newsletters/2026-04-indias-ai-revolution-in-schools/m-091bb6f87a.png
+p: Two announcements this month illustrated how AI tools are evolving from general assistants into purpose-built academic companions for Indian students.
+p: Google added full-length JEE practice tests in Gemini, grounded in vetted content from Physics Wallah and Careers360. Once students complete a mock test, Gemini provides immediate feedback, highlights strengths and weaknesses, explains correct answers, and generates a customised study plan. [TechCrunch](https://techcrunch.com/2026/01/28/google-turns-gemini-toward-indias-most-competitive-entrance-exam/) India now leads the world in daily Gemini usage for learning, with 74% of Indians believing AI will improve student outcomes. [Google](https://blog.google/intl/en-in/powering-indias-next-generation-with-the-science-of-learning/)
+p: At the school level, two million static K-12 textbooks from PM Publishers are being converted into interactive AI experiences, each with a QR-linked Gemini assistant that provides subject-specific summaries and responses. [Google](https://blog.google/intl/en-in/company-news/accelerating-discovery-in-india-through-ai-powered-science-and-education/)
+p: The university-level takeaway is practical: students are already using these tools extensively outside the classroom. Departments that acknowledge this reality — and update their assessment design, pedagogy, and academic integrity policies accordingly — will be better prepared than those treating AI tool usage as exceptional. Google has also announced plans with the Ministry of Skill Development to build a national framework for applying AI across vocational and higher education. [TechCrunch](https://techcrunch.com/2026/01/28/google-turns-gemini-toward-indias-most-competitive-entrance-exam/)
+q: AI is already shaping how students learn—universities must adapt their teaching and assessment to match this reality
+
+## Curious if you’re keeping up with the AI revolution? Test your knowledge with our mini quiz.
+sub: Results will be announced in the next month newsletter
+link: TAKE PART IN THE APRIL EDITION QUIZ! | https://forms.gle/XnCneydnh75dtDtH6
+
+## March Month Quiz winner 🎉
+p: **Dr. K. Manivannan**, Department of Information Science and Engineering
+
+more: TAKE PART IN THE APRIL EDITION QUIZ! | https://forms.gle/XnCneydnh75dtDtH6

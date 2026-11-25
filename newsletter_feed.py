@@ -26,6 +26,7 @@ import newsletter_blog as nb
 logger = logging.getLogger(__name__)
 
 SEED_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data', 'ooa_newsletters.json')
+ARTICLE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data', 'newsletter_articles')
 
 # Monthly editions are sent from the OOA mailbox to the HoD distribution lists.
 GMAIL_QUERY = os.getenv(
@@ -42,6 +43,75 @@ MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July',
 # ─────────────────────────────────────────────────────────────────────
 #  Storage
 # ─────────────────────────────────────────────────────────────────────
+def load_article_file(slug):
+    """Full article for an edition from data/newsletter_articles/<slug>.txt, or None.
+
+    Format (one item per line; blank lines ignored):
+        cover: <image url>
+        deck: <subtitle>
+        ## <kicker> | <heading>        (or "## <heading>")
+        p: <paragraph>                 (**bold** and [label](url) allowed)
+        img: <image url>
+        hl: <key highlight>
+        q: <quote>
+        sub: <sub-heading>
+        link: <label> | <url>          (read-more link in the section)
+        more: <label> | <url>          (Explore further list)
+    """
+    path = os.path.join(ARTICLE_DIR, f'{slug}.txt')
+    if not os.path.exists(path):
+        return None
+    from html import escape as _esc
+
+    def rich(t):
+        t = _esc(t, quote=False)
+        t = re.sub(r'\*\*(.+?)\*\*', r'<b>\1</b>', t)
+        t = re.sub(r'(?<![*\w])\*(?!\s)([^*]+?)\*(?![*\w])', r'<i>\1</i>', t)
+        return re.sub(r'\[([^\]]+)\]\((https?://[^)\s]+)\)',
+                      lambda m: f'<a href="{_esc(m.group(2), quote=True)}" target="_blank" rel="noopener">{m.group(1)}</a>', t)
+
+    art = {'sections': [], 'links': [], 'words': 0, 'deck': '', 'source': 'seed'}
+    cover, cur = '', None
+    with open(path, encoding='utf-8') as f:
+        for raw in f:
+            line = raw.strip()
+            if not line or line.startswith('#!'):
+                continue
+            if line.startswith('## '):
+                k, _, h = line[3:].partition(' | ')
+                cur = {'kicker': k.strip() if h else '', 'heading': (h or k).strip(), 'blocks': []}
+                art['sections'].append(cur)
+                continue
+            key, _, val = line.partition(': ')
+            val = val.strip()
+            if key == 'cover':
+                cover = val
+                continue
+            if key == 'deck':
+                art['deck'] = val
+                continue
+            if key == 'more':
+                label, _, url = val.partition(' | ')
+                art['links'].append({'label': label.strip(), 'url': url.strip()})
+                continue
+            if cur is None:
+                cur = {'kicker': '', 'heading': '', 'blocks': []}
+                art['sections'].append(cur)
+            if key == 'img':
+                cur['blocks'].append({'type': 'img', 'src': val})
+            elif key == 'link':
+                label, _, url = val.partition(' | ')
+                cur['blocks'].append({'type': 'link', 'label': label.strip(), 'url': url.strip()})
+            elif key == 'sub':
+                cur['blocks'].append({'type': 'sub', 'text': val})
+            elif key in ('p', 'hl', 'q'):
+                cur['blocks'].append({'type': {'p': 'p', 'hl': 'highlight', 'q': 'quote'}[key], 'html': rich(val)})
+                art['words'] += len(val.split())
+    images = [b['src'] for s_ in art['sections'] for b in s_['blocks'] if b['type'] == 'img']
+    return {'article': art, 'cover_image': cover or (images[0] if images else ''),
+            'images': images, 'read_minutes': max(1, round(art['words'] / 200))}
+
+
 def ensure_seeded(db):
     """Insert curated editions that are not in the database yet."""
     try:
@@ -57,6 +127,13 @@ def ensure_seeded(db):
         doc['source'] = 'seed'
         res = db.ooa_newsletters.update_one({'gmail_id': ed['gmail_id']}, {'$setOnInsert': doc}, upsert=True)
         added += 1 if res.upserted_id else 0
+        full = load_article_file(ed['slug'])
+        if full:
+            # the curated file is the complete edition (every section and picture of the email): it wins
+            stored = db.ooa_newsletters.find_one({'gmail_id': ed['gmail_id']}, {'article': 1, 'cover_image': 1}) or {}
+            if stored.get('article') != full['article'] or stored.get('cover_image') != full['cover_image']:
+                db.ooa_newsletters.update_one({'gmail_id': ed['gmail_id']}, {'$set': full})
+            continue
         # photos added to the seed later reach editions that are already stored
         for key in ('cover_image', 'images'):
             if ed.get(key) and not res.upserted_id:
@@ -294,7 +371,7 @@ def refresh_articles(db, creds_dict=None, only_missing=False):
     service = _gmail_service(db, creds_dict)
     if service is None:
         return {'success': False, 'error': 'Gmail is not connected for the newsletter sync.'}
-    q = {'gmail_id': {'$exists': True}}
+    q = {'gmail_id': {'$exists': True}, 'article.source': {'$ne': 'seed'}}   # curated articles are kept
     if only_missing:
         q['article'] = {'$exists': False}
     updated, failed = [], []

@@ -2145,30 +2145,12 @@ def refresh_session():
 # ══════════════════════════════════════════════════════════════════════
 #  MAIN USER ROUTES
 # ══════════════════════════════════════════════════════════════════════
+# "About" is the university's own website; the old in-portal page redirects there.
+JAIN_SITE_URL = os.getenv('JAIN_SITE_URL', 'https://www.jainuniversity.ac.in/')
+
 @app.route("/about_jain")
 def about_jain():
-    try:
-        today_str = get_today_ist_string()
-        all_events_raw = get_cached_dashboard_data('all_events', fetch_formatted_events, ttl=15)
-        today_events = []
-        for ev in all_events_raw:
-            ev_copy = dict(ev)
-            event_date = ev_copy.get("event_date", "")
-            end_date   = normalize_date(ev_copy.get("end_date", "")) if ev_copy.get("end_date") else ""
-            
-            if not event_date: continue
-            # Add escaped fields for Javascript string literal safety
-            ev_copy['event_name_js'] = ev_copy.get('event_name', '').replace("'", "\\'")
-            ev_copy['venue_js'] = ev_copy.get('venue', '').replace("'", "\\'")
-            
-            if end_date and event_date <= today_str <= end_date:
-                today_events.append(ev_copy)
-            elif event_date == today_str:
-                today_events.append(ev_copy)
-    except Exception as e:
-        today_events = []
-        
-    return render_template('about_jain.html', today_events=today_events, **_get_user_info())
+    return redirect(JAIN_SITE_URL, code=301)
 
 
 @app.route("/home")
@@ -4837,7 +4819,9 @@ OOA_PLATFORMS = [
      'url': os.getenv('UNIVERSITY_CALENDAR_URL', 'https://university-master-calendar.juooa.cloud/calendar'),
      'desc': 'University Master Calendar 2026–27: key academic dates and events.'},
     {'key': 'IDP_URL', 'name': 'IDP', 'icon': 'fa-compass-drafting',
-     'url': os.getenv('IDP_URL', 'https://drive.google.com/file/d/1iktRYOQLap8VaWmAM_3Ck9YB9plgUfNh/view?usp=sharing'),
+     # the IDP now has its own portal; an old Google Drive link left in .env is ignored
+     'url': (os.getenv('IDP_URL') if 'drive.google.com' not in os.getenv('IDP_URL', 'drive.google.com')
+             else 'https://institutional-development-plan.juooa.cloud/'),
      'desc': 'Institutional Development Plan: UGC guidelines and the enabler roadmap.'},
     {'key': 'NEP_NEWSLETTER_URL', 'name': 'NEP Newsletter', 'icon': 'fa-newspaper',
      'url': os.getenv('NEP_NEWSLETTER_URL', 'https://drive.google.com/file/d/10mjKLD2pEG6Q_rzwQjHSd-zxlkloLNpL/view'),
@@ -4846,7 +4830,7 @@ OOA_PLATFORMS = [
 
 @app.context_processor
 def inject_ooa_platforms():
-    return dict(ooa_platforms=OOA_PLATFORMS)
+    return dict(ooa_platforms=OOA_PLATFORMS, jain_site_url=JAIN_SITE_URL)
 
 # ══════════════════════════════════════════════════════════════════════
 #  AI INNOVATION NEWSLETTER  (monthly editions, newest on top)

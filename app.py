@@ -252,7 +252,6 @@ def approval_required(f):
         if not approved:
             if request.path.startswith('/api/'):
                 return jsonify({'success': False, 'error': 'Account pending approval'}), 403
-            flash('⏳ Your account is pending admin approval.', 'warning')
             return redirect(url_for('home'))
         return f(*args, **kwargs)
     return decorated
@@ -1559,9 +1558,7 @@ def login():
                 flash('✅ Welcome back, Admin!', 'success')
                 return redirect(url_for('home'))
             else:
-                if not user.get('approved', False):
-                    flash('⏳ Account pending approval. Limited access.', 'warning')
-                else:
+                if user.get('approved', False):
                     if user.get('special_role') == 'leader':
                         flash('✅ Leader login successful!', 'success')
                     elif user.get('user_type') == 'core' or user.get('special_role') == 'office_barrier':
@@ -1918,7 +1915,7 @@ def register():
                                 'name': parsed_name, 'photo_url': default_photo},
                     'created_at': get_indian_time()
                 })
-                flash('✅ Registration complete! Awaiting admin approval.', 'info')
+                flash('✅ Registration complete! You can sign in now.', 'info')
             return redirect(url_for('login'))
     otp_sent     = session.get('step', 1) >= 2
     otp_verified = session.get('step', 1) == 3
@@ -2153,9 +2150,46 @@ def about_jain():
     return redirect(JAIN_SITE_URL, code=301)
 
 
+HUB_PAGES = {
+    'announcements': {'title': 'Announcements', 'icon': 'fa-bullhorn',
+                      'blurb': 'UGC notices and circulars from the Office of Academics, newest first.'},
+    'calendar': {'title': 'Academic Calendar', 'icon': 'fa-calendar-alt',
+                 'blurb': 'Events across campuses and the 2026–27 academic calendar.'},
+    'digital-innovation': {'title': 'Digital Innovation', 'icon': 'fa-laptop-code',
+                           'blurb': 'SWAYAM courses, the latest SWAYAM and UGC updates, and how to enrol.'},
+    'capacity-building': {'title': 'Capacity Building', 'icon': 'fa-chart-line',
+                          'blurb': 'Mentoring, NEP Saarthi and AEDP programmes for students and faculty.'},
+}
+
+
+def _announcements_page():
+    """Everything the Announcements page shows, rendered on the server (no wait for the dashboard API)."""
+    out = {'ann_ooa': [], 'ann_ugc': [], 'ugc_site': [], 'now_ist': get_indian_time().replace(tzinfo=None)}
+    try:
+        hodann.ensure_seeded(db)
+        out['ann_ooa'] = hodann.for_page(db, 'University Notice')
+        out['ann_ugc'] = hodann.for_page(db, 'UGC', limit=30)
+    except Exception as e:
+        logger.warning(f"announcements page: {e}")
+    try:
+        import ugc_notices
+        out['ugc_site'] = ugc_notices.latest(db)
+    except Exception as e:
+        logger.warning(f"ugc notices: {e}")
+    return out
+
+
+@app.route("/hub/<section>")
+@login_required
+def hub_section(section):
+    if section not in HUB_PAGES:
+        abort(404)
+    return home(hub_page=section)
+
+
 @app.route("/home")
 @login_required
-def home():
+def home(hub_page=None):
     try:
         user      = db.users.find_one({"email": session["email"]})
         today_str = get_today_ist_string()
@@ -2185,7 +2219,9 @@ def home():
             user_type=user_type, is_faculty=is_fac, can_upload=can_upload,
             approved=approved, special_role=special_role,
             user_department=user_department, user_location=user_location,
-            swayam=SWAYAM, swayam_updates=_swayam_updates())
+            hub_page=hub_page or '', hub_pages=HUB_PAGES,
+            **(_announcements_page() if hub_page == 'announcements' else {}),
+            swayam=SWAYAM, swayam_updates=_swayam_updates() if hub_page == 'digital-innovation' else [])
     except Exception as e:
         logger.error(f"Home route error: {e}", exc_info=True)
         flash("Error loading home page", "error")
@@ -5539,7 +5575,6 @@ def mark_notification_read(notification_id):
 def dept_repo():
     ui = _get_user_info()
     if not ui['approved']:
-        flash('Your account is pending approval.', 'warning')
         return redirect(url_for('home'))
     _track_activity()
     today_str   = date.today().isoformat()
@@ -5556,7 +5591,6 @@ def dept_repo():
 def university_repo():
     ui = _get_user_info()
     if not ui['approved']:
-        flash('Your account is pending approval.', 'warning')
         return redirect(url_for('home'))
     _track_activity()
     today_str = date.today().isoformat()
@@ -5594,7 +5628,6 @@ def university_repo():
 def view_doc(doc_id):
     ui = _get_user_info()
     if not ui['approved']:
-        flash('Your account is pending approval.', 'warning')
         return redirect(url_for('home'))
         
     try:

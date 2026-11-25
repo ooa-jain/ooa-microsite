@@ -1,222 +1,415 @@
 [
-  {
-    "gmail_id": "1a1fde25b4e467f9",
-    "subject": "Notification 2A || Board of Studies (BoS) for AY 2027–28",
-    "sent_at": "2026-11-21T11:33:52Z",
-    "lists": [
-      "Bangalore",
-      "Kochi"
-    ]
-  },
-  {
-    "gmail_id": "1a1f7a3b3d0b8592",
-    "subject": "Google AI Promotional Licence Programme",
-    "sent_at": "2026-11-20T06:27:43Z",
-    "lists": [
-      "Bangalore",
-      "Kochi"
-    ]
-  },
-  {
-    "gmail_id": "1a1f2a15364c7b34",
-    "subject": "AQAR 2025-26: Action Taken Report based on the feedback from the stakeholders for AY 2025-26 by the Department",
-    "sent_at": "2026-11-19T07:07:01Z",
-    "lists": [
-      "Bangalore",
-      "Kochi"
-    ]
-  },
-  {
-    "gmail_id": "1a1eccfbf2d02ad1",
-    "subject": "Minutes of Meeting – Office Hours – Anveshana Queries and Next Session",
-    "sent_at": "2026-11-18T04:00:00Z",
-    "lists": [
-      "Bangalore",
-      "Kochi"
-    ]
-  },
-  {
-    "gmail_id": "1a1e44aa6236227e",
-    "subject": "Departmental Academic Mid-Semester Progression – visit schedule Nov 19 – Nov 24",
-    "sent_at": "2026-11-16T12:17:39Z",
-    "lists": [
-      "Bangalore"
-    ]
-  },
-  {
-    "gmail_id": "1a1cf7c8cf603c84",
-    "subject": "Office Hours – BoS Data Submission Process for AY 2027–28",
-    "sent_at": "2026-11-12T11:20:08Z",
-    "lists": [
-      "Bangalore",
-      "Kochi"
-    ]
-  },
-  {
-    "gmail_id": "1a1ca489139ee427",
-    "subject": "Important || Odd Semester Examination Readiness and Even Semester Preparations – AY 2026–27",
-    "sent_at": "2026-11-11T11:05:15Z",
-    "lists": [
-      "Bangalore",
-      "Kochi"
-    ]
-  },
-  {
-    "gmail_id": "1a1aa60f6d0b79e9",
-    "subject": "Requirement for NAAC accreditation: Academic Programmes with Project Work, Internship, Fieldwork and Apprenticeship credited in the curriculum (Batches 2021 to 2026)",
-    "sent_at": "2026-11-05T06:24:03Z",
-    "lists": [
-      "Bangalore",
-      "Kochi"
-    ]
-  },
-  {
-    "gmail_id": "1a1a13b17626fdec",
-    "subject": "Syllabus revision comparative table for AQAR 2025-26 – IMPORTANT",
-    "sent_at": "2026-11-03T11:46:06Z",
-    "lists": [
-      "Bangalore",
-      "Kochi"
-    ]
-  },
-  {
-    "gmail_id": "1a18bf663e02d2a9",
-    "subject": "Academic Office Hours: Board of Studies (BoS) and Academic Mid-Semester Review",
-    "sent_at": "2026-10-30T08:39:02Z",
-    "lists": [
-      "Bangalore",
-      "Kochi"
-    ]
-  },
-  {
-    "gmail_id": "1a17c44b1f7cc6ae",
-    "subject": "Departmental Academic Mid-Semester Progression – CA ERP Entry and Academic Process Compliance",
-    "sent_at": "2026-10-27T07:30:39Z",
-    "lists": [
-      "Bangalore"
-    ]
-  },
-  {
-    "gmail_id": "1a17c1a92aa584dd",
-    "subject": "Action Required || Collection of Skill Enhancement Course Details",
-    "sent_at": "2026-10-27T06:44:38Z",
-    "lists": [
-      "Kochi"
-    ]
-  },
-  {
-    "gmail_id": "1a16c69ee6095006",
-    "subject": "Invitation: JAIN x BluWheelz Interactive Session on EVpreneurship",
-    "sent_at": "2026-10-24T05:37:24Z",
-    "lists": [
-      "Bangalore"
-    ]
-  },
-  {
-    "gmail_id": "1a149ba0fd46bbdc",
-    "subject": "Notification 2 || Board of Studies (BoS) for AY 2027–28",
-    "sent_at": "2026-10-17T11:58:12Z",
-    "lists": [
-      "Bangalore",
-      "Kochi"
-    ]
-  },
-  {
-    "gmail_id": "1a0f5b9f5ff33d62",
-    "subject": "Academic Office Hours Meeting: Q&A session",
-    "sent_at": "2026-10-01T04:30:00Z",
-    "lists": [
-      "Bangalore",
-      "Kochi"
-    ]
-  },
-  {
-    "gmail_id": "1a0d1f0a7af6ac16",
-    "subject": "Academic Office Hours – Dedicated Q&A Session on BoS Processes | 24 September 2026",
-    "sent_at": "2026-09-24T05:43:24Z",
-    "lists": [
-      "Bangalore",
-      "Kochi"
-    ]
-  },
-  {
-    "gmail_id": "1a0d1ad7028f60b1",
-    "subject": "Academic Office Hours: Best Practices and Initiative – Thursday, 24.09.2026",
-    "sent_at": "2026-09-24T04:29:59Z",
-    "lists": [
-      "Bangalore",
-      "Kochi"
-    ]
-  },
-  {
-    "gmail_id": "1a0b2d53c9a8537a",
-    "subject": "Requirement || AQAR 2025-26 – Documentation of Courses: Employability / Entrepreneurship / Skill Development",
-    "sent_at": "2026-09-18T04:45:14Z",
-    "lists": [
-      "Bangalore",
-      "Kochi"
-    ]
-  },
-  {
-    "gmail_id": "1a060c23c137d8cf",
-    "subject": "Academic Office Hours: Best Practices and Initiative – Thursday, 03.09.2026",
-    "sent_at": "2026-09-02T06:15:37Z",
-    "lists": [
-      "Bangalore",
-      "Kochi"
-    ]
-  },
-  {
-    "gmail_id": "1a05730ec1590415",
-    "subject": "Action Required || AI Literacy Survey (HACRI-E Survey 1) – Circulation to Students",
-    "sent_at": "2026-08-31T09:40:19Z",
-    "lists": [
-      "Kochi"
-    ]
-  },
-  {
-    "gmail_id": "1a046cf204e23fe4",
-    "subject": "Request for Submission of TLEP Documents 2026-27",
-    "sent_at": "2026-08-28T05:19:34Z",
-    "lists": [
-      "Bangalore",
-      "Kochi"
-    ]
-  },
-  {
-    "gmail_id": "1a019d56088cc71b",
-    "subject": "Academic Office Hours: Best Practices and Initiative",
-    "sent_at": "2026-08-19T11:43:29Z",
-    "lists": [
-      "Bangalore",
-      "Kochi"
-    ]
-  },
-  {
-    "gmail_id": "1a018be36b67e7b7",
-    "subject": "New Program Proposal Submission – 2027-28",
-    "sent_at": "2026-08-19T06:38:34Z",
-    "lists": [
-      "Bangalore",
-      "Kochi"
-    ]
-  },
-  {
-    "gmail_id": "19fcc20cd318cd28",
-    "subject": "Urgent Action: Submission of Innovative Programs Details (AY 2022–23 to 2026–27)",
-    "sent_at": "2026-08-04T09:35:29Z",
-    "lists": [
-      "Bangalore",
-      "Kochi"
-    ]
-  },
-  {
-    "gmail_id": "19fad35a6059e79a",
-    "subject": "Academic Office Hours Meeting: Innovative Courses and Emerging Practices",
-    "sent_at": "2026-07-29T09:30:02Z",
-    "lists": [
-      "Bangalore",
-      "Kochi"
-    ]
-  }
+ {
+  "gmail_id": "1a2110e5057e5254",
+  "subject": "Anveshana Weekly Office Hours – 25 November 2026",
+  "sent_at": "2026-11-25T04:54:40Z",
+  "lists": [
+   "Bangalore",
+   "Kochi"
+  ],
+  "body": "Dear Sir/Ma’am,\n\nGreetings from the Office of Academics.\n\nThis is to inform you that the *Anveshana Weekly Office Hours* are\nscheduled for today,* Wednesday, 25th November 2026*, from *3:00 PM to 4:00\nPM* via *MS Teams.*\n\nThe session will focus on* addressing pending queries*, discussing *ongoing\nrequirements*, and providing *necessary clarifications *to ensure the\nsmooth and timely *progress of Anveshana-related processes.*\n\nFor your reference, please find the following attached:\n\n   - Action and Query Tracker : Anveshana_Office of Academics\n   <https://docs.google.com/spreadsheets/d/1CwXt53H8TufXzjkwtCuaGRxGxzBrNZsUr9PHnvJE2UU/edit?usp=sharing>\n\n*Meeting Details:*\n\n   - *Date: *25.11.2026 (Wednesday)\n   - *Time:* 3:00 PM – 4:00 PM\n   - *Platform:* MS Teams\n   - *Meeting Link: **Anveshana_OoA_Office Hours\n   <https://teams.microsoft.com/meet/4142452120681?p=Q5uH60vnAnFKnw181m>*",
+  "files": []
+ },
+ {
+  "gmail_id": "1a1fde25b4e467f9",
+  "subject": "Notification 2A || Board of Studies (BoS) for AY 2027–28",
+  "sent_at": "2026-11-21T11:33:52Z",
+  "lists": [
+   "Bangalore",
+   "Kochi"
+  ],
+  "body": "Dear Ma'am / Sir,\n\nThis is to kindly communicate to you that the BoS for the Academic Year\n2027–28 is to be conducted by coordinating with all concerned departments.\n*The Department Heads at Bangalore are requested to ensure the necessary\ninvolvement and participation of the Kochi Campus,JUT Team and the JAIN\nOnline,CDOE team in the Board of Studies process, including the pre-BoS\nactivities.*\nThe consolidated BoS schedule, updated as of today, is linked here -\nSchedule\n<https://docs.google.com/spreadsheets/d/1YlNTDQmXqnbr1HqRSeuTzoqGroveU2n5CivLA_62eKc/edit?usp=sharing>\n for reference. Request you to initiate the necessary coordination and take\nthe process forward.\n\nThank you for your cooperation.\n\n——— Earlier message ———\n\nDear Sir/Ma’am,\n\nGreetings!\n\nThis is with reference to the earlier communication regarding the conduct\nof the *Board of Studies (BoS) for Academic Year 2027–28*.\n\nIn continuation of the same, all Departments are requested to take note of\nthe following requirements and initiate the necessary actions:\n1. *Conduct of Pre-BoS Meetings:* Departments are required to conduct the\nPre-BoS meeting as part of the prescribed academic process. All necessary\ndocuments, meeting records, recommendations, and supporting materials must\nbe duly maintained for final submission.\n2. *Consolidated Guidelines:* Please find attached the updated\nconsolidated document comprising the guidelines for *DIAC, DPAC-A (up\nto CO Attainment), and DPAC-B (covering the process from CO to PO\nAttainment) *for conducting the Pre-BoS and BoS meetings. Departments\nare requested to refer to the document and ensure compliance with the\nprescribed procedures and requirements.\n3. *Submission of BoS Panel Members Details:* Departments are requested\nto submit the details of the proposed BoS panel members in the *attached\nprescribed format on or before 7th November 2026*.\n4. *BoS Meeting Schedule:* The consolidated BoS schedule, updated as of\ntoday, is linked here - Schedule\n<https://docs.google.com/spreadsheets/d/1YlNTDQmXqnbr1HqRSeuTzoqGroveU2n5CivLA_62eKc/edit?usp=sharing>\nfor reference. Departments are requested to review the schedule and avoid\noverlapping meeting timings, wherever possible, to facilitate the\nparticipation and coordination of the Office of Academics (OOA) team in the\nrespective meetings.\n\nAll Departments are requested to ensure timely completion of the above\nactivities and adherence to the prescribed guidelines and timelines.\n\nThank you for your cooperation.",
+  "files": [
+   {
+    "name": "Booklet DIAC, DPAC-A and BoS.pdf",
+    "url": "/static/files/hod/1a1fde25b4e467f9/Booklet DIAC, DPAC-A and BoS.pdf",
+    "size": 4079947
+   },
+   {
+    "name": "DPAC-B.pdf",
+    "url": "/static/files/hod/1a1fde25b4e467f9/DPAC-B.pdf",
+    "size": 2982168
+   },
+   {
+    "name": "BoS Panel Members Details - Template.docx",
+    "url": "/static/files/hod/1a1fde25b4e467f9/BoS Panel Members Details - Template.docx",
+    "size": 25659
+   }
+  ]
+ },
+ {
+  "gmail_id": "1a1f7a3b3d0b8592",
+  "subject": "Google AI Promotional Licence Programme",
+  "sent_at": "2026-11-20T06:27:43Z",
+  "lists": [
+   "Bangalore",
+   "Kochi"
+  ],
+  "body": "Dear Sir/ Ma'am,\n\nHere’s your final call to turn your ideas into innovation! Don’t miss the\nopportunity to explore the power of AI.\n*Registrations are open on a first-come, first-served basis and will close\nas soon as the available licences are filled.*\n\nSubmit your ideas now and take the first step towards making them a reality!\n\nSurvey Form Link\n<https://docs.google.com/forms/d/e/1FAIpQLScFuR_mN16jr54SA9W0sJHC4XI7Kk3nWBukmFuhRcNP3zrfIg/viewform?usp=sharing&ouid=114393717339172203576>\n\n——— Earlier message ———\n\nDear Sir/Mam\n\nWe are embarking on an exciting initiative to bring the power of advanced\nAI capabilities to a select group of students, faculty members and\nadministrative staff through a *Google AI Promotional Licence Programme*.\n\nThis is more than an opportunity to access cutting edge AI tools, it is\nan opportunity to be among the early adopters and innovators who will\nexplore what AI can make possible, push the boundaries of existing\npractices, and demonstrate its potential to create meaningful impact across\nthe University.\n\n*What could you do with AI?*\n\nWe are looking for people with ideas and the ambition to put them into\naction.\n\n- *For Faculty:* Reimagine teaching and learning, create more engaging\nacademic experiences, explore new research possibilities and generate\nknowledge in new ways.\n- *For Students:* Deepen your understanding, develop new skills, tackle\nchallenging problems, build projects and turn ideas into reality.\n- *For Administrative Staff:* Rethink routine processes, improve\nreporting and decision-making, simplify workflows and explore opportunities\nfor intelligent automation.\n\nGoogle will provide customised AI capabilities and connectors based on\nthe participant's role and area of application, helping selected\nindividuals access tools relevant to what they intend to accomplish.\n\n*Who should apply?*\n\nWe are looking for individuals who are curious, proactive and willing to\nexperiment. You do not need to be an AI expert or an experienced user of AI\ntools since Google will provide us with all the required training\nneeded. What matters is your ability to identify an opportunity, think\ncreatively about how AI could help, and demonstrate a genuine commitment to\nputting it into practice.\n\n*How will participants be selected?*\n\nAs the programme has a limited number of licences, participation will be\nselected based on your Idea's potential. Applications will be evaluated on\nthe relevance and quality of the proposed ideas, their potential impact,\nfeasibility and the clarity of the expected outcomes.\n\n*Take the first step*\n\nIf you have an idea worth exploring, a process worth rethinking, a\nproblem worth solving or simply the ambition to discover what AI can help\nyou achieve, we encourage you to participate.\n\nSurvey Form Link <https://forms.gle/CUfcxkfSNsLKTJrc7>\n\nWe look forward to seeing what you can create!",
+  "files": []
+ },
+ {
+  "gmail_id": "1a1f2a15364c7b34",
+  "subject": "AQAR 2025-26: Action Taken Report based on the feedback from the stakeholders for AY 2025-26 by the Department",
+  "sent_at": "2026-11-19T07:07:01Z",
+  "lists": [
+   "Bangalore",
+   "Kochi"
+  ],
+  "body": "Dear Sir/Mam,\n\nAs a follow-up to our earlier communication, please note that 20th November\n2026 is the timeline for submitting the Action Taken Report for AY 2025–26.\n\nDepartments that are yet to submit the documents are kindly requested to\naccord priority to this submission to facilitate timely consolidation and\nfurther evaluation.\n\n——— Earlier message ———\n\nDear Sir / Madam,\n\nThis is regarding the* AQAR 2025-26.* As part of the process, it is\nessential to document structured feedback on the design and review of the\nsyllabus from the stakeholders, namely, *Students, Teachers, Employers,\nand Alumni*, and also to record the corresponding actions taken.\n\nIt is mandatory that each department discusses the feedback received from\nthese stakeholders during the *BoS meetings held in AY 2025-26.* The\nfeedback should be formally recorded and used for *curriculum design and\ndevelopment, syllabus review,* and the *preparation of an Action Taken\nReport (ATR)*. The ATR must be documented in the prescribed format.\n\nWe request you to kindly provide your inputs in the following format (*in\na Word document*) for *AY 2025-26 :*\n\n*Action Taken Report based on the Feedback from the stakeholders for the\nAY 2025-26 by the Department of [Dept. Name].*\n\nStakeholders Feedback Action Taken Report\n(Request, Suggestions and Recommendations)\nStudents · ·\n· ·\nTeachers · ·\n· ·\nEmployers · ·\n· ·\nAlumni · ·\n· ·\n\nYou are requested to submit the duly filled-in Excel sheet *on or before\nNovember 20, 2026,* as the consolidated data is required to be submitted\nto *IQAC* for further compliance.\n\nKindly ensure that the submission is made by replying to the same email\nthread for ease of tracking and reference.\n\nFor your reference, here enclosed is an illustrative example of the\nFeedback and Action Taken Report, along with *parameters for analysis.*\n\nThank you for your cooperation.",
+  "files": [
+   {
+    "name": "Sample Feedback from Stakeholders.pdf",
+    "url": "/static/files/hod/1a1f2a15364c7b34/Sample Feedback from Stakeholders.pdf",
+    "size": 276674
+   }
+  ]
+ },
+ {
+  "gmail_id": "1a1eccfbf2d02ad1",
+  "subject": "Minutes of Meeting – Office Hours – Anveshana Queries and Next Session",
+  "sent_at": "2026-11-18T04:00:00Z",
+  "lists": [
+   "Bangalore",
+   "Kochi"
+  ],
+  "body": "Dear Sir/Ma’am,\n\nGreetings from the Office of Academics.\n\nThis is to inform you that the *Anveshana Weekly Office Hours* are\nscheduled for today,* Wednesday, 18th November 2026*, from *3:00 PM to 4:00\nPM* via *MS Teams.*\n\nThe session will focus on* addressing pending queries*, discussing *ongoing\nrequirements*, and providing *necessary clarifications *to ensure the\nsmooth and timely *progress of Anveshana-related processes.*\n\nFor your reference, please find the following attached:\n\n   - Action and Query Tracker : Anveshana_Office of Academics\n   <https://docs.google.com/spreadsheets/d/1CwXt53H8TufXzjkwtCuaGRxGxzBrNZsUr9PHnvJE2UU/edit?usp=sharing>\n\n*Meeting Details:*\n\n   - *Date: *18.11.2026 (Wednesday)\n   - *Time:* 3:00 PM – 4:00 PM\n   - *Platform:* MS Teams\n   - *Meeting Link: **Anveshana_OoA_Office Hours\n   <https://teams.microsoft.com/meet/4142452120681?p=Q5uH60vnAnFKnw181m>*",
+  "files": []
+ },
+ {
+  "gmail_id": "1a1e44aa6236227e",
+  "subject": "Departmental Academic Mid-Semester Progression – visit schedule Nov 19 – Nov 24",
+  "sent_at": "2026-11-16T12:17:39Z",
+  "lists": [
+   "Bangalore"
+  ],
+  "body": "Dear Sir/Mam,\n\nWith reference to the earlier communication, we wish to inform you that the\nDepartmental Mid semester review *will commence from 19th November 2026*.\n\nThis will focus on validating the information furnished by the departments\nand verifying the corresponding records and supporting documents.\n\nIn preparation for the visit, departments are requested to ensure the\nfollowing:\n1. *Document Readiness:* Keep all relevant documents, records, reports, and\n   supporting evidence corresponding to the submitted checklist readily\n   available for verification.\n2. *Information Validation:* Ensure that the information provided in the\n   checklist is accurate, complete, and consistent with the departmental\n   records.\n3. *Availability of Records:* Keep both physical and digital records\n   accessible, wherever applicable, for verification during the visit.\n4. *Department Representation:* Ensure the availability of the Head of\n   Department/Director and concerned faculty or coordinators who can provide\n   clarifications on the submitted information.\n5. *Pending Requirements:* Any gaps or pending documentation submitted\n   against the checklist to be updated and kept ready for discussion during\n   the visit.\n\n*The department-wise on-site visit schedule is provided in the attached\nsheet. Departments are requested to refer to the schedule and make the\nnecessary arrangement *in advance to facilitate a smooth and effective\nprocess.\n\nWe appreciate your cooperation and look forward to your support in\nfacilitating the process.\n\n——— Earlier message ———\n\nDear Sir/Mam,\n\nAs the semester examinations are scheduled for the first week of December\n2026, all departments are requested to review the progression of *Continuous\nAssessment (CA) entry in the ERP* and ensure that the relevant academic\nprocesses and documentation are up to date.\n\nIn addition to CA entry, departments are requested to organise and\nmaintain records related to the various academic processes in accordance\nwith the university-prescribed templates and guidelines. The Office of\nAcademics (OOA) team will undertake *campus visits during the last week\nof October 2026* to interact with the departments on various\nacademic processes based on the attached checklist. The detailed schedule\nof the visits will be communicated separately.\n\nThe *department submission checklist* is attached for reference. All\ndepartments are requested to follow the checklist, ensure the accuracy,\ncompleteness, and consistency of all the relevant information and\nsupporting documents are organised and readily available during the campus\nvisits, and *submit the duly signed checklist, **authorised by the\nrespective Head of Department (HoD) to the OOA team during the visit.*\n\nWe look forward to your cooperation in ensuring the smooth and timely\nclosure of the Odd Semester 2026.",
+  "files": [
+   {
+    "name": "Mid Sem Schedule 26.xlsx",
+    "url": "/static/files/hod/1a1e44aa6236227e/Mid Sem Schedule 26.xlsx",
+    "size": 80901
+   }
+  ]
+ },
+ {
+  "gmail_id": "1a1cf7c8cf603c84",
+  "subject": "Office Hours – BoS Data Submission Process for AY 2027–28",
+  "sent_at": "2026-11-12T11:20:08Z",
+  "lists": [
+   "Bangalore",
+   "Kochi"
+  ],
+  "body": "Dear Sir/Ma'am,\n\nWe are pleased to inform you about the special Office Hours on the *BoS\ndata submission process and repository **for AY 2027–28 *which will standardise\nthe submission process across departments.\n\n*In this regard, each department is requested to nominate two SPOCs (Single\nPoints of Contact) through the Google Form link provided below. Along with\nHod the nominated SPOCs will be the primary contacts for all BoS-related\nsubmissions and coordination for AY 2027–28 , for the respective department\non or before 13.11.2026 , EOD. *\n\n*Google Form: **SPOC Nomination - Google Form\n<https://forms.gle/NuenttckWPhiunEJ7>*\n\nHoD's are requested to ensure the participation of both nominated SPOCs in\nthe session along with your presence. The meeting schedule will be sent\nshortly.\n\nWe request all departments to complete the nominations and extend their\ncooperation.",
+  "files": []
+ },
+ {
+  "gmail_id": "1a1ca489139ee427",
+  "subject": "Important || Odd Semester Examination Readiness and Even Semester Preparations – AY 2026–27",
+  "sent_at": "2026-11-11T11:05:15Z",
+  "lists": [
+   "Bangalore",
+   "Kochi"
+  ],
+  "body": "Dear Sir/Mam,\n\n  As the Odd Semester approaches its closure and preparations for the\nupcoming Even Semester to be initiated , all Departments are hereby\nrequested to adhere to the schedules and complete the prerequisites\noutlined in the attached documents:\n1. *Prerequisites for Conducting Examinations – Odd Semester 2026*\n2. *Prerequisites for Commencement of Attendance Entry in ERP – Even\n   Semester 2026–27*\n\nDepartments are requested to review the activities and timelines specified\nin both documents and ensure that the necessary academic and administrative\nprocesses are completed within the stipulated timelines. We also request\nthat the concerned faculty members and administrative teams be informed\naccordingly to facilitate timely completion.\n\nFurther, we request all Departments to follow a similar sequence of\nactivities and timelines for the closure of the 1st Semester, including\npreparations for the examinations and completion of the prerequisites for\ncommencement of attendance entry in ERP for the upcoming 2nd Semester.\n\nHeads of Departments shall monitor the progress of these activities and\nensure coordination with the concerned offices wherever necessary, to\nfacilitate a smooth and timely transition between semesters.\n\nKindly accord priority to these activities and ensure timely compliance.",
+  "files": [
+   {
+    "name": "Prerequisites for Conducting Examinations - Odd Semester 2026.xlsx",
+    "url": "/static/files/hod/1a1ca489139ee427/Prerequisites for Conducting Examinations - Odd Semester 2026.xlsx",
+    "size": 10684
+   },
+   {
+    "name": "Prerequisites for Commencement of Attendance Entry in ERP - Even Semester 2026-27.xlsx",
+    "url": "/static/files/hod/1a1ca489139ee427/Prerequisites for Commencement of Attendance Entry in ERP - Even Semester 2026-27.xlsx",
+    "size": 10195
+   }
+  ]
+ },
+ {
+  "gmail_id": "1a1aa60f6d0b79e9",
+  "subject": "Requirement for NAAC accreditation: Academic Programmes with Project Work, Internship, Fieldwork and Apprenticeship credited in the curriculum (Batches 2021 to 2026)",
+  "sent_at": "2026-11-05T06:24:03Z",
+  "lists": [
+   "Bangalore",
+   "Kochi"
+  ],
+  "body": "Dear Madam / Sir,\n\nAs required for NAAC accreditation, it is necessary to identify all the\nacademic programmes in which *Project Work, Internship, Fieldwork, and\nApprenticeship* are included and credited as part of the curriculum.\n\nAccordingly, the concerned *HoDs *and *Programme Heads* are requested to\nfurnish the details programme-wise offered from* 2021 batch to 2026\nbatch *across\nthe four designated categories (Project Work, Internship, Fieldwork, and\nApprenticeship).\n\nPlease provide the following particulars in the corresponding sub-columns,\nusing the enclosed Excel template separately for each batch:\n   *Credit allotted:* Number of academic credits assigned in the curriculum\n   scheme. (If direct standalone credits are not allotted to an\n   internship/fieldwork, but the component forms part of the Continuous\n   Assessment for a specific course, please enter as Integrated with CA)\n   *Duration (in months):* Duration of the component (in months)\n   *Semester/s:* Relevant Semester or Semesters\n   *Number of Students:* Total number of students participating/enrolled in\n   the component for the batch\n\nThe links to *supporting documentary proof* must be provided in the final\ncolumn of the Excel sheet (*Supporting Documents*), compiled in\ncoordination with the Industry-Interface Cell or other concerned\nacademic/administrative units.\n\nApplicable documents include:\n   Approved Course Matrix / Programme Structure\n   Course Syllabus & Scheme of Evaluation\n   Academic Regulations & Course Catalogues\n   Internship / Apprenticeship references\n   Project Work / Fieldwork Guidelines & Evaluation Rubrics\n   Continuous Assessment Marks Records & Evaluation Patterns/Rubrics\n   Industry Collaboration MOUs\n   Student Allocation Letters & List of Students with Enrollment Numbers\n   (where applicable)\n\n*The consolidated data is required to be submitted to IQAC for fulfilling\nthe NAAC accreditation requirements.*\n\nYou are requested to submit the duly filled-in Excel sheet on or\nbefore *November\n30, 2026*.",
+  "files": [
+   {
+    "name": "Programmes 2021 to 2026 - Template.xlsx",
+    "url": "/static/files/hod/1a1aa60f6d0b79e9/Programmes 2021 to 2026 - Template.xlsx",
+    "size": 136093
+   }
+  ]
+ },
+ {
+  "gmail_id": "1a1a13b17626fdec",
+  "subject": "Syllabus revision comparative table for AQAR 2025-26 – IMPORTANT",
+  "sent_at": "2026-11-03T11:46:06Z",
+  "lists": [
+   "Bangalore",
+   "Kochi"
+  ],
+  "body": "Dear Sir/Mam,\n\nAs a follow-up to our earlier communication, please note that 6th November\n2026 is the timeline for submitting the syllabus revision comparative table\nfor AY 2025–26.\n\nKindly prioritise this submission to enable timely consolidation and\nfurther evaluation.\n\n——— Earlier message ———\n\nDear Sir /\nMadam,\n\n*At the outset, we extend our sincere appreciation for your cooperation\nand contribution towards the successful submission of the Annual Quality\nAssurance Report (AQAR) 2024. *\n\nAs you are aware, submission of the AQAR is a mandatory annual\nrequirement. We are now in the process of preparing the AQAR for the AY\n2025–26. In this regard, it is essential to document and report the extent\nof syllabus revisions undertaken during this academic year.\n\nTo meet NAAC documentation standards, all programmes that fall within the\nrevision cycle for AY 2025–26 must prepare a syllabus revision comparative\ntable using the prescribed format provided herewith.\n\n*Please consider the following points while conducting syllabus revision\ncomparison :*\n\n1. Syllabus revision comparison must be done for the 2025 batch with\nthe previously revised syllabus of a batch as per revision cycle for all\nsemesters. *Please note, revision cycle is considered UG – once in 4\nyears, and PG programmes – once in 2 years.*\n\n2. A sample specimen format is enclosed that provides a breakdown of\nthe percentage of changes carried out in each course, module-wise and\naverage percentage for a programme considering all courses. *Please\nmaintain the same fonts, font size and format provided in the sample.*\n\n3. A course is considered to have undergone a *syllabus change* if *20%\nor more* of its content has been revised.\n\n4. Syllabus of the latest revised batch (i.e. of 2025 batch) is to be\nshown in the right-hand side column of the format. On the left-hand side,\nthe previous revised syllabus of the same subject should be compared\nmodule-wise. Average should be calculated for a given course considering\nall modules.\n\n5. Change in teaching hours will not be considered as change in\nsyllabus. Rearrangements made in Modules / Courses between semesters will\nnot lead to change in syllabus. Renaming / minor changes in the course\ncontent cannot be considered.\n\n6. Courses with completely new syllabi across all modules should be\nrecorded as 100% change.\n\n7. Consolidate all specialisations of AICTE ambit programme into a\nsingle document by listing courses revised semesters-wise and then\ncalculate the average percentage of change in syllabus for all\nspecializations.*(enclosed sample documents for AICTE (BBA) and UGC\n(Bcom) for reference)*\n\n8. The respective Programme Heads / Coordinators and IQAC Coordinators\nmust ensure the quality and contents of the document as per standard format\nbefore submitting.\n\n*9. **The final document needs to be duly signed by both the Head of\nthe Department and Director / Deputy Director of the School before\nsubmission. ** As the document will be submitted to IQAC for further\nevaluation, all details must be thoroughly reviewed and duly validated\nprior to submission.*\n\n*Kindly submit your inputs** positively before November 6th, 2026.*\n\nThank you for your cooperation.\n\nRegards,",
+  "files": [
+   {
+    "name": "Sample - BBA Syllabus Revision (AICTE).docx",
+    "url": "/static/files/hod/1a1a13b17626fdec/Sample - BBA Syllabus Revision (AICTE).docx",
+    "size": 299730
+   },
+   {
+    "name": "Sample - BCom Syllabus Revision (UGC).docx",
+    "url": "/static/files/hod/1a1a13b17626fdec/Sample - BCom Syllabus Revision (UGC).docx",
+    "size": 275570
+   }
+  ]
+ },
+ {
+  "gmail_id": "1a18bf663e02d2a9",
+  "subject": "Academic Office Hours: Board of Studies (BoS) and Academic Mid-Semester Review",
+  "sent_at": "2026-10-30T08:39:02Z",
+  "lists": [
+   "Bangalore",
+   "Kochi"
+  ],
+  "body": "Dear Sir/Madam,\nGreetings\n\nThis is to inform you that the Academic Office Hours is scheduled for\n*Saturday,\n31 October 2026, at 10:30 AM via MS Teams*.\n\nThe session will primarily focus on *Board of Studies (BoS)* and *Academic\nMid-Semester Review,* providing a platform for departments to seek\nnecessary clarification and discuss relevant academic matters to facilitate\nthe smooth and timely progression of academic processes.\n\nDepartments are kindly requested to ensure the participation of at least\none SPOC from their respective departments during the session. In the\nabsence of departmental participation, it will be considered that there are\nno queries or clarifications requiring attention regarding the matters\nunder discussion.\n\n*Meeting Details*\n\n   - *Date: *31.10.2026 (Saturday)\n   - *Time:* 10:30 AM onwards\n   - *Platform:* MS Teams\n   - *Meeting Link: *Academic Office Hours_Meeting Link\n   <https://teams.microsoft.com/meet/4522265123172?p=GB9ojlf1XPZvawDtGc>",
+  "files": [
+   {
+    "name": "Poster - BoS and Academic Mid-Sem Review.jpg",
+    "url": "/static/files/hod/1a18bf663e02d2a9/Poster - BoS and Academic Mid-Sem Review.jpg",
+    "size": 207404
+   }
+  ]
+ },
+ {
+  "gmail_id": "1a17c44b1f7cc6ae",
+  "subject": "Departmental Academic Mid-Semester Progression – CA ERP Entry and Academic Process Compliance",
+  "sent_at": "2026-10-27T07:30:39Z",
+  "lists": [
+   "Bangalore"
+  ],
+  "body": "Dear Ma'am/ Sir,\n\nGreetings.\nWith reference to our email dated 14 October 2026, all departments are\nrequested to submit the completed department checklist, along with\nsupporting evidence links, on or before 31 October 2026.\n\nPlease create a folder named “Mid Semester Review – [Department Name]” and\ninclude a separate checklist for each programme, as submission of the\nchecklist is mandatory for every programme. Ensure that the OOA team has\naccess to all supporting documents and links.\n\nNote: Upon submission, the documents and links will be treated as final and\nfrozen. Any subsequent changes must be formally communicated to OOA by the\ndepartment.\n\nThe campus visit schedule will be shared upon receipt of the completed\nchecklists.\n\n——— Earlier message ———\n\nDear Sir/Mam,\n\nAs the semester examinations are scheduled for the first week of December\n2026, all departments are requested to review the progression of *Continuous\nAssessment (CA) entry in the ERP* and ensure that the relevant academic\nprocesses and documentation are up to date.\n\nIn addition to CA entry, departments are requested to organise and\nmaintain records related to the various academic processes in accordance\nwith the university-prescribed templates and guidelines. The Office of\nAcademics (OOA) team will undertake *campus visits during the last week\nof October 2026* to interact with the departments on various\nacademic processes based on the attached checklist. The detailed schedule\nof the visits will be communicated separately.\n\nThe *department submission checklist* is attached for reference. All\ndepartments are requested to follow the checklist, ensure the accuracy,\ncompleteness, and consistency of all the relevant information and\nsupporting documents are organised and readily available during the campus\nvisits, and *submit the duly signed checklist, **authorised by the\nrespective Head of Department (HoD) to the OOA team during the visit.*\n\nWe look forward to your cooperation in ensuring the smooth and timely\nclosure of the Odd Semester 2026.",
+  "files": [
+   {
+    "name": "Odd Semester Mid-Semester Department Submission Checklist.docx",
+    "url": "/static/files/hod/1a17c44b1f7cc6ae/Odd Semester Mid-Semester Department Submission Checklist.docx",
+    "size": 38440
+   }
+  ]
+ },
+ {
+  "gmail_id": "1a17c1a92aa584dd",
+  "subject": "Action Required || Collection of Skill Enhancement Course Details",
+  "sent_at": "2026-10-27T06:44:38Z",
+  "lists": [
+   "Kochi"
+  ],
+  "body": "Dear Sir/Mam,\n\nWith reference to our previous communication, all departments/centres are\nrequested to complete the Google Form shared earlier and submit the\nrequired details *by today, 27 October 2026, at 4:00 PM*, as the\nconsolidated information is to be submitted to the UGC.\n\n*In case no courses are being offered, kindly acknowledge the same by\nreplying to this email to enable us to maintain the necessary records.*\n\n——— Earlier message ———\n\nDear Sir/Mam,\n\nAs part of the UGC requirement, departments are requested to identify and\nshare details of all Skill Enhancement Courses offered by their respective\ndepartments that focus on developing students’ competencies, practical\nskills and employability for the past 3 years (2023 onwards).\n\nPlease submit the required information through the Google Form linked\nbelow,* on or before 24 October 2026.*\n\nGoogle Form: https://forms.gle/ScC9uYvZYkyiY5Ad9\n\nKindly ensure that the information provided is accurate and complete,\ncovering all relevant courses offered by your department. Your cooperation\nin this exercise is appreciated.",
+  "files": []
+ },
+ {
+  "gmail_id": "1a16c69ee6095006",
+  "subject": "Invitation: JAIN x BluWheelz Interactive Session on EVpreneurship",
+  "sent_at": "2026-10-24T05:37:24Z",
+  "lists": [
+   "Bangalore"
+  ],
+  "body": "Dear Sir/Mam\n\nGreetings!\n\nJAIN (Deemed-to-be University) is pleased to share that the University is\ncollaborating with BluWheelz, India's fastest-growing EV logistics\nplatform. Built on an innovative Fleet-as-a-Service model, BluWheelz\nspecialises in first, mid, and last-mile deliveries, combining\ncapital-efficient operations, deep EV ecosystem partnerships and\ncutting-edge retrofitting to enable cost-effective, zero-emission logistics\nat scale.\n\nBluWheelz's mission is to decarbonise India's logistics industry by\nbuilding a capital-light, technology-driven EV ecosystem focused on\n4-wheeler fleet electrification. It does this by:\n   Replacing diesel fleets with electric ones through strategic\n   retrofitting and EV partnerships.\n   Integrating OEMs, charge point operators, financing models and manpower\n   partners into one unified logistics platform.\n\nThrough this collaboration, students, faculty and alumni will have the\nopportunity to become entrepreneurs in this futuristic and eco-friendly EV\ninitiative under the *1,008 EVpreneurship Programme*.\n\nTo inaugurate this partnership and introduce the programme, an interactive\nsession has been organised with *Dr. Chenraj Roychand, Hon'ble Chancellor,\nJAIN (Deemed-to-be University), and Mr. Sanjiv Gupta, Founder & Chairman,\nBluWheelz.*\n\n*Date:* 28th October 2026, Wednesday\n*Time:* 10:00 a.m.\n*Venue:* Jain Knowledge Campus, 2nd Floor Conference Hall, 9th Block,\nJayanagar, Bengaluru\n\nWe request you to kindly circulate this invitation among the students and\nfaculty of your schools and departments and encourage them to attend.\n\nInterested participants should register using the link below or through the\nQR code on the attached poster. *Online registration is mandatory, and\nregistration must be completed on or before Monday, 26th October 2026.*\n\n*Registration Link:* https://bluwheelz-1008-entrepreneurs.vercel.app/\n\nFor further coordination, *Dr. Nikunj Trivedi* will be the point of contact\nand can be reached at 9880002261",
+  "files": [
+   {
+    "name": "Poster - EVpreneur Invite.jpg",
+    "url": "/static/files/hod/1a16c69ee6095006/Poster - EVpreneur Invite.jpg",
+    "size": 278501
+   }
+  ]
+ },
+ {
+  "gmail_id": "1a149ba0fd46bbdc",
+  "subject": "Notification 2 || Board of Studies (BoS) for AY 2027–28",
+  "sent_at": "2026-10-17T11:58:12Z",
+  "lists": [
+   "Bangalore",
+   "Kochi"
+  ],
+  "body": "Dear Sir/Ma’am,\n\nGreetings!\n\nThis is with reference to the earlier communication regarding the conduct\nof Board of Studies (BoS) meetings for Academic Year 2027–28.\n\n*Please note the revised timelines for conducting the BoS:*\n   *UG Programmes:* On or before 30th November 2026\n   *PG Programmes:* On or before 31st January 2027\n\n*Kindly note that if PG programmes are adequately prepared, BoS meetings\nfor both UG and PG programmes may be conducted simultaneously on or before\n30th November 2026.*\n\n*Further, all HoDs are requested to fill in the Google Form and update the\nproposed BoS meeting date and time for your respective departments using\nthe link provided below by 24th October,EOD.*\n\n*Google Form Link :* BOS for AY 2027-28 (Schedule)\n<https://forms.gle/QyPj73vc7fSgPXN77>\n\nAll Departments are requested to plan and complete the BoS within the\nrevised timelines. The standardised templates, formats, detailed checklist,\nand other supporting documents required for the BoS process will be shared\nwith all Departments shortly.\n\n——— Earlier message ———\n\nDear Sir/Ma'am,\n\nGreetings!\n\nAs we progress through Academic Year 2026–27, it is important that our\nacademic programmes and curricula continue to remain relevant,\ncontemporary, and responsive to the evolving needs of learners, industry,\nsociety, and the regulatory landscape. The Board of Studies (BoS) serves as\na key academic forum for Departments to critically review their academic\nofferings and plan meaningful curricular interventions for the forthcoming\nacademic cycle.\n\n*Accordingly, all Departments are requested to initiate and conduct their\nBoard of Studies (BoS) for AY 2027–28, with a forward-looking approach\ntowards strengthening the academic portfolio.*\n\n*Board of Studies (BoS) for AY 2027–28*\n\n*All Departments are required to conduct and complete the BoS for AY\n2027–28 on or before 15th November 2026. *\n\nDepartments are requested to plan the activities leading up to the BoS\nwell in advance, particularly where inputs, consultations, external\nexpertise, or prior-level reviews are involved. Preparatory work may\ninclude a review of existing programmes and courses, proposed curriculum\nrevisions, new programme initiatives, and opportunities for combined or\ninterdisciplinary programmes and courses.\n\nWhere new programme proposals or significant academic changes are under\nconsideration, Departments are requested to initiate the process at the\nearliest, as these may require completion of the prescribed review stages\nincluding consideration by the *Screening Committee* and *Standing\nCommittee* prior to placement before the BoS.\n\n*BoS Document Readiness*\n\nTo support a systematic and consistent BoS process across Departments, the\nframework below may be used as a reference for document readiness.\nDepartments are requested to ensure that the relevant documents and\nsupporting evidence are updated and maintained accordingly.\n\n*Category*\n\n*Documents / Evidence to be Maintained*\n\n*Pre-BoS Inputs*\n\nDPAC/DIAC Agenda & Minutes; Stakeholder Feedback – New Programmes;\nStakeholder Feedback – Curriculum; Benchmarking Documents\n\n*Programme and Curriculum*\n\nProgramme Overview; Programme Structure; Course Matrix; Course Syllabus;\nCourse Revision Log; Open Elective Basket; CO–PO/PSO Mapping; NEP/Other\nRegulatory Compliances\n\n*Department and BoS Composition*\n\nDepartment Vision, Mission & Overview; BoS Composition; External Member\nProfiles; Nomination/Consent Documents, wherever applicable\n\n*New / Interdisciplinary Proposals*\n\nNew Programme Proposal; 1-Year PG Programme Proposal, wherever applicable;\nCombined/Interdisciplinary Programme or Course Proposal; Academic Rationale\nand Feasibility\n\n*Preliminary Reviews*\n\nScreening Committee / Standing Committee Presentations; Observations;\nRecommendations; Action Taken, wherever applicable\n\n*BoS Meeting*\n\nBoS Notice & Agenda; BoS Presentation; Attendance; Minutes of Meeting;\nResolutions; Action Items\n\n*Approval and Closure*\n\nRequired Approval Records; Final Approved Curriculum/Programme Documents;\nDigitally Signed Documents; Version History; Consolidated Final BoS\nRepository\n\n*Departments are requested to ensure that documentation is complete and\nsupported by appropriate evidence. The standardised templates, formats, a\ndetailed checklist, and other supporting documents for the BoS process will\nbe shared with all Departments shortly. *\n\nWe look forward to your continued support and cooperation in ensuring a\nwell-planned and effective BoS process.\n\n*---------Plan Today. Strengthen Tomorrow --------*",
+  "files": []
+ },
+ {
+  "gmail_id": "1a0f5b9f5ff33d62",
+  "subject": "Academic Office Hours Meeting: Q&A session",
+  "sent_at": "2026-10-01T04:30:00Z",
+  "lists": [
+   "Bangalore",
+   "Kochi"
+  ],
+  "body": "Dear Sir/ Ma'am,\nGreetings.\n\nThis is to inform you that the *Academic Office Hours** - Q&A Session\n*is scheduled\nfor today,* Thursday, 1st October 2026* from *3**:00 PM to 4:00 PM* via MS\nTeams.\n\nThe office hours will primarily focus on discussing and providing necessary\nclarifications to ensure the smooth and timely progress of Academic-related\nprocesses.\n\n*Meeting Details:*\n\n   - *Date: *01.10.2026 (Thursday)\n   - *Time:* 3:00 PM – 4:00 PM\n   - *Platform:* MS Teams\n   - *Meeting Link: *Academic Office Hours_Meeting Link\n   <https://teams.microsoft.com/meet/4522265123172?p=GB9ojlf1XPZvawDtGc>",
+  "files": [
+   {
+    "name": "Poster - Academic Office Hours Q&A.jpg",
+    "url": "/static/files/hod/1a0f5b9f5ff33d62/Poster - Academic Office Hours Q&A.jpg",
+    "size": 71988
+   }
+  ]
+ },
+ {
+  "gmail_id": "1a0d1f0a7af6ac16",
+  "subject": "Academic Office Hours – Dedicated Q&A Session on BoS Processes | 24 September 2026",
+  "sent_at": "2026-09-24T05:43:24Z",
+  "lists": [
+   "Bangalore",
+   "Kochi"
+  ],
+  "body": "Dear Sir/Ma'am ,\n\nGreetings from the Office of Academics.\n\nThis is to inform you that *today’s Academic Office Hours scheduled on 24\nSeptember 2026 from 03:00 PM to 04:00 PM will be exclusively dedicated to a\nQ & A session on the Board of Studies (BoS) processes and related academic\nprocedures.*\n\nThe session has been planned to *provide academic clarifications and\nguidance on BoS processes, procedures and related curriculum requirements*.\n\nAccordingly, the *Best Practices Presentation scheduled to be delivered by\nthe Department of Computer Science and Engineering stands postponed*.\n\nWe kindly request *all Heads of Departments and Faculty Coordinators who\nrequire clarification regarding the BoS processes* to join the Academic\nOffice Hours . We encourage departments to make use of this opportunity so\nthat common queries and clarifications can be addressed collectively.\nMeeting Details\n\n*Date:* 24 September 2026\n*Time:* 03:00 PM to 04:00 PM\n*Mode:* MS Teams\n*Meeting Link:* MS Teams - Meeting Link\n<https://teams.microsoft.com/meet/4522265123172?p=GB9ojlf1XPZvawDtGc>\n\n——— Earlier message ———\n\nDear Ma’am/Sir,\nGreetings.\n\n*Academic Office Hours: Best Practices and Initiative - Department of\nComputer Science and Engineering*\nWe are pleased to invite the *Department of Computer Science and\nEngineering* to present its best practice on: *“Impact of Automation on\nEfficiency and Planning”*\n\nThe session will highlight the *approach adopted, key interventions,\noutcomes achieved, and learnings*, providing an opportunity for\ndepartments to explore the applicability of the practice within their own\nacademic processes.\nYour presence and active participation are requested to facilitate\nmeaningful *cross-departmental learning and knowledge-sharing*.\n\n*Meeting Details:*\n\n- *Date:* Thursday, 24 September 2026\n- *Time:* 3:00 PM – 4:00 PM\n- *Mode:* Microsoft Teams\n- *MS Teams Link:* Academic Hours Meeting Link\n<https://teams.microsoft.com/meet/4522265123172?p=GB9ojlf1XPZvawDtGc>\n\n*We kindly request mandatory participation of at least two faculty members\nfrom each department to ensure wider engagement, facilitate effective\nimplementation of relevant best practices, and encourage the presenting\ndepartment.*\n\nWe look forward to your active participation and continued support.",
+  "files": [
+   {
+    "name": "Poster - Best Practices, CSE.jpg",
+    "url": "/static/files/hod/1a0d1f0a7af6ac16/Poster - Best Practices, CSE.jpg",
+    "size": 338184
+   }
+  ]
+ },
+ {
+  "gmail_id": "1a0d1ad7028f60b1",
+  "subject": "Academic Office Hours: Best Practices and Initiative – Thursday, 24.09.2026",
+  "sent_at": "2026-09-24T04:29:59Z",
+  "lists": [
+   "Bangalore",
+   "Kochi"
+  ],
+  "body": "Dear Ma’am/Sir,\nGreetings.\n\n*Academic Office Hours: Best Practices and Initiative - Department of\nComputer Science and Engineering*\nWe are pleased to invite the *Department of Computer Science and\nEngineering* to present its best practice on: *“Impact of Automation on\nEfficiency and Planning”*\n\nThe session will highlight the *approach adopted, key interventions,\noutcomes achieved, and learnings*, providing an opportunity for departments\nto explore the applicability of the practice within their own academic\nprocesses.\nYour presence and active participation are requested to facilitate\nmeaningful *cross-departmental learning and knowledge-sharing*.\n\n*Meeting Details:*\n\n   - *Date:* Thursday, 24 September 2026\n   - *Time:* 3:00 PM – 4:00 PM\n   - *Mode:* Microsoft Teams\n   - *MS Teams Link:* Academic Hours Meeting Link\n   <https://teams.microsoft.com/meet/4522265123172?p=GB9ojlf1XPZvawDtGc>\n\n*We kindly request mandatory participation of at least two faculty members\nfrom each department to ensure wider engagement, facilitate effective\nimplementation of relevant best practices, and encourage the presenting\ndepartment.*\n\nWe look forward to your active participation and continued support.",
+  "files": [
+   {
+    "name": "Poster - Best Practices, CSE.jpg",
+    "url": "/static/files/hod/1a0d1ad7028f60b1/Poster - Best Practices, CSE.jpg",
+    "size": 338184
+   }
+  ]
+ },
+ {
+  "gmail_id": "1a0b2d53c9a8537a",
+  "subject": "Requirement || AQAR 2025-26 – Documentation of Courses: Employability / Entrepreneurship / Skill Development",
+  "sent_at": "2026-09-18T04:45:14Z",
+  "lists": [
+   "Bangalore",
+   "Kochi"
+  ],
+  "body": "Dear Sir / Mam,\n\nAs part of the AQAR 2025–26 submission, we are also required to identify\nand document courses that contribute to *Employability / Entrepreneurship /\nSkill Development*. In addition, we must demonstrate how the curricula are\naligned with *Local / National / Regional / Global* developmental needs, as\nreflected in the Programme Outcomes (POs), Programme Specific Outcomes\n(PSOs), and Course Outcomes (COs).\n\nTo ensure uniformity and completeness, kindly follow the instructions\nbelow. Please also refer to the attached sample Word document\n(25BBAFA1C01.docx) and Excel sheet (Course Activities.xlsx) for the\nstandard format.\n\n1. *Courses to be Included*: All unique Courses (Theory / Lab / Project)\noffered during AY 2025-26 that are directly leading to Employability /\nEntrepreneurship / Skill Development are to be considered from respective\nprogrammes of following batches :\n\n· 2025 batch: Semesters 1 & 2\n\n· 2024 batch: Semesters 3 & 4\n\n· 2023 batch: Semesters 5 & 6\n\n· 2022 batch: Semesters 7 & 8\n\n2. *Word File Preparation (One File per Course)*: The course document in\na Word File should have all the relevant contents, namely, Course Code,\nCourse Name, Credits / teaching hours, Objectives, Course Outcomes (COs),\nModules with hour’s distribution and References.\n\n3. *Formatting requirements*:\n\n· Use colour-coded combination for highlighting the Course Contents\n/ Modules and Course Outcomes as per the sample attached\n“25BBAFA1C01.docx”. So that the course document provides appropriate\nmapping of its contents to Employability / Entrepreneurship / Skill\nDevelopment.\n\n· Common courses offered by a Department / School in their\nrespective programmes need to be considered only once.\n\n· The Header and Footer of Word Document should be retained\ncommonly for all courses as per the sample, also A4 size alignment, fonts\nand font size.\n\n· Each Course should be documented in a separate Word File. The\nFile Name of the Word Document has to be given with the respective Course\nCode.\nFor Eg : “25BBAFA1C01.docx”.\n\n· Please ensure that there are no extra characters / spaces occur\nin the File Name.\n\n· Please note that course code should be obtained from the Approved\nCurriculum Matrix from the ERP System.\n\n4. *Excel Sheet Compilation:* The Courses which are being documented as\nper the above requirements are also needed to be listed in a tabular\nformat, preferably in a single Excel Sheet (attached – “Course\nActivities.xlsx”), consisting the following columns :\n\n*Column*\n\n*Description*\n\n*I. **Course Code (Unique)*\n\nUnique Code of the Course offered during AY 2025-26 (Eg: 25BBAFA1C01)\n\n*II. **Name of the Course*\n\nCourse Name should be provided (Eg. Financial Accounting)\n\n*III. **Year of Introduction*\n\nYear of Course introduced / revised. (Eg: 2025 / 2024 / 2023)\n\n*IV. **Activities / Content with direct bearing on Employability /\nEntrepreneurship / Skill Development*\n\nPlease provide a write up with 25 to 30 Words\n\n*V. **Course offered by the Programme with Specialisation*\n\nName of the Programme with Specialisation. (Eg. Bachelor of Science in\nForensic Science)\n\n*VI. **Semester*\n\nSemester which the course was offered during the AY 2025-26\n\n*VII. **Batch*\n\nBatch of the respective programme offering respective course during the AY\n2025-26. (Eg: 2025 batch / 2024 batch)\n\n*VIII. **“New” Course introduced during AY 2025-26*\n\nMark as “New” if revised or introduced in AY 2025–26, else “Old”\n\n*IX. **Link to the Course document*\n\nHyperlink can be generated that directs to a Word file with the extension\n.docx, which is stored in the same folder along the Excel file. This\nhyperlink can then be tested to ensure it opens the linked Word file\nsuccessfully.\n\n*X. **Relevance of Curriculum to Local Developmental Needs*\n\nMark as “Yes” if curriculum has relevance to Local Developmental Needs,\nelse “No”\n\n*XI. **Relevance of Curriculum to Regional Developmental Needs*\n\nMark as “Yes” if curriculum has relevance to Regional Developmental Needs,\nelse “No”\n\n*XII. **Relevance of Curriculum to National Developmental Needs*\n\nMark as “Yes” if curriculum has relevance to National Developmental Needs,\nelse “No”\n\n*XIII. **Relevance of Curriculum to Global Developmental Needs*\n\nMark as “Yes” if curriculum has relevance to Global Developmental Needs,\nelse “No”\n\n*Important Note: *\n\n· Courses should be considered as ‘NEW’ only if they are newly\nintroduced or substantial changes made in the course contents during the AY\n2025-26.\n\n· Year of Introduction shall be 2025 for new / revised courses\nintroduced during AY 2025-26.\n\n· Please avoid indicating a course as New, if there is only change\nmade in title of the course without changes in the course contents.\n\n· Courses marked as relevant to Local, Regional, National, or\nGlobal developmental needs must also reflect this alignment in the\ncorresponding POs, PSOs, and COs. A separate follow-up on this will be\nconducted after your submission.\n\n5. *Folder preparation:* The respective Department or the School must\ndocument all the Courses in a single Excel Sheet and all the Word files in\na single Folder in order to ensure only UNIQUE COURSES are consolidated, as\nper sample zipped folder attached “Folder Sample - Department of Food\nTechnology.zip”.\n\n*The respective Programme Heads, Programme Coordinators and IQAC\nCoordinators must ensure the quality and contents of the document as per\nstandard format before submitting. As the document will be submitted to\nIQAC for further evaluation, all details must be thoroughly reviewed and\nduly validated prior to submission.*\n\n*Please send the furnished Course Documents in Word Format and the\nTabulation of Activities of all Courses in One Excel sheet, as required in\na single Folder, for all programmes with specialization offered during AY\n2025-26 at Department / School level. **The consolidated folder may kindly\nbe submitted on or before 21st September 2026, by 1:00 PM.*",
+  "files": [
+   {
+    "name": "25BBAFA1C01 - Sample Course Document.docx",
+    "url": "/static/files/hod/1a0b2d53c9a8537a/25BBAFA1C01 - Sample Course Document.docx",
+    "size": 38847
+   },
+   {
+    "name": "Course Activities - Template.xlsx",
+    "url": "/static/files/hod/1a0b2d53c9a8537a/Course Activities - Template.xlsx",
+    "size": 11415
+   },
+   {
+    "name": "Folder Sample - Department of Food Technology.zip",
+    "url": "/static/files/hod/1a0b2d53c9a8537a/Folder Sample - Department of Food Technology.zip",
+    "size": 1620751
+   }
+  ]
+ },
+ {
+  "gmail_id": "1a060c23c137d8cf",
+  "subject": "Academic Office Hours: Best Practices and Initiative – Thursday, 03.09.2026",
+  "sent_at": "2026-09-02T06:15:37Z",
+  "lists": [
+   "Bangalore",
+   "Kochi"
+  ],
+  "body": "*Academic Office Hours: Best Practice Sharing – Department of Computer\nScience and Information Technology*\n\nDear Ma’am/Sir,\nGreetings.\n\nThe *Academic Office Hours* continues to serve as a platform for\n*knowledge-sharing,\ndissemination of effective academic practices, and cross-departmental\nlearning* across the University.\n\nFor this week’s session, we are pleased to invite the *Department of\nComputer Science and Information Technology* to present its best practice\non:\n\n*“How the 100 Days of Coding Created a Differentiated Learning Experience?”*\n\nThe session will highlight the *approach adopted, key interventions,\noutcomes achieved, and learnings*, providing an opportunity for departments\nto explore the applicability of the practice within their own academic\nprocesses.\n\nYour presence and active participation are requested to facilitate\nmeaningful *cross-departmental learning and knowledge-sharing*.\n\n*Meeting Details:*\n   *Date:* Thursday, 03 September 2026\n   *Time:* 3:00 PM – 4:00 PM\n   *Mode:* Microsoft Teams\n   *MS Teams Link:* Academic Hours Meeting Link\n   <https://teams.microsoft.com/meet/4522265123172?p=GB9ojlf1XPZvawDtGc>\n\n*We kindly request mandatory participation of at least two faculty members\nfrom each department to ensure wider engagement, facilitate effective\nimplementation of relevant best practices, and encourage the presenting\ndepartment.*\n\nWe look forward to your active participation and continued support.",
+  "files": [
+   {
+    "name": "Poster - 100 Days of Coding, CS & IT.jpg",
+    "url": "/static/files/hod/1a060c23c137d8cf/Poster - 100 Days of Coding, CS & IT.jpg",
+    "size": 292452
+   }
+  ]
+ },
+ {
+  "gmail_id": "1a05730ec1590415",
+  "subject": "Action Required || AI Literacy Survey (HACRI-E Survey 1) – Circulation to Students",
+  "sent_at": "2026-08-31T09:40:19Z",
+  "lists": [
+   "Kochi"
+  ],
+  "body": "Dear Sir/Ma’am,\n\n*This is to bring to your notice that very few registrations have been\nreceived from Kochi Campus on AI survey. We request your immediate support\nin circulating the Pre-Survey link to all first-year students and\ninitiating the process at the earliest.*\n\nWe request you to kindly ensure that the below process is completed for *all\nfirst-year students in your department*.\n\n1. AI Pre-Survey 1 – Before Deeksharambh\n\nThe Pre-Survey is required to be completed *before the commencement of\nDeeksharambh*.\n\n*Pre-Survey Link:*\nhttps://student-survey.juooa.cloud/\n\nKindly circulate the link to all first-year students and ensure *100%\nparticipation*. Students are requested to complete the survey at the\nearliest.\n2. Deeksharambh Survey and AI Post-Survey 2 – (After Deeksharambh)\n\nOnce the *Deeksharambh program is completed*, the Post-Survey must be\nshared with the *same students* who completed the Pre-Survey.\n\n*Post-Survey Link:*\nhttps://student-survey.juooa.cloud/post/all\n\nKindly ensure that students complete the Survey at the earliest.\n\nThank you.\n\n——— Earlier message ———\n\nDear Sir,\n\nWe are sharing the *AI Pre-Survey 1 and Post-Survey 1 (HACRI-E Survey )* as\npart of the Deeksharambh 2026 initiative.\n\nKindly circulate both survey links to all *first-year students* in your\ndepartment and ensure *100% participation*.\n\n*1. AI Pre-Survey 1 – Before Deeksharambh*\nPlease ensure that students complete the Pre-Survey *before the\ncommencement of Deeksharambh*.\n\n*Pre-Survey Link:*\nhttps://student-survey.juooa.cloud/\n\n*2. AI Post-Survey 1 – After Deeksharambh*\nOnce the Deeksharambh program is completed, please share the Post-Survey\nlink with the same students and ensure that they complete it.\n\n*Post-Survey Link:*\nhttps://student-survey.juooa.cloud/post/all\n\nPlease ensure that *the Pre-Survey is completed before Deeksharambh and\nthe Post-Survey is completed immediately after Deeksharambh*.\n\nThank you for your support and cooperation.\n\n——— Earlier message ———\n\nDear Ma'am /Sir ,\n\nPlease find the mail forwarded for your reference.\n\n---------- Forwarded message ---------\nFrom: Office of Academics-JAIN <\nofficeofacademicaffairs@jainuniversity.ac.in>\nDate: Fri, Jul 3, 2026 at 10:51 AM\nSubject: AI Literacy Survey (HACRI-E Survey 1) – Circulation to Students\nTo: <hods_BNG@jainuniversity.ac.in>, <HoDs_Kochi@jainuniversity.ac.in>\nCc: <directors@jainuniversity.ac.in>, <\ndeputy_directors@jainuniversity.ac.in>, Ravindra Bhandary <\nrbhandary@jgi.ac.in>, Vice Chancellor Jain University <\nvc@jainuniversity.ac.in>, Dr. Easwaran Iyer <\neaswaran.iyer@jainuniversity.ac.in>, Prof. Krishnan NVH <\nnvh.krishnan@jainuniversity.ac.in>, Prof. Sridhara Murthi KR <\nsridhara.murthi@jainuniversity.ac.in>, Registrar Jain University <\nregistrar@jainuniversity.ac.in>, Jitendra Mishra <\njitendra.mishra@jainuniversity.ac.in>, Letha J <\nj.letha@jainuniversity.ac.in>, M S Santhosh <\nms.santhosh@jainuniversity.ac.in>, Aparna Prasad <aparnaprasad@jgi.ac.in>,\nrajani jairam <rajani.jairam@jainuniversity.ac.in>, Asha R <\nasha.rajiv@jainuniversity.ac.in>, Manjunath N S <\nns.manjunath@jainuniversity.ac.in>, <roopadevi@jgi.ac.in>, Dr. Shradha\nKanwar <k.shradha@jainuniversity.ac.in>, Dr. Kiran .S <\nkiran.s@jainuniversity.ac.in>, Dr. Sangeeta Devanathan <\nsangeeta.devanathan@jainuniversity.ac.in>, Dr. Monoo John <\nmonoojohn@jainuniversity.ac.in>, Dr. Venkadeswaran K <\nk.venkadeswaran@jainuniversity.ac.in>\n\nDear Sir/Ma'am,\n\nArtificial Intelligence is transforming the future of education, research,\nand the workplace. As JAIN (Deemed-to-be University) advances its vision of\nnurturing AI-ready graduates, it is essential to understand our students'\ncurrent AI literacy, awareness, and adoption.\n\nTo support this initiative, we are launching the AI Literacy Survey\n(HACRI-E Survey 1) as the first phase of a university-wide study. Kindly\nensure that the survey is shared with students within the first *1–3 days\nof Deeksharambh*\n\nWe request you to circulate the survey link to all the *first year\nstudents* in your department and ensure 100% participation, as completion\nof this survey is mandatory for all students.\n\n*Survey Link:*\nhttps://student-survey.juooa.cloud/\n\nThank you.",
+  "files": []
+ },
+ {
+  "gmail_id": "1a046cf204e23fe4",
+  "subject": "Request for Submission of TLEP Documents 2026-27",
+  "sent_at": "2026-08-28T05:19:34Z",
+  "lists": [
+   "Bangalore",
+   "Kochi"
+  ],
+  "body": "Dear Sir/ Ma'am,\nGreetings.\n\nAs part of the *TLEP data collection for AY 2026–27*, you are requested to\nsubmit the required TLEP data for your respective department.\n\nPlease follow the steps below:\n\n   1. Use the *same Google Drive link* that was shared with the Office of\n   Academics for the previous TLEP data submission.\n   2. Within the existing departmental folder, *create a new folder named\n   “TLEP – AY 2026–27.”*\n   3. Complete the data using the *standardised TLEP template* shared by\n   the Office of Academics. (Refer the attachment)\n   4. Upload the completed template to the newly created folder.\n\nPlease ensure that the data is complete and submitted in the prescribed\nformat.\n\n*The date for submission: 17 September 2026, Thursday.*\n\nKindly ensure timely submission to facilitate the consolidation and review\nof the TLEP data.",
+  "files": [
+   {
+    "name": "TLEP Data Submission - Template AY 2026-27.xlsx",
+    "url": "/static/files/hod/1a046cf204e23fe4/TLEP Data Submission - Template AY 2026-27.xlsx",
+    "size": 12284
+   }
+  ]
+ },
+ {
+  "gmail_id": "1a019d56088cc71b",
+  "subject": "Academic Office Hours: Best Practices and Initiative",
+  "sent_at": "2026-08-19T11:43:29Z",
+  "lists": [
+   "Bangalore",
+   "Kochi"
+  ],
+  "body": "Dear Ma’am/Sir,\n\nGreetings from the Office of Academics.\n\nWe are pleased to invite you to this week’s *Academic Office Hours*,\nfeaturing the best practices and experiences of the *School of Allied\nHealthcare Sciences*.\n\n*Topic: **“Academic Fest – A Structured Model for Experiential Learning”*\n\nThe session will provide insights into how the Academic Fest is structured\nto promote *experiential learning, student engagement, skill development\nand academic recognition* through planned activities and assessment.\n\n*Presented by:*\n*School of Allied Healthcare Sciences*\n\nWe request your *presence and active participation* for an engaging session\nof learning and knowledge-sharing.\n\n*Meeting Details:*\n\n   - *Date:* Thursday, 20 August 2026\n   - *Time:* 3:00 PM – 4:00 PM\n   - *Mode:* Microsoft Teams\n   - *MS Teams Link:* Academic Office Hours Meeting Link\n   <https://teams.microsoft.com/meet/4522265123172?p=GB9ojlf1XPZvawDtGc>",
+  "files": [
+   {
+    "name": "Poster - Academic Fest, SAHS.jpg",
+    "url": "/static/files/hod/1a019d56088cc71b/Poster - Academic Fest, SAHS.jpg",
+    "size": 288925
+   }
+  ]
+ },
+ {
+  "gmail_id": "1a018be36b67e7b7",
+  "subject": "New Program Proposal Submission – 2027-28",
+  "sent_at": "2026-08-19T06:38:34Z",
+  "lists": [
+   "Bangalore",
+   "Kochi"
+  ],
+  "body": "Dear Sir/ Ma'am,\nGreetings.\n\nAs we prepare for the Academic Year *2027–28*, the University invites\nDepartments to submit proposals for *New Academic Programmes* that align\nwith emerging trends, evolving industry requirements, and the institutional\nvision of academic excellence.\n\nNew programme proposals are expected to strategically respond to the *evolving\ndemands of the 21st-century landscape*, with due consideration to\n*marketability,\nprofitability, employability, sustainability, innovation, and contemporary\nrelevance*. Departments are encouraged to explore programmes that move\nbeyond traditional disciplinary boundaries and incorporate *interdisciplinary\napproaches, digital literacy, critical thinking, adaptive problem-solving,\nentrepreneurship, and internationalisation*.\n\nThe proposed programmes may also focus on *emerging industries, evolving\nsocietal needs, and future-oriented areas*, while contributing to the\neffective implementation of the *National Education Policy (NEP) 2020*. The\nobjective is to develop *future-proof academic programmes* that address\ncurrent requirements while anticipating emerging trends and ensuring\ncontinuous relevance and innovation.\n\nDepartments are requested to submit proposals for *new UG, PG, and 1-year\nPG programmes* by *7th September 2026.*\n\nAll proposals will undergo an initial *Screening Committee* process before\nbeing placed for further discussion before the *Standing Committee and\nBoard of Studies (BoS)*.\n\nKindly submit the detailed programme proposal through the Google Form\nprovided below:\n\n*Please find the Submission Link here: New Programme Proposal Submission\nForm\n<https://docs.google.com/forms/d/e/1FAIpQLSdyI2tETN1r3shq986rMVxdIWZKaWQkdZDoG093xVciSr12GA/viewform?usp=sharing&ouid=114393717339172203576>*\n\nFor any clarifications or guidance regarding the proposal, Departments may\nreach out during *Office Hours on Thursday at 3.00 pm or* contact the *Office\nof Academics* directly.\n\nWe look forward to the active participation of all Departments in\nstrengthening and shaping the University's academic portfolio through\ninnovative, relevant, and future-ready programmes.",
+  "files": []
+ },
+ {
+  "gmail_id": "19fcc20cd318cd28",
+  "subject": "Urgent Action: Submission of Innovative Programs Details (AY 2022–23 to 2026–27)",
+  "sent_at": "2026-08-04T09:35:29Z",
+  "lists": [
+   "Bangalore",
+   "Kochi"
+  ],
+  "body": "Dear Sir/Ma'am,\nGreetings.\n\nAs part of our ongoing data accumulation process, we request you to submit\nthe details of the innovative programs conducted by your department for the\nAcademic Years *2022–23 to 2026–27*, organized academic year-wise.\n\nTo facilitate the submission process, we have created digitalized portal\nwhere the required details can be entered directly.\n\n*Innovative Programs Portal : Innovative Program Portal\n<https://jain-sarathi.juooa.cloud/>*\n\nKindly submit the requested information *by 11 August 2026.*\n\n*If you require any clarification or assistance while filling out the form,\nplease feel free to contact the Office of Academics. You are also welcome\nto visit our office, and we will be happy to assist you with the\nsubmission. To ensure the process is completed efficiently, kindly bring\nall the necessary files or keep the relevant Google Drive links readily\naccessible when you visit. *\n\n*For your convenience, a one-page process guide and a detailed PowerPoint\npresentation with screenshots are attached to help you complete the\nsubmission.*\n\nWe appreciate your support and timely cooperation.",
+  "files": []
+ },
+ {
+  "gmail_id": "19fad35a6059e79a",
+  "subject": "Academic Office Hours Meeting: Innovative Courses and Emerging Practices",
+  "sent_at": "2026-07-29T09:30:02Z",
+  "lists": [
+   "Bangalore",
+   "Kochi"
+  ],
+  "body": "Dear Sir/Madam,\nGreetings of the day.\n\nThis is to inform you that the *Academic Office Hours Meeting* has been\nscheduled for *Friday, 31 July 2026 from 3:00 PM to 4:00 PM.*\n\nThe meeting is being organized to provide a comprehensive briefing and\nhands-on understanding of the Portal for data submission for *Innovative\nCourses and Emerging Practices*, developed with a focus on ensuring the\nsmooth, accurate, and efficient Academic Processes. The session will cover\nthe portal's functionalities, submission process, and best practices to\nfacilitate seamless academic data management.\n\nYour presence and active participation in the meeting are requested to\nensure a clear understanding of the process and to address any queries\nregarding the portal.\nRequest you to use the below meeting link for joining the meeting.\n\n*MS Teams Link:* Academic Hours Meeting Link\n<https://teams.microsoft.com/meet/4522265123172?p=GB9ojlf1XPZvawDtGc>",
+  "files": [
+   {
+    "name": "Poster - Innovative Courses and Emerging Practices.jpg",
+    "url": "/static/files/hod/19fad35a6059e79a/Poster - Innovative Courses and Emerging Practices.jpg",
+    "size": 306668
+   }
+  ]
+ }
 ]

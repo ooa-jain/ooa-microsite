@@ -8,6 +8,7 @@ sites cannot be reached.
 """
 import html
 import logging
+import threading
 import re
 from datetime import datetime, timedelta
 from urllib.parse import urljoin
@@ -80,10 +81,8 @@ def _fetch():
     return items
 
 
-def latest(db, limit=10):
+def _refresh(db):
     row = db.app_settings.find_one({'_id': CACHE_KEY}) or {}
-    if row.get('items') and row.get('at') and datetime.utcnow() - row['at'] < TTL:
-        return row['items'][:limit]
     items = []
     try:
         items = _fetch()
@@ -95,4 +94,24 @@ def latest(db, limit=10):
         # official items found today, then the regulation links the sites keep in fixed menus
         items += [f for f in FALLBACK if f['source'] == 'UGC · DEB' and f['url'] not in {i['url'] for i in items}]
     db.app_settings.update_one({'_id': CACHE_KEY}, {'$set': {'items': items, 'at': datetime.utcnow()}}, upsert=True)
+    return items
+
+
+_busy = threading.Lock()
+
+
+def latest(db, limit=10):
+    """The saved list straight away; when it is older than TTL it is re-read in the background,
+    so a slow or unreachable government site never holds up the page."""
+    row = db.app_settings.find_one({'_id': CACHE_KEY}) or {}
+    items = row.get('items') or FALLBACK
+    if not (row.get('at') and datetime.utcnow() - row['at'] < TTL) and _busy.acquire(blocking=False):
+        def run():
+            try:
+                _refresh(db)
+            except Exception as e:
+                logger.warning(f'{CACHE_KEY} refresh failed: {e}')
+            finally:
+                _busy.release()
+        threading.Thread(target=run, daemon=True).start()
     return items[:limit]

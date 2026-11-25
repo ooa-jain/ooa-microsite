@@ -5894,6 +5894,72 @@
     [data-theme="dark"] .an-tag--bangalore { background: #1c2f4f; color: #9dbbe6; }
     [data-theme="dark"] .an-tag--kochi { background: #18352a; color: #8fd0a3; }
     [data-theme="dark"] .an-ugc time, [data-theme="dark"] .an-ugc-all { color: #8fd0a3; }
+
+    /* ═══ Academic Office Hours card + posters gallery ═══ */
+    #hubTabs { scroll-margin-top: 90px; }
+    .oh-card { display: grid; grid-template-columns: minmax(0, 1fr) 210px; gap: 18px; align-items: center; margin: 0 0 16px; padding: 22px 22px 22px 24px;
+      border-radius: 20px; color: #fff; overflow: hidden; position: relative;
+      background: radial-gradient(120% 140% at 100% 0%, #2f6b44 0%, transparent 55%), linear-gradient(135deg, #173f70, #1d4e89 60%, #24589a); }
+    .oh-kicker { display: block; font: 700 11px 'Inter', sans-serif; letter-spacing: .16em; text-transform: uppercase; opacity: .8; }
+    .oh-card h3, [data-theme] .oh-card h3 { margin: 6px 0 6px; font: 800 22px/1.15 'Inter', sans-serif; letter-spacing: -.01em; color: #fff; }
+    .oh-grid[hidden], .oh-detail[hidden], .oh-back[hidden] { display: none !important; }
+    .oh-card p { margin: 0; font-size: 14.5px; line-height: 1.55; color: rgba(255,255,255,.86); max-width: 520px; }
+    .oh-btn { margin-top: 14px; display: inline-flex; align-items: center; gap: 10px; height: 42px; padding: 0 18px; border: 0; border-radius: 999px;
+      background: #fff; color: #173f70; font: 700 14px 'Inter', sans-serif; cursor: pointer; transition: transform .25s cubic-bezier(.22,1,.36,1), box-shadow .25s; }
+    .oh-btn:hover { transform: translateY(-1px); box-shadow: 0 12px 24px -12px rgba(0,0,0,.5); }
+    .oh-btn i { transition: transform .25s; } .oh-btn:hover i { transform: translateX(3px); }
+    .oh-stack { position: relative; height: 170px; border: 0; background: none; cursor: pointer; padding: 0; }
+    .oh-stack img { position: absolute; top: 0; left: 50%; width: 118px; height: 160px; object-fit: cover; border-radius: 10px; box-shadow: 0 14px 30px -14px rgba(0,0,0,.6);
+      transform: translateX(calc(-50% + (var(--i) - 1) * 52px)) rotate(calc((var(--i) - 1) * 7deg)); transition: transform .35s cubic-bezier(.22,1,.36,1); border: 3px solid #fff; }
+    .oh-stack img:nth-child(2) { z-index: 2; }
+    .oh-stack:hover img { transform: translateX(calc(-50% + (var(--i) - 1) * 62px)) rotate(calc((var(--i) - 1) * 10deg)) translateY(-4px); }
+    .oh-dlg { position: fixed; inset: 0; margin: auto; height: fit-content; width: min(1040px, calc(100vw - 32px)); max-height: calc(100vh - 48px); padding: 0; border: 0; border-radius: 22px; background: #fbfaf7; color: #121212;
+      box-shadow: 0 40px 90px -30px rgba(0,0,0,.55); }
+    .oh-dlg::backdrop { background: rgba(10,16,32,.55); backdrop-filter: blur(4px); }
+    .oh-dlg[open] { animation: oh-in .32s cubic-bezier(.22,1,.36,1); }
+    @keyframes oh-in { from { opacity: 0; transform: translateY(14px) scale(.98); } }
+    .oh-dlg-in { display: flex; flex-direction: column; max-height: calc(100vh - 48px); }
+    .oh-dlg-head { display: flex; align-items: center; gap: 12px; padding: 18px 22px; border-bottom: 1px solid rgba(18,18,18,.08); position: static; height: auto; box-shadow: none; background: none; }
+    .oh-dlg-head > div { flex: 1; }
+    .oh-dlg-head .oh-kicker { color: #1d4e89; opacity: 1; }
+    .oh-dlg-head h2 { margin: 2px 0 0; font: 800 20px 'Inter', sans-serif; }
+    .oh-x, .oh-back { width: 40px; height: 40px; border-radius: 12px; border: 1px solid rgba(18,18,18,.1); background: #fff; cursor: pointer; color: #121212; font-size: 16px; }
+    .oh-x:hover, .oh-back:hover { background: #f1efe9; }
+    .oh-grid { overflow: auto; padding: 20px 22px 24px; display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 18px; }
+    .oh-tile { display: flex; flex-direction: column; gap: 6px; text-align: left; border: 0; background: none; padding: 0; cursor: pointer; color: inherit; font: inherit; }
+    .oh-tile-img { display: block; aspect-ratio: 3 / 4; border-radius: 14px; overflow: hidden; background: #eef3fa; border: 1px solid rgba(18,18,18,.08);
+      box-shadow: 0 14px 30px -24px rgba(18,18,18,.6); transition: transform .3s cubic-bezier(.22,1,.36,1), box-shadow .3s; }
+    .oh-tile-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .oh-tile:hover .oh-tile-img, .oh-tile:focus-visible .oh-tile-img { transform: translateY(-4px); box-shadow: 0 22px 40px -24px rgba(18,18,18,.7); }
+    .oh-ph { height: 100%; display: flex; flex-direction: column; justify-content: flex-end; gap: 10px; padding: 18px; color: #fff;
+      background: radial-gradient(120% 90% at 100% 0%, #2f6b44, transparent 60%), linear-gradient(160deg, #173f70, #1d4e89); }
+    .oh-ph i { font-size: 28px; opacity: .85; } .oh-ph b { font: 800 17px/1.2 'Inter', sans-serif; }
+    .oh-tile-date { font: 700 12px 'Inter', sans-serif; color: #2f6b44; margin-top: 4px; }
+    .oh-tile-t { font: 700 14px/1.35 'Inter', sans-serif; color: #121212; }
+    .oh-detail { overflow: auto; padding: 22px; display: grid; grid-template-columns: minmax(0, 360px) minmax(0, 1fr); gap: 26px; align-items: start; }
+    .oh-d-img img { width: 100%; border-radius: 16px; display: block; box-shadow: 0 24px 50px -30px rgba(18,18,18,.7); }
+    .oh-d-img .oh-ph { aspect-ratio: 3 / 4; border-radius: 16px; }
+    .oh-d-body h3 { margin: 0 0 16px; font: 800 24px/1.2 'Inter', sans-serif; letter-spacing: -.015em; }
+    .oh-d-body dl { margin: 0 0 16px; display: grid; gap: 10px; }
+    .oh-d-body dl > div { display: grid; grid-template-columns: 150px 1fr; gap: 12px; padding: 10px 14px; border-radius: 12px; background: #fff; border: 1px solid rgba(18,18,18,.07); }
+    .oh-d-body dt { font: 700 12.5px 'Inter', sans-serif; color: #6b6b68; display: flex; gap: 8px; align-items: center; }
+    .oh-d-body dt i { width: 16px; color: #1d4e89; }
+    .oh-d-body dd { margin: 0; font: 600 14.5px 'Inter', sans-serif; color: #121212; }
+    .oh-d-body p { margin: 0; font-size: 15px; line-height: 1.6; color: #3d3d3b; }
+    @media (max-width: 760px) {
+      .oh-card { grid-template-columns: 1fr; } .oh-stack { height: 150px; }
+      .oh-detail { grid-template-columns: 1fr; } .oh-d-img { max-width: 280px; }
+      .oh-d-body dl > div { grid-template-columns: 1fr; gap: 2px; }
+      .oh-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; padding: 16px; }
+    }
+    [data-theme="dark"] .oh-dlg { background: #0f1629; color: #eef1f8; }
+    [data-theme="dark"] .oh-dlg-head { border-color: rgba(255,255,255,.08); }
+    [data-theme="dark"] .oh-x, [data-theme="dark"] .oh-back { background: #141c30; border-color: rgba(255,255,255,.1); color: #eef1f8; }
+    [data-theme="dark"] .oh-tile-t, [data-theme="dark"] .oh-d-body dd { color: #eef1f8; }
+    [data-theme="dark"] .oh-tile-date { color: #8fd0a3; }
+    [data-theme="dark"] .oh-d-body dl > div { background: #141c30; border-color: rgba(255,255,255,.08); }
+    [data-theme="dark"] .oh-d-body p { color: #c0c7d6; }
+    [data-theme="dark"] .oh-dlg-head .oh-kicker { color: #9dbbe6; }
   </style>
 </head>
 
@@ -5944,7 +6010,7 @@
               "digital innovation and capacity building, all in one place."
           ],
           "navCta": {"label": "", "href": "#"},
-          "primaryCta": {"label": "Open announcements", "href": "/hub/announcements"},
+          "primaryCta": {"label": "Open announcements", "href": "#hubTabs"},
           "secondaryCta": {"label": "Take the 15-min course", "href": "#course"}
       }
   } | tojson }}</script>
@@ -5971,42 +6037,8 @@
   <!-- MAIN -->
   <div class="page-wrapper">
 
-    <!-- DYNAMIC GREETING & TEXT TYPE -->
-    <div class="greeting-section" style="margin-bottom: 24px; padding-left: 8px;">
-      <div style="flex-basis:100%"><div class="ac-breadcrumb"><a href="{{ url_for('home') }}">Home</a><span>/</span>Office of Academics</div></div>
-      <h2 id="dynamicGreeting"
-        style="font-family: 'Cormorant Garamond', serif; font-size: 2.2rem; color: var(--heading); margin-bottom: 4px; font-weight: 700;">
-        Good Morning, Guest</h2>
-      <div
-        style="font-family: 'Inter', sans-serif; font-size: 1.05rem; color: var(--muted); height: 1.5rem; display: flex; align-items: center;">
-        <span id="textTypeContent"></span><span id="textTypeCursor"
-          style="margin-left: 2px; color: var(--gold-deep); font-weight: bold;">|</span>
-      </div>
-    </div>
-
-    <!-- HERO -->
-    <div class="hero-carousel">
-      <div class="hero-track" id="heroTrack">
-        <div class="hero-slide active">
-          <img src="{{ url_for('static', filename='images/ooacr.png') }}" alt="Office of Academics"
-            onerror="this.src='https://images.unsplash.com/photo-1562774053-701939374585?w=1400&q=80'">
-          <div class="hero-overlay"></div>
-        </div>
-        <div class="hero-slide">
-          <img src="{{ url_for('static', filename='images/NEP15.png') }}" alt="NEP Saarthis"
-            onerror="this.src='https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=1400&q=80'">
-          <div class="hero-overlay"></div>
-        </div>
-      </div>
-      <button class="hero-arrow prev" onclick="heroSlide(-1)" aria-label="Previous slide"><i
-          class="fas fa-chevron-left"></i></button>
-      <button class="hero-arrow next" onclick="heroSlide(1)" aria-label="Next slide"><i
-          class="fas fa-chevron-right"></i></button>
-      <div class="hero-dots" id="heroDots">
-        <span class="hero-dot active" onclick="heroGoto(0)"></span>
-        <span class="hero-dot" onclick="heroGoto(1)"></span>
-      </div>
-    </div>
+    <!-- the old greeting line and photo carousel were replaced by the full-screen hero above -->
+    <span id="dynamicGreeting" hidden></span><span id="textTypeContent" hidden></span><span id="textTypeCursor" hidden></span>
 
     <!-- 15-MIN COURSE LAUNCHER (opens the course dialog) -->
     <button type="button" id="quizSection" class="oc-launch" onclick="expandQuiz(event)" title="Take the 15-min course">
@@ -6038,39 +6070,20 @@
     {% endif %}
 
     <!-- JAIN HUB SECTIONS: each opens as its own page -->
-    {% if not hub %}
-    <section class="jh-cards" id="hubTabs" aria-label="Jain Hub sections">
-      <div class="jh-cards-head">
-        <span class="jh-kicker">Jain Hub</span>
-        <h2>Everything from the Office of Academics</h2>
-      </div>
-      <div class="jh-cards-grid">
-        {% for key, hp in hub_pages.items() %}
-        <a class="jh-card jh-card--{{ key }}" href="{{ url_for('hub_section', section=key) }}">
-          <span class="jh-card-ic"><i class="fas {{ hp.icon }}"></i></span>
-          <span class="jh-card-t">{{ hp.title }}</span>
-          <span class="jh-card-d">{{ hp.blurb }}</span>
-          <span class="jh-card-go">Open <i class="fas fa-arrow-right"></i></span>
-        </a>
-        {% endfor %}
-      </div>
-    </section>
-    {% else %}
     <nav class="tab-bar-wrap hubp-tabs" id="hubTabs" aria-label="Jain Hub sections">
       <div class="tab-bar" id="tabBar">
         {% for key, hp in hub_pages.items() %}
-        <a class="tab-pill{% if key == hub %} active{% endif %}" href="{{ url_for('hub_section', section=key) }}"{% if key == hub %} aria-current="page"{% endif %}><i class="fas {{ hp.icon }}"></i>{{ hp.title }}</a>
+        <a class="tab-pill{% if key == (hub or 'announcements') %} active{% endif %}" href="{{ url_for('hub_section', section=key) if (hub or key != 'announcements') else '#hubTabs' }}"{% if key == (hub or 'announcements') %} aria-current="page"{% endif %}><i class="fas {{ hp.icon }}"></i>{{ hp.title }}</a>
         {% endfor %}
       </div>
     </nav>
-    {% endif %}
 
-    {% if hub %}
-    <!-- CONTENT: the one section this page is for -->
+    {% if true %}
+    <!-- CONTENT: the one section this page is for (the home page shows the announcements) -->
     <div class="content-carousel">
       <div class="content-track" id="contentTrack">
 
-        {% if hub == 'announcements' %}
+        {% if hub in ('announcements', '') %}
         <!-- ═══ ANNOUNCEMENTS: Office of Academics circulars (full text + templates) and UGC notices ═══ -->
         <div class="content-slide active">
           {% set _kicon = {'pdf': 'fa-file-pdf', 'doc': 'fa-file-word', 'sheet': 'fa-file-excel', 'zip': 'fa-file-zipper', 'image': 'fa-image', 'slides': 'fa-file-powerpoint', 'file': 'fa-file'} %}
@@ -6083,7 +6096,7 @@
                 <button type="button" class="an-chip is-on" data-f="all">All</button>
                 <button type="button" class="an-chip" data-f="bangalore">Bangalore</button>
                 <button type="button" class="an-chip" data-f="kochi">Kochi</button>
-                <button type="button" class="an-chip" data-f="files"><i class="fas fa-paperclip"></i> With templates</button>
+                <button type="button" class="an-chip" data-f="files"><i class="fas fa-file-pdf"></i> With PDFs</button>
               </div>
             </div>
 
@@ -6096,6 +6109,20 @@
                     <p>Circulars to the Heads of Department, Bangalore and Kochi · {{ ann_ooa|length }} notices</p>
                   </div>
                 </div>
+                {% if office_hours %}
+                {% set _withp = office_hours|selectattr('thumb')|list %}
+                <div class="oh-card">
+                  <div class="oh-copy">
+                    <span class="oh-kicker">Let's converse · Let's solve · Let's progress</span>
+                    <h3>Academic Office Hours</h3>
+                    <p>Every week the Office of Academics keeps an hour open on MS Teams: departments share what works, and your questions on BoS, reviews and academic processes get answered live.</p>
+                    <button type="button" class="oh-btn" data-oh-open>See all {{ office_hours|length }} sessions <i class="fas fa-arrow-right"></i></button>
+                  </div>
+                  <button type="button" class="oh-stack" data-oh-open aria-label="See the Office Hours posters">
+                    {% for o in _withp[:3] %}<img src="{{ o.thumb }}" alt="" loading="lazy" style="--i:{{ loop.index0 }}">{% endfor %}
+                  </button>
+                </div>
+                {% endif %}
                 <div class="an-list" id="anList">
                   {% for n in ann_ooa %}
                   {% set _lists = (n.lists or ['Bangalore', 'Kochi']) %}
@@ -6174,6 +6201,41 @@
               </aside>
             </div>
           </div>
+          {% if office_hours %}
+          <dialog class="oh-dlg" id="ohDialog" aria-labelledby="ohDlgTitle">
+            <div class="oh-dlg-in">
+              <header class="oh-dlg-head">
+                <button type="button" class="oh-back" id="ohBack" hidden aria-label="Back to all sessions"><i class="fas fa-arrow-left"></i></button>
+                <div><span class="oh-kicker">Office of Academics</span><h2 id="ohDlgTitle">Academic Office Hours</h2></div>
+                <button type="button" class="oh-x" data-oh-close aria-label="Close"><i class="fas fa-xmark"></i></button>
+              </header>
+              <div class="oh-grid" id="ohGrid">
+                {% for o in office_hours %}
+                <button type="button" class="oh-tile" data-oh="{{ loop.index0 }}">
+                  <span class="oh-tile-img">{% if o.thumb %}<img src="{{ o.thumb }}" alt="" loading="lazy">{% else %}<span class="oh-ph"><i class="fas fa-comments"></i><b>{{ o.topic }}</b></span>{% endif %}</span>
+                  <span class="oh-tile-date">{{ 'Weekly · ' if o.recurring }}{{ o.date_label }}</span>
+                  <span class="oh-tile-t">{{ o.topic }}</span>
+                </button>
+                {% endfor %}
+              </div>
+              <div class="oh-detail" id="ohDetail" hidden>
+                <div class="oh-d-img" id="ohDImg"></div>
+                <div class="oh-d-body">
+                  <h3 id="ohDTopic"></h3>
+                  <dl>
+                    <div><dt><i class="fas fa-user-tie"></i> Presented by</dt><dd id="ohDBy"></dd></div>
+                    <div><dt><i class="far fa-calendar"></i> Date</dt><dd id="ohDDate"></dd></div>
+                    <div><dt><i class="far fa-clock"></i> Time</dt><dd id="ohDTime"></dd></div>
+                    <div><dt><i class="fas fa-video"></i> Mode</dt><dd id="ohDMode"></dd></div>
+                    <div><dt><i class="fas fa-users"></i> Who attended</dt><dd id="ohDWho"></dd></div>
+                  </dl>
+                  <p id="ohDDesc"></p>
+                </div>
+              </div>
+            </div>
+          </dialog>
+          <script type="application/json" id="ohData">{{ office_hours|tojson }}</script>
+          {% endif %}
         </div>
 
         {% elif hub == 'calendar' %}
@@ -7434,7 +7496,7 @@
   <!-- FOOTER (shared) -->
   {% include 'partials/academic_footer.html' %}
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+  {% if hub == 'digital-innovation' %}<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>{% endif %}
   <script>
     /* ═══════════════════════════════════
        HERO CAROUSEL (fixed: active class for Ken Burns)
@@ -8095,6 +8157,7 @@
        LINKEDIN CHART (guarded)
     ═══════════════════════════════════ */
     function initLinkedInChart() {
+      if (typeof Chart === 'undefined') return;
       const ctx = document.getElementById('liChart');
       if (!ctx || typeof Chart === 'undefined') return;
       if (window._liChart) window._liChart.destroy();
@@ -8690,7 +8753,7 @@
     }
 
     function fetchDashboardData() {
-      fetch('/api/home_data')
+      fetch(['calendar', 'digital-innovation', 'capacity-building'].includes(HUB_PAGE) ? '/api/home_data' : '/api/home_data?scope=ticker')
         .then(r => r.json())
         .then(data => {
           if (data.success) {
@@ -8839,6 +8902,32 @@
           filter = c.dataset.f; apply();
         });
       });
+    })();
+  </script>
+
+  <script>
+    /* Academic Office Hours: posters gallery, one session's details on click */
+    (function () {
+      var dlg = document.getElementById('ohDialog'), dataEl = document.getElementById('ohData');
+      if (!dlg || !dataEl) return;
+      var data = JSON.parse(dataEl.textContent), grid = document.getElementById('ohGrid'), det = document.getElementById('ohDetail'),
+          back = document.getElementById('ohBack'), title = document.getElementById('ohDlgTitle');
+      function set(id, v) { document.getElementById(id).textContent = v || '—'; }
+      function showGrid() { det.hidden = true; grid.hidden = false; back.hidden = true; title.textContent = 'Academic Office Hours'; }
+      function showOne(i) {
+        var o = data[i], img = document.getElementById('ohDImg');
+        img.innerHTML = o.poster ? '<a href="' + encodeURI(o.poster) + '" target="_blank" rel="noopener"><img alt="Poster: ' + o.topic.replace(/"/g, '&quot;') + '"></a>'
+                                 : '<span class="oh-ph"><i class="fas fa-comments"></i><b></b></span>';
+        if (o.poster) img.querySelector('img').src = o.poster; else img.querySelector('b').textContent = o.topic;
+        set('ohDTopic', o.topic); set('ohDBy', o.by); set('ohDDate', (o.recurring ? 'Every week · latest ' : '') + o.date_label);
+        set('ohDTime', o.when); set('ohDMode', o.mode); set('ohDWho', o.who); set('ohDDesc', o.desc);
+        grid.hidden = true; det.hidden = false; back.hidden = false; title.textContent = 'Session details'; det.scrollTop = 0;
+      }
+      document.querySelectorAll('[data-oh-open]').forEach(function (b) { b.addEventListener('click', function () { showGrid(); dlg.showModal(); }); });
+      grid.addEventListener('click', function (e) { var t = e.target.closest('[data-oh]'); if (t) showOne(+t.dataset.oh); });
+      back.addEventListener('click', showGrid);
+      dlg.querySelector('[data-oh-close]').addEventListener('click', function () { dlg.close(); });
+      dlg.addEventListener('click', function (e) { if (e.target === dlg) dlg.close(); });
     })();
   </script>
 </body>

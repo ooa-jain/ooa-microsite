@@ -1,0 +1,91 @@
+[
+ {
+  "date": "2026-11-25",
+  "when": "Wednesdays · 3:00 – 4:00 PM",
+  "mode": "MS Teams",
+  "topic": "Anveshana Weekly Office Hours",
+  "by": "Office of Academics with the Anveshana team",
+  "who": "HoDs and Anveshana coordinators of every department",
+  "desc": "A weekly slot to clear pending Anveshana queries, go over open requirements and keep the Anveshana work on schedule.",
+  "poster": "",
+  "recurring": true,
+  "thumb": ""
+ },
+ {
+  "date": "2026-11-12",
+  "when": "Schedule shared with the SPOCs",
+  "mode": "MS Teams",
+  "topic": "BoS Data Submission Process for AY 2027–28",
+  "by": "Office of Academics",
+  "who": "HoDs and two nominated SPOCs from each department",
+  "desc": "A special session on the new BoS data submission process and repository, which standardises how every department submits for AY 2027–28.",
+  "poster": "",
+  "thumb": ""
+ },
+ {
+  "date": "2026-10-31",
+  "when": "Saturday · 10:30 AM",
+  "mode": "MS Teams",
+  "topic": "Board of Studies 2027–28 and Academic Mid-Semester Review",
+  "by": "Office of Academics",
+  "who": "At least one SPOC from every department",
+  "desc": "Clarifications on the BoS process and the mid-semester review, so academic work moves on smoothly and on time.",
+  "poster": "/static/files/hod/1a18bf663e02d2a9/Poster - BoS and Academic Mid-Sem Review.jpg",
+  "thumb": "/static/files/hod/thumbs/board-of-studies-2027-28-and-academic-mid-semester.jpg"
+ },
+ {
+  "date": "2026-10-01",
+  "when": "Thursday · 3:00 – 4:00 PM",
+  "mode": "MS Teams",
+  "topic": "Academic Q&A Session",
+  "by": "Office of Academics",
+  "who": "HoDs and faculty coordinators",
+  "desc": "An open session for academic queries and concerns, answered with guidance and support.",
+  "poster": "/static/files/hod/1a0f5b9f5ff33d62/Poster - Academic Office Hours Q&A.jpg",
+  "thumb": "/static/files/hod/thumbs/academic-q-a-session.jpg"
+ },
+ {
+  "date": "2026-09-24",
+  "when": "Thursday · 3:00 – 4:00 PM",
+  "mode": "MS Teams",
+  "topic": "Impact of Automation on Efficiency and Planning",
+  "by": "Department of Computer Science and Engineering",
+  "who": "HoDs and faculty coordinators",
+  "desc": "Planned as a best-practice talk; on the day the hour became a Q&A on Board of Studies processes and the talk was moved to a later session.",
+  "poster": "/static/files/hod/1a0d1ad7028f60b1/Poster - Best Practices, CSE.jpg",
+  "thumb": "/static/files/hod/thumbs/impact-of-automation-on-efficiency-and-planning.jpg"
+ },
+ {
+  "date": "2026-09-03",
+  "when": "Thursday · 3:00 – 4:00 PM",
+  "mode": "MS Teams",
+  "topic": "How the 100 Days of Coding Created a Differentiated Learning Experience",
+  "by": "Department of Computer Science and Information Technology",
+  "who": "At least two faculty members from each department",
+  "desc": "The approach, key interventions, outcomes and learnings behind 100 Days of Coding, and how other departments can use it.",
+  "poster": "/static/files/hod/1a060c23c137d8cf/Poster - 100 Days of Coding, CS & IT.jpg",
+  "thumb": "/static/files/hod/thumbs/how-the-100-days-of-coding-created-a-differentiate.jpg"
+ },
+ {
+  "date": "2026-08-20",
+  "when": "Thursday · 3:00 – 4:00 PM",
+  "mode": "MS Teams",
+  "topic": "Academic Fest – A Structured Model for Experiential Learning",
+  "by": "School of Allied Healthcare Sciences",
+  "who": "HoDs and faculty of all departments",
+  "desc": "How an academic fest can be planned and assessed to build experiential learning, student engagement, skills and academic recognition.",
+  "poster": "/static/files/hod/1a019d56088cc71b/Poster - Academic Fest, SAHS.jpg",
+  "thumb": "/static/files/hod/thumbs/academic-fest-a-structured-model-for-experiential-.jpg"
+ },
+ {
+  "date": "2026-07-31",
+  "when": "Friday · 3:00 – 4:00 PM",
+  "mode": "MS Teams",
+  "topic": "Innovative Courses and Emerging Practices",
+  "by": "Office of Academics",
+  "who": "HoDs and faculty coordinators",
+  "desc": "A hands-on walkthrough of the portal for submitting innovative courses and emerging practices: its workflow, features and tips.",
+  "poster": "/static/files/hod/19fad35a6059e79a/Poster - Innovative Courses and Emerging Practices.jpg",
+  "thumb": "/static/files/hod/thumbs/innovative-courses-and-emerging-practices.jpg"
+ }
+]

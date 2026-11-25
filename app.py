@@ -78,6 +78,32 @@ UPLOAD_FOLDER      = 'static/uploads'
 ALLOWED_EXTENSIONS = {'pdf','docx','txt','png','jpg','jpeg','gif','xlsx','csv','xls'}
 app.config['UPLOAD_FOLDER']      = UPLOAD_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = 50 * 1024 * 1024
+
+
+@app.after_request
+def _gzip_text(resp):
+    """Compress pages, JSON and CSS/JS on the way out: the Jain Hub page is ~250 KB of HTML."""
+    try:
+        ctype = resp.mimetype or ''
+        if resp.direct_passthrough and resp.status_code == 200 and ctype in ('application/javascript', 'text/javascript', 'text/css'):
+            resp.direct_passthrough = False          # static bundles: read the file so it can be compressed
+        if (resp.direct_passthrough or resp.status_code < 200 or resp.status_code >= 300
+                or 'gzip' not in (request.headers.get('Accept-Encoding') or '')
+                or resp.headers.get('Content-Encoding')):
+            return resp
+        if not (ctype.startswith('text/') or ctype in ('application/json', 'application/javascript', 'image/svg+xml')):
+            return resp
+        data = resp.get_data()
+        if len(data) < 1500:
+            return resp
+        import gzip
+        resp.set_data(gzip.compress(data, compresslevel=5))
+        resp.headers['Content-Encoding'] = 'gzip'
+        resp.headers['Content-Length'] = str(len(resp.get_data()))
+        resp.headers.add('Vary', 'Accept-Encoding')
+    except Exception as e:
+        logger.debug(f'gzip skipped: {e}')
+    return resp
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 mongo = PyMongo(app)
@@ -593,6 +619,16 @@ def api_home_data():
         today_str = get_today_ist_string()
         
         all_events_raw = get_cached_dashboard_data('all_events', fetch_formatted_events, ttl=15)
+        if request.args.get('scope') == 'ticker':
+            # the home and announcements pages only show today's events in the ticker
+            today_only = []
+            for ev in all_events_raw:
+                d = ev.get("event_date", "")
+                e = normalize_date(ev.get("end_date", "")) if ev.get("end_date") else ""
+                if d and (d == today_str or (e and d <= today_str <= e)):
+                    today_only.append(serialize_doc(dict(ev)))
+            return jsonify({"success": True, "records": [], "campus_highlights": [], "today_events": today_only,
+                            "upcoming_events": [], "all_upcoming": [], "all_events": [], "today": today_str})
         
         today_events = []; upcoming_events = []; all_upcoming = []
         for ev in all_events_raw:
@@ -2164,7 +2200,8 @@ HUB_PAGES = {
 
 def _announcements_page():
     """Everything the Announcements page shows, rendered on the server (no wait for the dashboard API)."""
-    out = {'ann_ooa': [], 'ann_ugc': [], 'ugc_site': [], 'now_ist': get_indian_time().replace(tzinfo=None)}
+    out = {'ann_ooa': [], 'ann_ugc': [], 'ugc_site': [], 'office_hours': hodann.office_hours(),
+           'now_ist': get_indian_time().replace(tzinfo=None)}
     try:
         hodann.ensure_seeded(db)
         out['ann_ooa'] = hodann.for_page(db, 'University Notice')
@@ -2220,7 +2257,7 @@ def home(hub_page=None):
             approved=approved, special_role=special_role,
             user_department=user_department, user_location=user_location,
             hub_page=hub_page or '', hub_pages=HUB_PAGES,
-            **(_announcements_page() if hub_page == 'announcements' else {}),
+            **(_announcements_page() if hub_page in (None, 'announcements') else {}),
             swayam=SWAYAM, swayam_updates=_swayam_updates() if hub_page == 'digital-innovation' else [])
     except Exception as e:
         logger.error(f"Home route error: {e}", exc_info=True)

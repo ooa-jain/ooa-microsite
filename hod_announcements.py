@@ -56,6 +56,7 @@ def _doc(gmail_id, subject, sent_utc, lists, body='', files=None):
     }
 
 
+OFFICE_HOURS = re.compile(r'office\s*hours', re.I)
 ATTACH_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static', 'files', 'hod')
 URL_RE = re.compile(r'(https?://[^\s<>()]+[^\s<>().,;:!?\'"])')
 
@@ -204,8 +205,8 @@ def _save_attachments(service, gmail_id, payload, limit_mb=12):
         for c in p.get('parts', []) or []:
             yield from walk(c)
     for part in walk(payload):
-        if part['body'].get('size', 0) > limit_mb * 1024 * 1024:
-            continue
+        if part['body'].get('size', 0) > limit_mb * 1024 * 1024 or not part['filename'].lower().endswith('.pdf'):
+            continue                      # announcements carry PDFs only
         import base64
         data = service.users().messages().attachments().get(userId='me', messageId=gmail_id,
                                                              id=part['body']['attachmentId']).execute()
@@ -229,8 +230,10 @@ def for_page(db, category='University Notice', limit=60):
         files = list(d.get('attachments') or [])
         for f in d.get('files') or []:          # admin uploads
             files.append({'name': f, 'url': f'/uploads/{f}', 'size': 0})
-        for f in files:
-            f['kind'] = _kind(f['name'])
+        files = [dict(f, kind=_kind(f['name'])) for f in files]
+        files = [f for f in files if f['kind'] == 'pdf']        # PDFs only on the Announcements page
+        if OFFICE_HOURS.search(_title(title)):
+            continue                                            # sessions are listed in the Office Hours gallery
         rows.append({
             'id': str(d['_id']), 'title': _title(title), 'date': d.get('uploaded_at'),
             'lists': d.get('hod_lists') or [], 'body_html': body_html(body),
@@ -239,3 +242,22 @@ def for_page(db, category='University Notice', limit=60):
             'mail': d.get('source') == 'hod-mail',
         })
     return rows
+
+
+OFFICE_HOURS_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data', 'office_hours.json')
+
+
+def office_hours():
+    """Academic Office Hours sessions (newest first) with their posters, for the sessions gallery."""
+    try:
+        with open(OFFICE_HOURS_FILE, encoding='utf-8') as f:
+            rows = json.load(f)
+    except Exception as e:
+        logger.error(f'office hours load failed: {e}')
+        return []
+    for r in rows:
+        try:
+            r['date_label'] = datetime.strptime(r['date'], '%Y-%m-%d').strftime('%d %b %Y')
+        except Exception:
+            r['date_label'] = r.get('date', '')
+    return sorted(rows, key=lambda r: r.get('date', ''), reverse=True)

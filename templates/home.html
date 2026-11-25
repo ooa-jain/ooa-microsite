@@ -5960,10 +5960,38 @@
     [data-theme="dark"] .oh-d-body dl > div { background: #141c30; border-color: rgba(255,255,255,.08); }
     [data-theme="dark"] .oh-d-body p { color: #c0c7d6; }
     [data-theme="dark"] .oh-dlg-head .oh-kicker { color: #9dbbe6; }
+
+    /* ═══ Phone layout fixes ═══ */
+    /* section pages: the page header already names the section, so the inner big title is not repeated */
+    .hubp-page .dig-title, .hubp-page .dig-sub, .hubp-page .cap-title, .hubp-page .cap-subtitle, .hubp-page .cal-title { display: none; }
+    .hubp-page .cap-title-row { margin-bottom: 14px; }
+    /* tables scroll sideways inside their card instead of being cut off */
+    .tbl-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .tbl-wrap table { min-width: 520px; }
+    @media (max-width: 760px) {
+      /* 15-min course: small round button on the right that steps aside while you scroll down */
+      .oc-launch { left: auto; right: 14px; bottom: calc(14px + env(safe-area-inset-bottom)); padding: 4px; transition: transform .3s cubic-bezier(.22,1,.36,1), opacity .3s; }
+      .oc-launch .oc-launch-ic { width: 46px; height: 46px; }
+      .oc-launch.oc-away { transform: translateY(90px); opacity: 0; pointer-events: none; }
+      /* section tabs: compact, scroll sideways, active one kept in view */
+      .hubp-tabs { top: 62px; margin-bottom: 20px; }
+      .hubp-tabs .tab-bar { padding: 5px; gap: 2px; }
+      .hubp-tabs .tab-pill { padding: 9px 13px; font-size: 13px; }
+      .hubp-tabs .tab-pill i { margin-right: 6px; }
+      .hubp-title { font-size: 30px; }
+      .hubp-blurb { font-size: 15px; }
+      .an-bar { gap: 10px; }
+      .an-chips { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; width: 100%; padding-bottom: 2px; }
+      .an-chips::-webkit-scrollbar { display: none; }
+      .an-chip { flex: none; }
+      .oh-card { padding: 20px; }
+      .oh-card h3 { font-size: 20px; }
+      .page-wrapper { padding-bottom: 80px; }
+    }
   </style>
 </head>
 
-<body class="ac-theme">
+<body class="ac-theme{% if hub_page %} hubp-page{% endif %}">
   <canvas id="spaceCanvas" aria-hidden="true"></canvas>
 
   <div id="pageTopLoader"></div>
@@ -8928,6 +8956,22 @@
       back.addEventListener('click', showGrid);
       dlg.querySelector('[data-oh-close]').addEventListener('click', function () { dlg.close(); });
       dlg.addEventListener('click', function (e) { if (e.target === dlg) dlg.close(); });
+    })();
+  </script>
+
+  <script>
+    /* phone: keep the active section tab in view; the course button steps aside while scrolling down */
+    (function () {
+      var on = document.querySelector('.hubp-tabs .tab-pill.active');
+      if (on && on.parentElement.scrollWidth > on.parentElement.clientWidth) {
+        var bar = on.parentElement; bar.scrollLeft = on.offsetLeft - (bar.clientWidth - on.offsetWidth) / 2;
+      }
+      var btn = document.getElementById('quizSection'); if (!btn) return;
+      var last = scrollY, mq = matchMedia('(max-width: 760px)');
+      addEventListener('scroll', function () {
+        if (!mq.matches) return;
+        var y = scrollY; btn.classList.toggle('oc-away', y > last && y > 200); last = y;
+      }, { passive: true });
     })();
   </script>
 </body>

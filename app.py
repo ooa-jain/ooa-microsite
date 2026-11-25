@@ -4,6 +4,8 @@ import logging
 import random
 import json
 import platform
+import threading
+from markupsafe import escape
 from functools import wraps
 from datetime import datetime, timedelta, date
 from io import StringIO, BytesIO
@@ -4004,13 +4006,22 @@ def user_profile():
             return datetime.min
         documents.sort(key=get_date, reverse=True)
             
-        return render_template('profile.html', 
-                               user=user, 
+        try:
+            with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data', 'departments.json'), encoding='utf-8') as f:
+                dept_groups = json.load(f)
+        except Exception:
+            dept_groups = []
+        my_messages = list(db.ooa_messages.find({'user_email': session['email']}).sort('created_at', -1).limit(30))
+        page = _get_user_info()
+        page.update(user_department=user_department, user_location=user_location,
+                    approved=user.get('approved', False) or user.get('role') == 'admin')
+        return render_template('profile.html', **page,
+                               user=user,
+                               dept_groups=dept_groups, campuses=get_all_campuses(),
+                               my_messages=my_messages, user_phone=profile.get('phone', ''),
                                user_name=user_name,
-                               user_department=user_department,
-                               user_location=user_location,
                                user_photo=user_photo,
-                               reminders=reminders, 
+                               reminders=reminders,
                                documents=documents)
     except Exception as e:
         logger.error(f"Error rendering profile page: {e}", exc_info=True)
@@ -4074,6 +4085,7 @@ def profile_upload_photo():
         file.save(filepath)
         
         photo_url = f"/uploads/{filename}"
+        session['user_photo'] = photo_url
         
         # Update user in DB
         db.users.update_one({'email': session['email']}, {'$set': {'photo_url': photo_url, 'profile.photo_url': photo_url}})
@@ -4081,6 +4093,138 @@ def profile_upload_photo():
     except Exception as e:
         logger.error(f"Error uploading photo: {e}", exc_info=True)
         return jsonify({'success': False, 'message': f"Server error: {str(e)}"}), 500
+
+
+# ── PROFILE: EDIT DETAILS ──
+@app.route('/profile/update', methods=['POST'])
+@login_required
+def profile_update():
+    data = request.get_json(force=True, silent=True) or {}
+    name = (data.get('name') or '').strip()[:80]
+    dept = (data.get('department') or '').strip()[:120]
+    loc = (data.get('location') or '').strip()[:80]
+    phone = re.sub(r'[^0-9+ ()-]', '', data.get('phone') or '')[:20]
+    if not name or not dept or not loc:
+        return jsonify({'success': False, 'message': 'Name, department and campus are required.'}), 400
+    db.users.update_one({'email': session['email']}, {'$set': {
+        'name': name, 'department': dept, 'location': loc,
+        'profile.name': name, 'profile.department': dept, 'profile.location': loc, 'profile.phone': phone,
+        'profile_updated_at': get_indian_time()}})
+    session['user_department'] = dept
+    session['user_location'] = loc
+    session['user_name'] = name
+    return jsonify({'success': True, 'message': 'Profile updated'})
+
+
+# ── PROFILE: MESSAGE THE OFFICE OF ACADEMICS ──
+OOA_INBOX = os.getenv('OOA_INBOX', 'officeofacademicaffairs@jainuniversity.ac.in')
+MESSAGE_TOPICS = ['General query', 'BoS / Curriculum', 'Academic calendar', 'Examinations / ERP',
+                  'Portal / technical help', 'Feedback / suggestion']
+
+
+@app.route('/profile/message_ooa', methods=['POST'])
+@login_required
+def profile_message_ooa():
+    subject = (request.form.get('subject') or '').strip()[:150]
+    topic = (request.form.get('topic') or 'General query').strip()
+    body = (request.form.get('message') or '').strip()[:4000]
+    if topic not in MESSAGE_TOPICS:
+        topic = 'General query'
+    if not subject or len(body) < 5:
+        return jsonify({'success': False, 'message': 'Please add a subject and your message.'}), 400
+    recent = db.ooa_messages.count_documents({'user_email': session['email'],
+                                              'created_at': {'$gte': get_indian_time() - timedelta(minutes=10)}})
+    if recent >= 5:
+        return jsonify({'success': False, 'message': 'Too many messages in a short time. Please try again later.'}), 429
+    attachment = None
+    f = request.files.get('attachment')
+    if f and f.filename:
+        ext = f.filename.rsplit('.', 1)[-1].lower() if '.' in f.filename else ''
+        if ext not in ('pdf', 'png', 'jpg', 'jpeg'):
+            return jsonify({'success': False, 'message': 'Attach a PDF or an image (PNG, JPG).'}), 400
+        data = f.read(5 * 1024 * 1024 + 1)
+        if len(data) > 5 * 1024 * 1024:
+            return jsonify({'success': False, 'message': 'The attachment must be under 5 MB.'}), 400
+        import uuid
+        fname = f"msg_{uuid.uuid4().hex[:12]}.{ext}"
+        folder = app.config.get('UPLOAD_FOLDER', 'static/uploads')
+        os.makedirs(folder, exist_ok=True)
+        with open(os.path.join(folder, fname), 'wb') as out:
+            out.write(data)
+        attachment = {'name': secure_filename(f.filename) or fname, 'file': fname}
+    user = db.users.find_one({'email': session['email']}) or {}
+    prof = user.get('profile') or {}
+    doc = {
+        'user_email': session['email'],
+        'user_name': user.get('name') or prof.get('name') or parse_name_from_email(session['email']),
+        'department': user.get('department') or prof.get('department', ''),
+        'location': user.get('location') or prof.get('location', ''),
+        'topic': topic, 'subject': subject, 'message': body, 'attachment': attachment,
+        'status': 'new', 'created_at': get_indian_time(), 'replies': [],
+    }
+    res = db.ooa_messages.insert_one(doc)
+    try:
+        url_root = request.url_root.rstrip('/')
+    except Exception:
+        url_root = ''
+    content = (f"<p><b>{escape(doc['user_name'])}</b> ({escape(doc['user_email'])})<br>"
+               f"{escape(doc['department'])} · {escape(doc['location'])}</p>"
+               f"<p><b>Topic:</b> {escape(topic)}</p><p style='white-space:pre-wrap'>{escape(body)}</p>"
+               + (f"<p>Attachment: {escape(attachment['name'])}</p>" if attachment else ''))
+    def _mail():
+        with app.app_context():
+            send_microsite_email(f"Portal message: {subject}", [OOA_INBOX], subject, content,
+                                 subtitle=f"New message from {doc['user_name']}", cta_text='Open messages',
+                                 cta_url=f"{url_root}/admin/messages")
+    threading.Thread(target=_mail, daemon=True).start()
+    return jsonify({'success': True, 'message': 'Message sent to the Office of Academics', 'id': str(res.inserted_id)})
+
+
+# ── ADMIN: MESSAGES FROM USERS ──
+@app.route('/admin/messages', methods=['GET'])
+def admin_messages():
+    if session.get('role') != 'admin':
+        flash('Admin access required.', 'error')
+        return redirect(url_for('home'))
+    status = request.args.get('status', '')
+    q = {'status': status} if status in ('new', 'replied', 'closed') else {}
+    msgs = list(db.ooa_messages.find(q).sort('created_at', -1).limit(200))
+    counts = {k: db.ooa_messages.count_documents({'status': k}) for k in ('new', 'replied', 'closed')}
+    return render_template('admin_messages.html', msgs=msgs, counts=counts, status=status)
+
+
+@app.route('/admin/messages/<msg_id>/reply', methods=['POST'])
+def admin_message_reply(msg_id):
+    if session.get('role') != 'admin':
+        return jsonify({'success': False, 'message': 'Admin access required'}), 403
+    data = request.get_json(force=True, silent=True) or {}
+    text = (data.get('reply') or '').strip()[:4000]
+    close = bool(data.get('close'))
+    try:
+        oid = ObjectId(msg_id)
+    except Exception:
+        return jsonify({'success': False, 'message': 'Not found'}), 404
+    m = db.ooa_messages.find_one({'_id': oid})
+    if not m:
+        return jsonify({'success': False, 'message': 'Not found'}), 404
+    upd = {'$set': {'status': 'closed' if close else ('replied' if text else m.get('status', 'new')),
+                    'updated_at': get_indian_time()}}
+    if text:
+        upd['$push'] = {'replies': {'text': text, 'by': session.get('email'), 'at': get_indian_time()}}
+    db.ooa_messages.update_one({'_id': oid}, upd)
+    if text:
+        try:
+            url_root = request.url_root.rstrip('/')
+        except Exception:
+            url_root = ''
+        def _mail():
+            with app.app_context():
+                send_microsite_email(f"Re: {m['subject']}", [m['user_email']], m['subject'],
+                                     f"<p style='white-space:pre-wrap'>{escape(text)}</p>",
+                                     subtitle='Reply from the Office of Academics', cta_text='Open your profile',
+                                     cta_url=f"{url_root}/profile#messages")
+        threading.Thread(target=_mail, daemon=True).start()
+    return jsonify({'success': True})
 
 # ── PROFILE DELETE REMINDER ──
 @app.route('/profile/delete_reminder/<reminder_id>', methods=['POST', 'DELETE'])
@@ -4903,7 +5047,13 @@ OOA_PLATFORMS = [
 
 @app.context_processor
 def inject_ooa_platforms():
-    return dict(ooa_platforms=OOA_PLATFORMS, jain_site_url=JAIN_SITE_URL)
+    extra = {}
+    try:
+        if session.get('role') == 'admin' and (request.endpoint or '').startswith('admin'):
+            extra['ooa_new_messages'] = db.ooa_messages.count_documents({'status': 'new'})
+    except Exception:
+        pass
+    return dict(ooa_platforms=OOA_PLATFORMS, jain_site_url=JAIN_SITE_URL, **extra)
 
 # ══════════════════════════════════════════════════════════════════════
 #  AI INNOVATION NEWSLETTER  (monthly editions, newest on top)

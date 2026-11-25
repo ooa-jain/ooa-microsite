@@ -284,7 +284,7 @@ body.ac-theme .flash { border-radius: var(--ac-radius); }
 /* ── 12. Responsive ─────────────────────────────────────────────── */
 @media (max-width: 1100px) {
   .ac-accred { display: none; }
-  .ac-footer-grid { grid-template-columns: 1fr 1fr 1fr; }
+  .ac-footer-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .ac-fcol-about { grid-column: 1 / -1; }
 }
 @media (max-width: 900px) {
@@ -318,7 +318,8 @@ body.ac-theme .flash { border-radius: var(--ac-radius); }
 @media (max-width: 560px) {
   .ac-utility { display: none; }
   .ac-brand-text { display: none; }
-  .ac-footer-grid { grid-template-columns: 1fr 1fr; gap: 24px; }
+  .ac-footer-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 24px; }
+  .ac-fcol { min-width: 0; overflow-wrap: anywhere; }
   body.ac-theme .tab-pill { padding: 12px 14px; font-size: 14px; }
 }
 
@@ -789,3 +790,6 @@ html[data-theme="dark"] body.ac-theme .subtabs { background: #1d2740 !important;
 html[data-theme="dark"] body.ac-theme .cal-view-seg button:not(.on),
 html[data-theme="dark"] body.ac-theme .subtabs .stab:not(.active) { color: #aab2c6 !important; }
 html[data-theme="dark"] body.ac-theme th { background: #1d2740 !important; color: #eef1f8 !important; }
+
+/* header avatar shows the profile photo when there is one */
+.pb-avatar-img { object-fit: cover; padding: 0; background: #eef3fa; }

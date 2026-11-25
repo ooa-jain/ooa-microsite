@@ -1,0 +1,41 @@
+[
+ {
+  "group": "Office Of Academics",
+  "options": [
+   "OFFICE OF ACADEMICS"
+  ]
+ },
+ {
+  "group": "Departments",
+  "options": [
+   "Department of Computer Science and Engineering",
+   "Department of Information Science and Engineering",
+   "Department of Aerospace Engineering",
+   "Department of Civil Engineering",
+   "Department of Mechanical Engineering",
+   "Department of Electrical and Electronics Engineering",
+   "Department of Electronics and Communication Engineering",
+   "Department of Food Technology",
+   "Department of Humanities and Social Sciences",
+   "Department of Economics",
+   "Department of Performing Arts and Cultural Studies",
+   "Department of Languages",
+   "Department of Journalism and Mass Communication",
+   "Department of Law",
+   "Department of Chemistry and Biochemistry",
+   "Department of Biotechnology and Genetics",
+   "Department of Microbiology and Botany",
+   "Department of Data Analytics and Mathematical Science",
+   "Department of Forensic Science",
+   "Department of Physics and Electronics",
+   "Department of Psychology and Allied Sciences",
+   "Department of Allied Healthcare and Sciences",
+   "Department of Computer Science and IT",
+   "Department of Animation and Virtual Reality",
+   "Department of Commerce",
+   "Department of Management Studies",
+   "Department of Design",
+   "Department of Art and Design"
+  ]
+ }
+]

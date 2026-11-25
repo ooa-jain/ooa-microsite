@@ -23,7 +23,7 @@
 
     <nav class="pb-nav main-nav" id="mainNav" aria-label="Main">
       <a href="{{ url_for('home') if user_logged_in else url_for('index') }}" class="pb-link nav-loading {% if ac_active == 'home' %}active{% endif %}">Home</a>
-      <a href="{{ url_for('about_jain') }}" class="pb-link nav-loading {% if ac_active == 'about' %}active{% endif %}">About</a>
+      <a href="{{ jain_site_url }}" class="pb-link" target="_blank" rel="noopener" title="JAIN (Deemed-to-be University) website">About</a>
       <a href="{{ academic_calendar_url }}" class="pb-link nav-loading {% if ac_active == 'calendar' %}active{% endif %}" title="Academic Calendar 2026–27">Calendar</a>
       <a href="{{ url_for('ai_newsletter_archive') }}" class="pb-link nav-loading {% if ac_active == 'newsletter' %}active{% endif %}" title="AI Innovation Newsletter">Newsletter</a>
       {% if user_logged_in %}<a href="{{ url_for('campus') }}" class="pb-link nav-loading {% if ac_active == 'campus' %}active{% endif %}">Campus</a>{% endif %}
@@ -113,7 +113,7 @@
    The burger above opens it below 980px; wider screens keep the pill navigation. #}
 {% set _kn_links = [
   {"label": "Home", "href": url_for('home') if user_logged_in else url_for('index'), "note": "Jain Hub: announcements, calendar, innovation" if user_logged_in else "Sign in to the portal"},
-  {"label": "About", "href": url_for('about_jain'), "note": "JAIN (Deemed-to-be University)"},
+  {"label": "About", "href": jain_site_url, "note": "JAIN (Deemed-to-be University) website", "external": True},
   {"label": "Calendar", "href": academic_calendar_url, "note": "Academic Calendar 2026–27"},
   {"label": "Newsletter", "href": url_for('ai_newsletter_archive'), "note": "AI Innovation Newsletter"},
 ] %}

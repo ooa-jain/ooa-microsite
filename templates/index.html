@@ -677,6 +677,36 @@
         .resource-card { display: block; text-decoration: none; color: inherit; }
         .resource-card:hover h3 { color: #1d4e89; }
         @media (max-width: 968px) { body.ac-landing .hero { padding-top: 48px; } }
+        /* ── Sign-in section and lower sections, in the hero's cream style ── */
+        body.ac-landing { background: #f8f6f1; }
+        .lp-signin { position: relative; background: #f8f6f1; padding: 86px 24px 72px; }
+        .lp-signin::before { content: ''; position: absolute; left: 0; right: 0; top: 0; height: 46px; background: #2f6b44;
+            border-radius: 0 0 50% 50% / 0 0 100% 100%; }
+        .lp-signin::after { content: ''; position: absolute; left: 6%; right: 6%; top: 30px; height: 26px; background: #4f9466; opacity: .5;
+            border-radius: 0 0 50% 50% / 0 0 100% 100%; }
+        .lp-wrap { position: relative; max-width: 1180px; margin: 0 auto; display: grid; grid-template-columns: 1.05fr .95fr; gap: 56px; align-items: center; }
+        .lp-kicker { display: inline-flex; align-items: center; gap: 8px; font: 700 12.5px 'Inter', sans-serif; letter-spacing: .12em; text-transform: uppercase; color: #1d4e89; }
+        .lp-intro h2 { font: 800 clamp(30px, 3.4vw, 44px)/1.1 'Inter', sans-serif; letter-spacing: -.03em; color: #121212; margin: 14px 0 14px; }
+        .lp-intro > p { font: 400 17px/1.7 'Inter', sans-serif; color: #4a4a48; margin: 0 0 26px; max-width: 560px; }
+        .lp-stats { list-style: none; display: flex; gap: 12px; flex-wrap: wrap; margin: 0 0 26px; padding: 0; }
+        .lp-stats li { background: #fff; border-radius: 16px; padding: 14px 18px; min-width: 128px; box-shadow: 0 1px 2px rgba(20,30,60,.06), 0 8px 22px rgba(20,30,60,.06); }
+        .lp-stats b { display: block; font: 800 26px 'Inter', sans-serif; letter-spacing: -.02em; color: #1d4e89; }
+        .lp-stats span { font: 600 12.5px 'Inter', sans-serif; color: #6b7390; }
+        .lp-points { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+        .lp-points li { display: flex; gap: 12px; align-items: flex-start; font: 400 15px/1.5 'Inter', sans-serif; color: #4a4a48; }
+        .lp-points i { width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center; background: #edf1fb; color: #1d4e89; flex: none; font-size: 14px; }
+        .lp-points b { color: #121212; margin-right: 4px; }
+        body.ac-landing .lp-signin .login-card { position: relative; background: #fff; border-radius: 24px; padding: 34px 34px 28px; box-shadow: 0 2px 4px rgba(20,30,60,.05), 0 24px 60px rgba(20,30,60,.14); max-width: 480px; justify-self: end; width: 100%; }
+        body.ac-landing .lp-signin .login-card h2 { text-align: left; margin: 0 0 6px; }
+        body.ac-landing .lp-signin .welcome-sub { display: block; text-align: left; margin: 0 0 20px; font-size: 14.5px; }
+        body.ac-landing .section, body.ac-landing .section-alt { background: #f8f6f1; }
+        body.ac-landing .section-alt { background: #f1eee6; }
+        body.ac-landing .yellow-line-sub { background: #1d4e89; }
+        @media (max-width: 900px) {
+            .lp-wrap { grid-template-columns: 1fr; gap: 32px; }
+            body.ac-landing .lp-signin .login-card { justify-self: stretch; max-width: none; padding: 26px 20px 22px; }
+            .lp-signin { padding: 70px 16px 56px; }
+        }
     </style>
 </head>
 <body class="ac-landing">
@@ -706,7 +736,7 @@
         "logo": {"src": url_for('static', filename='images/jainu.png'), "alt": "JAIN (Deemed-to-be University)", "width": 1103, "height": 319},
         "logoEdges": [0, 365, 560, 794, 890, 1103],
         "navLinks": [
-            {"label": "About", "href": url_for('about_jain')},
+            {"label": "About", "href": jain_site_url},
             {"label": "Framework", "href": "#overview"},
             {"label": "Capabilities", "href": "#features"},
             {"label": "Newsletter", "href": url_for('ai_newsletter_archive')},
@@ -721,7 +751,7 @@
             ],
             "navCta": {"label": "Sign in", "href": "#login"},
             "primaryCta": {"label": "Sign in to the portal", "href": "#login"},
-            "secondaryCta": {"label": "About the University", "href": url_for('about_jain')}
+            "secondaryCta": {"label": "About the University", "href": jain_site_url}
         }
     } | tojson }}</script>
     <script src="{{ url_for('static', filename='js/brusha-hero.js') }}" defer></script>
@@ -740,48 +770,35 @@
             <nav class="nav-links">
                 <a href="#overview">Governance Framework</a>
                 <a href="#features">Platform Capabilities</a>
-                <a href="{{ url_for('about_jain') }}">About the University</a>
+                <a href="{{ jain_site_url }}" target="_blank" rel="noopener">About the University</a>
             </nav>
             <button onclick="scrollToLogin()" class="btn-access">Sign in</button>
         </div>
     </header>
 
     <!-- Hero Section -->
-    <main class="hero" id="login">
-        <div class="hero-video-container">
-            <video autoplay muted loop playsinline class="hero-video-bg" id="mainVideo">
-                <source src="static/videos/sam.mp4" type="video/mp4">
-                <source src="https://assets.mixkit.co/videos/preview/mixkit-university-campus-aerial-view-4997-large.mp4" type="video/mp4">
-            </video>
-            <div class="hero-video-overlay"></div>
-        </div>
-        
-        <div class="hero-container">
-            <div class="hero-left">
-                <h1 class="hero-title">Office of Academics</h1>
-                <p class="hero-subtitle">Driving excellence through structured oversight, transparency, and strategic innovation.</p>
-                
-                <div class="hero-stats">
-                    <div class="stat-card">
-                        <div class="stat-num">28+</div>
-                        <div class="stat-lbl">Departments</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-num">25+</div>
-                        <div class="stat-lbl">Core Processes</div>
-                    </div>
-                </div>
+    <!-- SIGN IN: continues the hero (the meadow's grass curves down into this section) -->
+    <section class="lp-signin" id="login">
+        <div class="lp-wrap">
+            <div class="lp-intro">
+                <span class="lp-kicker"><i class="fas fa-lock"></i> Portal access</span>
+                <h2>Sign in to the Office of Academics portal</h2>
+                <p>Use your JAIN email address. Faculty, Heads of Department and the Office team find announcements, the academic calendar, platforms and capacity-building resources in Jain Hub.</p>
+                <ul class="lp-stats">
+                    <li><b>28+</b><span>Departments</span></li>
+                    <li><b>25+</b><span>Core processes</span></li>
+                    <li><b>12</b><span>Newsletter editions</span></li>
+                </ul>
+                <ul class="lp-points">
+                    <li><i class="fas fa-bullhorn"></i><span><b>Announcements</b> UGC notices and Office of Academics circulars</span></li>
+                    <li><i class="fas fa-calendar-days"></i><span><b>Academic calendar</b> every event, with email reminders</span></li>
+                    <li><i class="fas fa-layer-group"></i><span><b>Platforms</b> BoS Portal, OOA Portal, IDP and more in one place</span></li>
+                </ul>
             </div>
 
-            <div class="hero-right">
-                <!-- Login Panel Integrated -->
-                <div class="login-card" id="login-card">
-                    <h2>Portal Access</h2>
-                    <div class="welcome-sub">
-                        <div class="yellow-line"></div>
-                        <span>Sign in to access the Office of Academics Portal</span>
-                    </div>
-
+            <div class="login-card" id="login-card">
+                <h2>Portal sign in</h2>
+                <p class="welcome-sub">Welcome back. Sign in with your JAIN email.</p>
                     <form method="POST" action="{{ url_for('login') }}">
                         {% with messages = get_flashed_messages(with_categories=true) %}
                             {% if messages %}
@@ -815,13 +832,12 @@
                         </button>
                     </form>
 
-                    <div class="register-link">
-                        <p>New to the platform? <a href="{{ url_for('register') }}">Create an account</a></p>
-                    </div>
+                <div class="register-link">
+                    <p>New to the platform? <a href="{{ url_for('register') }}">Create an account</a></p>
                 </div>
             </div>
         </div>
-    </main>
+    </section>
 
 
     <!-- Governance Overview -->
@@ -894,7 +910,7 @@
                 <h3>AI Innovation Newsletter</h3>
                 <p>Browse editions on teaching, learning and research.</p>
             </a>
-            <a class="feature-card resource-card" href="{{ url_for('about_jain') }}">
+            <a class="feature-card resource-card" href="{{ jain_site_url }}" target="_blank" rel="noopener">
                 <i class="fas fa-building-columns feature-icon"></i>
                 <h3>About the university</h3>
                 <p>Explore JAIN and its academic community.</p>

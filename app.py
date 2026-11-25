@@ -18,7 +18,7 @@ load_dotenv()
 # ── Flask & extensions ─────────────────────────────────────────────────
 from flask import (Flask, render_template, request, redirect, url_for,
                    flash, session, send_from_directory, jsonify, json as flask_json,
-                   abort, make_response)
+                   abort, make_response, Response)
 from flask_pymongo import PyMongo
 from flask_mail import Mail, Message
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -4180,6 +4180,35 @@ def profile_message_ooa():
     return jsonify({'success': True, 'message': 'Message sent to the Office of Academics', 'id': str(res.inserted_id)})
 
 
+@app.route('/admin/subscribers', methods=['GET'])
+def admin_subscribers():
+    if session.get('role') != 'admin':
+        flash('Admin access required.', 'error')
+        return redirect(url_for('home'))
+    q = (request.args.get('q') or '').strip().lower()
+    flt = {}
+    if q:
+        rx = {'$regex': re.escape(q), '$options': 'i'}
+        flt = {'$or': [{'email': rx}, {'name': rx}, {'department': rx}]}
+    subs = list(db.subscribers.find(flt).sort('subscribed_at', -1).limit(1000))
+    if request.args.get('format') == 'csv':
+        import csv, io
+        buf = io.StringIO()
+        w = csv.writer(buf)
+        w.writerow(['Name', 'Email', 'Department', 'Subscribed on', 'Source'])
+        for s_ in subs:
+            at = s_.get('subscribed_at')
+            w.writerow([s_.get('name', ''), s_.get('email', ''), s_.get('department', '') or s_.get('school', ''),
+                        at.strftime('%Y-%m-%d %H:%M') if isinstance(at, datetime) else '', s_.get('source', '')])
+        return Response(buf.getvalue(), mimetype='text/csv',
+                        headers={'Content-Disposition': 'attachment; filename=newsletter_subscribers.csv'})
+    week = get_indian_time() - timedelta(days=7)
+    stats = {'total': db.subscribers.count_documents({}),
+             'week': db.subscribers.count_documents({'subscribed_at': {'$gte': week}}),
+             'guests': db.subscribers.count_documents({'source': 'ai-newsletter-page'})}
+    return render_template('admin_subscribers.html', subs=subs, stats=stats, q=q)
+
+
 # ── ADMIN: MESSAGES FROM USERS ──
 @app.route('/admin/messages', methods=['GET'])
 def admin_messages():
@@ -5049,7 +5078,7 @@ OOA_PLATFORMS = [
 def inject_ooa_platforms():
     extra = {}
     try:
-        if session.get('role') == 'admin' and (request.endpoint or '').startswith('admin'):
+        if session.get('role') == 'admin' and not (request.path or '').startswith(('/static', '/api', '/uploads')):
             extra['ooa_new_messages'] = db.ooa_messages.count_documents({'status': 'new'})
     except Exception:
         pass

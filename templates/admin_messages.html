@@ -42,15 +42,13 @@
   .b-close { background: #fff; border: 1px solid var(--line); color: var(--body); }
   .empty { text-align: center; padding: 50px; color: var(--mute); background: #fff; border-radius: 18px; border: 1px dashed var(--line); }
 </style>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin-theme.css') }}">
 </head>
-<body>
-<header class="top"><div class="top-in">
-  <img src="{{ url_for('static', filename='images/jainu.png') }}" alt="JAIN">
-  <h1>Messages from users</h1>
-  <a class="back" href="{{ url_for('admin_dashboard') }}"><i class="fas fa-arrow-left"></i> Admin dashboard</a>
-</div></header>
+<body class="adm">
+{% set adm_active = 'messages' %}{% include 'partials/admin_header.html' %}
 
 <div class="wrap">
+  <div class="adm-hd"><div><h1>Messages</h1><p>Questions and feedback sent from users' profiles. Replies are emailed to them and shown on their profile.</p></div></div>
   <div class="filters">
     <a href="{{ url_for('admin_messages') }}" class="{{ 'on' if not status }}">All</a>
     <a href="{{ url_for('admin_messages', status='new') }}" class="{{ 'on' if status == 'new' }}">New <span class="n">{{ counts.new }}</span></a>

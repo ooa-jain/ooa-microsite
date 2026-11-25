@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="{{ url_for('static', filename='images/jain.png') }}">
+<title>Newsletter subscribers | Office of Academics</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin-theme.css') }}">
+<style>
+  .sb-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin-bottom: 18px; }
+  .sb-stat { padding: 18px 20px; display: flex; align-items: center; gap: 14px; }
+  .sb-stat i { width: 44px; height: 44px; border-radius: 14px; display: grid; place-items: center; background: var(--a-soft); color: var(--a-blue); font-size: 18px; }
+  .sb-stat b { display: block; font-size: 24px; font-weight: 800; }
+  .sb-stat span { font-size: 13px; color: var(--a-mute); }
+  .sb-bar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between; padding: 14px; margin-bottom: 14px; }
+  .sb-search { flex: 1 1 280px; display: flex; gap: 8px; }
+  .sb-search input { flex: 1; height: 40px; padding: 0 14px; font-size: 14px; }
+  .sb-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  .sb-table th { text-align: left; padding: 12px 16px; font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--a-mute); background: #faf9f6; border-bottom: 1px solid var(--a-line); }
+  .sb-table td { padding: 12px 16px; border-bottom: 1px solid var(--a-line); vertical-align: middle; }
+  .sb-table tr:last-child td { border-bottom: 0; }
+  .sb-who { display: flex; align-items: center; gap: 10px; }
+  .sb-av { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; background: var(--a-blue); color: #fff; font-weight: 800; font-size: 12.5px; flex: none; }
+  .sb-tag { padding: 2px 9px; border-radius: 999px; font-size: 11.5px; font-weight: 700; background: #e7f3ea; color: var(--a-green); }
+  .sb-tag--portal { background: var(--a-soft); color: var(--a-blue); }
+  .sb-wrap { overflow-x: auto; }
+  .sb-empty { padding: 40px; text-align: center; color: var(--a-mute); }
+  @media (max-width: 760px) { .sb-stats { grid-template-columns: 1fr; } .sb-table th:nth-child(4), .sb-table td:nth-child(4) { display: none; } }
+</style>
+</head>
+<body class="adm">
+{% set adm_active = 'subscribers' %}{% include 'partials/admin_header.html' %}
+<main class="adm-page">
+  <div class="adm-hd">
+    <div><h1>Newsletter subscribers</h1><p>People who signed up for the AI Innovation Newsletter, with or without a portal account.</p></div>
+    <a class="adm-btn" href="{{ url_for('admin_subscribers', q=q, format='csv') }}"><i class="fas fa-file-arrow-down"></i> Download CSV</a>
+  </div>
+
+  <div class="sb-stats">
+    <div class="adm-card sb-stat"><i class="fas fa-users"></i><div><b>{{ stats.total }}</b><span>Subscribers</span></div></div>
+    <div class="adm-card sb-stat"><i class="fas fa-arrow-trend-up"></i><div><b>{{ stats.week }}</b><span>New in the last 7 days</span></div></div>
+    <div class="adm-card sb-stat"><i class="fas fa-user-plus"></i><div><b>{{ stats.guests }}</b><span>Signed up from the newsletter page</span></div></div>
+  </div>
+
+  <form class="adm-card sb-bar" method="get">
+    <div class="sb-search">
+      <input type="search" name="q" value="{{ q }}" placeholder="Search name, email or department">
+      <button class="adm-btn" type="submit"><i class="fas fa-magnifying-glass"></i> Search</button>
+      {% if q %}<a class="adm-btn adm-btn--ghost" href="{{ url_for('admin_subscribers') }}">Clear</a>{% endif %}
+    </div>
+    <span style="font-size:13px;color:var(--a-mute)">{{ subs|length }} shown</span>
+  </form>
+
+  <div class="adm-card sb-wrap">
+    {% if subs %}
+    <table class="sb-table">
+      <thead><tr><th>Subscriber</th><th>Department</th><th>Subscribed</th><th>Source</th></tr></thead>
+      <tbody>
+        {% for s in subs %}
+        {% set _n = s.name or s.email.split('@')[0] %}
+        <tr>
+          <td><div class="sb-who"><span class="sb-av">{{ (_n.split()|map('first')|join)[:2]|upper }}</span>
+            <div><b>{{ _n }}</b><div style="font-size:13px;color:var(--a-mute)">{{ s.email }}</div></div></div></td>
+          <td>{{ s.department or s.school or '—' }}</td>
+          <td>{{ s.subscribed_at.strftime('%d %b %Y') if s.subscribed_at and s.subscribed_at.strftime is defined else '—' }}</td>
+          <td><span class="sb-tag {{ 'sb-tag--portal' if s.source != 'ai-newsletter-page' }}">{{ 'Newsletter page' if s.source == 'ai-newsletter-page' else 'Portal' }}</span></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <p class="sb-empty"><i class="fas fa-inbox" style="display:block;font-size:28px;opacity:.35;margin-bottom:8px"></i>No subscribers{{ ' match that search' if q }} yet.</p>
+    {% endif %}
+  </div>
+</main>
+</body>
+</html>

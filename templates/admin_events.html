@@ -86,8 +86,10 @@
             border: 1px solid #ffcdd2;
         }
     </style>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/admin-theme.css') }}">
 </head>
-<body class="bg-gray-100">
+<body class="adm adm-events bg-gray-100">
+{% set adm_active = 'events' %}{% include 'partials/admin_header.html' %}
     <!-- Header -->
     <header class="bg-white shadow-lg">
         <div class="container mx-auto px-4 py-3">

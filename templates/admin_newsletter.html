@@ -637,8 +637,10 @@
       }
     }
   </style>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/admin-theme.css') }}">
 </head>
-<body>
+<body class="adm ">
+{% set adm_active = 'newsletter' %}{% include 'partials/admin_header.html' %}
   <header id="mainHeader">
     <div class="header-container">
       <div class="logo-section" role="banner" tabindex="0">

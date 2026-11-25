@@ -212,8 +212,10 @@ input:checked+.slider:before{transform:translateX(24px)}
   .tabs{gap:2px}
 }
 </style>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/admin-theme.css') }}">
 </head>
-<body>
+<body class="adm adm-users">
+{% set adm_active = 'users' %}{% include 'partials/admin_header.html' %}
 
 <header>
   <div class="hdr">

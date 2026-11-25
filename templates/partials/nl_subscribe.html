@@ -4,16 +4,21 @@
 #}
 <section class="nls{% if nls_compact %} nls--compact{% endif %}" id="subscribe" aria-labelledby="nlsTitle">
   <div class="nls-copy">
-    <span class="nls-kicker"><i class="fas fa-envelope-open-text"></i> AI Innovation Newsletter</span>
+    <span class="nls-ic" aria-hidden="true"><i class="fas fa-envelope-open-text"></i></span>
+    <span class="nls-kicker">AI Innovation Newsletter</span>
     <h2 id="nlsTitle">Get every edition in your inbox</h2>
-    <p>One email a month from the Office of Academics: what is changing in AI and what it means for teaching, learning and research. No sign-in needed.</p>
+    <p>One email a month from the Office of Academics on what is changing in AI and what it means for teaching, learning and research.</p>
+    <ul class="nls-points">
+      <li><i class="fas fa-check"></i> No portal account or sign-in needed</li>
+      <li><i class="fas fa-check"></i> One edition a month, nothing else</li>
+    </ul>
   </div>
   <form class="nls-form" novalidate>
     <label class="nls-f"><span>Full name</span><input name="name" required maxlength="80" autocomplete="name" placeholder="Your name"
       value="{{ session.get('user_name', '') if session.get('email') else '' }}"></label>
     <label class="nls-f"><span>Email</span><input name="email" type="email" required maxlength="254" autocomplete="email" placeholder="name@jainuniversity.ac.in"
       value="{{ session.get('email', '') }}"></label>
-    <label class="nls-f"><span>Department</span><input name="department" required maxlength="120" autocomplete="organization-title" placeholder="e.g. Department of Computer Science"
+    <label class="nls-f nls-f--wide"><span>Department</span><input name="department" required maxlength="120" autocomplete="organization-title" placeholder="e.g. Department of Computer Science and Engineering"
       value="{{ session.get('user_department', '') if session.get('email') else '' }}"></label>
     <input name="website" tabindex="-1" autocomplete="off" aria-hidden="true" class="nls-hp">
     <button type="submit" class="nls-btn"><i class="fas fa-paper-plane"></i> Subscribe</button>
@@ -21,29 +26,39 @@
   </form>
 </section>
 <style>
-  .nls { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); gap: 28px; align-items: center; padding: 30px; border-radius: 24px; color: #fff;
-         background: radial-gradient(120% 140% at 100% 0%, rgba(47,107,68,.85) 0%, transparent 55%), linear-gradient(135deg, #173f70, #1d4e89 60%, #24589a);
-         font-family: 'Inter', system-ui, sans-serif; box-shadow: 0 30px 60px -40px rgba(23,63,112,.8); }
-  .nls-kicker { display: inline-flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; opacity: .85; }
-  .nls h2, body .nls h2 { font-family: 'Inter', system-ui, sans-serif; margin: 10px 0 8px; font-size: clamp(22px, 2.6vw, 30px); font-weight: 800; letter-spacing: -.02em; line-height: 1.15; color: #fff !important; }
-  .nls-copy p { margin: 0; font-size: 15px; line-height: 1.6; color: rgba(255,255,255,.86); }
-  .nls-form { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; padding: 18px; border-radius: 18px; background: rgba(255,255,255,.1); backdrop-filter: blur(6px); }
+  .nls { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: 32px; align-items: center; padding: 30px 32px; border-radius: 22px;
+         background: #fff; border: 1px solid rgba(18,18,18,.08); color: #121212; font-family: 'Inter', system-ui, sans-serif;
+         box-shadow: 0 1px 2px rgba(18,18,18,.03), 0 18px 44px -34px rgba(18,18,18,.55); }
+  .nls-ic { width: 46px; height: 46px; border-radius: 14px; display: grid; place-items: center; background: #eef3fa; color: #1d4e89; font-size: 19px; margin-bottom: 14px; }
+  .nls-kicker { display: block; font-size: 12px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: #1d4e89; }
+  .nls h2, body .nls h2 { font-family: 'Inter', system-ui, sans-serif; margin: 6px 0 8px; font-size: clamp(22px, 2.4vw, 28px); font-weight: 800; letter-spacing: -.02em; line-height: 1.15; color: #121212 !important; }
+  .nls-copy p { margin: 0; font-size: 15px; line-height: 1.6; color: #4a4a48; }
+  .nls-points { list-style: none; margin: 14px 0 0; padding: 0; display: grid; gap: 6px; font-size: 14px; color: #4a4a48; }
+  .nls-points i { color: #2f6b44; margin-right: 8px; font-size: 12px; }
+  .nls-form { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; padding: 20px; border-radius: 18px; background: #faf9f6; border: 1px solid rgba(18,18,18,.06); }
   .nls-f { display: block; min-width: 0; }
-  .nls-f:nth-of-type(3) { grid-column: 1 / -1; }
-  .nls-f span { display: block; margin-bottom: 6px; font-size: 12.5px; font-weight: 700; color: rgba(255,255,255,.9); }
-  .nls-f input { box-sizing: border-box; width: 100%; height: 44px; padding: 0 14px; border-radius: 12px; border: 1px solid rgba(255,255,255,.25); background: #fff; color: #121212;
-                 font: 500 14.5px 'Inter', sans-serif; outline: none; }
-  .nls-f input:focus { border-color: #fff; box-shadow: 0 0 0 4px rgba(255,255,255,.25); }
+  .nls-f--wide { grid-column: 1 / -1; }
+  .nls-f span { display: block; margin-bottom: 6px; font-size: 12.5px; font-weight: 700; color: #4a4a48; }
+  .nls-f input { box-sizing: border-box; width: 100%; height: 44px; padding: 0 14px; border-radius: 12px; border: 1px solid rgba(18,18,18,.14); background: #fff; color: #121212;
+                 font: 500 14.5px 'Inter', sans-serif; outline: none; transition: border-color .2s, box-shadow .2s; }
+  .nls-f input:focus { border-color: #1d4e89; box-shadow: 0 0 0 4px rgb(29 78 137 / .12); }
   .nls-hp { position: absolute !important; left: -9999px !important; width: 1px; height: 1px; opacity: 0; }
-  .nls-btn { grid-column: 1 / -1; height: 46px; border: 0; border-radius: 12px; background: #fff; color: #173f70; font: 800 15px 'Inter', sans-serif; cursor: pointer;
-             display: inline-flex; align-items: center; justify-content: center; gap: 10px; transition: transform .2s, box-shadow .2s; }
-  .nls-btn:hover { transform: translateY(-1px); box-shadow: 0 12px 24px -12px rgba(0,0,0,.5); }
+  .nls-btn { grid-column: 1 / -1; height: 46px; border: 0; border-radius: 12px; background: #1d4e89; color: #fff; font: 700 15px 'Inter', sans-serif; cursor: pointer;
+             display: inline-flex; align-items: center; justify-content: center; gap: 10px; transition: background .2s, transform .2s; }
+  .nls-btn:hover { background: #173f70; }
+  .nls-btn:active { transform: scale(.99); }
   .nls-btn[disabled] { opacity: .7; cursor: wait; }
-  .nls-msg { grid-column: 1 / -1; margin: 0; min-height: 1em; font-size: 14px; font-weight: 600; }
-  .nls-msg.ok { color: #c8f2d4; } .nls-msg.err { color: #ffd6d1; }
-  .nls--compact { grid-template-columns: 1fr; gap: 16px; padding: 24px; }
-  @media (max-width: 860px) { .nls { grid-template-columns: 1fr; gap: 18px; padding: 22px; border-radius: 20px; } }
-  @media (max-width: 480px) { .nls-form { grid-template-columns: 1fr; padding: 14px; } }
+  .nls-msg { grid-column: 1 / -1; margin: 0; min-height: 1em; font-size: 14px; font-weight: 600; color: #4a4a48; }
+  .nls-msg.ok { color: #2f6b44; } .nls-msg.err { color: #b42318; }
+  .nls--compact { grid-template-columns: 1fr; gap: 18px; padding: 24px; }
+  @media (max-width: 860px) { .nls { grid-template-columns: 1fr; gap: 20px; padding: 22px; border-radius: 20px; } }
+  @media (max-width: 480px) { .nls-form { grid-template-columns: 1fr; padding: 14px; } .nls { padding: 18px; } }
+  [data-theme="dark"] .nls { background: #141c30; border-color: rgba(255,255,255,.08); }
+  [data-theme="dark"] .nls h2, [data-theme="dark"] body .nls h2 { color: #eef1f8 !important; }
+  [data-theme="dark"] .nls-copy p, [data-theme="dark"] .nls-points, [data-theme="dark"] .nls-f span { color: #aab2c6; }
+  [data-theme="dark"] .nls-form { background: #10182a; border-color: rgba(255,255,255,.06); }
+  [data-theme="dark"] .nls-ic { background: #1c2945; color: #9dbbe6; }
+  [data-theme="dark"] .nls-kicker { color: #9dbbe6; }
 </style>
 <script>
   (function () {

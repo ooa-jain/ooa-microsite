@@ -5066,6 +5066,62 @@ def _swayam_updates():
         logger.warning(f"swayam updates: {e}")
         return swayam_updates.FALLBACK
 
+# ══════════════════════════════════════════════════════════════════════
+#  GUESTS: without signing in, only the AI Innovation Newsletter is open
+# ══════════════════════════════════════════════════════════════════════
+GUEST_OPEN = ('/static/', '/ai-newsletter', '/api/', '/cron/', '/uploads/', '/drive/', '/gmail/', '/login', '/signin',
+              '/register', '/forgot-password', '/verify-reset-otp', '/resend-reset-otp', '/reset-password', '/logout',
+              '/admin', '/setup/', '/subscribe', '/about_jain', '/erp', '/favicon')
+
+
+@app.before_request
+def _guests_see_only_the_newsletter():
+    if request.method != 'GET' or session.get('email') or request.path == '/':
+        return None
+    if request.path.startswith(GUEST_OPEN):
+        return None
+    return redirect(url_for('index') + '#login')
+
+
+SUBSCRIBE_EMAIL = re.compile(r'^[^@\s]{1,64}@[^@\s]{1,190}\.[A-Za-z]{2,24}$')
+
+
+@app.route('/ai-newsletter/subscribe', methods=['POST'])
+def ai_newsletter_subscribe():
+    """Anyone, signed in or not, can subscribe to the AI Innovation Newsletter with name, email and department."""
+    data = request.get_json(silent=True) or request.form
+    email = (data.get('email') or '').strip().lower()[:254]
+    name = re.sub(r'\s+', ' ', (data.get('name') or '').strip())[:80]
+    dept = re.sub(r'\s+', ' ', (data.get('department') or '').strip())[:120]
+    if (data.get('website') or '').strip():          # hidden field: bots fill it, people do not
+        return jsonify({'success': True, 'message': 'Subscribed'})
+    if not SUBSCRIBE_EMAIL.match(email):
+        return jsonify({'success': False, 'message': 'Please enter a valid email address.'}), 400
+    if not name or not dept:
+        return jsonify({'success': False, 'message': 'Please add your name and department.'}), 400
+    ip = (request.headers.get('X-Forwarded-For') or request.remote_addr or '').split(',')[0].strip()
+    if db.subscribers.count_documents({'ip': ip, 'subscribed_at': {'$gte': get_indian_time() - timedelta(hours=1)}}) >= 10:
+        return jsonify({'success': False, 'message': 'Too many sign-ups from this network. Please try again later.'}), 429
+    existed = db.subscribers.find_one({'email': email}, {'_id': 1})
+    db.subscribers.update_one({'email': email}, {
+        '$set': {'name': name, 'department': dept, 'newsletter': 'ai-innovation', 'active': True, 'updated_at': get_indian_time()},
+        '$setOnInsert': {'subscribed_at': get_indian_time(), 'ip': ip, 'source': 'ai-newsletter-page'}}, upsert=True)
+    if not existed:
+        try:
+            url_root = request.url_root.rstrip('/')
+        except Exception:
+            url_root = ''
+        def _mail():
+            with app.app_context():
+                send_microsite_email('You are subscribed: AI Innovation Newsletter', [email], 'Welcome to the AI Innovation Newsletter',
+                                     f"<p>Hello {escape(name)},</p><p>Thank you for subscribing. Each monthly edition from the "
+                                     f"Office of Academics will reach this inbox.</p>",
+                                     status_type='success', status_text='Subscription active',
+                                     cta_text='Read the latest edition', cta_url=f"{url_root}/ai-newsletter")
+        threading.Thread(target=_mail, daemon=True).start()
+    return jsonify({'success': True, 'message': "You're subscribed" if not existed else 'You are already subscribed; details updated.'})
+
+
 @app.route('/ai-newsletter')
 def ai_newsletter_archive():
     nf.ensure_seeded(db)

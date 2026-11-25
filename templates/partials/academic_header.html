@@ -22,7 +22,12 @@
     </a>
 
     <nav class="pb-nav main-nav" id="mainNav" aria-label="Main">
-      <a href="{{ url_for('home') if user_logged_in else url_for('index') }}" class="pb-link nav-loading {% if ac_active == 'home' %}active{% endif %}">Home</a>
+      {% if not user_logged_in %}
+      {# visitors who are not signed in only see the newsletter #}
+      <a href="{{ url_for('ai_newsletter_archive') }}" class="pb-link nav-loading {% if ac_active == 'newsletter' %}active{% endif %}">AI Innovation Newsletter</a>
+      <a href="{{ url_for('ai_newsletter_archive') }}#subscribe" class="pb-link">Subscribe</a>
+      {% else %}
+      <a href="{{ url_for('home') }}" class="pb-link nav-loading {% if ac_active == 'home' %}active{% endif %}">Home</a>
       <a href="{{ jain_site_url }}" class="pb-link" target="_blank" rel="noopener" title="JAIN (Deemed-to-be University) website">About</a>
       <a href="{{ academic_calendar_url }}" class="pb-link nav-loading {% if ac_active == 'calendar' %}active{% endif %}" title="Academic Calendar 2026–27">Calendar</a>
       <a href="{{ url_for('ai_newsletter_archive') }}" class="pb-link nav-loading {% if ac_active == 'newsletter' %}active{% endif %}" title="AI Innovation Newsletter">Newsletter</a>
@@ -43,6 +48,7 @@
           </a>
         </div>
       </div>
+      {% endif %}
     </nav>
 
     <div class="pb-actions user-area">
@@ -106,19 +112,27 @@
 
 {# Phone / tablet menu: the kinetic full-screen navigation (frontend/components/ui/sterling-gate-kinetic-navigation.tsx).
    The burger above opens it below 980px; wider screens keep the pill navigation. #}
+{% if user_logged_in %}
 {% set _kn_links = [
   {"label": "Home", "href": url_for('home') if user_logged_in else url_for('index'), "note": "Jain Hub: announcements, calendar, innovation" if user_logged_in else "Sign in to the portal"},
   {"label": "About", "href": jain_site_url, "note": "JAIN (Deemed-to-be University) website", "external": True},
   {"label": "Calendar", "href": academic_calendar_url, "note": "Academic Calendar 2026–27"},
   {"label": "Newsletter", "href": url_for('ai_newsletter_archive'), "note": "AI Innovation Newsletter"},
 ] %}
+{% else %}
+{% set _kn_links = [
+  {"label": "Newsletter", "href": url_for('ai_newsletter_archive'), "note": "AI Innovation Newsletter, every edition"},
+  {"label": "Subscribe", "href": url_for('ai_newsletter_archive') ~ '#subscribe', "note": "Get each edition by email, no sign-in"},
+  {"label": "Sign in", "href": url_for('index') ~ '#login', "note": "Faculty and staff portal"},
+] %}
+{% endif %}
 {% if user_logged_in %}{% set _kn_links = _kn_links + [{"label": "Campus", "href": url_for('campus'), "note": "Campus moments and events"}] %}{% endif %}
 {% set _kn = namespace(footer=[]) %}
 {% for p in ooa_platforms %}{% set _kn.footer = _kn.footer + [{"label": p.name, "href": p.url, "external": True}] %}{% endfor %}
 {% if user_logged_in %}
   {% set _kn.footer = _kn.footer + [{"label": "My profile", "href": "/profile"}, {"label": "Log out", "href": url_for('logout')}] %}
 {% else %}
-  {% set _kn.footer = _kn.footer + [{"label": "Sign in", "href": url_for('signin')}] %}
+  {% set _kn.footer = [{"label": "JAIN University website", "href": jain_site_url, "external": True}] %}
 {% endif %}
 <div id="kinetic-root"></div>
 <script type="application/json" id="kinetic-props">{{ {"brand": "Office of Academics · JAIN", "links": _kn_links, "footer": _kn.footer} | tojson }}</script>

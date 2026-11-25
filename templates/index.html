@@ -736,11 +736,9 @@
         "logo": {"src": url_for('static', filename='images/jainu.png'), "alt": "JAIN (Deemed-to-be University)", "width": 1103, "height": 319},
         "logoEdges": [0, 365, 560, 794, 890, 1103],
         "navLinks": [
-            {"label": "About", "href": jain_site_url},
-            {"label": "Framework", "href": "#overview"},
-            {"label": "Capabilities", "href": "#features"},
             {"label": "Newsletter", "href": url_for('ai_newsletter_archive')},
-            {"label": "University", "href": "https://www.jainuniversity.ac.in"}
+            {"label": "Subscribe", "href": "#subscribe"},
+            {"label": "About", "href": jain_site_url}
         ],
         "copy": {
             "headline": ["Office of", "Academics"],
@@ -838,6 +836,9 @@
             </div>
         </div>
     </section>
+
+    <!-- AI Innovation Newsletter: subscribe without signing in -->
+    <div class="lp-nls">{% include 'partials/nl_subscribe.html' %}</div>
 
 
     <!-- Governance Overview -->
@@ -986,5 +987,32 @@
         }
     </script>
 
+
+    {# phone / tablet: the portal's full-screen menu, opened by the hero's menu button #}
+    {% set _kn_links = [
+      {"label": "Newsletter", "href": url_for('ai_newsletter_archive'), "note": "AI Innovation Newsletter, every edition"},
+      {"label": "Subscribe", "href": "#subscribe", "note": "Get each edition by email, no sign-in"},
+      {"label": "Sign in", "href": "#login", "note": "Faculty and staff portal"},
+    ] %}
+    <div id="kinetic-root"></div>
+    <script type="application/json" id="kinetic-props">{{ {"brand": "Office of Academics · JAIN", "links": _kn_links, "footer": [{"label": "JAIN University website", "href": jain_site_url, "external": True}]} | tojson }}</script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='js/kinetic-nav.css') }}">
+    <script src="{{ url_for('static', filename='js/kinetic-nav.js') }}" defer></script>
+    <script>
+      document.addEventListener('click', function (e) {
+        var b = e.target.closest && e.target.closest('[data-slot="brusha"] button[aria-label="Open menu"], [data-slot="brusha"] button[aria-label="Close menu"]');
+        if (!b || innerWidth > 980 || !window.kineticNav) return;
+        e.preventDefault(); e.stopPropagation(); window.kineticNav.open();
+      }, true);
+      /* links inside the menu that point at this page close it and scroll */
+      document.addEventListener('click', function (e) {
+        var a = e.target.closest && e.target.closest('a[href^="#"]');
+        if (a && window.kineticNav) window.kineticNav.close();
+      });
+    </script>
+    <style>
+      .lp-nls { max-width: 1200px; margin: 0 auto; padding: 8px 24px 56px; }
+      @media (max-width: 560px) { .lp-nls { padding: 0 14px 40px; } }
+    </style>
 </body>
 </html>

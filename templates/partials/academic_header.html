@@ -78,11 +78,6 @@
           <div class="dp-sub">
             {% if user_department %}<div class="dp-meta"><i class="fas fa-building"></i><span>{{ user_department }}</span></div>{% endif %}
             {% if user_location %}<div class="dp-meta"><i class="fas fa-location-dot"></i><span>{{ user_location }}</span></div>{% endif %}
-            {% if not approved %}
-            <span class="dp-status pending"><i class="fas fa-clock"></i> Pending approval</span>
-            {% else %}
-            <span class="dp-status approved"><i class="fas fa-circle-check"></i> Approved</span>
-            {% endif %}
           </div>
           <a href="/profile" class="dp-item"><i class="far fa-user"></i> My profile</a>
           {% if approved %}
@@ -95,8 +90,6 @@
           {% endif %}
           {% if user_role == 'user' and special_role == 'leader' %}<a href="{{ url_for('leader_dashboard') }}" class="dp-item"><i class="fas fa-gauge"></i> Admin dashboard</a>{% endif %}
           {% if user_role == 'admin' %}<a href="{{ url_for('admin_dashboard') }}" class="dp-item"><i class="fas fa-gauge"></i> Admin dashboard</a>{% endif %}
-          {% else %}
-          <div class="dp-pending"><i class="fas fa-circle-info"></i> Awaiting admin approval</div>
           {% endif %}
           <a href="{{ url_for('logout') }}" class="dp-item dp-logout" onclick="return confirm('Logout?')"><i class="fas fa-arrow-right-from-bracket"></i> Log out</a>
         </div>

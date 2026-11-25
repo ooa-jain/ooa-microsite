@@ -5737,6 +5737,164 @@
     html[data-theme="dark"] .driver-popover.ooa-tour .driver-popover-arrow-side-left { border-left-color: #141c30; }
     html[data-theme="dark"] .driver-popover.ooa-tour .driver-popover-arrow-side-right { border-right-color: #141c30; }
   </style>
+
+  <style>
+    /* ═══ Jain Hub: one page per section ═══ */
+    .content-track { width: 100%; transform: none !important; }
+    .content-slide { min-width: 100%; width: 100%; }
+    .content-carousel { height: auto !important; overflow: visible; }
+
+    .hubp-head { background: linear-gradient(180deg, #f6f2ea 0%, #f6f2ea 70%, transparent 100%); padding: 40px 20px 18px; }
+    .hubp-head-in { max-width: 1200px; margin: 0 auto; }
+    .hubp-head .ac-breadcrumb { margin-bottom: 14px; }
+    .hubp-title { display: flex; align-items: center; gap: 14px; margin: 0; font-family: 'Inter', sans-serif;
+      font-size: clamp(30px, 4.4vw, 52px); font-weight: 800; letter-spacing: -.025em; line-height: 1.05; color: #121212; }
+    .hubp-title .hubp-ic { width: clamp(44px, 5vw, 60px); height: clamp(44px, 5vw, 60px); flex: none; display: grid; place-items: center; border-radius: 16px;
+      background: #1d4e89; color: #fff; font-size: clamp(18px, 2vw, 24px); box-shadow: 0 10px 24px -12px rgb(29 78 137 / .7); }
+    .hubp-title .hubp-ic i { color: #fff; margin: 0; }
+    .hubp-blurb { margin: 12px 0 0; max-width: 640px; font-size: 16.5px; line-height: 1.55; color: #4a4a48; }
+    body.ac-theme .page-wrapper { padding-top: 0; }
+
+    .hubp-tabs { top: 76px; margin: 0 0 30px; }
+    .hubp-tabs .tab-bar { background: rgba(255,255,255,.86); border-color: rgba(18,18,18,.08); box-shadow: 0 10px 30px -18px rgba(18,18,18,.35); overflow-x: auto; scrollbar-width: none; max-width: 100%; }
+    .hubp-tabs .tab-bar::-webkit-scrollbar { display: none; }
+    .hubp-tabs .tab-pill { text-decoration: none; display: inline-flex; align-items: center; }
+    .hubp-tabs .tab-pill.active { background: #1d4e89; box-shadow: 0 8px 18px -10px rgb(29 78 137 / .8); }
+
+    .jh-cards { max-width: 1200px; margin: 8px auto 24px; padding: 0 4px; }
+    .jh-cards-head { margin-bottom: 22px; }
+    .jh-kicker { display: inline-block; font-size: 12px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: #1d4e89; }
+    .jh-cards-head h2 { margin: 6px 0 0; font-family: 'Inter', sans-serif; font-size: clamp(24px, 3vw, 34px); font-weight: 800; letter-spacing: -.02em; color: #121212; }
+    .jh-cards-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+    .jh-card { position: relative; display: flex; flex-direction: column; gap: 10px; padding: 22px 20px 20px; border-radius: 22px;
+      background: #fff; border: 1px solid rgba(18,18,18,.07); text-decoration: none; color: #121212; overflow: hidden;
+      box-shadow: 0 1px 2px rgba(18,18,18,.04), 0 14px 34px -24px rgba(18,18,18,.4);
+      transition: transform .3s cubic-bezier(.22,1,.36,1), box-shadow .3s ease, border-color .3s ease; }
+    .jh-card::after { content: ''; position: absolute; inset: auto -30% -60% auto; width: 180px; height: 180px; border-radius: 50%;
+      background: var(--hc, #1d4e89); opacity: .07; transition: transform .45s cubic-bezier(.22,1,.36,1); }
+    .jh-card-ic { width: 46px; height: 46px; display: grid; place-items: center; border-radius: 14px; background: var(--hc, #1d4e89); color: #fff; font-size: 18px; }
+    .jh-card-t { font-size: 18px; font-weight: 800; letter-spacing: -.01em; }
+    .jh-card-d { font-size: 14px; line-height: 1.5; color: #5a5a58; flex: 1; }
+    .jh-card-go { font-size: 13.5px; font-weight: 700; color: var(--hc, #1d4e89); display: inline-flex; gap: 8px; align-items: center; }
+    .jh-card-go i { transition: transform .3s cubic-bezier(.22,1,.36,1); }
+    .jh-card--announcements { --hc: #1d4e89; }
+    .jh-card--calendar { --hc: #2f6b44; }
+    .jh-card--digital-innovation { --hc: #6b4bb8; }
+    .jh-card--capacity-building { --hc: #b4532a; }
+    @media (hover: hover) {
+      .jh-card:hover { transform: translateY(-3px); border-color: rgba(18,18,18,.12); box-shadow: 0 1px 2px rgba(18,18,18,.05), 0 22px 44px -24px rgba(18,18,18,.5); }
+      .jh-card:hover::after { transform: scale(1.35); }
+      .jh-card:hover .jh-card-go i { transform: translateX(4px); }
+    }
+    @media (max-width: 1000px) { .jh-cards-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (max-width: 560px) {
+      .jh-cards-grid { grid-template-columns: 1fr; }
+      .hubp-head { padding-top: 28px; }
+      .hubp-tabs { top: 64px; }
+      .hubp-tabs .tab-bar-wrap, .hubp-tabs { justify-content: flex-start; }
+    }
+
+    [data-theme="dark"] .hubp-head { background: linear-gradient(180deg, #0f1629 0%, #0f1629 70%, transparent 100%); }
+    [data-theme="dark"] .hubp-title, [data-theme="dark"] .jh-cards-head h2 { color: #eef1f8; }
+    [data-theme="dark"] .hubp-blurb, [data-theme="dark"] .jh-card-d { color: #aab2c6; }
+    [data-theme="dark"] .jh-card { background: #141c30; border-color: rgba(255,255,255,.07); color: #eef1f8; }
+    [data-theme="dark"] .hubp-tabs .tab-bar { background: rgba(20,28,48,.9); border-color: rgba(255,255,255,.08); }
+    [data-theme="dark"] .jh-kicker { color: #7fa8dc; }
+    [data-theme="dark"] .jh-card-go { color: #9dbbe6; }
+
+    /* ═══ Announcements page ═══ */
+    .an { --an-ink: #121212; --an-body: #4a4a48; --an-mute: #6b6b68; --an-line: rgba(18,18,18,.08); --an-card: #fff; --an-blue: #1d4e89; --an-soft: #eef3fa; }
+    .an-bar { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; margin: 0 0 22px; }
+    .an-search { flex: 1 1 320px; max-width: 520px; display: flex; align-items: center; gap: 10px; padding: 0 16px; height: 48px; border-radius: 14px;
+      background: var(--an-card); border: 1px solid var(--an-line); box-shadow: 0 8px 24px -20px rgba(18,18,18,.5); color: var(--an-mute); }
+    .an-search:focus-within { border-color: var(--an-blue); box-shadow: 0 0 0 4px rgb(29 78 137 / .12); }
+    .an-search input { flex: 1; border: 0; outline: 0; background: none; font: 500 15px 'Inter', sans-serif; color: var(--an-ink); min-width: 0; }
+    .an-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .an-chip { height: 38px; padding: 0 16px; border-radius: 999px; border: 1px solid var(--an-line); background: var(--an-card); color: var(--an-body);
+      font: 600 13.5px 'Inter', sans-serif; cursor: pointer; display: inline-flex; align-items: center; gap: 7px; transition: background .2s, color .2s, border-color .2s; }
+    .an-chip:hover { border-color: rgba(18,18,18,.2); color: var(--an-ink); }
+    .an-chip.is-on { background: var(--an-blue); border-color: var(--an-blue); color: #fff; }
+    .an-grid { display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: 24px; align-items: start; }
+    .an-sec-head { display: flex; gap: 12px; align-items: center; margin: 0 0 14px; }
+    .an-sec-head h2 { margin: 0; font: 800 19px/1.2 'Inter', sans-serif; letter-spacing: -.01em; color: var(--an-ink); }
+    .an-sec-head p { margin: 2px 0 0; font-size: 13px; color: var(--an-mute); }
+    .an-sec-head--sub { margin-top: 26px; }
+    .an-sec-ic { width: 40px; height: 40px; flex: none; display: grid; place-items: center; border-radius: 12px; background: var(--an-blue); color: #fff; }
+    .an-sec-ic--ugc { background: #2f6b44; }
+    .an-list { display: flex; flex-direction: column; gap: 12px; }
+    .an-item { display: grid; grid-template-columns: 58px minmax(0, 1fr); gap: 16px; padding: 18px 20px; border-radius: 18px; background: var(--an-card);
+      border: 1px solid var(--an-line); box-shadow: 0 1px 2px rgba(18,18,18,.03), 0 12px 30px -26px rgba(18,18,18,.5); transition: border-color .2s, box-shadow .2s; }
+    .an-item:hover { border-color: rgba(18,18,18,.14); box-shadow: 0 1px 2px rgba(18,18,18,.04), 0 18px 38px -26px rgba(18,18,18,.55); }
+    .an-item[hidden] { display: none; }
+    .an-date { width: 58px; height: 62px; border-radius: 14px; background: var(--an-soft); color: var(--an-blue); display: flex; flex-direction: column; align-items: center; justify-content: center; line-height: 1; }
+    .an-date b { font: 800 22px 'Inter', sans-serif; }
+    .an-date span { margin-top: 4px; font: 700 11px 'Inter', sans-serif; letter-spacing: .1em; text-transform: uppercase; }
+    .an-item.is-new .an-date { background: var(--an-blue); color: #fff; }
+    .an-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; font-size: 12.5px; color: var(--an-mute); margin-bottom: 6px; }
+    .an-tag { padding: 2px 9px; border-radius: 999px; font-weight: 700; font-size: 11.5px; background: #f1efe9; color: #5b5a55; }
+    .an-tag--bangalore { background: #e8f0fb; color: #1d4e89; }
+    .an-tag--kochi { background: #e7f3ea; color: #2f6b44; }
+    .an-tag--new { background: #fdecea; color: #b42318; }
+    .an-clip { font-weight: 700; color: var(--an-body); }
+    .an-title { margin: 0; font: 700 16.5px/1.35 'Inter', sans-serif; color: var(--an-ink); letter-spacing: -.005em; }
+    .an-excerpt { margin: 6px 0 0; font-size: 14px; line-height: 1.55; color: var(--an-body); }
+    .an-files { list-style: none; margin: 12px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+    .an-file { display: inline-flex; align-items: center; gap: 8px; max-width: 100%; padding: 7px 12px; border-radius: 10px; text-decoration: none;
+      background: #f6f5f1; border: 1px solid var(--an-line); color: var(--an-ink); font-size: 13px; font-weight: 600; transition: background .2s, border-color .2s; }
+    .an-file span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 300px; }
+    .an-file small { color: var(--an-mute); font-weight: 500; white-space: nowrap; }
+    .an-file i { font-size: 15px; }
+    .an-file--pdf i { color: #c0392b; } .an-file--doc i { color: #2b579a; } .an-file--sheet i { color: #217346; }
+    .an-file--zip i { color: #8a6d1f; } .an-file--image i { color: #6b4bb8; } .an-file--slides i { color: #c55a11; }
+    .an-file:hover { background: #fff; border-color: rgba(18,18,18,.18); }
+    .an-more { margin-top: 12px; }
+    .an-more summary { list-style: none; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; font: 700 13.5px 'Inter', sans-serif; color: var(--an-blue); }
+    .an-more summary::-webkit-details-marker { display: none; }
+    .an-more summary i { font-size: 11px; transition: transform .25s; }
+    .an-more[open] summary i { transform: rotate(180deg); }
+    .an-more-close, .an-more[open] .an-more-open { display: none; }
+    .an-more[open] .an-more-close { display: inline; }
+    .an-full { margin-top: 12px; padding: 16px 18px; border-radius: 14px; background: #faf9f6; border: 1px solid var(--an-line); font-size: 14.5px; line-height: 1.65; color: #2c2c2a; overflow-wrap: anywhere; }
+    .an-full p { margin: 0 0 10px; }
+    .an-full ol, .an-full ul { margin: 0 0 12px; padding-left: 22px; }
+    .an-full li { margin: 0 0 6px; }
+    .an-full a { color: var(--an-blue); font-weight: 600; }
+    .an-full b { color: var(--an-ink); }
+    .hc-earlier { margin: 16px 0 12px; padding-top: 12px; border-top: 1px dashed rgba(18,18,18,.18); font: 700 11.5px 'Inter', sans-serif; letter-spacing: .12em; text-transform: uppercase; color: var(--an-mute); }
+    .an-posters { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 8px; }
+    .an-posters img { display: block; width: 220px; max-width: 100%; height: auto; border-radius: 12px; border: 1px solid var(--an-line); box-shadow: 0 12px 30px -22px rgba(18,18,18,.6); }
+    .an-link { display: inline-flex; gap: 6px; align-items: center; margin-top: 10px; font-weight: 700; font-size: 13.5px; color: var(--an-blue); }
+    .an-empty { padding: 30px; text-align: center; color: var(--an-mute); border: 1px dashed var(--an-line); border-radius: 18px; }
+    .an-side { position: sticky; top: 150px; padding: 18px; border-radius: 20px; background: var(--an-card); border: 1px solid var(--an-line); box-shadow: 0 12px 30px -26px rgba(18,18,18,.5); }
+    .an-ugc { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+    .an-ugc li { padding: 11px 0; border-top: 1px solid var(--an-line); }
+    .an-ugc li:first-child { border-top: 0; padding-top: 2px; }
+    .an-ugc li > a { display: flex; flex-direction: column; gap: 3px; text-decoration: none; color: var(--an-ink); }
+    .an-ugc time { font: 700 11.5px 'Inter', sans-serif; color: #2f6b44; letter-spacing: .02em; }
+    .an-ugc span { font-size: 13.5px; line-height: 1.45; font-weight: 600; }
+    .an-ugc li > a:hover span { color: var(--an-blue); text-decoration: underline; text-underline-offset: 3px; }
+    .an-ugc-more { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 5px; }
+    .an-ugc-more a { font-size: 12px; font-weight: 600; color: var(--an-mute); text-decoration: none; }
+    .an-ugc-all { display: inline-flex; gap: 8px; align-items: center; margin-top: 12px; font: 700 13.5px 'Inter', sans-serif; color: #2f6b44; text-decoration: none; }
+    @media (max-width: 1000px) { .an-grid { grid-template-columns: 1fr; } .an-side { position: static; } }
+    @media (max-width: 560px) {
+      .an-item { grid-template-columns: 1fr; gap: 10px; padding: 16px; }
+      .an-date { flex-direction: row; gap: 6px; width: auto; height: auto; padding: 6px 12px; justify-self: start; }
+      .an-date b { font-size: 15px; } .an-date span { margin: 0; }
+      .an-file span { max-width: 210px; }
+      .an-meta time { display: none; }
+    }
+    [data-theme="dark"] .an { --an-ink: #eef1f8; --an-body: #c0c7d6; --an-mute: #8f98ad; --an-line: rgba(255,255,255,.09); --an-card: #141c30; --an-soft: #1c2945; }
+    [data-theme="dark"] .an-date { color: #9dbbe6; }
+    [data-theme="dark"] .an-item.is-new .an-date { background: #2d63a8; color: #fff; }
+    [data-theme="dark"] .an-file { background: #1a2338; }
+    [data-theme="dark"] .an-full { background: #10182a; color: #d5dbe7; }
+    [data-theme="dark"] .an-full a, [data-theme="dark"] .an-more summary { color: #9dbbe6; }
+    [data-theme="dark"] .an-tag { background: #222c43; color: #c0c7d6; }
+    [data-theme="dark"] .an-tag--bangalore { background: #1c2f4f; color: #9dbbe6; }
+    [data-theme="dark"] .an-tag--kochi { background: #18352a; color: #8fd0a3; }
+    [data-theme="dark"] .an-ugc time, [data-theme="dark"] .an-ugc-all { color: #8fd0a3; }
+  </style>
 </head>
 
 <body class="ac-theme">
@@ -5771,6 +5929,8 @@
   {% endif %}
   {% endwith %}
 
+  {% set hub = hub_page or '' %}
+  {% if not hub %}
   <!-- FULL-SCREEN HERO: greeting, what Jain Hub holds, and the way in -->
   {% set _first = (user_email.split('@')[0].replace('_', '.').split('.')[0] if user_logged_in else '')|capitalize %}
   <div id="brusha-root"></div>
@@ -5784,21 +5944,29 @@
               "digital innovation and capacity building, all in one place."
           ],
           "navCta": {"label": "", "href": "#"},
-          "primaryCta": {"label": "Open announcements", "href": "#hubTabs"},
+          "primaryCta": {"label": "Open announcements", "href": "/hub/announcements"},
           "secondaryCta": {"label": "Take the 15-min course", "href": "#course"}
       }
   } | tojson }}</script>
   <script src="{{ url_for('static', filename='js/brusha-hero.js') }}" defer></script>
   <script>
     document.addEventListener('click', function (e) {
-      var a = e.target.closest && e.target.closest('#brusha-root a[href="#course"], #brusha-root a[href="#hubTabs"]');
+      var a = e.target.closest && e.target.closest('#brusha-root a[href="#course"]');
       if (!a) return;
       e.preventDefault();
-      if (a.getAttribute('href') === '#course') { expandQuiz(); return; }
-      var t = document.getElementById('hubTabs');
-      if (t) window.scrollTo({ top: t.getBoundingClientRect().top + scrollY - 90, behavior: 'smooth' });
+      expandQuiz();
     });
   </script>
+  {% else %}
+  {% set _hp = hub_pages[hub] %}
+  <section class="hubp-head">
+    <div class="hubp-head-in">
+      <div class="ac-breadcrumb"><a href="{{ url_for('home') }}">Jain Hub</a><span>/</span>{{ _hp.title }}</div>
+      <h1 class="hubp-title"><span class="hubp-ic"><i class="fas {{ _hp.icon }}"></i></span>{{ _hp.title }}</h1>
+      <p class="hubp-blurb">{{ _hp.blurb }}</p>
+    </div>
+  </section>
+  {% endif %}
 
   <!-- MAIN -->
   <div class="page-wrapper">
@@ -5846,6 +6014,7 @@
       <span class="oc-launch-txt"><b>15-min course</b><small>Learn Jain Hub · +15 credits</small></span>
     </button>
 
+    {% if not hub %}
     <!-- KNOW YOUR UNIVERSITY TOOLTIP -->
     <div style="text-align:center; margin-bottom: 36px;">
       <div class="know-uni-wrap">
@@ -5866,50 +6035,150 @@
       </div>
     </div>
 
-    <!-- TABS -->
-    <div class="tab-bar-wrap" id="hubTabs">
-      <div class="tab-bar" id="tabBar">
-        <button class="tab-pill active" data-tab="0"><i class="fas fa-bullhorn"></i>Announcements</button>
-        <button class="tab-pill" data-tab="1"><i class="fas fa-calendar-alt"></i>Academic Calendar</button>
-        <button class="tab-pill" data-tab="2"><i class="fas fa-laptop-code"></i>Digital Innovation</button>
-        <button class="tab-pill" data-tab="3"><i class="fas fa-chart-line"></i>Capacity Building</button>
-      </div>
-    </div>
+    {% endif %}
 
-    <!-- CONTENT CAROUSEL -->
+    <!-- JAIN HUB SECTIONS: each opens as its own page -->
+    {% if not hub %}
+    <section class="jh-cards" id="hubTabs" aria-label="Jain Hub sections">
+      <div class="jh-cards-head">
+        <span class="jh-kicker">Jain Hub</span>
+        <h2>Everything from the Office of Academics</h2>
+      </div>
+      <div class="jh-cards-grid">
+        {% for key, hp in hub_pages.items() %}
+        <a class="jh-card jh-card--{{ key }}" href="{{ url_for('hub_section', section=key) }}">
+          <span class="jh-card-ic"><i class="fas {{ hp.icon }}"></i></span>
+          <span class="jh-card-t">{{ hp.title }}</span>
+          <span class="jh-card-d">{{ hp.blurb }}</span>
+          <span class="jh-card-go">Open <i class="fas fa-arrow-right"></i></span>
+        </a>
+        {% endfor %}
+      </div>
+    </section>
+    {% else %}
+    <nav class="tab-bar-wrap hubp-tabs" id="hubTabs" aria-label="Jain Hub sections">
+      <div class="tab-bar" id="tabBar">
+        {% for key, hp in hub_pages.items() %}
+        <a class="tab-pill{% if key == hub %} active{% endif %}" href="{{ url_for('hub_section', section=key) }}"{% if key == hub %} aria-current="page"{% endif %}><i class="fas {{ hp.icon }}"></i>{{ hp.title }}</a>
+        {% endfor %}
+      </div>
+    </nav>
+    {% endif %}
+
+    {% if hub %}
+    <!-- CONTENT: the one section this page is for -->
     <div class="content-carousel">
       <div class="content-track" id="contentTrack">
 
-        <!-- ═══ SLIDE 0: PUBLIC NOTICES ═══ -->
+        {% if hub == 'announcements' %}
+        <!-- ═══ ANNOUNCEMENTS: Office of Academics circulars (full text + templates) and UGC notices ═══ -->
         <div class="content-slide active">
-          <div class="notices-grid">
-            <div class="notice-card-panel">
-              <div class="ncp-header ugc"><i class="fas fa-bullhorn"></i> UGC Notices &amp; Announcements<span
-                  class="badge"><i class="fas fa-arrow-up"></i> Latest</span></div>
-              <div class="ncp-scroll">
-                <div class="ncp-inner" id="ugcMarquee">
-                  <div class="skeleton-card"><span class="skeleton skeleton-title"></span><span class="skeleton skeleton-text"></span><span class="skeleton skeleton-text" style="width:85%"></span></div>
-                  <div class="skeleton-card"><span class="skeleton skeleton-title"></span><span class="skeleton skeleton-text"></span><span class="skeleton skeleton-text" style="width:85%"></span></div>
-                  <div class="skeleton-card"><span class="skeleton skeleton-title"></span><span class="skeleton skeleton-text"></span><span class="skeleton skeleton-text" style="width:85%"></span></div>
-                </div>
+          {% set _kicon = {'pdf': 'fa-file-pdf', 'doc': 'fa-file-word', 'sheet': 'fa-file-excel', 'zip': 'fa-file-zipper', 'image': 'fa-image', 'slides': 'fa-file-powerpoint', 'file': 'fa-file'} %}
+          <div class="an" id="annPage">
+            <div class="an-bar">
+              <label class="an-search"><i class="fas fa-magnifying-glass"></i>
+                <input type="search" id="anSearch" placeholder="Search circulars, templates, dates…" autocomplete="off" aria-label="Search announcements">
+              </label>
+              <div class="an-chips" role="group" aria-label="Filter circulars">
+                <button type="button" class="an-chip is-on" data-f="all">All</button>
+                <button type="button" class="an-chip" data-f="bangalore">Bangalore</button>
+                <button type="button" class="an-chip" data-f="kochi">Kochi</button>
+                <button type="button" class="an-chip" data-f="files"><i class="fas fa-paperclip"></i> With templates</button>
               </div>
             </div>
-            <div class="notice-card-panel">
-              <div class="ncp-header uni"><i class="fas fa-university"></i> Office of Academics Announcements<span
-                  class="badge"><i class="fas fa-arrow-up"></i> Latest</span></div>
-              <div class="ncp-scroll">
-                <div class="ncp-inner" id="uniMarquee">
-                  <div class="skeleton-card"><span class="skeleton skeleton-title"></span><span class="skeleton skeleton-text"></span><span class="skeleton skeleton-text" style="width:85%"></span></div>
-                  <div class="skeleton-card"><span class="skeleton skeleton-title"></span><span class="skeleton skeleton-text"></span><span class="skeleton skeleton-text" style="width:85%"></span></div>
-                  <div class="skeleton-card"><span class="skeleton skeleton-title"></span><span class="skeleton skeleton-text"></span><span class="skeleton skeleton-text" style="width:85%"></span></div>
+
+            <div class="an-grid">
+              <section class="an-main" aria-labelledby="anOoaH">
+                <div class="an-sec-head">
+                  <span class="an-sec-ic"><i class="fas fa-building-columns"></i></span>
+                  <div>
+                    <h2 id="anOoaH">Office of Academics</h2>
+                    <p>Circulars to the Heads of Department, Bangalore and Kochi · {{ ann_ooa|length }} notices</p>
+                  </div>
                 </div>
-              </div>
+                <div class="an-list" id="anList">
+                  {% for n in ann_ooa %}
+                  {% set _lists = (n.lists or ['Bangalore', 'Kochi']) %}
+                  {% set _new = n.date and (now_ist - n.date).days < 7 %}
+                  <article class="an-item{% if _new %} is-new{% endif %}" data-lists="{{ _lists|join(' ')|lower }}" data-files="{{ 1 if n.files else 0 }}"
+                    data-q="{{ (n.title ~ ' ' ~ n.excerpt ~ ' ' ~ (n.files|map(attribute='name')|join(' ')) ~ ' ' ~ (n.date.strftime('%d %B %Y') if n.date else ''))|lower }}">
+                    <div class="an-date" aria-hidden="true">
+                      {% if n.date %}<b>{{ n.date.strftime('%d') }}</b><span>{{ n.date.strftime('%b') }}</span>{% endif %}
+                    </div>
+                    <div class="an-body">
+                      <div class="an-meta">
+                        {% if n.date %}<time datetime="{{ n.date.strftime('%Y-%m-%d') }}">{{ n.date.strftime('%d %b %Y') }}</time>{% endif %}
+                        {% for l in _lists %}<span class="an-tag an-tag--{{ l|lower }}">{{ l }}</span>{% endfor %}
+                        {% if _new %}<span class="an-tag an-tag--new">New</span>{% endif %}
+                        {% if n.files %}<span class="an-clip"><i class="fas fa-paperclip"></i> {{ n.files|length }}</span>{% endif %}
+                      </div>
+                      <h3 class="an-title">{{ n.title }}</h3>
+                      {% if n.excerpt %}<p class="an-excerpt">{{ n.excerpt }}{% if n.excerpt|length >= 220 %}…{% endif %}</p>{% endif %}
+                      {% if n.files %}
+                      <ul class="an-files">
+                        {% for f in n.files %}
+                        <li><a class="an-file an-file--{{ f.kind }}" href="{{ f.url }}" target="_blank" rel="noopener" {% if f.kind != 'image' %}download{% endif %}>
+                          <i class="fas {{ _kicon[f.kind] }}"></i><span>{{ f.name }}</span>{% if f.size %}<small>{{ (f.size / 1024 / 1024)|round(1) if f.size > 1048576 else ((f.size / 1024)|round|int ~ ' KB') }}{% if f.size > 1048576 %} MB{% endif %}</small>{% endif %}
+                        </a></li>
+                        {% endfor %}
+                      </ul>
+                      {% endif %}
+                      {% if n.body_html %}
+                      <details class="an-more">
+                        <summary><span class="an-more-open">Read the full circular</span><span class="an-more-close">Show less</span><i class="fas fa-chevron-down"></i></summary>
+                        <div class="an-full">{{ n.body_html|safe }}
+                          {% set _imgs = n.files|selectattr('kind', 'equalto', 'image')|list %}
+                          {% if _imgs %}<div class="an-posters">{% for f in _imgs %}<a href="{{ f.url }}" target="_blank" rel="noopener"><img src="{{ f.url }}" alt="{{ f.name }}" loading="lazy"></a>{% endfor %}</div>{% endif %}
+                          {% if n.link %}<p><a href="{{ n.link }}" target="_blank" rel="noopener">Open the link <i class="fas fa-arrow-up-right-from-square"></i></a></p>{% endif %}
+                        </div>
+                      </details>
+                      {% elif n.link %}<a class="an-link" href="{{ n.link }}" target="_blank" rel="noopener">Open <i class="fas fa-arrow-up-right-from-square"></i></a>{% endif %}
+                    </div>
+                  </article>
+                  {% else %}
+                  <p class="an-empty">No circulars yet.</p>
+                  {% endfor %}
+                  <p class="an-empty" id="anNone" hidden>Nothing matches that search.</p>
+                </div>
+              </section>
+
+              <aside class="an-side" aria-labelledby="anUgcH">
+                <div class="an-sec-head">
+                  <span class="an-sec-ic an-sec-ic--ugc"><i class="fas fa-landmark"></i></span>
+                  <div>
+                    <h2 id="anUgcH">UGC notices</h2>
+                    <p>Latest from ugc.gov.in</p>
+                  </div>
+                </div>
+                <ol class="an-ugc">
+                  {% for u in ugc_site %}
+                  <li>
+                    <a href="{{ u.url }}" target="_blank" rel="noopener">
+                      <time>{{ u.date[8:10] }}/{{ u.date[5:7] }}/{{ u.date[:4] }}</time>
+                      <span>{{ u.title }}</span>
+                    </a>
+                    {% if u.more %}<div class="an-ugc-more">{% for m in u.more %}<a href="{{ m }}" target="_blank" rel="noopener"><i class="fas fa-file-pdf"></i> Annexure {{ loop.index }}</a>{% endfor %}</div>{% endif %}
+                  </li>
+                  {% endfor %}
+                </ol>
+                <a class="an-ugc-all" href="https://www.ugc.gov.in/Notices" target="_blank" rel="noopener">All UGC notices <i class="fas fa-arrow-right"></i></a>
+                {% if ann_ugc %}
+                <div class="an-sec-head an-sec-head--sub"><div><h2>Shared by the Office</h2><p>UGC documents uploaded to the portal</p></div></header>
+                <ol class="an-ugc">
+                  {% for n in ann_ugc %}
+                  <li><a href="{{ (n.files[0].url if n.files else (n.link or '#')) }}" target="_blank" rel="noopener">
+                    <time>{{ n.date.strftime('%d/%m/%Y') if n.date else '' }}</time><span>{{ n.title }}</span></a></li>
+                  {% endfor %}
+                </ol>
+                {% endif %}
+              </aside>
             </div>
           </div>
         </div>
 
+        {% elif hub == 'calendar' %}
         <!-- ═══ SLIDE 1: EVENTS CALENDAR ═══ -->
-        <div class="content-slide">
+        <div class="content-slide active">
           <div class="cal-section">
             <div class="cal-header">
               <div class="cal-title"><i class="fas fa-calendar-alt"></i> Academic Calendar</div>
@@ -6001,8 +6270,9 @@
           </div>
         </div>
 
+        {% elif hub == 'digital-innovation' %}
         <!-- ═══ SLIDE 2: DIGITAL INNOVATION ═══ -->
-        <div class="content-slide">
+        <div class="content-slide active">
           <div class="dig-inner">
             <h2 class="dig-title">Digital Innovation</h2>
             <p class="dig-sub">SWAYAM courses {{ swayam.academic_year }} &amp; LinkedIn Learning</p>
@@ -6485,8 +6755,9 @@
           </div>
         </div>
 
+        {% elif hub == 'capacity-building' %}
         <!-- ═══ SLIDE 3: CAPACITY BUILDING ═══ -->
-        <div class="content-slide">
+        <div class="content-slide active">
           <div class="cap-inner">
             <div class="cap-title-row">
               <h2 class="cap-title"><i class="fas fa-chart-line" style="color:var(--gold-deep)"></i> Capacity Building
@@ -7015,9 +7286,11 @@
 
           </div><!-- end cap-inner -->
         </div><!-- end slide 3 -->
+        {% endif %}
 
       </div><!-- end content-track -->
     </div><!-- end content-carousel -->
+    {% endif %}
   </div><!-- end page-wrapper -->
 
   <!-- NOTICE MODAL -->
@@ -7189,7 +7462,18 @@
       const active = document.querySelectorAll('.content-slide')[_activeTab];
       if (carousel && active) carousel.style.height = active.offsetHeight + 'px';   // layout height: rising blocks don't count
     }
+    const HUB_PAGE = {{ hub|tojson }};
     function initTabs() {
+      const track = document.getElementById('contentTrack');
+      if (!track) return;
+      _activeTab = 0;
+      if (HUB_PAGE === 'calendar') setTimeout(initCalendar, 100);
+      if (HUB_PAGE === 'digital-innovation') setTimeout(() => window.initLinkedInChart && initLinkedInChart(), 150);
+      requestAnimationFrame(syncCarouselHeight);
+      window.addEventListener('resize', syncCarouselHeight);
+      window.addEventListener('load', syncCarouselHeight);
+    }
+    function _initTabsOld() {
       const pills = document.querySelectorAll('.tab-pill');
       const track = document.getElementById('contentTrack');
       const slides = document.querySelectorAll('.content-slide');
@@ -7431,10 +7715,10 @@
       _swLastFocus?.focus();
     }
 
-    function goTab(e, i) {
+    const HUB_URLS = ['/hub/announcements', '/hub/calendar', '/hub/digital-innovation', '/hub/capacity-building'];
+    function goTab(e, i) {   // each section is its own page now
       e?.preventDefault();
-      document.querySelector(`.tab-pill[data-tab="${i}"]`)?.click();
-      document.querySelector('.tab-bar-wrap')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      if (location.pathname !== HUB_URLS[i]) location.href = HUB_URLS[i];
     }
 
     /* expanded course card — the row's image, title and button morph into
@@ -7561,7 +7845,7 @@
 
     function openSwayam(e, section) {
       e?.preventDefault();
-      document.querySelector('.tab-pill[data-tab="2"]')?.click();
+      if (!document.getElementById('swayamContent')) { location.href = '/hub/digital-innovation#swayam-' + (section || 'courses'); return; }
       switchPlat('swayam');
       swTab(section || 'courses');
       setTimeout(() => document.querySelector('.dig-inner')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 350);
@@ -7937,7 +8221,7 @@
                : step(visible('#mainNav'), 'fa-compass', 'Navigation', 'Home, About the University, the academic Calendar, the AI Newsletter and Campus life.', 'bottom'),
         mobile ? null : step(visible('#erpDD'), 'fa-layer-group', 'Platforms', 'BoS Portal, OOA Portal, the University Calendar, IDP, the NEP Newsletter and Semester Readiness in one menu.', 'bottom'),
         step(visible('.ticker'), 'fa-calendar-day', 'Today at JAIN', "Today's academic events scroll here. Click one to get an email reminder.", 'bottom'),
-        step(visible('#hubTabs'), 'fa-table-columns', 'Four sections', 'Announcements, the Academic Calendar, Digital Innovation and Capacity Building. Switch with these tabs.', 'top'),
+        step(visible('#hubTabs'), 'fa-table-columns', 'Four sections', 'Announcements, the Academic Calendar, Digital Innovation and Capacity Building. Each opens as its own page.', 'top'),
         step(visible('#quizSection'), 'fa-graduation-cap', '15-min course', 'Three short lessons and a quick quiz on how the portal works. Finish it to earn 15 credits.', mobile ? 'top' : 'right'),
         step(visible('#themeToggle') || null, 'fa-moon', 'Light or dark', 'Switch the whole portal between light and dark mode.', 'bottom'),
         step(visible('#userBtn'), 'fa-user', 'Your profile', 'My Profile holds your photo, password and every reminder you have set.', 'left'),
@@ -8523,11 +8807,39 @@
       initAnimatedContent();
       fetchDashboardData();
 
+      const swHash = location.hash.match(/^#swayam-(\w+)/);
+      if (swHash && document.getElementById('swayamContent')) setTimeout(() => openSwayam(null, swHash[1]), 300);
+
       const urlParams = new URLSearchParams(window.location.search);
       if (urlParams.get('startTour') === 'true') {
         setTimeout(startTour, 1000);
       }
     });
+  </script>
+
+  <script>
+    /* Announcements page: search and campus / templates filter */
+    (function () {
+      var page = document.getElementById('annPage'); if (!page) return;
+      var q = document.getElementById('anSearch'), none = document.getElementById('anNone');
+      var items = [].slice.call(page.querySelectorAll('.an-item')), filter = 'all';
+      function apply() {
+        var term = (q.value || '').trim().toLowerCase(), shown = 0;
+        items.forEach(function (it) {
+          var ok = (!term || it.dataset.q.indexOf(term) !== -1) &&
+            (filter === 'all' || (filter === 'files' ? it.dataset.files === '1' : it.dataset.lists.indexOf(filter) !== -1));
+          it.hidden = !ok; if (ok) shown++;
+        });
+        if (none) none.hidden = shown !== 0;
+      }
+      q.addEventListener('input', apply);
+      page.querySelectorAll('.an-chip').forEach(function (c) {
+        c.addEventListener('click', function () {
+          page.querySelectorAll('.an-chip').forEach(function (x) { x.classList.toggle('is-on', x === c); });
+          filter = c.dataset.f; apply();
+        });
+      });
+    })();
   </script>
 </body>
 

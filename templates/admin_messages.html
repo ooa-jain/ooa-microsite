@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="{{ url_for('static', filename='images/jain.png') }}">
+<title>Messages | Office of Academics</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+  :root { --ink: #121212; --body: #4a4a48; --mute: #6b6b68; --line: rgba(18,18,18,.09); --blue: #1d4e89; --blue-d: #173f70; --soft: #eef3fa; --green: #2f6b44; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', sans-serif; background: #f6f2ea; color: var(--ink); min-height: 100vh; }
+  a { color: inherit; text-decoration: none; }
+  .top { background: #fff; border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 10; }
+  .top-in { max-width: 1100px; margin: 0 auto; padding: 0 20px; height: 64px; display: flex; align-items: center; gap: 14px; }
+  .top img { height: 40px; }
+  .top h1 { font-size: 17px; font-weight: 800; flex: 1; }
+  .top a.back { display: inline-flex; gap: 8px; align-items: center; height: 38px; padding: 0 14px; border-radius: 10px; border: 1px solid var(--line); font-weight: 700; font-size: 13.5px; }
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 26px 20px 60px; }
+  .filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
+  .filters a { height: 38px; padding: 0 16px; border-radius: 999px; border: 1px solid var(--line); background: #fff; display: inline-flex; align-items: center; gap: 8px; font-weight: 700; font-size: 13.5px; color: var(--body); }
+  .filters a.on { background: var(--blue); border-color: var(--blue); color: #fff; }
+  .filters .n { font-size: 11.5px; padding: 1px 7px; border-radius: 999px; background: rgba(0,0,0,.07); }
+  .filters a.on .n { background: rgba(255,255,255,.2); }
+  .msg { background: #fff; border: 1px solid var(--line); border-radius: 18px; padding: 18px 20px; margin-bottom: 12px; box-shadow: 0 12px 30px -26px rgba(18,18,18,.5); }
+  .meta { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; font-size: 12.5px; color: var(--mute); }
+  .st { padding: 2px 9px; border-radius: 999px; font-weight: 700; font-size: 11.5px; }
+  .st-new { background: #fff4e5; color: #9a5b00; } .st-replied { background: #e7f3ea; color: var(--green); } .st-closed { background: #f1efe9; color: #5b5a55; }
+  .who { font-weight: 700; color: var(--ink); }
+  h2 { font-size: 16px; margin: 8px 0 6px; }
+  .body { font-size: 14.5px; line-height: 1.6; color: #2c2c2a; white-space: pre-wrap; }
+  .att { display: inline-flex; gap: 6px; align-items: center; margin-top: 8px; font-size: 13px; font-weight: 600; color: var(--blue); }
+  .rep { margin-top: 10px; padding: 10px 12px; border-radius: 12px; background: var(--soft); border-left: 3px solid var(--blue); font-size: 14px; white-space: pre-wrap; }
+  .rep small { display: block; font-weight: 700; color: var(--blue); margin-bottom: 4px; white-space: normal; }
+  form { margin-top: 12px; display: flex; flex-direction: column; gap: 8px; }
+  textarea { width: 100%; min-height: 80px; padding: 10px 12px; border-radius: 12px; border: 1px solid rgba(18,18,18,.15); font: 500 14px 'Inter', sans-serif; resize: vertical; }
+  textarea:focus { outline: none; border-color: var(--blue); box-shadow: 0 0 0 4px rgb(29 78 137 / .12); }
+  .row { display: flex; gap: 8px; flex-wrap: wrap; }
+  button { height: 38px; padding: 0 16px; border-radius: 10px; border: 0; font: 700 13.5px 'Inter', sans-serif; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; }
+  .b-send { background: var(--blue); color: #fff; } .b-send:hover { background: var(--blue-d); }
+  .b-close { background: #fff; border: 1px solid var(--line); color: var(--body); }
+  .empty { text-align: center; padding: 50px; color: var(--mute); background: #fff; border-radius: 18px; border: 1px dashed var(--line); }
+</style>
+</head>
+<body>
+<header class="top"><div class="top-in">
+  <img src="{{ url_for('static', filename='images/jainu.png') }}" alt="JAIN">
+  <h1>Messages from users</h1>
+  <a class="back" href="{{ url_for('admin_dashboard') }}"><i class="fas fa-arrow-left"></i> Admin dashboard</a>
+</div></header>
+
+<div class="wrap">
+  <div class="filters">
+    <a href="{{ url_for('admin_messages') }}" class="{{ 'on' if not status }}">All</a>
+    <a href="{{ url_for('admin_messages', status='new') }}" class="{{ 'on' if status == 'new' }}">New <span class="n">{{ counts.new }}</span></a>
+    <a href="{{ url_for('admin_messages', status='replied') }}" class="{{ 'on' if status == 'replied' }}">Replied <span class="n">{{ counts.replied }}</span></a>
+    <a href="{{ url_for('admin_messages', status='closed') }}" class="{{ 'on' if status == 'closed' }}">Closed <span class="n">{{ counts.closed }}</span></a>
+  </div>
+
+  {% for m in msgs %}
+  <article class="msg" id="m-{{ m._id }}">
+    <div class="meta">
+      <span class="st st-{{ m.status }}">{{ m.status|capitalize }}</span>
+      <span class="who">{{ m.user_name }}</span><span>{{ m.user_email }}</span>
+      {% if m.department %}<span>· {{ m.department }}</span>{% endif %}{% if m.location %}<span>· {{ m.location }}</span>{% endif %}
+      <span>· {{ m.topic }}</span><span>· {{ m.created_at.strftime('%d %b %Y, %I:%M %p') if m.created_at else '' }}</span>
+    </div>
+    <h2>{{ m.subject }}</h2>
+    <div class="body">{{ m.message }}</div>
+    {% if m.attachment %}<a class="att" href="/uploads/{{ m.attachment.file }}" target="_blank" rel="noopener"><i class="fas fa-paperclip"></i> {{ m.attachment.name }}</a>{% endif %}
+    {% for r in m.replies or [] %}<div class="rep"><small>Reply · {{ r.at.strftime('%d %b %Y, %I:%M %p') if r.at else '' }}</small>{{ r.text }}</div>{% endfor %}
+    {% if m.status != 'closed' %}
+    <form onsubmit="sendReply(event, '{{ m._id }}', false)">
+      <textarea name="reply" placeholder="Write a reply. It is emailed to {{ m.user_name }} and shown on their profile."></textarea>
+      <div class="row">
+        <button class="b-send" type="submit"><i class="fas fa-reply"></i> Send reply</button>
+        <button class="b-close" type="button" onclick="sendReply(event, '{{ m._id }}', true)"><i class="fas fa-check"></i> Mark as closed</button>
+      </div>
+    </form>
+    {% endif %}
+  </article>
+  {% else %}
+  <div class="empty"><i class="fas fa-inbox" style="font-size:30px;opacity:.35;display:block;margin-bottom:10px"></i>No messages here.</div>
+  {% endfor %}
+</div>
+
+<script>
+  function sendReply(e, id, close) {
+    e.preventDefault();
+    var art = document.getElementById('m-' + id), ta = art.querySelector('textarea');
+    var text = ta ? ta.value.trim() : '';
+    if (!close && !text) { ta.focus(); return; }
+    fetch('/admin/messages/' + id + '/reply', { method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ reply: close ? text : text, close: close }) })
+      .then(function (r) { return r.json(); })
+      .then(function (d) { if (d.success) location.reload(); else alert(d.message || 'Could not save'); })
+      .catch(function () { alert('Network error'); });
+  }
+</script>
+</body>
+</html>

@@ -63,13 +63,14 @@
       {% if user_logged_in %}
       <div class="user-dropdown">
         <div class="user-btn pb-user" id="userBtn" onclick="toggleDropdown(event)" role="button" tabindex="0" aria-haspopup="true">
-          <span class="pb-avatar">{{ _initials }}</span>
+          {% set _ph = session.get('user_photo') or '' %}
+          {% if _ph and 'ui-avatars.com' not in _ph %}<img class="pb-avatar pb-avatar-img" src="{{ _ph }}" alt="">{% else %}<span class="pb-avatar">{{ _initials }}</span>{% endif %}
           <span class="pb-user-name">{{ _nm }}</span>
           <i class="fas fa-chevron-down chevron"></i>
         </div>
         <div class="dropdown-panel pb-panel" id="userDropdown">
           <div class="dp-head">
-            <span class="pb-avatar pb-avatar-lg">{{ _initials }}</span>
+            {% if _ph and 'ui-avatars.com' not in _ph %}<img class="pb-avatar pb-avatar-lg pb-avatar-img" src="{{ _ph }}" alt="">{% else %}<span class="pb-avatar pb-avatar-lg">{{ _initials }}</span>{% endif %}
             <div>
               <div class="name">{{ _nm }}</div>
               <div class="email">{{ user_email }}</div>
@@ -80,6 +81,7 @@
             {% if user_location %}<div class="dp-meta"><i class="fas fa-location-dot"></i><span>{{ user_location }}</span></div>{% endif %}
           </div>
           <a href="/profile" class="dp-item"><i class="far fa-user"></i> My profile</a>
+          <a href="/profile#messages" class="dp-item"><i class="far fa-paper-plane"></i> Message the Office</a>
           {% if approved %}
           {% if user_role == 'user' %}
           <a href="{{ url_for('dept_repo') }}" class="dp-item"><i class="far fa-folder-open"></i> My files &amp; dept repository</a>
